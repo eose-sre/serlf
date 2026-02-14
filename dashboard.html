@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚓ Admiral Fleet Control — Dashboard</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+    --bg:#060608; --bg2:#0a0a0e; --surface:#0f0f14; --border:rgba(255,255,255,0.06);
+    --text:#e0e0e0; --dim:#888; --muted:#555; --accent:#667eea; --accent2:#764ba2;
+    --green:#22c55e; --yellow:#eab308; --red:#ef4444; --blue:#3b82f6;
+    --radius:10px;
+}
+body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14px; }
+.dashboard { max-width:1400px; margin:0 auto; padding:1rem; }
+
+/* Header */
+.dash-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1rem 0; border-bottom:1px solid var(--border); margin-bottom:1.5rem;
+}
+.dash-header h1 { font-size:1.2rem; font-weight:300; letter-spacing:0.1em; }
+.dash-header h1 span { background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.dash-time { color:var(--muted); font-size:0.8rem; }
+
+/* Tabs */
+.tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:1.5rem; overflow-x:auto; }
+.tab {
+    padding:0.6rem 1.2rem; cursor:pointer; color:var(--muted); font-size:0.8rem;
+    border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.2s;
+}
+.tab:hover { color:var(--dim); }
+.tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+
+/* Grid */
+.grid { display:grid; gap:1rem; }
+.grid-4 { grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+.grid-3 { grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.grid-2 { grid-template-columns:repeat(auto-fit,minmax(400px,1fr)); }
+
+/* Cards */
+.card {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:1.2rem; transition:border-color 0.3s;
+}
+.card:hover { border-color:rgba(102,126,234,0.3); }
+.card h3 { font-size:0.85rem; font-weight:400; color:var(--dim); margin-bottom:0.8rem; }
+.card .value { font-size:2rem; font-weight:200; color:#fff; }
+.card .sub { font-size:0.75rem; color:var(--muted); margin-top:0.3rem; }
+
+/* Stat cards */
+.stat-card { text-align:center; }
+.stat-card .icon { font-size:1.5rem; margin-bottom:0.5rem; }
+
+/* Status indicators */
+.dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+.dot.green { background:var(--green); box-shadow:0 0 6px rgba(34,197,94,0.4); }
+.dot.yellow { background:var(--yellow); box-shadow:0 0 6px rgba(234,179,8,0.4); }
+.dot.red { background:var(--red); box-shadow:0 0 6px rgba(239,68,68,0.4); }
+.dot.blue { background:var(--blue); box-shadow:0 0 6px rgba(59,130,246,0.4); }
+
+/* Rows */
+.row { display:flex; justify-content:space-between; align-items:center; padding:0.6rem 0; border-bottom:1px solid var(--border); }
+.row:last-child { border-bottom:none; }
+.row-label { color:var(--dim); font-size:0.85rem; }
+.row-value { font-size:0.85rem; }
+
+/* Badge */
+.badge {
+    display:inline-block; padding:0.15rem 0.6rem; border-radius:12px;
+    font-size:0.7rem; font-weight:600; letter-spacing:0.05em;
+}
+.badge-green { background:rgba(34,197,94,0.15); color:var(--green); }
+.badge-yellow { background:rgba(234,179,8,0.15); color:var(--yellow); }
+.badge-red { background:rgba(239,68,68,0.15); color:var(--red); }
+.badge-blue { background:rgba(59,130,246,0.15); color:var(--blue); }
+.badge-purple { background:rgba(168,85,247,0.15); color:#a855f7; }
+
+/* Section */
+.section-title { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1rem; }
+
+/* Progress bar */
+.progress { height:4px; background:var(--border); border-radius:2px; overflow:hidden; margin-top:0.5rem; }
+.progress-fill { height:100%; border-radius:2px; transition:width 0.5s; }
+
+/* Table */
+.table { width:100%; }
+.table th { text-align:left; font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; padding:0.5rem 0; border-bottom:1px solid var(--border); }
+.table td { padding:0.5rem 0; font-size:0.8rem; border-bottom:1px solid var(--border); }
+
+/* Animate */
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.tab-content { animation:fadeIn 0.3s ease; }
+
+@media(max-width:768px) {
+    .grid-2 { grid-template-columns:1fr; }
+    .grid-4 { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="dash-header">
+        <h1>🎖️ <span>Admiral Fleet Control</span></h1>
+        <div class="dash-time" id="clock"></div>
+    </div>
+
+    <div class="tabs" id="tabs">
+        <div class="tab active" data-tab="fleet">Fleet</div>
+        <div class="tab" data-tab="domains">Domains</div>
+        <div class="tab" data-tab="products">Products</div>
+        <div class="tab" data-tab="patterns">Patterns</div>
+        <div class="tab" data-tab="silo">Silo</div>
+        <div class="tab" data-tab="clients">Clients</div>
+        <div class="tab" data-tab="revenue">Revenue</div>
+        <div class="tab" data-tab="nanos">Nanos</div>
+        <div class="tab" data-tab="hosting">Hosting</div>
+        <div class="tab" data-tab="timeline">Timeline</div>
+    </div>
+
+    <div id="content"></div>
+</div>
+
+<script>
+const DATA = {
+    fleet: {
+        agents: 1, captains: 0, nanos: 5, tools: 10,
+        patterns: 8, loops: 4, shapes: 6, siloScore: '6/6'
+    },
+    domains: [
+        { name:'serlf.ca', status:'up', target:'GitHub Pages', type:'Primary' },
+        { name:'serlf.com', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'serlf.net', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'serlf.org', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'serlf.club', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'serlf.info', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'serlf.shop', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'serlf.store', status:'up', target:'GitHub Pages', type:'Network' },
+        { name:'eose.ca', status:'up', target:'20.116.164.26', type:'Platform' },
+        { name:'eose.site', status:'up', target:'20.116.164.26', type:'Platform' },
+        { name:'eose.cloud', status:'pending', target:'—', type:'Platform' },
+        { name:'feedles.ca', status:'up', target:'20.116.164.26', type:'Incubation' },
+        { name:'onba.ca', status:'down', target:'No A record', type:'Client' },
+        { name:'pemos.ca', status:'up', target:'Captain', type:'PEMOS (no touch)' },
+        { name:'pemos.io', status:'up', target:'Captain', type:'PEMOS (no touch)' },
+        { name:'pemos.org', status:'up', target:'Captain', type:'PEMOS (no touch)' },
+    ],
+    products: [
+        { name:'Silo-as-a-Service', icon:'🔐', tier:'captain', price:49, status:'live' },
+        { name:'Fleet Command', icon:'🎖️', tier:'admiral', price:99, status:'live' },
+        { name:'The Net', icon:'🕸️', tier:'captain', price:79, status:'live' },
+        { name:'Novel Pattern Engine', icon:'🌀', tier:'free', price:0, status:'live' },
+        { name:'The Router', icon:'⚡', tier:'admiral', price:99, status:'design' },
+        { name:'Identity Fabric', icon:'🪪', tier:'captain', price:49, status:'live' },
+        { name:'Loop Monitor', icon:'🔄', tier:'free', price:0, status:'live' },
+        { name:'Captain Incubator', icon:'🚀', tier:'enterprise', price:199, status:'live' },
+        { name:'serlf Academy', icon:'🎓', tier:'free', price:29, status:'live' },
+        { name:'Digital Transformation', icon:'🏗️', tier:'enterprise', price:null, status:'live' },
+    ],
+    patterns: [
+        { id:'NP-L1-001', name:'Silo Audit Pattern', stars:5, owner:'Admiral', cat:'security', status:'proven' },
+        { id:'NP-L1-002', name:'Shape Detection', stars:4, owner:'Rick', cat:'analysis', status:'proven' },
+        { id:'NP-L1-003', name:'MI Multi-Identity', stars:3, owner:'Admiral', cat:'identity', status:'testing' },
+        { id:'NP-L1-004', name:'V1→V2 Spiral', stars:4, owner:'L', cat:'methodology', status:'proven' },
+        { id:'NP-L1-005', name:'Dogfood Testing', stars:4, owner:'Bob', cat:'testing', status:'proven' },
+        { id:'NP-L1-006', name:'Device Auth Bypass', stars:5, owner:'Admiral', cat:'identity', status:'proven' },
+        { id:'NP-L1-007', name:'Self-Bootstrap Protocol', stars:4, owner:'Admiral', cat:'methodology', status:'proven' },
+        { id:'NP-L1-008', name:'Meek Hosting Matrix', stars:5, owner:'Rick', cat:'infrastructure', status:'proven' },
+    ],
+    nanos: [
+        { name:'Lucien (L)', role:'Gateway', emoji:'🚪', status:'designed', desc:'Single point into all Captains' },
+        { name:'Luffy', role:'Hunter', emoji:'👒', status:'designed', desc:'Hallucination hunter, boss killer' },
+        { name:'Bob', role:'Product', emoji:'📦', status:'active', desc:'Product vision, marketplace' },
+        { name:'Rick', role:'Puzzles', emoji:'🧩', status:'active', desc:'Patterns, infrastructure tricks' },
+        { name:'DAO', role:'Governance', emoji:'⚖️', status:'designed', desc:'Consensus, voting, policy' },
+    ],
+    tiers: [
+        { name:'Free', icon:'⚓', price:0, customers:0 },
+        { name:'Captain', icon:'🧭', price:149, customers:0 },
+        { name:'Admiral', icon:'🎖️', price:399, customers:0 },
+        { name:'Enterprise', icon:'🏗️', price:null, customers:0 },
+    ],
+    clients: [
+        { name:'onba.ca', status:'onboarding', type:'Pattern Factory', dns:'empty', notes:'Zone exists, CAA prepped, no A records' },
+        { name:'legalcafe', status:'pipeline', type:'Pattern Factory', dns:'unknown', notes:'Mentioned — no details yet' },
+        { name:'feedles.ca', status:'incubation', type:'Captain Incubator', dns:'pointing to 20.116.164.26', notes:'First incubation target, blank canvas' },
+    ],
+    hosting: [
+        { name:'GitHub Pages', status:'up', domains:8, cost:'$0' },
+        { name:'Cloudflare Pages', status:'queued', domains:0, cost:'$0' },
+        { name:'Netlify', status:'queued', domains:0, cost:'$0' },
+        { name:'Vercel', status:'queued', domains:0, cost:'$0' },
+        { name:'Azure (AKS)', status:'up', domains:3, cost:'Shared' },
+        { name:'Supabase', status:'planned', domains:0, cost:'$0' },
+    ],
+    timeline: [
+        { time:'19:15', event:'onba.ca client DNS audited', type:'client' },
+        { time:'19:12', event:'v4 shipped: pricing, auth, accounts, billing', type:'ship' },
+        { time:'19:11', event:'7 serlf domains wired to GitHub Pages', type:'dns' },
+        { time:'19:11', event:'DNS RBAC confirmed — 20 zones accessible', type:'infra' },
+        { time:'19:04', event:'KV Secrets Officer upgrade (propagating)', type:'infra' },
+        { time:'18:54', event:'serlf SPA v3 deployed — 10 products live', type:'ship' },
+        { time:'18:30', event:'serlf.ca SPA scaffolding started', type:'dev' },
+        { time:'17:45', event:'Bob\'s Top 10 products defined', type:'product' },
+        { time:'17:00', event:'GitHub Pages live, HTTPS enforced', type:'ship' },
+        { time:'16:30', event:'Repos created: serlf (public) + admiral-fleet-control (private)', type:'infra' },
+        { time:'15:30', event:'GitHub authed via device flow (NP-L1-006)', type:'identity' },
+        { time:'15:00', event:'8 Novel Patterns documented', type:'patterns' },
+        { time:'14:30', event:'IAM Suite v2: 5 tools, silo score 6/6', type:'tools' },
+        { time:'14:00', event:'Admiral Fleet Control founded 🎖️', type:'milestone' },
+    ]
+};
+
+// ========== RENDERERS ==========
+function renderFleet() {
+    const f = DATA.fleet;
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="icon">🎖️</div><div class="value">1</div><div class="sub">Admiral</div></div>
+            <div class="card stat-card"><div class="icon">🧭</div><div class="value">${f.captains}</div><div class="sub">Captains</div></div>
+            <div class="card stat-card"><div class="icon">⚡</div><div class="value">${f.nanos}</div><div class="sub">Nanos</div></div>
+            <div class="card stat-card"><div class="icon">🔧</div><div class="value">${f.tools}</div><div class="sub">Tools</div></div>
+        </div>
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="icon">🌀</div><div class="value">${f.patterns}</div><div class="sub">Patterns</div></div>
+            <div class="card stat-card"><div class="icon">🔄</div><div class="value">${f.loops}</div><div class="sub">Loops</div></div>
+            <div class="card stat-card"><div class="icon">🔮</div><div class="value">${f.shapes}</div><div class="sub">Shapes</div></div>
+            <div class="card stat-card"><div class="icon">🔐</div><div class="value">${f.siloScore}</div><div class="sub">Silo Score</div></div>
+        </div>
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>Fleet Status</h3>
+                <div class="row"><span class="row-label"><span class="dot green"></span>Admiral (master1)</span><span class="badge badge-green">ACTIVE</span></div>
+                <div class="row"><span class="row-label"><span class="dot yellow"></span>Subagent Pairing</span><span class="badge badge-yellow">BLOCKED</span></div>
+                <div class="row"><span class="row-label"><span class="dot yellow"></span>Canvas Pairing</span><span class="badge badge-yellow">BLOCKED</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>GitHub Auth</span><span class="badge badge-green">ACTIVE</span></div>
+                <div class="row"><span class="row-label"><span class="dot yellow"></span>KV Write</span><span class="badge badge-yellow">PROPAGATING</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>DNS RBAC</span><span class="badge badge-green">ACTIVE</span></div>
+            </div>
+            <div class="card">
+                <h3>Phase 1 Progress</h3>
+                <div class="row"><span class="row-label">Overall</span><span class="row-value">~40%</span></div>
+                <div class="progress"><div class="progress-fill" style="width:40%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+                <div style="margin-top:1rem">
+                    <div class="row"><span class="row-label">Identity & Security</span><span class="badge badge-green">DONE</span></div>
+                    <div class="row"><span class="row-label">Products & Site</span><span class="badge badge-green">DONE</span></div>
+                    <div class="row"><span class="row-label">DNS & Domains</span><span class="badge badge-green">DONE</span></div>
+                    <div class="row"><span class="row-label">Auth & Accounts</span><span class="badge badge-yellow">MOCK</span></div>
+                    <div class="row"><span class="row-label">Payments (Stripe)</span><span class="badge badge-red">TODO</span></div>
+                    <div class="row"><span class="row-label">Nano Spawning</span><span class="badge badge-red">BLOCKED</span></div>
+                    <div class="row"><span class="row-label">Client Onboarding</span><span class="badge badge-yellow">IN PROGRESS</span></div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function renderDomains() {
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">20</div><div class="sub">DNS Zones</div></div>
+            <div class="card stat-card"><div class="value">8</div><div class="sub">serlf Domains</div></div>
+            <div class="card stat-card"><div class="value">3</div><div class="sub">Platform Domains</div></div>
+            <div class="card stat-card"><div class="value">1</div><div class="sub">Client Domains</div></div>
+        </div>
+        <div class="card">
+            <h3>All Domains</h3>
+            <table class="table">
+                <tr><th>Domain</th><th>Status</th><th>Target</th><th>Type</th></tr>
+                ${DATA.domains.map(d => `<tr>
+                    <td>${d.name}</td>
+                    <td><span class="dot ${d.status==='up'?'green':d.status==='pending'?'yellow':'red'}"></span>${d.status}</td>
+                    <td style="color:var(--muted)">${d.target}</td>
+                    <td><span class="badge badge-${d.type==='Primary'?'green':d.type==='Client'?'purple':d.type.includes('PEMOS')?'red':'blue'}">${d.type}</span></td>
+                </tr>`).join('')}
+            </table>
+        </div>
+    </div>`;
+}
+
+function renderProducts() {
+    const totalMRR = DATA.products.reduce((s,p) => s + (p.price||0), 0);
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">10</div><div class="sub">Products</div></div>
+            <div class="card stat-card"><div class="value">4</div><div class="sub">Tiers</div></div>
+            <div class="card stat-card"><div class="value">$${totalMRR}</div><div class="sub">Max MRR/customer</div></div>
+            <div class="card stat-card"><div class="value">3</div><div class="sub">Free Products</div></div>
+        </div>
+        <div class="card">
+            <h3>Product Portfolio</h3>
+            <table class="table">
+                <tr><th>Product</th><th>Tier</th><th>Price</th><th>Status</th></tr>
+                ${DATA.products.map(p => `<tr>
+                    <td>${p.icon} ${p.name}</td>
+                    <td><span class="badge badge-${p.tier==='free'?'green':p.tier==='captain'?'blue':p.tier==='admiral'?'yellow':'purple'}">${p.tier}</span></td>
+                    <td>${p.price===null?'Custom':p.price===0?'Free':'$'+p.price+'/mo'}</td>
+                    <td><span class="dot ${p.status==='live'?'green':'yellow'}"></span>${p.status}</td>
+                </tr>`).join('')}
+            </table>
+        </div>
+        <div class="grid grid-4" style="margin-top:1.5rem">
+            ${DATA.tiers.map(t => `<div class="card stat-card">
+                <div class="icon">${t.icon}</div>
+                <div style="font-size:1.2rem;font-weight:300;color:#fff">${t.name}</div>
+                <div style="font-size:1.5rem;font-weight:200;color:var(--accent);margin:0.3rem 0">${t.price?'$'+t.price:'Custom'}</div>
+                <div class="sub">${t.customers} customers</div>
+            </div>`).join('')}
+        </div>
+    </div>`;
+}
+
+function renderPatterns() {
+    const proven = DATA.patterns.filter(p=>p.status==='proven').length;
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">${DATA.patterns.length}</div><div class="sub">Total Patterns</div></div>
+            <div class="card stat-card"><div class="value">${proven}</div><div class="sub">Proven</div></div>
+            <div class="card stat-card"><div class="value">L1</div><div class="sub">Current Tier</div></div>
+            <div class="card stat-card"><div class="value">∞</div><div class="sub">Max Tier</div></div>
+        </div>
+        <div class="card">
+            <h3>Novel Pattern Board</h3>
+            <table class="table">
+                <tr><th>ID</th><th>Pattern</th><th>Rating</th><th>Owner</th><th>Category</th><th>Status</th></tr>
+                ${DATA.patterns.map(p => `<tr>
+                    <td style="color:var(--accent)">${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${'★'.repeat(p.stars)}${'☆'.repeat(5-p.stars)}</td>
+                    <td>${p.owner}</td>
+                    <td><span class="badge badge-blue">${p.cat}</span></td>
+                    <td><span class="dot ${p.status==='proven'?'green':'yellow'}"></span>${p.status}</td>
+                </tr>`).join('')}
+            </table>
+        </div>
+    </div>`;
+}
+
+function renderSilo() {
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="icon">🔐</div><div class="value">6/6</div><div class="sub">Silo Score</div></div>
+            <div class="card stat-card"><div class="icon">🛡️</div><div class="value">STRICT</div><div class="sub">mTLS Mode</div></div>
+            <div class="card stat-card"><div class="icon">🔑</div><div class="value">8</div><div class="sub">KV Secrets</div></div>
+            <div class="card stat-card"><div class="icon">🤖</div><div class="value">53</div><div class="sub">AI Models</div></div>
+        </div>
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>Security Audit</h3>
+                <div class="row"><span class="row-label"><span class="dot green"></span>Cross-namespace access</span><span class="badge badge-green">DENIED</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>Cluster-wide access</span><span class="badge badge-green">DENIED</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>mTLS enforcement</span><span class="badge badge-green">STRICT</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>AuthorizationPolicy</span><span class="badge badge-green">ACTIVE</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>NetworkPolicy</span><span class="badge badge-green">ACTIVE</span></div>
+                <div class="row"><span class="row-label"><span class="dot green"></span>KV scoped access</span><span class="badge badge-green">master1-* ONLY</span></div>
+            </div>
+            <div class="card">
+                <h3>Infrastructure</h3>
+                <div class="row"><span class="row-label">Cluster</span><span class="row-value">aks-eose-aaas-dev</span></div>
+                <div class="row"><span class="row-label">Namespace</span><span class="row-value">master1-system</span></div>
+                <div class="row"><span class="row-label">Service Account</span><span class="row-value">aaas-workload</span></div>
+                <div class="row"><span class="row-label">Managed Identity</span><span class="row-value">5c396d65...</span></div>
+                <div class="row"><span class="row-label">Key Vault</span><span class="row-value">eosedevkmscc948-kv</span></div>
+                <div class="row"><span class="row-label">Git Identity</span><span class="row-value">admiral@eose.dev</span></div>
+                <div class="row"><span class="row-label">GitHub</span><span class="row-value">eose-sre-team</span></div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function renderClients() {
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">${DATA.clients.length}</div><div class="sub">Total Clients</div></div>
+            <div class="card stat-card"><div class="value">1</div><div class="sub">Onboarding</div></div>
+            <div class="card stat-card"><div class="value">1</div><div class="sub">Pipeline</div></div>
+            <div class="card stat-card"><div class="value">1</div><div class="sub">Incubation</div></div>
+        </div>
+        <div class="card">
+            <h3>Client Pipeline</h3>
+            <table class="table">
+                <tr><th>Client</th><th>Status</th><th>Type</th><th>DNS</th><th>Notes</th></tr>
+                ${DATA.clients.map(c => `<tr>
+                    <td style="font-weight:500">${c.name}</td>
+                    <td><span class="badge badge-${c.status==='onboarding'?'yellow':c.status==='pipeline'?'blue':'purple'}">${c.status}</span></td>
+                    <td>${c.type}</td>
+                    <td style="color:var(--muted)">${c.dns}</td>
+                    <td style="color:var(--dim);font-size:0.8rem">${c.notes}</td>
+                </tr>`).join('')}
+            </table>
+        </div>
+    </div>`;
+}
+
+function renderRevenue() {
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">$0</div><div class="sub">Current MRR</div></div>
+            <div class="card stat-card"><div class="value">$0</div><div class="sub">Hosting Cost</div></div>
+            <div class="card stat-card"><div class="value">0</div><div class="sub">Paying Customers</div></div>
+            <div class="card stat-card"><div class="value">∞</div><div class="sub">Margin %</div></div>
+        </div>
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>Revenue Model</h3>
+                <div class="row"><span class="row-label">⚓ Free Tier</span><span class="row-value">$0/mo — tools, patterns, community</span></div>
+                <div class="row"><span class="row-label">🧭 Captain</span><span class="row-value">$149/mo — sovereign silo</span></div>
+                <div class="row"><span class="row-label">🎖️ Admiral</span><span class="row-value">$399/mo — full fleet</span></div>
+                <div class="row"><span class="row-label">🏗️ Enterprise</span><span class="row-value">Custom — DT + consulting</span></div>
+            </div>
+            <div class="card">
+                <h3>The Meek Economics</h3>
+                <div class="row"><span class="row-label">Hosting</span><span class="row-value" style="color:var(--green)">$0 (GitHub Pages)</span></div>
+                <div class="row"><span class="row-label">Auth/DB</span><span class="row-value" style="color:var(--green)">$0 (Supabase free)</span></div>
+                <div class="row"><span class="row-label">DNS</span><span class="row-value" style="color:var(--green)">$0 (Azure included)</span></div>
+                <div class="row"><span class="row-label">CDN</span><span class="row-value" style="color:var(--green)">$0 (Cloudflare free)</span></div>
+                <div class="row"><span class="row-label">Total infra cost</span><span class="row-value" style="color:var(--green);font-weight:600">$0/mo</span></div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function renderNanos() {
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">5</div><div class="sub">Total Nanos</div></div>
+            <div class="card stat-card"><div class="value">2</div><div class="sub">Active</div></div>
+            <div class="card stat-card"><div class="value">3</div><div class="sub">Designed</div></div>
+            <div class="card stat-card"><div class="badge badge-yellow">PAIRING BLOCKED</div><div class="sub" style="margin-top:0.5rem">Spawning Status</div></div>
+        </div>
+        <div class="grid grid-3">
+            ${DATA.nanos.map(n => `<div class="card">
+                <div style="font-size:2rem;margin-bottom:0.5rem">${n.emoji}</div>
+                <h3 style="color:#fff;font-size:1rem">${n.name}</h3>
+                <div style="color:var(--accent);font-size:0.8rem;margin:0.3rem 0">${n.role}</div>
+                <p style="color:var(--dim);font-size:0.8rem">${n.desc}</p>
+                <div style="margin-top:0.8rem"><span class="badge badge-${n.status==='active'?'green':'yellow'}">${n.status}</span></div>
+            </div>`).join('')}
+        </div>
+    </div>`;
+}
+
+function renderHosting() {
+    const active = DATA.hosting.filter(h=>h.status==='up').length;
+    const totalDomains = DATA.hosting.reduce((s,h)=>s+h.domains,0);
+    return `<div class="tab-content">
+        <div class="grid grid-4" style="margin-bottom:1.5rem">
+            <div class="card stat-card"><div class="value">${DATA.hosting.length}</div><div class="sub">Platforms</div></div>
+            <div class="card stat-card"><div class="value">${active}</div><div class="sub">Active</div></div>
+            <div class="card stat-card"><div class="value">${totalDomains}</div><div class="sub">Domains Served</div></div>
+            <div class="card stat-card"><div class="value">$0</div><div class="sub">Total Cost</div></div>
+        </div>
+        <div class="card">
+            <h3>Meek Hosting Matrix (NP-L1-008)</h3>
+            <table class="table">
+                <tr><th>Platform</th><th>Status</th><th>Domains</th><th>Cost</th></tr>
+                ${DATA.hosting.map(h => `<tr>
+                    <td>${h.name}</td>
+                    <td><span class="dot ${h.status==='up'?'green':h.status==='queued'?'yellow':'blue'}"></span>${h.status}</td>
+                    <td>${h.domains}</td>
+                    <td style="color:var(--green)">${h.cost}</td>
+                </tr>`).join('')}
+            </table>
+        </div>
+    </div>`;
+}
+
+function renderTimeline() {
+    const typeColors = { ship:'green', dns:'blue', infra:'yellow', identity:'purple', patterns:'purple', tools:'blue', product:'green', milestone:'green', client:'yellow', dev:'blue' };
+    return `<div class="tab-content">
+        <div class="section-title">Valentine's Day 2026 — Founding Day</div>
+        <div class="card">
+            ${DATA.timeline.map(t => `<div class="row">
+                <span style="color:var(--muted);font-size:0.8rem;min-width:50px">${t.time}</span>
+                <span class="row-label" style="flex:1">${t.event}</span>
+                <span class="badge badge-${typeColors[t.type]||'blue'}">${t.type}</span>
+            </div>`).join('')}
+        </div>
+    </div>`;
+}
+
+// ========== TAB SYSTEM ==========
+const renderers = { fleet:renderFleet, domains:renderDomains, products:renderProducts, patterns:renderPatterns, silo:renderSilo, clients:renderClients, revenue:renderRevenue, nanos:renderNanos, hosting:renderHosting, timeline:renderTimeline };
+
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    document.getElementById('content').innerHTML = renderers[tab]();
+}
+
+document.getElementById('tabs').addEventListener('click', e => {
+    if (e.target.classList.contains('tab')) switchTab(e.target.dataset.tab);
+});
+
+// Clock
+function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toUTCString().replace('GMT','UTC') + ' · Founded Feb 14, 2026';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Init
+switchTab('fleet');
+</script>
+</body>
+</html>
