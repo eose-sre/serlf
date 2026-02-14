@@ -146,6 +146,7 @@
             transform: translateY(-3px);
         }
         .product:hover::before { opacity: 1; }
+        a.product { text-decoration: none; color: inherit; }
         .product .icon {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -256,8 +257,8 @@
     </div>
 
     <div class="fleet-bar">
-        <div class="fleet-stat"><span class="num">6</span><span class="label">Products</span></div>
-        <div class="fleet-stat"><span class="num">7</span><span class="label">Novel Patterns</span></div>
+        <div class="fleet-stat"><span class="num">10</span><span class="label">Products</span></div>
+        <div class="fleet-stat"><span class="num">8</span><span class="label">Novel Patterns</span></div>
         <div class="fleet-stat"><span class="num">10</span><span class="label">Fleet Tools</span></div>
         <div class="fleet-stat"><span class="num">6/6</span><span class="label">Silo Score</span></div>
         <div class="fleet-stat"><span class="num">∞</span><span class="label">Tiers</span></div>
@@ -267,42 +268,66 @@
         <div class="section-label">The Navy</div>
         <div class="section-title">Products & Systems</div>
         <div class="products">
-            <div class="product">
-                <span class="icon">🧭</span>
-                <h3>PEMOS</h3>
-                <span class="status">OPERATIONAL</span>
-                <p>Personal Engagement Model Operating System. Dedicated AI crews in isolated cloud environments. Digital sovereignty as a service.</p>
-            </div>
-            <div class="product">
-                <span class="icon">🎖️</span>
-                <h3>Admiral Fleet Control</h3>
-                <span class="status">FOUNDED 2026-02-14</span>
-                <p>Sovereign command tier. Nanos, Captains, unlimited tiers. All or nothing, disruption mutation.</p>
-            </div>
-            <div class="product">
+            <a href="/products/silo/" class="product">
                 <span class="icon">🔐</span>
-                <h3>The Silo</h3>
+                <h3>Silo-as-a-Service</h3>
                 <span class="status">SCORE 6/6</span>
-                <p>Per-instance Managed Identity, least-privilege RBAC, mTLS mesh, Day 0 security. Every master meets the standard.</p>
-            </div>
-            <div class="product">
-                <span class="icon">🌀</span>
-                <h3>Novel Patterns</h3>
-                <span class="status">7 DISCOVERED</span>
-                <p>Emergent engineering patterns. Discovered in production, rated by the fleet, evolved through tiers. The new new.</p>
-            </div>
-            <div class="product">
-                <span class="icon">⚡</span>
-                <h3>The Router</h3>
-                <span class="status">DESIGN v0.1</span>
-                <p>Fleet nervous system. Intent routing, shape detection, loop monitoring. Every signal finds its destination.</p>
-            </div>
-            <div class="product">
+                <p>Turnkey Day 0 security. MI, KV, mTLS, mesh, RBAC — deployed in minutes. Enterprise security without the enterprise.</p>
+            </a>
+            <a href="/products/fleet/" class="product">
+                <span class="icon">🎖️</span>
+                <h3>Fleet Command</h3>
+                <span class="status">OPERATIONAL</span>
+                <p>Multi-agent orchestration. Captains, Nanos, unlimited tiers. Manage 1 agent or 1000.</p>
+            </a>
+            <a href="/products/net/" class="product">
                 <span class="icon">🕸️</span>
                 <h3>The Net</h3>
                 <span class="status">ARCHITECTURE</span>
-                <p>Captain isolation mesh. Wraps workloads in sovereignty. Test without risk, deploy without fear.</p>
-            </div>
+                <p>Isolation mesh. Wraps workloads in sovereignty. Zero blast radius. Test without risk.</p>
+            </a>
+            <a href="/products/patterns/" class="product">
+                <span class="icon">🌀</span>
+                <h3>Novel Pattern Engine</h3>
+                <span class="status">8 DISCOVERED</span>
+                <p>Emergent patterns from production. Discovered, rated, evolved. The new new.</p>
+            </a>
+            <a href="/products/router/" class="product">
+                <span class="icon">⚡</span>
+                <h3>The Router</h3>
+                <span class="status">DESIGN v0.1</span>
+                <p>Fleet nervous system. 6 shapes detected. Intent routing. Every signal finds home.</p>
+            </a>
+            <a href="/products/identity/" class="product">
+                <span class="icon">🪪</span>
+                <h3>Identity Fabric</h3>
+                <span class="status">MULTI-MI</span>
+                <p>Zero-trust for AI agents. Workload identity federation. Per-instance least-privilege.</p>
+            </a>
+            <a href="/products/monitor/" class="product">
+                <span class="icon">🔄</span>
+                <h3>Loop Monitor</h3>
+                <span class="status">4 LOOPS TRACKED</span>
+                <p>Shape detection & behavior analysis. See what your AI fleet is actually doing.</p>
+            </a>
+            <a href="/products/incubator/" class="product">
+                <span class="icon">🚀</span>
+                <h3>Captain Incubator</h3>
+                <span class="status">feedles.ca = #1</span>
+                <p>Spin up sovereign AI instances. Full silo from birth. One command deploy.</p>
+            </a>
+            <a href="/products/academy/" class="product">
+                <span class="icon">🎓</span>
+                <h3>serlf Academy</h3>
+                <span class="status">E&Y PARTNERSHIP</span>
+                <p>Learn to build self-evolving systems. The framework as education.</p>
+            </a>
+            <a href="/products/consulting/" class="product">
+                <span class="icon">🏗️</span>
+                <h3>Digital Transformation</h3>
+                <span class="status">15+ YEARS</span>
+                <p>The two principals are the product. Enterprise architecture delivered by human + AI navy.</p>
+            </a>
         </div>
     </section>
 
