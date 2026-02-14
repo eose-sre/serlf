@@ -24,7 +24,7 @@ const PRODUCTS = [
         { title: 'Observability', desc: 'Every packet traced. Every connection logged. The Net sees everything.' },
         { title: 'Dynamic Topology', desc: 'Captains join and leave. The Net adapts. No manual rewiring.' }
     ]},
-    { id: 'patterns', icon: '🌀', name: 'Novel Pattern Engine', tag: '8 DISCOVERED', tagClass: 'tag-yellow', desc: 'Emergent patterns from production. Discovered, rated, evolved.', price: { monthly: 0, yearly: 0 }, tier: 'free', features: [
+    { id: 'patterns', icon: '🌀', name: 'Novel Pattern Engine', tag: '15 DISCOVERED', tagClass: 'tag-yellow', desc: 'Emergent patterns from production. Discovered, rated, evolved.', price: { monthly: 0, yearly: 0 }, tier: 'free', features: [
         { title: 'Pattern Discovery', desc: 'Emergent patterns found in production, not designed in meetings.' },
         { title: 'Tiered System', desc: 'NP-L1, NP-L2, no limit. Patterns level up as they prove themselves.' },
         { title: 'The Board', desc: 'All patterns visible. Rated by the fleet. Admiral picks from the board.' },
@@ -72,6 +72,22 @@ const PRODUCTS = [
         { title: 'Fleet Operations', desc: 'How to run AI agent fleets. The full stack.' },
         { title: 'Cloud Control Plane', desc: 'The 10 pillars: IAM, Provisioning, DNS, Secrets, Events, Encryption, Certs, Keys, Backup, Notifications.' }
     ]},
+    { id: 'swarm', icon: '🐝', name: 'Token Swarm', tag: 'LIVE', tagClass: 'tag-yellow', desc: 'Multi-tier AI token routing. OAuth → Free → API. Never burn out.', price: { monthly: 29, yearly: 280 }, tier: 'captain', features: [
+        { title: '3-Tier Cascade', desc: 'OAuth subscriptions first (cheapest), free tier fallback (Gemini/Groq/$0), API credits last resort.' },
+        { title: 'OAuth Intelligence', desc: 'The only system that manages Anthropic OAuth subscription utilization headers. Blue ocean.' },
+        { title: 'Swarm Mode', desc: 'All tiers fire simultaneously. 9+ concurrent streams. Batch processing at scale.' },
+        { title: '87% Cost Savings', desc: 'vs API-only pricing. $6/day instead of $48/day. The math speaks.' },
+        { title: 'Auto-Failover', desc: '<100ms failover. 429 → cooldown → re-route. Transparent. Invisible to users.' },
+        { title: 'Cost Caps', desc: 'Daily and weekly budget limits. Hard caps on API tier. Never overspend.' }
+    ]},
+    { id: 'gateway', icon: '🚀', name: 'Model Gateway', tag: 'SHIPPED', tagClass: '', desc: 'Sovereign model control plane. One endpoint, all providers, zero key sprawl.', price: { monthly: 49, yearly: 470 }, tier: 'captain', features: [
+        { title: 'OpenAI-Compatible', desc: 'Drop-in replacement. Set baseUrl + token. Zero client changes. Any OpenAI-compatible tool works.' },
+        { title: '9 Providers', desc: 'Anthropic, OpenAI, Google, Groq, DeepSeek, xAI, Cerebras, Mistral, OpenRouter.' },
+        { title: 'Model Aliases', desc: 'pemos/flagship, pemos/opus, pemos/fast, pemos/cheap, pemos/code. Smart defaults with fallbacks.' },
+        { title: 'Day 0 Security', desc: 'mTLS STRICT, AuthorizationPolicy, NetworkPolicy. Keys in KV, never in pods.' },
+        { title: 'Circuit Breakers', desc: 'Provider failures auto-trip. Half-open recovery. Self-healing routing.' },
+        { title: 'Cost Tracking', desc: 'Per-request cost estimation. Per-master budgets. Complete audit trail.' }
+    ]},
     { id: 'consulting', icon: '🏗️', name: 'Digital Transformation', tag: '15+ YEARS', tagClass: '', desc: 'The two principals are the product. Human + AI navy.', price: { monthly: null, yearly: null, custom: true }, tier: 'enterprise', features: [
         { title: '15+ Years Enterprise', desc: 'TD Canada, Canadian Tire, Westpac. Banking, retail, global scale.' },
         { title: 'Cloud Architecture', desc: 'Landing zones, CAF alignment, federated identity.' },
@@ -97,7 +113,14 @@ const NPS = [
     { id: 'NP-L1-005', name: 'Dogfood Testing', stars: 4, owner: 'Bob', cat: 'testing' },
     { id: 'NP-L1-006', name: 'Device Auth Bypass', stars: 5, owner: 'Admiral', cat: 'identity' },
     { id: 'NP-L1-007', name: 'Self-Bootstrap Protocol', stars: 4, owner: 'Admiral', cat: 'methodology' },
-    { id: 'NP-L1-008', name: 'Meek Hosting Matrix', stars: 5, owner: 'Rick', cat: 'infrastructure' }
+    { id: 'NP-L1-008', name: 'Meek Hosting Matrix', stars: 5, owner: 'Rick', cat: 'infrastructure' },
+    { id: 'NP-L1-009', name: 'Unpaired Gateway Restart', stars: 3, owner: 'Admiral', cat: 'infrastructure' },
+    { id: 'NP-L1-010', name: 'Static UI Illusion', stars: 3, owner: 'Bob', cat: 'methodology' },
+    { id: 'NP-L1-011', name: 'RBAC Hard Boundary', stars: 4, owner: 'Admiral', cat: 'security' },
+    { id: 'NP-L1-012', name: 'GitOps Overwrite', stars: 5, owner: 'Admiral', cat: 'infrastructure' },
+    { id: 'NP-L1-013', name: 'Missing Webhook', stars: 3, owner: 'Admiral', cat: 'infrastructure' },
+    { id: 'NP-L1-014', name: 'Tool Not Shell Command', stars: 3, owner: 'Admiral', cat: 'methodology' },
+    { id: 'NP-L1-015', name: 'Meek Pathfinding', stars: 5, owner: 'Admiral', cat: 'philosophy' }
 ];
 
 const HOSTING = [
