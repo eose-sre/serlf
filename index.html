@@ -4,142 +4,344 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>serlf — Self Engineering Reinforced Learning Framework</title>
+    <meta name="description" content="Enterprise AI sovereignty. Off the grid. On the chain.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #060608;
+            --surface: rgba(255,255,255,0.02);
+            --border: rgba(255,255,255,0.06);
+            --text: #c8c8c8;
+            --muted: #555;
+            --accent: #667eea;
+            --accent2: #764ba2;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navy grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(102,126,234,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(118,75,162,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(102,126,234,0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content { position: relative; z-index: 1; }
+
+        /* Hero */
+        .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-        .container {
-            max-width: 800px;
             padding: 2rem;
             text-align: center;
         }
+        .fleet-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease;
+        }
         h1 {
-            font-size: 4rem;
+            font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 200;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.25em;
             text-transform: lowercase;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeIn 1.2s ease;
         }
         .tagline {
             font-size: 1.1rem;
-            color: #888;
-            letter-spacing: 0.15em;
-            margin-bottom: 3rem;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            animation: fadeIn 1.4s ease;
         }
+        .sub {
+            font-size: 0.9rem;
+            color: #444;
+            max-width: 500px;
+            line-height: 1.6;
+            animation: fadeIn 1.6s ease;
+        }
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.7rem;
+            color: #333;
+            letter-spacing: 0.2em;
+            animation: pulse 2s ease infinite;
+        }
+
+        /* Sections */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            color: #fff;
+        }
+
+        /* Products grid */
         .products {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin: 3rem 0;
         }
         .product {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .product::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         .product:hover {
-            border-color: rgba(102, 126, 234, 0.4);
-            background: rgba(255,255,255,0.05);
-            transform: translateY(-2px);
+            border-color: rgba(102,126,234,0.3);
+            transform: translateY(-3px);
+        }
+        .product:hover::before { opacity: 1; }
+        .product .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
         }
         .product h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
             color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .product .status {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            background: rgba(102,126,234,0.15);
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.8rem;
         }
         .product p {
             font-size: 0.85rem;
             color: #777;
-            line-height: 1.5;
+            line-height: 1.6;
         }
-        .product .emoji {
-            font-size: 1.8rem;
-            margin-bottom: 0.8rem;
-            display: block;
+
+        /* Principles */
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
         .principle {
-            margin-top: 3rem;
-            padding: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            font-style: italic;
-            color: #555;
-            font-size: 0.95rem;
+            padding: 1.5rem;
+            border-left: 2px solid var(--border);
+            transition: border-color 0.3s;
         }
-        .principle em {
-            color: #764ba2;
+        .principle:hover { border-color: var(--accent); }
+        .principle h4 {
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
-        .badge {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.4rem 1.2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            font-size: 0.75rem;
+        .principle p {
+            font-size: 0.8rem;
             color: #666;
-            letter-spacing: 0.1em;
+            line-height: 1.5;
         }
-        a { color: #667eea; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+
+        /* Fleet status */
+        .fleet-bar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .fleet-stat {
+            text-align: center;
+        }
+        .fleet-stat .num {
+            font-size: 2rem;
+            font-weight: 200;
+            color: #fff;
+            display: block;
+        }
+        .fleet-stat .label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #333;
+            font-size: 0.8rem;
+        }
+        footer a { color: #555; }
+        footer a:hover { color: var(--accent); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+<div class="content">
+
+    <div class="hero">
+        <div class="fleet-badge">🎖️ Admiral Fleet Control</div>
         <h1>serlf</h1>
         <div class="tagline">Self Engineering Reinforced Learning Framework</div>
+        <p class="sub">Enterprise AI sovereignty for everyone. Off the grid. On the chain. Every master meets the standard.</p>
+        <div class="scroll-hint">▼ EXPLORE THE FLEET</div>
+    </div>
 
+    <div class="fleet-bar">
+        <div class="fleet-stat"><span class="num">6</span><span class="label">Products</span></div>
+        <div class="fleet-stat"><span class="num">7</span><span class="label">Novel Patterns</span></div>
+        <div class="fleet-stat"><span class="num">10</span><span class="label">Fleet Tools</span></div>
+        <div class="fleet-stat"><span class="num">6/6</span><span class="label">Silo Score</span></div>
+        <div class="fleet-stat"><span class="num">∞</span><span class="label">Tiers</span></div>
+    </div>
+
+    <section>
+        <div class="section-label">The Navy</div>
+        <div class="section-title">Products & Systems</div>
         <div class="products">
             <div class="product">
-                <span class="emoji">🧭</span>
+                <span class="icon">🧭</span>
                 <h3>PEMOS</h3>
-                <p>Personal Engagement Model Operating System. Off the grid. On the chain.</p>
+                <span class="status">OPERATIONAL</span>
+                <p>Personal Engagement Model Operating System. Dedicated AI crews in isolated cloud environments. Digital sovereignty as a service.</p>
             </div>
             <div class="product">
-                <span class="emoji">🎖️</span>
-                <h3>Admiral Fleet</h3>
-                <p>Sovereign AI fleet command. Nanos, Captains, and the Net.</p>
+                <span class="icon">🎖️</span>
+                <h3>Admiral Fleet Control</h3>
+                <span class="status">FOUNDED 2026-02-14</span>
+                <p>Sovereign command tier. Nanos, Captains, unlimited tiers. All or nothing, disruption mutation.</p>
             </div>
             <div class="product">
-                <span class="emoji">🔐</span>
-                <h3>Silo Pattern</h3>
-                <p>Per-instance identity, least-privilege, Day 0 security. Every master meets the standard.</p>
+                <span class="icon">🔐</span>
+                <h3>The Silo</h3>
+                <span class="status">SCORE 6/6</span>
+                <p>Per-instance Managed Identity, least-privilege RBAC, mTLS mesh, Day 0 security. Every master meets the standard.</p>
             </div>
             <div class="product">
-                <span class="emoji">🌀</span>
+                <span class="icon">🌀</span>
                 <h3>Novel Patterns</h3>
-                <p>Emergent engineering patterns. Discovered, rated, evolved. The new new.</p>
+                <span class="status">7 DISCOVERED</span>
+                <p>Emergent engineering patterns. Discovered in production, rated by the fleet, evolved through tiers. The new new.</p>
             </div>
             <div class="product">
-                <span class="emoji">🔄</span>
+                <span class="icon">⚡</span>
                 <h3>The Router</h3>
-                <p>Fleet nervous system. Message routing, shape detection, loop monitoring.</p>
+                <span class="status">DESIGN v0.1</span>
+                <p>Fleet nervous system. Intent routing, shape detection, loop monitoring. Every signal finds its destination.</p>
             </div>
             <div class="product">
-                <span class="emoji">🕸️</span>
+                <span class="icon">🕸️</span>
                 <h3>The Net</h3>
-                <p>Captain isolation and testing mesh. Wraps workloads for sovereignty.</p>
+                <span class="status">ARCHITECTURE</span>
+                <p>Captain isolation mesh. Wraps workloads in sovereignty. Test without risk, deploy without fear.</p>
             </div>
         </div>
+    </section>
 
-        <div class="principle">
-            <em>The Meek Principle</em> — "All we have, all ways we can use it."<br>
-            Enterprise patterns for everyone. No exceptions.
+    <section>
+        <div class="section-label">The Standard</div>
+        <div class="section-title">Core Principles</div>
+        <div class="principles">
+            <div class="principle">
+                <h4>The Meek Principle</h4>
+                <p>"All we have, all ways we can use it." Enterprise patterns aren't just for enterprises.</p>
+            </div>
+            <div class="principle">
+                <h4>No Cowboy Changes</h4>
+                <p>Wiki → Kanban → Execute. All or none. The ceremony is the safety.</p>
+            </div>
+            <div class="principle">
+                <h4>No Test, No Ship</h4>
+                <p>Tests are the ceremony. If it can't be proven, it can't be trusted.</p>
+            </div>
+            <div class="principle">
+                <h4>Day 0 Security</h4>
+                <p>MI, KV, mTLS, least-privilege. Not bolted on after — baked in from the first commit.</p>
+            </div>
+            <div class="principle">
+                <h4>Self-Evolving</h4>
+                <p>Everything built must improve itself. The system learns. The patterns evolve. The fleet grows.</p>
+            </div>
+            <div class="principle">
+                <h4>Every Master Meets the Standard</h4>
+                <p>No exceptions. No shortcuts. The standard is the floor, not the ceiling.</p>
+            </div>
         </div>
+    </section>
 
-        <div class="badge">by EOSE</div>
-    </div>
+    <footer>
+        <p>serlf — by <a href="https://eose.dev">EOSE</a></p>
+        <p style="margin-top:0.5rem; color:#222;">Founded Valentine's Day 2026. Time is forever. This is our infinity.</p>
+    </footer>
+
+</div>
 </body>
 </html>
