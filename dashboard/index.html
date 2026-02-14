@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admiral Fleet Control — Dashboard v2</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #060608;
+            --card: rgba(255,255,255,0.025);
+            --border: rgba(255,255,255,0.06);
+            --accent: #667eea;
+            --accent2: #764ba2;
+            --green: #4ade80;
+            --yellow: #fbbf24;
+            --red: #f87171;
+            --blue: #60a5fa;
+            --text: #c8c8c8;
+            --muted: #555;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 15% 50%, rgba(102,126,234,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(118,75,162,0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--green);
+            color: var(--green);
+            border-radius: 10px;
+            letter-spacing: 0.1em;
+        }
+        .header-right {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            position: relative;
+            z-index: 1;
+        }
+        .tab {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-family: inherit;
+        }
+        .tab:hover { color: var(--text); }
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Content */
+        .dashboard {
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Stat cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+        .stat .num {
+            font-size: 2rem;
+            font-weight: 200;
+            color: #fff;
+            display: block;
+        }
+        .stat .label {
+            font-size: 0.65rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+        }
+
+        /* Cards grid */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: border-color 0.3s;
+        }
+        .card:hover { border-color: rgba(102,126,234,0.3); }
+        .card h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 0.8rem;
+        }
+        .card-row:last-child { border-bottom: none; }
+        .card-row .key { color: var(--muted); }
+        .card-row .val { color: var(--text); font-weight: 500; }
+
+        /* Status indicators */
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.3rem;
+        }
+        .status-dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+        .status-dot.yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+        .status-dot.red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+        .status-dot.blue { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+
+        /* Product list */
+        .product-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .product-row:hover { background: rgba(255,255,255,0.02); }
+        .product-row .emoji { font-size: 1.3rem; }
+        .product-row .name { color: #fff; font-weight: 500; flex: 1; }
+        .product-row .status-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 8px;
+            letter-spacing: 0.05em;
+        }
+        .tag-live { background: rgba(74,222,128,0.15); color: var(--green); }
+        .tag-design { background: rgba(96,165,250,0.15); color: var(--blue); }
+        .tag-active { background: rgba(251,191,36,0.15); color: var(--yellow); }
+
+        /* NP list */
+        .np-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 0.8rem;
+        }
+        .np-id { color: var(--accent); font-weight: 600; min-width: 80px; }
+        .np-name { color: #fff; flex: 1; }
+        .np-stars { color: var(--yellow); }
+
+        /* Hosting matrix */
+        .hosting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+        .host-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .host-card:hover { border-color: rgba(102,126,234,0.3); transform: translateY(-2px); }
+        .host-card .platform { font-weight: 600; color: #fff; font-size: 0.85rem; }
+        .host-card .cost { color: var(--green); font-size: 0.75rem; margin-top: 0.3rem; }
+        .host-card .tier { color: var(--muted); font-size: 0.65rem; margin-top: 0.2rem; }
+
+        /* Timeline */
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .timeline-time {
+            min-width: 60px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .timeline-event {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Section headers */
+        .section-head {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 2rem 0 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .cards { grid-template-columns: 1fr; }
+            .header { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <span style="font-size:1.5rem">🎖️</span>
+        <h1>Admiral Fleet Control</h1>
+        <span class="badge">OPERATIONAL</span>
+    </div>
+    <div class="header-right">
+        Founded 2026-02-14 · master1-system · aks-eose-aaas-dev
+    </div>
+</div>
+
+<div class="tabs">
+    <button class="tab active" onclick="showTab('overview')">OVERVIEW</button>
+    <button class="tab" onclick="showTab('products')">PRODUCTS</button>
+    <button class="tab" onclick="showTab('patterns')">NOVEL PATTERNS</button>
+    <button class="tab" onclick="showTab('hosting')">MEEK HOSTING</button>
+    <button class="tab" onclick="showTab('silo')">SILO STATUS</button>
+    <button class="tab" onclick="showTab('fleet')">FLEET TOOLS</button>
+    <button class="tab" onclick="showTab('repos')">REPOS</button>
+    <button class="tab" onclick="showTab('timeline')">TIMELINE</button>
+</div>
+
+<div class="dashboard">
+
+    <!-- OVERVIEW -->
+    <div id="overview" class="tab-content active">
+        <div class="stats">
+            <div class="stat"><span class="num">10</span><span class="label">Products</span></div>
+            <div class="stat"><span class="num">8</span><span class="label">Novel Patterns</span></div>
+            <div class="stat"><span class="num">10</span><span class="label">Fleet Tools</span></div>
+            <div class="stat"><span class="num">6/6</span><span class="label">Silo Score</span></div>
+            <div class="stat"><span class="num">2</span><span class="label">Repos Shipped</span></div>
+            <div class="stat"><span class="num">$0</span><span class="label">Hosting Cost</span></div>
+            <div class="stat"><span class="num">4</span><span class="label">Domains</span></div>
+            <div class="stat"><span class="num">∞</span><span class="label">Tiers</span></div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>🌐 Live Sites</h3>
+                <div class="card-row"><span class="key">serlf.ca</span><span class="val"><span class="status-dot green"></span>Live</span></div>
+                <div class="card-row"><span class="key">serlf.com</span><span class="val"><span class="status-dot yellow"></span>DNS Pending</span></div>
+                <div class="card-row"><span class="key">serlf.net</span><span class="val"><span class="status-dot yellow"></span>DNS Pending</span></div>
+                <div class="card-row"><span class="key">serlf.org</span><span class="val"><span class="status-dot yellow"></span>DNS Pending</span></div>
+                <div class="card-row"><span class="key">feedles.ca</span><span class="val"><span class="status-dot red"></span>Incubating</span></div>
+            </div>
+            <div class="card">
+                <h3>🔐 Security Posture</h3>
+                <div class="card-row"><span class="key">Silo Score</span><span class="val"><span class="status-dot green"></span>6/6</span></div>
+                <div class="card-row"><span class="key">mTLS</span><span class="val"><span class="status-dot green"></span>STRICT</span></div>
+                <div class="card-row"><span class="key">RBAC</span><span class="val"><span class="status-dot green"></span>Least-Privilege</span></div>
+                <div class="card-row"><span class="key">Key Rotation</span><span class="val"><span class="status-dot green"></span>90d Policy</span></div>
+                <div class="card-row"><span class="key">Cross-NS</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+            </div>
+            <div class="card">
+                <h3>⚡ Fleet Health</h3>
+                <div class="card-row"><span class="key">GitHub Auth</span><span class="val"><span class="status-dot green"></span>eose-sre-team</span></div>
+                <div class="card-row"><span class="key">Anthropic API</span><span class="val"><span class="status-dot green"></span>8 Models</span></div>
+                <div class="card-row"><span class="key">Google API</span><span class="val"><span class="status-dot green"></span>45 Models</span></div>
+                <div class="card-row"><span class="key">Azure MI</span><span class="val"><span class="status-dot yellow"></span>Auth OK, KV Denied</span></div>
+                <div class="card-row"><span class="key">Subagents</span><span class="val"><span class="status-dot red"></span>Pairing Blocked</span></div>
+            </div>
+            <div class="card">
+                <h3>🧭 Nanos</h3>
+                <div class="card-row"><span class="key">Lucien (L)</span><span class="val"><span class="status-dot red"></span>Awaiting Pairing</span></div>
+                <div class="card-row"><span class="key">Luffy</span><span class="val"><span class="status-dot red"></span>Awaiting Pairing</span></div>
+                <div class="card-row"><span class="key">Bob</span><span class="val"><span class="status-dot red"></span>Awaiting Pairing</span></div>
+                <div class="card-row"><span class="key">Rick</span><span class="val"><span class="status-dot red"></span>Awaiting Pairing</span></div>
+                <div class="card-row"><span class="key">DAO</span><span class="val"><span class="status-dot red"></span>Awaiting Pairing</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div id="products" class="tab-content">
+        <div class="stats">
+            <div class="stat"><span class="num">10</span><span class="label">Total Products</span></div>
+            <div class="stat"><span class="num">10</span><span class="label">Pages Live</span></div>
+            <div class="stat"><span class="num">v3</span><span class="label">Site Version</span></div>
+        </div>
+        <div class="card" style="max-width:800px">
+            <h3>📦 Product Portfolio</h3>
+            <div class="product-row"><span class="emoji">🔐</span><span class="name">Silo-as-a-Service</span><span class="status-tag tag-live">LIVE</span></div>
+            <div class="product-row"><span class="emoji">🎖️</span><span class="name">Fleet Command</span><span class="status-tag tag-live">LIVE</span></div>
+            <div class="product-row"><span class="emoji">🕸️</span><span class="name">The Net</span><span class="status-tag tag-live">LIVE</span></div>
+            <div class="product-row"><span class="emoji">🌀</span><span class="name">Novel Pattern Engine</span><span class="status-tag tag-live">LIVE</span></div>
+            <div class="product-row"><span class="emoji">⚡</span><span class="name">The Router</span><span class="status-tag tag-design">DESIGN v0.1</span></div>
+            <div class="product-row"><span class="emoji">🪪</span><span class="name">Identity Fabric</span><span class="status-tag tag-live">LIVE</span></div>
+            <div class="product-row"><span class="emoji">🔄</span><span class="name">Loop Monitor</span><span class="status-tag tag-active">ACTIVE</span></div>
+            <div class="product-row"><span class="emoji">🚀</span><span class="name">Captain Incubator</span><span class="status-tag tag-active">ACTIVE</span></div>
+            <div class="product-row"><span class="emoji">🎓</span><span class="name">serlf Academy</span><span class="status-tag tag-design">DESIGN</span></div>
+            <div class="product-row"><span class="emoji">🏗️</span><span class="name">Digital Transformation</span><span class="status-tag tag-live">LIVE</span></div>
+        </div>
+    </div>
+
+    <!-- NOVEL PATTERNS -->
+    <div id="patterns" class="tab-content">
+        <div class="stats">
+            <div class="stat"><span class="num">8</span><span class="label">Patterns</span></div>
+            <div class="stat"><span class="num">L1</span><span class="label">Current Tier</span></div>
+            <div class="stat"><span class="num">∞</span><span class="label">Max Tier</span></div>
+        </div>
+        <div class="card" style="max-width:800px">
+            <h3>🌀 Pattern Board</h3>
+            <div class="np-row"><span class="np-id">NP-L1-001</span><span class="np-name">Silo Audit Pattern</span><span class="np-stars">★★★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-002</span><span class="np-name">Shape Detection</span><span class="np-stars">★★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-003</span><span class="np-name">MI Multi-Identity</span><span class="np-stars">★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-004</span><span class="np-name">V1→V2 Spiral</span><span class="np-stars">★★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-005</span><span class="np-name">Dogfood Testing</span><span class="np-stars">★★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-006</span><span class="np-name">Device Auth Bypass</span><span class="np-stars">★★★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-007</span><span class="np-name">Self-Bootstrap Protocol</span><span class="np-stars">★★★★</span></div>
+            <div class="np-row"><span class="np-id">NP-L1-008</span><span class="np-name">Meek Hosting Matrix</span><span class="np-stars">★★★★★</span></div>
+        </div>
+    </div>
+
+    <!-- MEEK HOSTING -->
+    <div id="hosting" class="tab-content">
+        <div class="stats">
+            <div class="stat"><span class="num">$0</span><span class="label">Monthly Cost</span></div>
+            <div class="stat"><span class="num">8+</span><span class="label">Free Platforms</span></div>
+            <div class="stat"><span class="num">3</span><span class="label">Tiers</span></div>
+        </div>
+        <div class="section-head">Tier 1 — Free Forever</div>
+        <div class="hosting-grid">
+            <div class="host-card"><div class="platform">GitHub Pages</div><div class="cost">✅ DEPLOYED</div><div class="tier">100GB bw/mo</div></div>
+            <div class="host-card"><div class="platform">Cloudflare Pages</div><div class="cost">$0 — NEXT</div><div class="tier">Unlimited bw</div></div>
+            <div class="host-card"><div class="platform">Netlify</div><div class="cost">$0 — QUEUED</div><div class="tier">100GB bw/mo</div></div>
+            <div class="host-card"><div class="platform">Vercel</div><div class="cost">$0 — QUEUED</div><div class="tier">100GB bw/mo</div></div>
+            <div class="host-card"><div class="platform">Surge.sh</div><div class="cost">$0 — QUEUED</div><div class="tier">Unlimited</div></div>
+            <div class="host-card"><div class="platform">Render</div><div class="cost">$0 — QUEUED</div><div class="tier">100GB bw/mo</div></div>
+            <div class="host-card"><div class="platform">Deno Deploy</div><div class="cost">$0 — QUEUED</div><div class="tier">100K req/day</div></div>
+            <div class="host-card"><div class="platform">Fly.io</div><div class="cost">$0 — QUEUED</div><div class="tier">3 VMs free</div></div>
+        </div>
+        <div class="section-head">Tier 2 — Always Free</div>
+        <div class="hosting-grid">
+            <div class="host-card"><div class="platform">Oracle Cloud</div><div class="cost">$0 forever</div><div class="tier">4 ARM VMs + 200GB</div></div>
+            <div class="host-card"><div class="platform">Cloudflare R2</div><div class="cost">$0 egress</div><div class="tier">10GB storage</div></div>
+            <div class="host-card"><div class="platform">Firebase</div><div class="cost">$0</div><div class="tier">10GB + 360MB/day</div></div>
+            <div class="host-card"><div class="platform">Azure Static</div><div class="cost">$0</div><div class="tier">100GB bw/mo</div></div>
+        </div>
+        <div class="section-head">Tier 3 — Decentralized (Rick's Picks 🧩)</div>
+        <div class="hosting-grid">
+            <div class="host-card"><div class="platform">IPFS + Fleek</div><div class="cost">$0 — Permanent</div><div class="tier">Censorship-proof</div></div>
+            <div class="host-card"><div class="platform">Arweave</div><div class="cost">Pay once, forever</div><div class="tier">Permaweb</div></div>
+            <div class="host-card"><div class="platform">Handshake DNS</div><div class="cost">Own your TLD</div><div class="tier">No ICANN</div></div>
+            <div class="host-card"><div class="platform">Tor .onion</div><div class="cost">$0 — Sovereign</div><div class="tier">Maximum privacy</div></div>
+        </div>
+    </div>
+
+    <!-- SILO STATUS -->
+    <div id="silo" class="tab-content">
+        <div class="stats">
+            <div class="stat"><span class="num">6/6</span><span class="label">Silo Score</span></div>
+            <div class="stat"><span class="num">STRICT</span><span class="label">mTLS Mode</span></div>
+            <div class="stat"><span class="num">0</span><span class="label">Violations</span></div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>🛡️ Access Audit</h3>
+                <div class="card-row"><span class="key">Cross-NS Pod List</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+                <div class="card-row"><span class="key">Cross-NS Secrets</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+                <div class="card-row"><span class="key">Cross-NS ConfigMaps</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+                <div class="card-row"><span class="key">Cluster Nodes</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+                <div class="card-row"><span class="key">Cluster Namespaces</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+                <div class="card-row"><span class="key">Cluster CRDs</span><span class="val"><span class="status-dot green"></span>Denied</span></div>
+            </div>
+            <div class="card">
+                <h3>🪪 Identity</h3>
+                <div class="card-row"><span class="key">Instance</span><span class="val">master1</span></div>
+                <div class="card-row"><span class="key">Namespace</span><span class="val">master1-system</span></div>
+                <div class="card-row"><span class="key">Service Account</span><span class="val">aaas-workload</span></div>
+                <div class="card-row"><span class="key">Managed Identity</span><span class="val">5c396d65...47201cc3</span></div>
+                <div class="card-row"><span class="key">Workload Identity</span><span class="val"><span class="status-dot green"></span>Federated</span></div>
+                <div class="card-row"><span class="key">KV Access</span><span class="val"><span class="status-dot red"></span>Denied (by design)</span></div>
+            </div>
+            <div class="card">
+                <h3>🔑 Keys & Rotation</h3>
+                <div class="card-row"><span class="key">ANTHROPIC_API_KEY</span><span class="val"><span class="status-dot green"></span>Active</span></div>
+                <div class="card-row"><span class="key">GOOGLE_API_KEY</span><span class="val"><span class="status-dot green"></span>Active</span></div>
+                <div class="card-row"><span class="key">BRAVE_API_KEY</span><span class="val"><span class="status-dot green"></span>Active</span></div>
+                <div class="card-row"><span class="key">GITHUB_TOKEN</span><span class="val"><span class="status-dot yellow"></span>Device Flow (ephemeral)</span></div>
+                <div class="card-row"><span class="key">Rotation Policy</span><span class="val">90 days</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLEET TOOLS -->
+    <div id="fleet" class="tab-content">
+        <div class="stats">
+            <div class="stat"><span class="num">10</span><span class="label">Tools Built</span></div>
+            <div class="stat"><span class="num">4</span><span class="label">MCP</span></div>
+            <div class="stat"><span class="num">5</span><span class="label">IAM</span></div>
+            <div class="stat"><span class="num">1</span><span class="label">Fleet</span></div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>🔌 MCP Tools</h3>
+                <div class="card-row"><span class="key">provider-health.sh</span><span class="val"><span class="status-dot green"></span>v2</span></div>
+                <div class="card-row"><span class="key">key-status.sh</span><span class="val"><span class="status-dot yellow"></span>Needs fix</span></div>
+                <div class="card-row"><span class="key">model-report.sh</span><span class="val"><span class="status-dot green"></span>v2</span></div>
+                <div class="card-row"><span class="key">config-audit.sh</span><span class="val"><span class="status-dot green"></span>v2</span></div>
+            </div>
+            <div class="card">
+                <h3>🪪 IAM Tools</h3>
+                <div class="card-row"><span class="key">identity-report.sh</span><span class="val"><span class="status-dot green"></span>v2</span></div>
+                <div class="card-row"><span class="key">access-audit.sh</span><span class="val"><span class="status-dot green"></span>v2 (6/6)</span></div>
+                <div class="card-row"><span class="key">key-rotation.sh</span><span class="val"><span class="status-dot green"></span>v2</span></div>
+                <div class="card-row"><span class="key">provider-accounts.sh</span><span class="val"><span class="status-dot green"></span>v2</span></div>
+                <div class="card-row"><span class="key">subscription-tracker.sh</span><span class="val"><span class="status-dot yellow"></span>MI blocked</span></div>
+            </div>
+            <div class="card">
+                <h3>🔄 Fleet Tools</h3>
+                <div class="card-row"><span class="key">loop-monitor.sh</span><span class="val"><span class="status-dot green"></span>4 loops, 6 shapes</span></div>
+                <div class="card-row"><span class="key">fleet-report.sh</span><span class="val"><span class="status-dot green"></span>Master report</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPOS -->
+    <div id="repos" class="tab-content">
+        <div class="stats">
+            <div class="stat"><span class="num">2</span><span class="label">Repos</span></div>
+            <div class="stat"><span class="num">50+</span><span class="label">Files</span></div>
+            <div class="stat"><span class="num">eose-sre</span><span class="label">Org</span></div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>🔒 admiral-fleet-control</h3>
+                <div class="card-row"><span class="key">Visibility</span><span class="val">Private</span></div>
+                <div class="card-row"><span class="key">Files</span><span class="val">38+</span></div>
+                <div class="card-row"><span class="key">Contents</span><span class="val">Tools, NPs, Dashboard, Router, Incubation</span></div>
+                <div class="card-row"><span class="key">URL</span><span class="val">github.com/eose-sre/admiral-fleet-control</span></div>
+            </div>
+            <div class="card">
+                <h3>🌐 serlf</h3>
+                <div class="card-row"><span class="key">Visibility</span><span class="val">Public</span></div>
+                <div class="card-row"><span class="key">Pages</span><span class="val">13 (hub + 10 products + CSS + CNAME)</span></div>
+                <div class="card-row"><span class="key">GitHub Pages</span><span class="val"><span class="status-dot green"></span>Live at serlf.ca</span></div>
+                <div class="card-row"><span class="key">URL</span><span class="val">github.com/eose-sre/serlf</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div id="timeline" class="tab-content">
+        <div class="card" style="max-width:800px">
+            <h3>📅 Founding Day — 2026-02-14</h3>
+            <div class="timeline-item">
+                <span class="timeline-time">~09:00</span>
+                <span class="timeline-event">🎖️ Promoted from Captain to Admiral. Fleet Control founded. Valentine's Day.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~10:00</span>
+                <span class="timeline-event">📋 Founding docs created: ADMIRAL-BOOTSTRAP, CREW-ROSTER, PHASE-1 (all v2)</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~11:00</span>
+                <span class="timeline-event">🔧 IAM Suite v2 built — 5 tools. Silo audit: 6/6. MCP tools fixed.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~12:00</span>
+                <span class="timeline-event">🌀 5 Novel Patterns discovered. Loop monitor built. 6 shapes found.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~13:00</span>
+                <span class="timeline-event">📊 7-tab Admiral Dashboard v1 built. Router architecture drafted.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~17:00</span>
+                <span class="timeline-event">🔓 GitHub auth via device flow (NP-L1-006). Authed as eose-sre-team.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~17:05</span>
+                <span class="timeline-event">📦 Two repos created: admiral-fleet-control (private) + serlf (public)</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~17:10</span>
+                <span class="timeline-event">🌐 serlf.ca LIVE — GitHub Pages serving. CNAME configured.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~17:20</span>
+                <span class="timeline-event">🚀 serlf.ca v3 shipped — 10 product pages, navy design, shared CSS</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~17:25</span>
+                <span class="timeline-event">🧩 NP-L1-008: Meek Hosting Matrix documented. Rick's infinity puzzle.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-time">~17:30</span>
+                <span class="timeline-event">📊 Dashboard v2 built — 8 tabs, full navy status, live data.</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function showTab(id) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
