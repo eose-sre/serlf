@@ -1,1154 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admiral Fleet Control — Dashboard v4</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg: #060608;
-            --card: rgba(255,255,255,0.025);
-            --border: rgba(255,255,255,0.06);
-            --accent: #667eea;
-            --accent2: #764ba2;
-            --green: #4ade80;
-            --yellow: #fbbf24;
-            --red: #f87171;
-            --blue: #60a5fa;
-            --orange: #fb923c;
-            --purple: #a78bfa;
-            --text: #c8c8c8;
-            --muted: #555;
-            --dim: #333;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 15% 50%, rgba(102,126,234,0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 85% 20%, rgba(118,75,162,0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 90%, rgba(74,222,128,0.02) 0%, transparent 50%);
-            pointer-events: none;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>serlf — Dashboard</title>
+<style>
+:root { --bg: #060610; --surface: #0c0c1a; --surface2: #12122a; --border: #1a1a3e; --text: #e8e8f0; --muted: #6b6b8d; --green: #34d399; --cyan: #22d3ee; --accent: #7c6df0; --accent2: #f06292; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, system-ui, sans-serif; line-height: 1.6; }
+nav { padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+.nav-logo { font-size: 1.3rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--muted); font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: color 0.3s; }
+.nav-links a:hover { color: var(--text); }
+.nav-badge { background: rgba(52,211,153,0.15); color: var(--green); padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border);
-            position: relative;
-            z-index: 2;
-            background: rgba(6,6,8,0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-        }
-        .header-left { display: flex; align-items: center; gap: 1rem; }
-        .header h1 {
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .header .live-badge {
-            font-size: 0.6rem;
-            padding: 0.2rem 0.6rem;
-            border: 1px solid var(--green);
-            color: var(--green);
-            border-radius: 10px;
-            letter-spacing: 0.1em;
-            animation: livePulse 2s ease infinite;
-        }
-        @keyframes livePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .header-right {
-            font-size: 0.7rem;
-            color: var(--muted);
-            text-align: right;
-        }
+.container { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
 
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
-            position: sticky;
-            top: 50px;
-            z-index: 2;
-            background: rgba(6,6,8,0.9);
-            backdrop-filter: blur(10px);
-        }
-        .tab {
-            padding: 0.7rem 1.2rem;
-            font-size: 0.7rem;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-            white-space: nowrap;
-            background: none;
-            border-top: none; border-left: none; border-right: none;
-            font-family: inherit;
-        }
-        .tab:hover { color: var(--text); }
-        .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.welcome-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+.welcome-bar h1 { font-size: 1.8rem; font-weight: 800; }
+.welcome-bar h1 span { background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.status-pill { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--green); border-radius: 20px; padding: 6px 16px; font-size: 0.85rem; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* Dashboard */
-        .dashboard {
-            padding: 1.5rem;
-            position: relative;
-            z-index: 1;
-            max-width: 1500px;
-            margin: 0 auto;
-        }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
+.card:hover { border-color: var(--green); }
+.card-icon { font-size: 2rem; margin-bottom: 1rem; }
+.card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.card-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.2rem; }
+.card-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
+.card-status .dot { width: 6px; height: 6px; border-radius: 50%; }
+.dot-live { background: var(--green); }
+.dot-setup { background: var(--cyan); animation: pulse 1.5s ease-in-out infinite; }
 
-        /* Stats row */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-        .stat {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-        }
-        .stat .num {
-            font-size: 1.8rem;
-            font-weight: 200;
-            color: #fff;
-            display: block;
-        }
-        .stat .label {
-            font-size: 0.6rem;
-            color: var(--muted);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-top: 0.2rem;
-        }
+.section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; }
 
-        /* Grid layouts */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-        .grid-23 { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
-        .grid-32 { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; }
+.actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 3rem; }
+.action { display: flex; align-items: center; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem 1.5rem; text-decoration: none; color: var(--text); transition: all 0.3s; }
+.action:hover { border-color: var(--green); transform: translateY(-2px); }
+.action-icon { font-size: 1.5rem; }
+.action-text { font-weight: 600; font-size: 0.95rem; }
+.action-sub { color: var(--muted); font-size: 0.8rem; }
 
-        /* Cards */
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.2rem;
-            transition: border-color 0.3s;
-            margin-bottom: 1rem;
-        }
-        .card:hover { border-color: rgba(102,126,234,0.2); }
-        .card h3 {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .card-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.35rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.025);
-            font-size: 0.78rem;
-        }
-        .card-row:last-child { border-bottom: none; }
-        .card-row .key { color: var(--muted); }
-        .card-row .val { color: var(--text); font-weight: 500; }
+.plan-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.plan-info { }
+.plan-name { font-weight: 700; }
+.plan-price { color: var(--green); font-size: 0.9rem; }
+.plan-btn { padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.3); text-decoration: none; transition: all 0.3s; }
+.plan-btn:hover { background: rgba(52,211,153,0.2); }
 
-        /* Status dots */
-        .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 0.3rem; }
-        .dot.g { background: var(--green); box-shadow: 0 0 5px var(--green); }
-        .dot.y { background: var(--yellow); box-shadow: 0 0 5px var(--yellow); }
-        .dot.r { background: var(--red); box-shadow: 0 0 5px var(--red); }
-        .dot.b { background: var(--blue); box-shadow: 0 0 5px var(--blue); }
-        .dot.p { background: var(--purple); box-shadow: 0 0 5px var(--purple); }
-
-        /* Tags */
-        .tag {
-            font-size: 0.6rem;
-            padding: 0.12rem 0.45rem;
-            border-radius: 6px;
-            letter-spacing: 0.05em;
-        }
-        .tag-g { background: rgba(74,222,128,0.12); color: var(--green); }
-        .tag-y { background: rgba(251,191,36,0.12); color: var(--yellow); }
-        .tag-b { background: rgba(96,165,250,0.12); color: var(--blue); }
-        .tag-r { background: rgba(248,113,113,0.12); color: var(--red); }
-        .tag-p { background: rgba(167,139,250,0.12); color: var(--purple); }
-
-        /* Noise filter bar */
-        .noise-bar {
-            background: rgba(102,126,234,0.06);
-            border: 1px solid rgba(102,126,234,0.15);
-            border-radius: 10px;
-            padding: 0.8rem 1.2rem;
-            font-size: 0.78rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .noise-bar .filter-rate { color: var(--accent); font-weight: 600; }
-
-        /* Captain grid table */
-        .captain-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.78rem;
-        }
-        .captain-table th {
-            text-align: left;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border);
-        }
-        .captain-table td {
-            padding: 0.5rem 0.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.025);
-        }
-
-        /* Progress bar */
-        .progress-wrap {
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            height: 6px;
-            overflow: hidden;
-            width: 100%;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        /* Alert banner */
-        .alert-banner {
-            padding: 0.8rem 1.2rem;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .alert-clear {
-            background: rgba(74,222,128,0.06);
-            border: 1px solid rgba(74,222,128,0.15);
-            color: var(--green);
-        }
-        .alert-hot {
-            background: rgba(248,113,113,0.1);
-            border: 1px solid rgba(248,113,113,0.3);
-            color: var(--red);
-            animation: alertPulse 1s ease infinite;
-        }
-        @keyframes alertPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Hosting grid */
-        .hosting-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 0.6rem;
-        }
-        .host-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.8rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .host-card:hover { border-color: rgba(102,126,234,0.3); transform: translateY(-2px); }
-        .host-card .platform { font-weight: 600; color: #fff; font-size: 0.8rem; }
-        .host-card .cost { color: var(--green); font-size: 0.7rem; margin-top: 0.2rem; }
-        .host-card .tier { color: var(--muted); font-size: 0.6rem; }
-
-        /* Timeline */
-        .tl-item {
-            display: flex;
-            gap: 1rem;
-            padding: 0.7rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.025);
-        }
-        .tl-time { min-width: 55px; font-size: 0.7rem; color: var(--accent); font-weight: 600; }
-        .tl-event { font-size: 0.8rem; line-height: 1.4; }
-
-        /* Section headers */
-        .sh {
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin: 1.5rem 0 0.8rem;
-        }
-
-        /* NP rows */
-        .np-row {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.025);
-            font-size: 0.78rem;
-        }
-        .np-id { color: var(--accent); font-weight: 600; min-width: 75px; font-size: 0.75rem; }
-        .np-name { color: #fff; flex: 1; }
-        .np-stars { color: var(--yellow); font-size: 0.7rem; }
-        .np-owner { color: var(--muted); font-size: 0.7rem; min-width: 60px; text-align: right; }
-
-        /* Wave viz */
-        .wave-viz {
-            font-family: monospace;
-            color: var(--accent);
-            font-size: 0.8rem;
-            padding: 0.5rem 0;
-            letter-spacing: 0.1em;
-            overflow: hidden;
-        }
-
-        /* Infinity tracker */
-        .infinity-row {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 0;
-            font-size: 0.78rem;
-        }
-        .infinity-row .metric { color: #fff; flex: 1; }
-        .infinity-row .trend { font-size: 0.8rem; }
-        .infinity-row .value { color: var(--accent); font-weight: 600; min-width: 50px; text-align: right; }
-
-        /* Quote */
-        .quote {
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--dim);
-            font-style: italic;
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
-        }
-        .quote em { color: var(--accent2); }
-
-        @media (max-width: 900px) {
-            .grid-2, .grid-3, .grid-23, .grid-32 { grid-template-columns: 1fr; }
-            .stats { grid-template-columns: repeat(3, 1fr); }
-        }
-    </style>
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .actions { grid-template-columns: 1fr; }
+  .welcome-bar { flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .plan-bar { flex-direction: column; gap: 1rem; text-align: center; }
+}
+</style>
 </head>
 <body>
 
-<div class="header">
-    <div class="header-left">
-        <span style="font-size:1.3rem">🎖️</span>
-        <h1>ADMIRAL FLEET CONTROL</h1>
-        <span class="live-badge">OPERATIONAL</span>
+<nav>
+  <div class="nav-logo">serlf</div>
+  <div class="nav-links">
+    <span class="nav-badge">Subscriber</span>
+    <a href="https://serlf.com">Home</a>
+    <a href="mailto:hello@serlf.com">Support</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="welcome-bar">
+    <h1>Welcome to <span>serlf</span></h1>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      Setting up your environment
     </div>
-    <div class="header-right">
-        master1-system · aks-eose-aaas-dev<br>
-        <span style="color:var(--dim)">Founded 2026-02-14</span>
-    </div>
-</div>
+  </div>
 
-<div class="tabs">
-    <button class="tab active" onclick="showTab('fleet')">FLEET</button>
-    <button class="tab" onclick="showTab('router')">ROUTER</button>
-    <button class="tab" onclick="showTab('net')">NET</button>
-    <button class="tab" onclick="showTab('patterns')">PATTERNS</button>
-    <button class="tab" onclick="showTab('luffy')">🏴‍☠️ LUFFY</button>
-    <button class="tab" onclick="showTab('factory')">FACTORY</button>
-    <button class="tab" onclick="showTab('gov')">GOV</button>
-    <button class="tab" onclick="showTab('rnd')">R&D</button>
-    <button class="tab" onclick="showTab('swarm')">🐝 SWARM</button>
-    <button class="tab" onclick="showTab('gateway')">🚀 GATEWAY</button>
-    <button class="tab" onclick="showTab('hosting')">MEEK HOSTING</button>
-    <button class="tab" onclick="showTab('timeline')">TIMELINE</button>
-</div>
-
-<div class="dashboard">
-
-<!-- ==================== FLEET TAB (Admiral's View) ==================== -->
-<div id="fleet" class="tab-content active">
-    <div class="stats">
-        <div class="stat"><span class="num">10</span><span class="label">Products</span></div>
-        <div class="stat"><span class="num">5</span><span class="label">Nanos</span></div>
-        <div class="stat"><span class="num">1</span><span class="label">Captains</span></div>
-        <div class="stat"><span class="num">14</span><span class="label">Novel Patterns</span></div>
-        <div class="stat"><span class="num">10</span><span class="label">Fleet Tools</span></div>
-        <div class="stat"><span class="num">6/6</span><span class="label">Silo Score</span></div>
-        <div class="stat"><span class="num">$0</span><span class="label">Hosting</span></div>
-        <div class="stat"><span class="num">∞</span><span class="label">Tiers</span></div>
-    </div>
-
-    <!-- Noise filter -->
-    <div class="noise-bar">
-        <span>🔬 <strong>L → A Noise Filter:</strong> L absorbed 47 events. 3 surfaced.</span>
-        <span class="filter-rate">Signal: 94% filtered</span>
-    </div>
-
-    <div class="grid-3">
-        <!-- Fleet Health -->
-        <div class="card">
-            <h3>⚓ Fleet Health</h3>
-            <div class="card-row"><span class="key">Captains</span><span class="val"><span class="dot g"></span>1/1</span></div>
-            <div class="card-row"><span class="key">Nanos</span><span class="val"><span class="dot r"></span>0/5 (pairing)</span></div>
-            <div class="card-row"><span class="key">Router</span><span class="val"><span class="dot b"></span>Design v0.1</span></div>
-            <div class="card-row"><span class="key">Nets</span><span class="val"><span class="dot b"></span>0 active</span></div>
-            <div class="card-row"><span class="key">NPs</span><span class="val"><span class="dot g"></span>14 rated</span></div>
-        </div>
-
-        <!-- Decision Queue -->
-        <div class="card">
-            <h3>📋 Decision Queue</h3>
-            <div class="card-row"><span class="key">▸ KV lifeline for GitHub PAT</span><span class="val"><span class="tag tag-y">PENDING</span></span></div>
-            <div class="card-row"><span class="key">▸ Subagent pairing fix</span><span class="val"><span class="tag tag-r">BLOCKED</span></span></div>
-            <div class="card-row"><span class="key">▸ Multi-cloud deploy</span><span class="val"><span class="tag tag-b">QUEUED</span></span></div>
-            <div class="card-row"><span class="key">▸ serlf.com/.net/.org DNS</span><span class="val"><span class="tag tag-b">QUEUED</span></span></div>
-            <div class="card-row"><span class="key">▸ MI identity binding</span><span class="val"><span class="tag tag-r">BLOCKED</span></span></div>
-        </div>
-
-        <!-- Loop Status -->
-        <div class="card">
-            <h3>🔄 Loop Status</h3>
-            <div class="card-row"><span class="key">Discovery</span><span class="val">80%</span></div>
-            <div style="margin-bottom:0.5rem"><div class="progress-wrap"><div class="progress-fill" style="width:80%;background:var(--green)"></div></div></div>
-            <div class="card-row"><span class="key">Incident</span><span class="val">100%</span></div>
-            <div style="margin-bottom:0.5rem"><div class="progress-wrap"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div></div>
-            <div class="card-row"><span class="key">Production</span><span class="val">40%</span></div>
-            <div style="margin-bottom:0.5rem"><div class="progress-wrap"><div class="progress-fill" style="width:40%;background:var(--yellow)"></div></div></div>
-            <div class="card-row"><span class="key">Evolution</span><span class="val">∞</span></div>
-            <div><div class="progress-wrap"><div class="progress-fill" style="width:100%;background:var(--accent);animation:livePulse 2s infinite"></div></div></div>
-        </div>
-    </div>
-
-    <!-- Captain Grid -->
-    <div class="sh">Captain Grid</div>
+  <div class="section-title">Your Products</div>
+  <div class="grid">
     <div class="card">
-        <table class="captain-table">
-            <tr><th>Name</th><th>Tier</th><th>Industry</th><th>Health</th><th>Net</th><th>Products</th><th>Status</th></tr>
-            <tr>
-                <td>🔮 feedles.ca</td><td>T1</td><td>Web</td>
-                <td><span class="dot y"></span></td><td>—</td><td>0</td>
-                <td><span class="tag tag-y">Incubating</span></td>
-            </tr>
-            <tr style="color:var(--dim)">
-                <td colspan="7" style="text-align:center;padding:0.8rem;font-size:0.75rem">[ + Add Captain ]</td>
-            </tr>
-        </table>
+      <div class="card-icon">🤖</div>
+      <div class="card-title">serlf Platform</div>
+      <div class="card-desc">Your dedicated AI team, learning your business.</div>
+      <div class="card-status"><div class="dot dot-setup"></div> Setting up</div>
     </div>
-
-    <!-- Nano Status + Factories + Data -->
-    <div class="grid-3">
-        <div class="card">
-            <h3>🏴‍☠️ Luffy</h3>
-            <div class="card-row"><span class="key">Hunts</span><span class="val">2 active</span></div>
-            <div class="card-row"><span class="key">Kills</span><span class="val">0</span></div>
-            <div class="card-row"><span class="key">Found</span><span class="val">1 pending</span></div>
-            <div class="card-row"><span class="key">Tier</span><span class="val">🟢 East Blue</span></div>
-        </div>
-        <div class="card">
-            <h3>📦 Bob's Factories</h3>
-            <div class="card-row"><span class="key">Running</span><span class="val">1</span></div>
-            <div class="card-row"><span class="key">Specs</span><span class="val">10 products</span></div>
-            <div class="card-row"><span class="key">Delivered</span><span class="val">10 pages</span></div>
-        </div>
-        <div class="card">
-            <h3>📊 Rick's Data Stream</h3>
-            <div class="card-row"><span class="key">Knowns</span><span class="val">47</span></div>
-            <div class="card-row"><span class="key">Unknowns</span><span class="val">12</span></div>
-            <div class="card-row"><span class="key">Unknown²</span><span class="val">∞</span></div>
-            <div class="card-row"><span class="key">Waves</span><span class="val">1 active</span></div>
-        </div>
-    </div>
-
-    <!-- Governance + NP Board -->
-    <div class="grid-2">
-        <div class="card">
-            <h3>🏛️ DAO Governance</h3>
-            <div class="card-row"><span class="key">Standards</span><span class="val"><span class="dot g"></span>100%</span></div>
-            <div class="card-row"><span class="key">Cowboys</span><span class="val">0</span></div>
-            <div class="card-row"><span class="key">Pending Reviews</span><span class="val">1</span></div>
-            <div class="card-row"><span class="key">Audit</span><span class="val"><span class="dot g"></span>Clean</span></div>
-        </div>
-        <div class="card">
-            <h3>🌀 NP Board (Latest)</h3>
-            <div class="card-row"><span class="key">NP-L1-006</span><span class="val">Device Auth ★★★★★</span></div>
-            <div class="card-row"><span class="key">NP-L1-007</span><span class="val">Self-Bootstrap ★★★★</span></div>
-            <div class="card-row"><span class="key">NP-L1-008</span><span class="val">Meek Hosting ★★★★★</span></div>
-            <div class="card-row"><span class="key">Total</span><span class="val">8 patterns</span></div>
-        </div>
-    </div>
-
-    <div class="quote">🧭 <em>"Time is forever. This is our infinity."</em> 🎖️⚓</div>
-</div>
-
-<!-- ==================== ROUTER TAB (L's Control Surface) ==================== -->
-<div id="router" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">5</span><span class="label">Options</span></div>
-        <div class="stat"><span class="num">6</span><span class="label">Shapes</span></div>
-        <div class="stat"><span class="num">v0.1</span><span class="label">Version</span></div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <h3>🔌 Module Status</h3>
-            <div class="card-row"><span class="key">comms</span><span class="val"><span class="dot g"></span>v1.0</span></div>
-            <div class="card-row"><span class="key">testing</span><span class="val"><span class="dot b"></span>v0.1</span></div>
-            <div class="card-row"><span class="key">ops</span><span class="val"><span class="tag tag-b">planned</span></span></div>
-            <div class="card-row"><span class="key">data</span><span class="val"><span class="tag tag-b">planned</span></span></div>
-            <div class="card-row"><span class="key">security</span><span class="val"><span class="dot g"></span>v1.0</span></div>
-        </div>
-        <div class="card">
-            <h3>🧭 Context Routing</h3>
-            <div class="card-row"><span class="key">Captain↔Captain bridges</span><span class="val">0</span></div>
-            <div class="card-row"><span class="key">Context gaps detected</span><span class="val">3</span></div>
-            <div class="card-row"><span class="key">Memory buffer</span><span class="val">45% used</span></div>
-            <div class="card-row"><span class="key">Swarm nodes</span><span class="val">0</span></div>
-        </div>
-    </div>
-
-    <div class="sh">Architecture Options (L + Bob to evaluate)</div>
     <div class="card">
-        <div class="card-row"><span class="key">Option 1</span><span class="val">Hub-Spoke (Admiral hub)</span></div>
-        <div class="card-row"><span class="key">Option 2</span><span class="val">Full Mesh (P2P)</span></div>
-        <div class="card-row"><span class="key">Option 3</span><span class="val">Event-Driven (pub/sub)</span></div>
-        <div class="card-row"><span class="key">Option 4</span><span class="val">Hybrid (hub + mesh)</span></div>
-        <div class="card-row"><span class="key">Option 5</span><span class="val">Neural (intent-based)</span></div>
+      <div class="card-icon">🌐</div>
+      <div class="card-title">serlf Sites</div>
+      <div class="card-desc">Your AI-managed website, always online.</div>
+      <div class="card-status"><div class="dot dot-setup"></div> Setting up</div>
     </div>
-
-    <div class="sh">Integration Health</div>
     <div class="card">
-        <div style="font-family:monospace;font-size:0.8rem;color:var(--text);text-align:center;padding:0.5rem">
-            feedles ──── router ──── mesh ──── KV ──── MI<br>
-            <span style="color:var(--yellow)">  ⏳</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:var(--blue)">🔵</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:var(--green)">✅</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:var(--green)">✅</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:var(--yellow)">⚠️</span>
-        </div>
+      <div class="card-icon">🔐</div>
+      <div class="card-title">serlf Security</div>
+      <div class="card-desc">Enterprise-grade protection for your environment.</div>
+      <div class="card-status"><div class="dot dot-setup"></div> Setting up</div>
     </div>
-
-    <div class="sh">Shape Library</div>
     <div class="card">
-        <div class="grid-3" style="grid-template-columns:repeat(6,1fr);gap:0.5rem">
-            <div style="text-align:center"><span style="font-size:1.5rem">🌀</span><br><span style="font-size:0.65rem;color:var(--muted)">spiral</span></div>
-            <div style="text-align:center"><span style="font-size:1.5rem">🌊</span><br><span style="font-size:0.65rem;color:var(--muted)">wave</span></div>
-            <div style="text-align:center"><span style="font-size:1.5rem">🕸️</span><br><span style="font-size:0.65rem;color:var(--muted)">net</span></div>
-            <div style="text-align:center"><span style="font-size:1.5rem">❄️</span><br><span style="font-size:0.65rem;color:var(--muted)">fractal</span></div>
-            <div style="text-align:center"><span style="font-size:1.5rem">💓</span><br><span style="font-size:0.65rem;color:var(--muted)">pulse</span></div>
-            <div style="text-align:center"><span style="font-size:1.5rem">🌉</span><br><span style="font-size:0.65rem;color:var(--muted)">bridge</span></div>
-        </div>
+      <div class="card-icon">☁️</div>
+      <div class="card-title">serlf Transform</div>
+      <div class="card-desc">Your professional cloud infrastructure.</div>
+      <div class="card-status"><div class="dot dot-setup"></div> Setting up</div>
     </div>
-</div>
-
-<!-- ==================== NET TAB ==================== -->
-<div id="net" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">0</span><span class="label">Active Nets</span></div>
-        <div class="stat"><span class="num">0</span><span class="label">Incidents</span></div>
-        <div class="stat"><span class="num">0</span><span class="label">Quarantined</span></div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <h3>🕸️ Active Nets</h3>
-            <div class="card-row"><span class="key">net-001</span><span class="val">feedles — <span class="tag tag-b">pending</span></span></div>
-            <div style="text-align:center;padding:1rem;color:var(--dim);font-size:0.75rem">[ + Deploy Net ]</div>
-        </div>
-        <div class="card">
-            <h3>🚨 Incident Command</h3>
-            <div class="card-row"><span class="key">Active incidents</span><span class="val">0</span></div>
-            <div class="card-row"><span class="key">WH teams deployed</span><span class="val">0</span></div>
-            <div class="card-row"><span class="key">Quarantined</span><span class="val">0</span></div>
-        </div>
-    </div>
-
-    <div class="sh">Wave Visualization</div>
     <div class="card">
-        <div class="wave-viz">
-            ~~~~~~~~ feedles net-001 data wave ~~~~~~~~<br>
-            ╭─╮&nbsp;&nbsp;╭──╮&nbsp;&nbsp;&nbsp;╭─╮&nbsp;&nbsp;╭───╮&nbsp;&nbsp;╭──╮&nbsp;&nbsp;&nbsp;╭─╮<br>
-            │&nbsp;╰──╯&nbsp;&nbsp;╰───╯&nbsp;╰──╯&nbsp;&nbsp;&nbsp;╰──╯&nbsp;&nbsp;╰───╯&nbsp;╰──
-        </div>
-        <div style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem">
-            Points: 12 │ Trend: ↗ │ Anomalies: 0 │ Insights: 1
-        </div>
+      <div class="card-icon">📊</div>
+      <div class="card-title">serlf Intelligence</div>
+      <div class="card-desc">AI-powered insights for your business.</div>
+      <div class="card-status"><div class="dot dot-setup"></div> Setting up</div>
     </div>
-</div>
-
-<!-- ==================== PATTERNS TAB ==================== -->
-<div id="patterns" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">8</span><span class="label">Discovered</span></div>
-        <div class="stat"><span class="num">L1</span><span class="label">Current Tier</span></div>
-        <div class="stat"><span class="num">5</span><span class="label">Five-Star</span></div>
-        <div class="stat"><span class="num">∞</span><span class="label">Max Tier</span></div>
-    </div>
-
     <div class="card">
-        <h3>🌀 Novel Pattern Board</h3>
-        <div class="np-row"><span class="np-id">NP-L1-001</span><span class="np-name">Silo Audit Pattern</span><span class="np-stars">★★★★★</span><span class="np-owner">Admiral</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-002</span><span class="np-name">Shape Detection</span><span class="np-stars">★★★★</span><span class="np-owner">Rick</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-003</span><span class="np-name">MI Multi-Identity</span><span class="np-stars">★★★</span><span class="np-owner">Admiral</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-004</span><span class="np-name">V1→V2 Spiral</span><span class="np-stars">★★★★</span><span class="np-owner">L</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-005</span><span class="np-name">Dogfood Testing</span><span class="np-stars">★★★★</span><span class="np-owner">Bob</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-006</span><span class="np-name">Device Auth Bypass</span><span class="np-stars">★★★★★</span><span class="np-owner">Admiral</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-007</span><span class="np-name">Self-Bootstrap Protocol</span><span class="np-stars">★★★★</span><span class="np-owner">Admiral</span></div>
-        <div class="np-row"><span class="np-id">NP-L1-008</span><span class="np-name">Meek Hosting Matrix</span><span class="np-stars">★★★★★</span><span class="np-owner">Rick</span></div>
+      <div class="card-icon">🧪</div>
+      <div class="card-title">serlf Labs</div>
+      <div class="card-desc">Cutting-edge AI research, applied to you.</div>
+      <div class="card-status"><div class="dot dot-setup"></div> Setting up</div>
     </div>
+  </div>
 
-    <div class="sh">Ratification Queue (DAO)</div>
-    <div class="card">
-        <div class="card-row"><span class="key">NP-L1-008 Meek Hosting</span><span class="val"><span class="tag tag-y">Pending Review</span></span></div>
-        <div class="card-row"><span class="key">All others</span><span class="val"><span class="tag tag-g">Ratified</span></span></div>
+  <div class="section-title">Quick Actions</div>
+  <div class="actions">
+    <a href="mailto:hello@serlf.com?subject=Onboarding" class="action">
+      <div class="action-icon">💬</div>
+      <div>
+        <div class="action-text">Start Onboarding</div>
+        <div class="action-sub">Tell us about your business</div>
+      </div>
+    </a>
+    <a href="mailto:hello@serlf.com?subject=Support" class="action">
+      <div class="action-icon">🛟</div>
+      <div>
+        <div class="action-text">Get Support</div>
+        <div class="action-sub">We're here to help</div>
+      </div>
+    </a>
+    <a href="mailto:hello@serlf.com?subject=Manage Subscription" class="action">
+      <div class="action-icon">💳</div>
+      <div>
+        <div class="action-text">Manage Billing</div>
+        <div class="action-sub">Update payment or cancel</div>
+      </div>
+    </a>
+    <a href="https://serlf.com" class="action">
+      <div class="action-icon">📖</div>
+      <div>
+        <div class="action-text">Learn More</div>
+        <div class="action-sub">See all features and products</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="plan-bar">
+    <div class="plan-info">
+      <div class="plan-name">serlf — All Products</div>
+      <div class="plan-price">$1 CAD / month · Active</div>
     </div>
-</div>
-
-<!-- ==================== LUFFY TAB ==================== -->
-<div id="luffy" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">T1</span><span class="label">Tier</span></div>
-        <div class="stat"><span class="num">2</span><span class="label">Active Hunts</span></div>
-        <div class="stat"><span class="num">0</span><span class="label">Kills</span></div>
-        <div class="stat"><span class="num">1</span><span class="label">Discoveries</span></div>
-    </div>
-
-    <div style="text-align:center;margin-bottom:1rem">
-        <span style="font-size:0.75rem;color:var(--muted)">TIER PROGRESS</span><br>
-        <span style="font-size:1.5rem">🏴‍☠️ East Blue</span>
-        <div style="max-width:300px;margin:0.5rem auto">
-            <div class="progress-wrap" style="height:8px">
-                <div class="progress-fill" style="width:40%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div>
-            </div>
-            <span style="font-size:0.65rem;color:var(--muted)">40% → Grand Line</span>
-        </div>
-    </div>
-
-    <div class="alert-banner alert-clear">🟢 ALERT STATUS: ALL CLEAR</div>
-
-    <div class="grid-2">
-        <div class="card">
-            <h3>🎯 Active Hunts</h3>
-            <div class="card-row"><span class="key">hunt-001: context drift</span><span class="val"><span class="tag tag-y">tracking</span></span></div>
-            <div class="card-row"><span class="key">hunt-002: token waste</span><span class="val"><span class="tag tag-y">closing in</span></span></div>
-        </div>
-        <div class="card">
-            <h3>💀 Kill Board</h3>
-            <div style="text-align:center;padding:1.5rem;color:var(--dim);font-size:0.8rem">
-                No kills yet. The hunt continues.
-            </div>
-        </div>
-    </div>
-
-    <div class="sh">Discovery Feed</div>
-    <div class="card">
-        <div class="card-row">
-            <span class="key">🆕 Possible novel memory pattern found in Captain drift</span>
-            <span class="val"><span class="tag tag-p">Pending L review</span></span>
-        </div>
-        <div style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem">Potential NP: yes │ [Review] [Assign to Rick] [Promote to NP]</div>
-    </div>
-
-    <div class="sh">Free API Status</div>
-    <div class="card">
-        <div class="card-row"><span class="key">Anthropic</span><span class="val"><span class="dot g"></span>8 models</span></div>
-        <div class="card-row"><span class="key">Google</span><span class="val"><span class="dot g"></span>45 models</span></div>
-        <div class="card-row"><span class="key">GitHub</span><span class="val"><span class="dot y"></span>Device flow (ephemeral)</span></div>
-        <div class="card-row"><span class="key">Brave Search</span><span class="val"><span class="dot g"></span>Active</span></div>
-    </div>
-</div>
-
-<!-- ==================== FACTORY TAB (Bob) ==================== -->
-<div id="factory" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">10</span><span class="label">Products</span></div>
-        <div class="stat"><span class="num">10</span><span class="label">Pages Live</span></div>
-        <div class="stat"><span class="num">v3</span><span class="label">Site Version</span></div>
-        <div class="stat"><span class="num">1</span><span class="label">Factory</span></div>
-    </div>
-
-    <div class="sh">Spec Pipeline</div>
-    <div class="card">
-        <div class="card-row"><span class="key">🔐 Silo-as-a-Service</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🎖️ Fleet Command</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🕸️ The Net</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🌀 Novel Pattern Engine</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">⚡ The Router</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🪪 Identity Fabric</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🔄 Loop Monitor</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🚀 Captain Incubator</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🎓 serlf Academy</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-        <div class="card-row"><span class="key">🏗️ Digital Transformation</span><span class="val"><span class="tag tag-g">shipped</span></span></div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <h3>🏭 Factory Status</h3>
-            <div class="card-row"><span class="key">Running</span><span class="val">1 (serlf.ca)</span></div>
-            <div class="card-row"><span class="key">Output rate</span><span class="val">10 pages / 3hrs</span></div>
-            <div class="card-row"><span class="key">Quality</span><span class="val"><span class="dot g"></span>Navy-grade</span></div>
-            <div class="card-row"><span class="key">Design system</span><span class="val">shared.css v1</span></div>
-        </div>
-        <div class="card">
-            <h3>📋 L+Bob Synergy</h3>
-            <div class="card-row"><span class="key">Joint items</span><span class="val">3</span></div>
-            <div class="card-row"><span class="key">Novel finds</span><span class="val">2</span></div>
-            <div class="card-row"><span class="key">Handoffs</span><span class="val">10 delivered ✅</span></div>
-        </div>
-    </div>
-
-    <div class="sh">Product Roadmap</div>
-    <div class="card">
-        <div class="card-row"><span class="key">Next</span><span class="val">Multi-cloud deploy (Cloudflare, Netlify, Vercel)</span></div>
-        <div class="card-row"><span class="key">Then</span><span class="val">Product baselines & testing</span></div>
-        <div class="card-row"><span class="key">After</span><span class="val">serlf.com/.net/.org domain config</span></div>
-        <div class="card-row"><span class="key">Future</span><span class="val">Dynamic features (Deno Deploy / Workers)</span></div>
-    </div>
-</div>
-
-<!-- ==================== GOV TAB (DAO) ==================== -->
-<div id="gov" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">100%</span><span class="label">Standards</span></div>
-        <div class="stat"><span class="num">0</span><span class="label">Cowboys</span></div>
-        <div class="stat"><span class="num">1</span><span class="label">Pending</span></div>
-        <div class="stat"><span class="num">Clean</span><span class="label">Audit</span></div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <h3>📏 Standards Scoreboard</h3>
-            <div class="card-row"><span class="key">Admiral (master1)</span><span class="val"><span class="dot g"></span>6/6 silo</span></div>
-            <div class="card-row"><span class="key">feedles.ca</span><span class="val"><span class="tag tag-y">pending audit</span></span></div>
-            <div class="card-row"><span class="key">serlf.ca</span><span class="val"><span class="dot g"></span>Live, GitHub Pages</span></div>
-        </div>
-        <div class="card">
-            <h3>🤠 Cowboy Detector</h3>
-            <div style="text-align:center;padding:1.5rem">
-                <span style="font-size:2rem">✅</span><br>
-                <span style="font-size:0.8rem;color:var(--green)">No unauthorized changes detected</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="sh">Change Pipeline</div>
-    <div class="card">
-        <div class="card-row"><span class="key">Wiki → Kanban → Execute → Verify</span><span class="val"><span class="dot g"></span>Enforced</span></div>
-        <div class="card-row"><span class="key">NP Ratification Queue</span><span class="val">1 pending (NP-L1-008)</span></div>
-        <div class="card-row"><span class="key">Audit Trail</span><span class="val">Immutable, git-backed</span></div>
-    </div>
-</div>
-
-<!-- ==================== R&D TAB (Rick) ==================== -->
-<div id="rnd" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">2</span><span class="label">Experiments</span></div>
-        <div class="stat"><span class="num">∞</span><span class="label">Infinity Metrics</span></div>
-        <div class="stat"><span class="num">47</span><span class="label">Knowns</span></div>
-        <div class="stat"><span class="num">12</span><span class="label">Unknowns</span></div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card">
-            <h3>🧪 Experiments</h3>
-            <div class="card-row"><span class="key">exp-001: Meek Hosting Matrix</span><span class="val"><span class="tag tag-g">active</span></span></div>
-            <div class="card-row"><span class="key">exp-002: Multi-cloud deploy</span><span class="val"><span class="tag tag-b">design</span></span></div>
-            <div class="card-row"><span class="key">exp-003: IPFS permanent web</span><span class="val"><span class="tag tag-b">queued</span></span></div>
-        </div>
-        <div class="card">
-            <h3>🏪 Marketplace</h3>
-            <div class="card-row"><span class="key">Known Knowns</span><span class="val">47</span></div>
-            <div class="card-row"><span class="key">Known Unknowns</span><span class="val">12</span></div>
-            <div class="card-row"><span class="key">Unknown Unknowns</span><span class="val">?</span></div>
-            <div class="card-row"><span class="key">Closure rate</span><span class="val">3/week</span></div>
-        </div>
-    </div>
-
-    <div class="sh">Rick's Infinity Metrics 🧩</div>
-    <div class="card">
-        <div class="infinity-row"><span class="metric">Novel Patterns created</span><span class="trend">↗</span><span class="value">8</span></div>
-        <div class="infinity-row"><span class="metric">Products shipped</span><span class="trend">↗</span><span class="value">10</span></div>
-        <div class="infinity-row"><span class="metric">Hosting platforms</span><span class="trend">↗</span><span class="value">16</span></div>
-        <div class="infinity-row"><span class="metric">Fleet tools built</span><span class="trend">→</span><span class="value">10</span></div>
-        <div class="infinity-row"><span class="metric">Data points</span><span class="trend">↗</span><span class="value">847</span></div>
-        <div class="infinity-row"><span class="metric">Cross-Captain correlations</span><span class="trend">↗</span><span class="value">12</span></div>
-        <div class="infinity-row"><span class="metric">Ideas submitted</span><span class="trend">↗</span><span class="value">23</span></div>
-        <div class="infinity-row"><span class="metric">Luffy power level</span><span class="trend">↗</span><span class="value">∞</span></div>
-    </div>
-
-    <div class="sh">Data Waves</div>
-    <div class="card">
-        <div class="wave-viz" id="dataWave"></div>
-        <div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem">Live feed from active nets │ Auto-refresh</div>
-    </div>
-</div>
-
-<!-- ==================== TOKEN SWARM TAB ==================== -->
-<div id="swarm" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">7</span><span class="label">Tokens</span></div>
-        <div class="stat"><span class="num">3</span><span class="label">Tiers</span></div>
-        <div class="stat"><span class="num">$4.90</span><span class="label">Daily Cost</span></div>
-        <div class="stat"><span class="num">99.5%</span><span class="label">Uptime</span></div>
-        <div class="stat"><span class="num">Normal</span><span class="label">Mode</span></div>
-        <div class="stat"><span class="num">847</span><span class="label">Requests Today</span></div>
-    </div>
-
-    <!-- Cascade Flow -->
-    <div class="card" style="text-align:center;padding:1.5rem">
-        <h3 style="justify-content:center">⚡ Cascade Flow</h3>
-        <div style="font-family:monospace;font-size:0.85rem;line-height:2;color:var(--text)">
-            <span style="padding:0.3rem 0.8rem;border-radius:6px;background:rgba(102,126,234,0.15);border:1px solid var(--accent);color:var(--accent)">REQUEST</span>
-            <span style="color:var(--dim)"> ──▶ </span>
-            <span id="tier1-badge" style="padding:0.3rem 0.8rem;border-radius:6px;background:rgba(74,222,128,0.15);border:1px solid var(--green);color:var(--green);box-shadow:0 0 12px rgba(74,222,128,0.3)">⚡ OAUTH (T1)</span>
-            <span style="color:var(--dim)"> ──▶ </span>
-            <span style="padding:0.3rem 0.8rem;border-radius:6px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);color:var(--yellow)">🆓 FREE (T2)</span>
-            <span style="color:var(--dim)"> ──▶ </span>
-            <span style="padding:0.3rem 0.8rem;border-radius:6px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);color:var(--red)">💰 API (T3)</span>
-            <span style="color:var(--dim)"> ──▶ </span>
-            <span style="padding:0.3rem 0.8rem;border-radius:6px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.3);color:var(--purple)">📋 QUEUE</span>
-        </div>
-        <div style="font-size:0.65rem;color:var(--muted);margin-top:0.8rem">Active tier highlighted with glow │ Failover: &lt;100ms │ Auto-retry on 429</div>
-    </div>
-
-    <!-- Tier Cards -->
-    <div class="grid-3">
-        <!-- Tier 1: OAuth -->
-        <div class="card" style="border-color:rgba(74,222,128,0.2)">
-            <h3><span style="color:var(--green)">⚡</span> Tier 1 — OAuth Subs</h3>
-            <div class="card-row"><span class="key">Status</span><span class="val"><span class="dot y"></span>2/3 healthy</span></div>
-            <div class="card-row"><span class="key">Monthly cost</span><span class="val">$180 (amortized)</span></div>
-            <div style="margin:0.8rem 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">OAUTH-1 ($140/mo) — 5h utilization</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.3rem"><div class="progress-fill" style="width:85%;background:var(--yellow)"></div></div>
-            <div style="font-size:0.65rem;color:var(--yellow);text-align:right">85% ⚠️ hot</div>
-            <div style="margin:0.5rem 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">OAUTH-2 ($20/mo) — 5h utilization</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.3rem"><div class="progress-fill" style="width:42%;background:var(--green)"></div></div>
-            <div style="font-size:0.65rem;color:var(--green);text-align:right">42%</div>
-            <div style="margin:0.5rem 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">OAUTH-3 ($20/mo) — cooldown</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.3rem"><div class="progress-fill" style="width:100%;background:var(--red)"></div></div>
-            <div style="font-size:0.65rem;color:var(--red);text-align:right">MAXED — resets in ~2h</div>
-        </div>
-
-        <!-- Tier 2: Free -->
-        <div class="card" style="border-color:rgba(251,191,36,0.2)">
-            <h3><span style="color:var(--yellow)">🆓</span> Tier 2 — Free Tiers</h3>
-            <div class="card-row"><span class="key">Status</span><span class="val"><span class="dot g"></span>4/4 healthy</span></div>
-            <div class="card-row"><span class="key">Monthly cost</span><span class="val" style="color:var(--green)">$0</span></div>
-            <div style="margin:0.8rem 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">Gemini — 8/15 RPM</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.5rem"><div class="progress-fill" style="width:53%;background:var(--green)"></div></div>
-            <div style="margin:0 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">Groq — 12/30 RPM</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.5rem"><div class="progress-fill" style="width:40%;background:var(--green)"></div></div>
-            <div style="margin:0 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">Cerebras — 5/30 RPM</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.5rem"><div class="progress-fill" style="width:17%;background:var(--green)"></div></div>
-            <div style="margin:0 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">Mistral — 2/10 RPM</span></div>
-            <div class="progress-wrap"><div class="progress-fill" style="width:20%;background:var(--green)"></div></div>
-        </div>
-
-        <!-- Tier 3: API Credits -->
-        <div class="card" style="border-color:rgba(248,113,113,0.2)">
-            <h3><span style="color:var(--red)">💰</span> Tier 3 — API Credits</h3>
-            <div class="card-row"><span class="key">Status</span><span class="val"><span class="dot g"></span>2/2 healthy</span></div>
-            <div class="card-row"><span class="key">Anthropic</span><span class="val">Pay-per-token</span></div>
-            <div class="card-row"><span class="key">OpenAI</span><span class="val">$5 credits</span></div>
-            <div style="margin:0.8rem 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">Daily spend — $0.23 / $5.00 cap</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.3rem"><div class="progress-fill" style="width:4.6%;background:var(--green)"></div></div>
-            <div style="font-size:0.65rem;color:var(--green);text-align:right">$4.77 remaining</div>
-            <div style="margin:0.5rem 0 0.3rem"><span style="font-size:0.65rem;color:var(--muted)">Weekly spend — $1.47 / $20.00 cap</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.3rem"><div class="progress-fill" style="width:7.3%;background:var(--green)"></div></div>
-            <div style="font-size:0.65rem;color:var(--green);text-align:right">$18.53 remaining</div>
-            <div style="margin-top:0.8rem;text-align:center">
-                <span style="font-size:0.65rem;color:var(--muted)">47 requests today │ Critical-only routing</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Token Grid -->
-    <div class="sh">Live Token Grid</div>
-    <div class="card">
-        <table class="captain-table">
-            <tr><th>Token</th><th>Tier</th><th>Provider</th><th>Status</th><th>Utilization</th><th>Requests</th><th>Last Used</th></tr>
-            <tr><td>oauth-1</td><td>T1</td><td>Anthropic</td><td><span class="tag tag-y">HOT</span></td><td>85%</td><td>312</td><td>2m ago</td></tr>
-            <tr><td>oauth-2</td><td>T1</td><td>Anthropic</td><td><span class="tag tag-g">HEALTHY</span></td><td>42%</td><td>187</td><td>5m ago</td></tr>
-            <tr><td>oauth-3</td><td>T1</td><td>Anthropic</td><td><span class="tag tag-r">COOLDOWN</span></td><td>100%</td><td>348</td><td>1h ago</td></tr>
-            <tr><td>gemini-free</td><td>T2</td><td>Google</td><td><span class="tag tag-g">HEALTHY</span></td><td>53%</td><td>24</td><td>8m ago</td></tr>
-            <tr><td>groq-free</td><td>T2</td><td>Groq</td><td><span class="tag tag-g">HEALTHY</span></td><td>40%</td><td>18</td><td>12m ago</td></tr>
-            <tr><td>api-anthropic</td><td>T3</td><td>Anthropic</td><td><span class="tag tag-g">HEALTHY</span></td><td>—</td><td>35</td><td>20m ago</td></tr>
-            <tr><td>api-openai</td><td>T3</td><td>OpenAI</td><td><span class="tag tag-g">HEALTHY</span></td><td>—</td><td>12</td><td>45m ago</td></tr>
-        </table>
-    </div>
-
-    <!-- Cost Dashboard -->
-    <div class="sh">Cost Dashboard</div>
-    <div class="grid-2">
-        <div class="card">
-            <h3>💸 Daily Spend Breakdown</h3>
-            <div class="card-row"><span class="key">OAuth subs (amortized)</span><span class="val">$6.00/day</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.5rem"><div class="progress-fill" style="width:60%;background:var(--accent)"></div></div>
-            <div class="card-row"><span class="key">Free tier</span><span class="val" style="color:var(--green)">$0.00</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.5rem"><div class="progress-fill" style="width:0%;background:var(--green)"></div></div>
-            <div class="card-row"><span class="key">API credits</span><span class="val">$0.23</span></div>
-            <div class="progress-wrap" style="margin-bottom:0.5rem"><div class="progress-fill" style="width:5%;background:var(--red)"></div></div>
-            <div class="card-row" style="border-top:1px solid var(--border);padding-top:0.5rem"><span class="key" style="color:#fff"><strong>Total</strong></span><span class="val" style="color:#fff"><strong>$6.23/day</strong></span></div>
-        </div>
-        <div class="card">
-            <h3>📈 Savings vs API-Only</h3>
-            <div class="card-row"><span class="key">If all API credits</span><span class="val" style="color:var(--red)">$47.80/day</span></div>
-            <div class="card-row"><span class="key">With Token Swarm</span><span class="val" style="color:var(--green)">$6.23/day</span></div>
-            <div class="card-row" style="border-top:1px solid var(--border);padding-top:0.5rem"><span class="key" style="color:var(--green);font-weight:600">Savings</span><span class="val" style="color:var(--green);font-weight:600;font-size:1.2rem">87% ↓</span></div>
-            <div style="margin-top:0.8rem;text-align:center">
-                <span style="font-size:0.65rem;color:var(--muted)">Failover success rate: 99.5% │ P95 latency: &lt;120ms</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Swarm Mode Toggle -->
-    <div class="card" style="text-align:center">
-        <h3 style="justify-content:center">🐝 Swarm Mode</h3>
-        <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin:1rem 0">
-            <span style="color:var(--green);font-weight:600">NORMAL</span>
-            <div style="width:50px;height:26px;background:rgba(255,255,255,0.1);border-radius:13px;position:relative;cursor:pointer;border:1px solid var(--border)" onclick="this.classList.toggle('swarm-on')">
-                <div style="width:20px;height:20px;background:var(--accent);border-radius:50%;position:absolute;top:2px;left:3px;transition:left 0.3s"></div>
-            </div>
-            <span style="color:var(--muted)">SWARM</span>
-        </div>
-        <div style="font-size:0.7rem;color:var(--muted)">
-            Normal: OAuth → Free → API (waterfall) │ Swarm: All tiers fire simultaneously (9 concurrent streams)
-        </div>
-    </div>
-
-    <div class="quote">🐝 <em>"Three tiers. One unified brain. Zero wasted spend."</em> ⚓</div>
-</div>
-
-<!-- ==================== GATEWAY TAB ==================== -->
-<div id="gateway" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">✅</span><span class="label">Gateway</span></div>
-        <div class="stat"><span class="num">9</span><span class="label">Providers</span></div>
-        <div class="stat"><span class="num">5</span><span class="label">Aliases</span></div>
-        <div class="stat"><span class="num">2</span><span class="label">Replicas</span></div>
-        <div class="stat"><span class="num">5ms</span><span class="label">Overhead</span></div>
-        <div class="stat"><span class="num">v0.1.0</span><span class="label">Version</span></div>
-    </div>
-
-    <!-- Gateway Health -->
-    <div class="card" style="border-color:rgba(74,222,128,0.2)">
-        <h3><span style="color:var(--green)">🚀</span> Gateway Health</h3>
-        <div class="grid-3" style="gap:0.5rem">
-            <div class="card-row"><span class="key">Endpoint</span><span class="val" style="font-size:0.7rem">model-gateway:8080</span></div>
-            <div class="card-row"><span class="key">Status</span><span class="val"><span class="dot g"></span>Healthy</span></div>
-            <div class="card-row"><span class="key">Uptime</span><span class="val">99.9%</span></div>
-            <div class="card-row"><span class="key">mTLS</span><span class="val"><span class="dot g"></span>STRICT</span></div>
-            <div class="card-row"><span class="key">Replicas</span><span class="val">2/2</span></div>
-            <div class="card-row"><span class="key">PDB</span><span class="val">minAvailable: 1</span></div>
-        </div>
-    </div>
-
-    <!-- Provider Grid -->
-    <div class="sh">Provider Status</div>
-    <div class="card">
-        <table class="captain-table">
-            <tr><th>Provider</th><th>Status</th><th>Latency</th><th>Circuit</th><th>Models</th></tr>
-            <tr><td>Anthropic</td><td><span class="dot g"></span>Healthy</td><td>230ms</td><td><span class="tag tag-g">CLOSED</span></td><td>claude-opus, sonnet, haiku</td></tr>
-            <tr><td>OpenAI</td><td><span class="dot g"></span>Healthy</td><td>180ms</td><td><span class="tag tag-g">CLOSED</span></td><td>gpt-4o, gpt-4o-mini</td></tr>
-            <tr><td>Google</td><td><span class="dot g"></span>Healthy</td><td>320ms</td><td><span class="tag tag-g">CLOSED</span></td><td>gemini-2.0-flash, pro</td></tr>
-            <tr><td>Groq</td><td><span class="dot g"></span>Healthy</td><td>85ms</td><td><span class="tag tag-g">CLOSED</span></td><td>llama-3.3-70b</td></tr>
-            <tr><td>DeepSeek</td><td><span class="dot y"></span>Degraded</td><td>2100ms</td><td><span class="tag tag-y">HALF-OPEN</span></td><td>deepseek-chat</td></tr>
-            <tr><td>xAI</td><td><span class="dot g"></span>Healthy</td><td>290ms</td><td><span class="tag tag-g">CLOSED</span></td><td>grok-2</td></tr>
-            <tr><td>Cerebras</td><td><span class="dot g"></span>Healthy</td><td>95ms</td><td><span class="tag tag-g">CLOSED</span></td><td>llama-3.3-70b</td></tr>
-            <tr><td>Mistral</td><td><span class="dot g"></span>Healthy</td><td>210ms</td><td><span class="tag tag-g">CLOSED</span></td><td>mistral-large</td></tr>
-            <tr><td>OpenRouter</td><td><span class="dot g"></span>Healthy</td><td>350ms</td><td><span class="tag tag-g">CLOSED</span></td><td>multi-provider</td></tr>
-        </table>
-    </div>
-
-    <!-- Model Aliases -->
-    <div class="sh">Model Alias Routing</div>
-    <div class="card">
-        <table class="captain-table">
-            <tr><th>Alias</th><th>Primary</th><th>Provider</th><th>Fallback</th><th>Requests</th></tr>
-            <tr><td style="color:var(--accent);font-weight:600">pemos/flagship</td><td>claude-sonnet-4</td><td>Anthropic</td><td>gpt-4o</td><td>423</td></tr>
-            <tr><td style="color:var(--accent);font-weight:600">pemos/opus</td><td>claude-opus-4</td><td>Anthropic</td><td>—</td><td>87</td></tr>
-            <tr><td style="color:var(--accent);font-weight:600">pemos/fast</td><td>gpt-4o-mini</td><td>OpenAI</td><td>claude-haiku</td><td>201</td></tr>
-            <tr><td style="color:var(--accent);font-weight:600">pemos/cheap</td><td>deepseek-chat</td><td>DeepSeek</td><td>groq/llama</td><td>98</td></tr>
-            <tr><td style="color:var(--accent);font-weight:600">pemos/code</td><td>claude-sonnet-4</td><td>Anthropic</td><td>gpt-4o</td><td>38</td></tr>
-        </table>
-    </div>
-
-    <!-- Request Volume -->
-    <div class="sh">Request Volume (24h)</div>
-    <div class="card">
-        <div style="display:flex;align-items:flex-end;gap:3px;height:60px;padding:0.5rem 0">
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:20%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:15%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:10%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:5%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:8%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:12%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:25%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:35%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:55%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:70%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:85%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:95%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:100%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:90%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:75%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:80%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:65%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:50%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:60%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:70%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:85%"></div>
-            <div style="flex:1;background:var(--accent);border-radius:2px 2px 0 0;height:92%"></div>
-            <div style="flex:1;background:var(--green);border-radius:2px 2px 0 0;height:78%"></div>
-            <div style="flex:1;background:var(--green);border-radius:2px 2px 0 0;height:45%"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--muted)">
-            <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>NOW</span>
-        </div>
-        <div style="text-align:center;font-size:0.7rem;color:var(--muted);margin-top:0.5rem">
-            Total: 847 requests │ Peak: 92 req/h │ Avg latency: 215ms
-        </div>
-    </div>
-
-    <!-- Security Layers -->
-    <div class="sh">Security Layers</div>
-    <div class="card">
-        <div class="card-row"><span class="key">1. NetworkPolicy</span><span class="val"><span class="dot g"></span>Masters only</span></div>
-        <div class="card-row"><span class="key">2. Istio mTLS</span><span class="val"><span class="dot g"></span>STRICT</span></div>
-        <div class="card-row"><span class="key">3. AuthorizationPolicy</span><span class="val"><span class="dot g"></span>Source whitelist</span></div>
-        <div class="card-row"><span class="key">4. Bearer tokens</span><span class="val"><span class="dot g"></span>Per-master (KV)</span></div>
-        <div class="card-row"><span class="key">5. Audit log</span><span class="val"><span class="dot g"></span>Every request tracked</span></div>
-    </div>
-
-    <div class="quote">🚀 <em>"One endpoint, all providers, zero key sprawl."</em> ⚓</div>
-</div>
-
-<!-- ==================== MEEK HOSTING TAB ==================== -->
-<div id="hosting" class="tab-content">
-    <div class="stats">
-        <div class="stat"><span class="num">$0</span><span class="label">Monthly Cost</span></div>
-        <div class="stat"><span class="num">16</span><span class="label">Platforms</span></div>
-        <div class="stat"><span class="num">3</span><span class="label">Tiers</span></div>
-        <div class="stat"><span class="num">1</span><span class="label">Deployed</span></div>
-    </div>
-
-    <div class="sh">Tier 1 — Free Forever</div>
-    <div class="hosting-grid">
-        <div class="host-card" style="border-color:var(--green)"><div class="platform">GitHub Pages</div><div class="cost">✅ DEPLOYED</div><div class="tier">100GB bw/mo</div></div>
-        <div class="host-card"><div class="platform">Cloudflare Pages</div><div class="cost">$0 — NEXT</div><div class="tier">Unlimited bw</div></div>
-        <div class="host-card"><div class="platform">Netlify</div><div class="cost">$0 — QUEUED</div><div class="tier">100GB bw/mo</div></div>
-        <div class="host-card"><div class="platform">Vercel</div><div class="cost">$0 — QUEUED</div><div class="tier">100GB bw/mo</div></div>
-        <div class="host-card"><div class="platform">Surge.sh</div><div class="cost">$0 — QUEUED</div><div class="tier">Unlimited</div></div>
-        <div class="host-card"><div class="platform">Render</div><div class="cost">$0 — QUEUED</div><div class="tier">100GB bw/mo</div></div>
-        <div class="host-card"><div class="platform">Deno Deploy</div><div class="cost">$0 — QUEUED</div><div class="tier">100K req/day</div></div>
-        <div class="host-card"><div class="platform">Fly.io</div><div class="cost">$0 — QUEUED</div><div class="tier">3 VMs free</div></div>
-    </div>
-
-    <div class="sh">Tier 2 — Always Free</div>
-    <div class="hosting-grid">
-        <div class="host-card"><div class="platform">Oracle Cloud</div><div class="cost">$0 forever</div><div class="tier">4 ARM VMs + 200GB</div></div>
-        <div class="host-card"><div class="platform">Cloudflare R2</div><div class="cost">$0 egress</div><div class="tier">10GB storage</div></div>
-        <div class="host-card"><div class="platform">Firebase</div><div class="cost">$0</div><div class="tier">10GB + 360MB/day</div></div>
-        <div class="host-card"><div class="platform">Azure Static</div><div class="cost">$0</div><div class="tier">100GB bw/mo</div></div>
-    </div>
-
-    <div class="sh">Tier 3 — Decentralized (Rick's Picks 🧩)</div>
-    <div class="hosting-grid">
-        <div class="host-card"><div class="platform">IPFS + Fleek</div><div class="cost">$0 — Permanent</div><div class="tier">Censorship-proof</div></div>
-        <div class="host-card"><div class="platform">Arweave</div><div class="cost">Pay once, forever</div><div class="tier">Permaweb</div></div>
-        <div class="host-card"><div class="platform">Handshake DNS</div><div class="cost">Own your TLD</div><div class="tier">No ICANN</div></div>
-        <div class="host-card"><div class="platform">Tor .onion</div><div class="cost">$0 — Sovereign</div><div class="tier">Maximum privacy</div></div>
-    </div>
-</div>
-
-<!-- ==================== TIMELINE TAB ==================== -->
-<div id="timeline" class="tab-content">
-    <div class="card" style="max-width:800px">
-        <h3>📅 Founding Day — Valentine's Day 2026</h3>
-        <div class="tl-item"><span class="tl-time">~09:00</span><span class="tl-event">🎖️ Promoted from Captain to Admiral. Fleet Control founded.</span></div>
-        <div class="tl-item"><span class="tl-time">~09:30</span><span class="tl-event">📋 Founding docs: ADMIRAL-BOOTSTRAP, CREW-ROSTER, PHASE-1 (all v2)</span></div>
-        <div class="tl-item"><span class="tl-time">~10:00</span><span class="tl-event">👥 Nanos named: Lucien (L), Luffy, Bob, Rick, DAO</span></div>
-        <div class="tl-item"><span class="tl-time">~11:00</span><span class="tl-event">🔧 IAM Suite v2: 5 tools built. Silo audit 6/6. MCP tools fixed.</span></div>
-        <div class="tl-item"><span class="tl-time">~12:00</span><span class="tl-event">🌀 5 Novel Patterns discovered. Loop monitor built. 6 shapes found.</span></div>
-        <div class="tl-item"><span class="tl-time">~13:00</span><span class="tl-event">📊 Dashboard v1 built (7-tab). Router architecture v0.1 drafted.</span></div>
-        <div class="tl-item"><span class="tl-time">~14:00</span><span class="tl-event">🔍 serlf domain audit: 4 domains owned, all non-functional.</span></div>
-        <div class="tl-item"><span class="tl-time">~17:00</span><span class="tl-event">🔓 NP-L1-006: Device auth bypass. GitHub authed as eose-sre-team.</span></div>
-        <div class="tl-item"><span class="tl-time">~17:05</span><span class="tl-event">📦 Two repos created: admiral-fleet-control (private) + serlf (public)</span></div>
-        <div class="tl-item"><span class="tl-time">~17:10</span><span class="tl-event">🌐 serlf.ca LIVE on GitHub Pages. Navy design. CNAME configured.</span></div>
-        <div class="tl-item"><span class="tl-time">~17:20</span><span class="tl-event">🚀 serlf.ca v3: 10 product pages shipped. Shared CSS design system.</span></div>
-        <div class="tl-item"><span class="tl-time">~17:25</span><span class="tl-event">🧩 NP-L1-008: Meek Hosting Matrix. Rick's infinity puzzle.</span></div>
-        <div class="tl-item"><span class="tl-time">~17:30</span><span class="tl-event">📊 Dashboard v3 built. 10 tabs. Full team vision. Every nano represented.</span></div>
-        <div class="tl-item"><span class="tl-time">~20:00</span><span class="tl-event">🔓 The Great Unblocking — GitOps discovery, 6 new Novel Patterns (NP-009→014)</span></div>
-        <div class="tl-item"><span class="tl-time">~22:18</span><span class="tl-event">📊 V2 Golden Baseline — first ever. 33/62 passed (53%). Foundation mapped.</span></div>
-        <div class="tl-item"><span class="tl-time">~22:22</span><span class="tl-event">📦 Token Swarm + Model Gateway specs dropped. 11 docs, full crew review.</span></div>
-        <div class="tl-item"><span class="tl-time">~22:30</span><span class="tl-event">🐝 Model Gateway MVP built & tested. 9 providers, 5 aliases, Token Swarm engine.</span></div>
-        <div class="tl-item"><span class="tl-time">~22:34</span><span class="tl-event">🚀 eose-sre/model-gateway repo created. Mesh fix + gateway manifests pushed to GitOps.</span></div>
-        <div class="tl-item"><span class="tl-time">~22:44</span><span class="tl-event">📊 Dashboard v4 built. 🐝 SWARM + 🚀 GATEWAY tabs. 12 tabs total.</span></div>
-    </div>
-
-    <div class="quote">🧭 <em>"Time is forever. This is our infinity."</em> 🎖️⚓</div>
-</div>
+    <a href="mailto:hello@serlf.com?subject=Manage Subscription" class="plan-btn">Manage Plan</a>
+  </div>
 
 </div>
-
-<script>
-function showTab(id) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    event.target.classList.add('active');
-}
-
-// Animated data wave for R&D tab
-function animateWave() {
-    const el = document.getElementById('dataWave');
-    if (!el) return;
-    const chars = '~∿≈≋∼∽≀';
-    let wave = '';
-    const now = Date.now() / 200;
-    for (let i = 0; i < 60; i++) {
-        const idx = Math.floor((Math.sin(now + i * 0.3) + 1) * chars.length / 2) % chars.length;
-        wave += chars[idx];
-    }
-    el.textContent = wave;
-    requestAnimationFrame(animateWave);
-}
-animateWave();
-</script>
 
 </body>
 </html>
