@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admiral Portal v2 — Hive Mind</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a1628;--bg2:#0f1d32;--bg3:#142440;--bg4:#1a2d50;
+  --text:#e0e8f0;--text2:#8899aa;--text3:#556677;
+  --accent:#00d4ff;--accent2:#0099cc;--green:#00ff88;--yellow:#ffcc00;--red:#ff4466;--orange:#ff8844;--purple:#aa66ff;
+  --border:#1a2d50;--card:#111e33;
+  --radius:8px;--radius2:12px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+
+/* NAV */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:100}
+.topbar .logo{font-size:18px;font-weight:700;margin-right:24px;white-space:nowrap}
+.topbar .logo span{color:var(--accent)}
+.tabs{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;color:var(--text2);padding:8px 14px;font-size:12px;cursor:pointer;white-space:nowrap;border-radius:var(--radius) var(--radius) 0 0;transition:all .2s}
+.tab-btn:hover{color:var(--text);background:var(--bg3)}
+.tab-btn.active{color:var(--accent);background:var(--bg3);border-bottom:2px solid var(--accent)}
+.pulse-dot{width:8px;height:8px;background:var(--green);border-radius:50%;margin-left:12px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* LAYOUT */
+.content{padding:20px;max-width:1400px;margin:0 auto}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:16px;transition:border-color .2s}
+.card:hover{border-color:var(--accent2)}
+.card h3{font-size:14px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.card .value{font-size:28px;font-weight:700;color:var(--text)}
+.card .sub{font-size:12px;color:var(--text3);margin-top:4px}
+
+/* STAT ROW */
+.stats-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.stat-box{background:var(--bg3);border-radius:var(--radius);padding:12px 16px;flex:1;min-width:120px;text-align:center}
+.stat-box .label{font-size:11px;color:var(--text3);text-transform:uppercase}
+.stat-box .val{font-size:22px;font-weight:700;margin-top:2px}
+
+/* STATUS */
+.status{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:2px 8px;border-radius:10px}
+.status.online{background:#00ff8820;color:var(--green)}
+.status.degraded{background:#ffcc0020;color:var(--yellow)}
+.status.offline{background:#ff446620;color:var(--red)}
+.status.building{background:#aa66ff20;color:var(--purple)}
+
+/* MESH VIZ */
+.mesh-viz{position:relative;height:300px;margin:20px 0}
+.mesh-node{position:absolute;width:160px;background:var(--card);border:2px solid var(--accent2);border-radius:var(--radius2);padding:12px;text-align:center;cursor:pointer;transition:all .3s;z-index:2}
+.mesh-node:hover{border-color:var(--accent);transform:scale(1.05);box-shadow:0 0 20px #00d4ff33}
+.mesh-node .name{font-size:16px;font-weight:700}
+.mesh-node .cloud{font-size:11px;color:var(--text2);margin-top:2px}
+.mesh-node .burn{font-size:12px;color:var(--accent);margin-top:6px}
+.mesh-svg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
+.mesh-svg line{stroke:var(--accent2);stroke-width:2;stroke-dasharray:6 4;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-10}}
+
+/* PULSE FEED */
+.pulse-feed{max-height:300px;overflow-y:auto;scrollbar-width:thin}
+.pulse-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.pulse-item .time{color:var(--text3);min-width:60px;font-size:11px}
+.pulse-item .source{color:var(--accent);min-width:70px;font-weight:600}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;color:var(--text2);font-size:11px;text-transform:uppercase;border-bottom:2px solid var(--border);font-weight:600}
+td{padding:8px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:var(--bg3)}
+
+/* TIER BADGES */
+.tier{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.tier.l1{background:#00d4ff30;color:var(--accent)}
+.tier.l2{background:#aa66ff30;color:var(--purple)}
+.tier.l3{background:#00ff8830;color:var(--green)}
+
+/* KANBAN */
+.kanban{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px}
+.kanban-col{min-width:220px;flex:1;background:var(--bg2);border-radius:var(--radius2);padding:12px}
+.kanban-col h4{font-size:12px;color:var(--text2);text-transform:uppercase;margin-bottom:10px;display:flex;justify-content:space-between}
+.kanban-col h4 .count{background:var(--bg4);padding:1px 6px;border-radius:8px;font-size:10px}
+.np-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:8px;cursor:pointer;transition:all .2s;font-size:12px}
+.np-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.np-card .np-id{color:var(--accent);font-weight:700;font-size:11px}
+.np-card .np-name{font-weight:600;margin:4px 0}
+.np-card .np-meta{color:var(--text3);font-size:11px;display:flex;gap:8px;flex-wrap:wrap}
+.np-card .stars{color:var(--yellow)}
+.np-card .luffy-badge{font-size:10px;padding:1px 5px;border-radius:4px;background:#ff884420;color:var(--orange)}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filter-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 12px;border-radius:16px;font-size:11px;cursor:pointer;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--accent2);color:white;border-color:var(--accent2)}
+
+/* HIERARCHY TREE */
+.tree{padding-left:20px}
+.tree-node{padding:4px 0;font-size:13px}
+.tree-node .emoji{margin-right:4px}
+.tree-children{border-left:2px solid var(--border);margin-left:10px;padding-left:12px}
+
+/* TOPOLOGY */
+.topo{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:30px 0}
+.silo{background:var(--card);border:2px solid var(--border);border-radius:var(--radius2);padding:20px;width:240px;text-align:center}
+.silo.healthy{border-color:var(--green)}
+.silo.degraded{border-color:var(--yellow)}
+.silo h4{font-size:16px;margin-bottom:4px}
+.silo .provider{color:var(--text2);font-size:12px}
+.silo .health-bar{height:6px;background:var(--bg);border-radius:3px;margin-top:10px;overflow:hidden}
+.silo .health-bar .fill{height:100%;border-radius:3px;transition:width .5s}
+
+/* COST BARS */
+.cost-bar{display:flex;align-items:center;gap:10px;margin:6px 0}
+.cost-bar .label{min-width:100px;font-size:12px;color:var(--text2)}
+.cost-bar .bar{flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden;position:relative}
+.cost-bar .bar .fill{height:100%;border-radius:4px}
+.cost-bar .amount{min-width:60px;text-align:right;font-size:12px;font-weight:600}
+
+/* PRODUCTS GRID */
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.product-card .icon{font-size:28px;margin-bottom:6px}
+.product-card .name{font-weight:700;font-size:14px}
+.product-card .desc{font-size:11px;color:var(--text2);margin-top:4px}
+
+/* TRUST METER */
+.trust-meter{display:flex;align-items:center;gap:8px;margin:4px 0}
+.trust-meter .bar{width:100px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+.trust-meter .bar .fill{height:100%;border-radius:4px}
+
+/* BATTERY */
+.battery{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--radius);border:1px solid var(--border);font-size:12px}
+.battery .level{width:30px;height:14px;border:2px solid var(--green);border-radius:3px;position:relative}
+.battery .level::after{content:'';position:absolute;right:-5px;top:3px;width:3px;height:6px;background:var(--green);border-radius:0 2px 2px 0}
+.battery .level .charge{position:absolute;left:1px;top:1px;bottom:1px;background:var(--green);border-radius:1px}
+
+/* SECTION HEADERS */
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.section-header h2{font-size:20px;font-weight:700}
+.section-header .subtitle{color:var(--text2);font-size:13px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:#000a;z-index:200;justify-content:center;align-items:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:24px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto}
+.modal h3{margin-bottom:12px}
+.modal-close{float:right;background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .topbar{flex-wrap:wrap;height:auto;padding:8px}
+  .tabs{order:2;width:100%;padding-top:4px}
+  .tab-btn{padding:6px 10px;font-size:11px}
+  .mesh-viz{height:400px}
+  .mesh-node{width:130px;padding:8px}
+  .kanban{flex-direction:column}
+  .kanban-col{min-width:unset}
+  .topo{flex-direction:column;align-items:center}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">⚓ Admiral <span>Hive Mind</span></div>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="hive">🧠 Hive Mind</button>
+    <button class="tab-btn" data-tab="router">🔀 Model Router</button>
+    <button class="tab-btn" data-tab="np">💡 Novel Patterns</button>
+    <button class="tab-btn" data-tab="fleet">🚢 Fleet Control</button>
+    <button class="tab-btn" data-tab="mesh">🕸️ Sovereign Mesh</button>
+    <button class="tab-btn" data-tab="econ">💰 Token Economics</button>
+    <button class="tab-btn" data-tab="security">🔐 Security & Peek</button>
+    <button class="tab-btn" data-tab="products">📦 Products</button>
+    <button class="tab-btn" data-tab="luffy">🏴‍☠️ Luffy's Corner</button>
+    <button class="tab-btn" data-tab="deploy">🚀 Deploy & Ship</button>
+  </div>
+  <div class="pulse-dot" title="Mesh Active"></div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════ TAB 1: HIVE MIND ═══════════════ -->
+<div class="tab-content active" id="tab-hive">
+  <div class="section-header">
+    <div><h2>Hive Mind</h2><div class="subtitle">The collective consciousness of the fleet</div></div>
+    <div style="font-size:12px;color:var(--text3)">Last sync: 2s ago</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="label">Masters</div><div class="val" style="color:var(--accent)">3</div></div>
+    <div class="stat-box"><div class="label">Agents</div><div class="val">19</div></div>
+    <div class="stat-box"><div class="label">Novel Patterns</div><div class="val" style="color:var(--yellow)">32</div></div>
+    <div class="stat-box"><div class="label">Domains</div><div class="val">28</div></div>
+    <div class="stat-box"><div class="label">Model Lanes</div><div class="val" style="color:var(--purple)">20</div></div>
+    <div class="stat-box"><div class="label">Tokens/hr</div><div class="val" style="color:var(--green)">23.7K</div></div>
+  </div>
+
+  <div class="mesh-viz" id="meshViz">
+    <svg class="mesh-svg" id="meshSvg"></svg>
+    <div class="mesh-node" id="node-captain" style="top:30px;left:50%;transform:translateX(-50%)">
+      <div class="status online">● online</div>
+      <div class="name">Captain</div>
+      <div class="cloud">☁️ AKS · canadacentral</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:4px">claude-opus-4-6</div>
+      <div class="burn">🔥 12.4K tok/hr</div>
+    </div>
+    <div class="mesh-node" id="node-m1" style="bottom:20px;left:15%">
+      <div class="status online">● online</div>
+      <div class="name">m1</div>
+      <div class="cloud">☁️ GCP Cloud Run · montreal</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:4px">claude-opus-4-6</div>
+      <div class="burn">🔥 8.2K tok/hr</div>
+    </div>
+    <div class="mesh-node" id="node-win" style="bottom:20px;right:15%">
+      <div class="status degraded">● degraded</div>
+      <div class="name">Win Fleet</div>
+      <div class="cloud">🐳 Docker · local</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:4px">gpt-5.2-codex</div>
+      <div class="burn">🔥 3.1K tok/hr</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>⚡ Pulse — Live Activity</h3>
+      <div class="pulse-feed" id="pulseFeed"></div>
+    </div>
+    <div class="card">
+      <h3>📊 Fleet Health</h3>
+      <div style="margin-top:12px">
+        <div class="cost-bar"><div class="label">Captain (AKS)</div><div class="bar"><div class="fill" style="width:94%;background:var(--green)"></div></div><div class="amount" style="color:var(--green)">94%</div></div>
+        <div class="cost-bar"><div class="label">m1 (GCP)</div><div class="bar"><div class="fill" style="width:88%;background:var(--green)"></div></div><div class="amount" style="color:var(--green)">88%</div></div>
+        <div class="cost-bar"><div class="label">Win Fleet</div><div class="bar"><div class="fill" style="width:72%;background:var(--yellow)"></div></div><div class="amount" style="color:var(--yellow)">72%</div></div>
+      </div>
+      <div style="margin-top:16px;font-size:12px;color:var(--text2)">
+        <div>🟢 Mesh: 3/3 connections healthy</div>
+        <div>🔄 Last failover test: 4h ago — PASSED</div>
+        <div>📡 WSS ingress: active (NP-L1-029)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 2: MODEL ROUTER ═══════════════ -->
+<div class="tab-content" id="tab-router">
+  <div class="section-header">
+    <div><h2>Model Router</h2><div class="subtitle">20 lanes · 14 providers · 3-tier fallback</div></div>
+    <div class="battery"><div class="level"><div class="charge" style="width:60%"></div></div><span>Balanced</span></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="label">Requests/hr</div><div class="val">847</div></div>
+    <div class="stat-box"><div class="label">Avg Latency</div><div class="val">1.2s</div></div>
+    <div class="stat-box"><div class="label">Daily Cost</div><div class="val" style="color:var(--yellow)">$4.20</div></div>
+    <div class="stat-box"><div class="label">Error Rate</div><div class="val" style="color:var(--green)">0.3%</div></div>
+    <div class="stat-box"><div class="label">Cache Hit</div><div class="val">12%</div></div>
+  </div>
+
+  <h3 style="margin:16px 0 8px;color:var(--accent)">L1 — Flagship</h3>
+  <table>
+    <thead><tr><th>Model</th><th>Provider</th><th>Req/hr</th><th>Latency</th><th>Cost/hr</th><th>Errors</th><th>Circuit</th><th>Masters</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier l1">L1</span> claude-opus-4-6</td><td>Anthropic</td><td>312</td><td>2.1s</td><td>$1.40</td><td>0</td><td><span style="color:var(--green)">●</span> closed</td><td>Captain, m1</td></tr>
+      <tr><td><span class="tier l1">L1</span> gpt-5.2-codex</td><td>OpenAI</td><td>198</td><td>1.8s</td><td>$0.90</td><td>2</td><td><span style="color:var(--green)">●</span> closed</td><td>Captain, Win</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:16px 0 8px;color:var(--purple)">L2 — Strong</h3>
+  <table>
+    <thead><tr><th>Model</th><th>Provider</th><th>Req/hr</th><th>Latency</th><th>Cost/hr</th><th>Errors</th><th>Circuit</th><th>Masters</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier l2">L2</span> claude-sonnet-4</td><td>Anthropic</td><td>89</td><td>1.4s</td><td>$0.45</td><td>0</td><td><span style="color:var(--green)">●</span> closed</td><td>Captain</td></tr>
+      <tr><td><span class="tier l2">L2</span> gemini-2.5-flash</td><td>Google</td><td>124</td><td>0.8s</td><td>$0.00</td><td>1</td><td><span style="color:var(--green)">●</span> closed</td><td>m1</td></tr>
+      <tr><td><span class="tier l2">L2</span> mistral-large</td><td>Mistral</td><td>34</td><td>1.6s</td><td>$0.22</td><td>0</td><td><span style="color:var(--green)">●</span> closed</td><td>Captain</td></tr>
+      <tr><td><span class="tier l2">L2</span> codestral</td><td>Mistral</td><td>21</td><td>1.2s</td><td>$0.08</td><td>0</td><td><span style="color:var(--green)">●</span> closed</td><td>m1</td></tr>
+      <tr><td><span class="tier l2">L2</span> deepseek-chat</td><td>DeepSeek</td><td>12</td><td>2.0s</td><td>$0.03</td><td>3</td><td><span style="color:var(--yellow)">●</span> half-open</td><td>—</td></tr>
+      <tr><td><span class="tier l2">L2</span> grok-2</td><td>xAI</td><td>8</td><td>1.5s</td><td>$0.04</td><td>5</td><td><span style="color:var(--red)">●</span> open</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:16px 0 8px;color:var(--green)">L3 — Fast / Cheap</h3>
+  <table>
+    <thead><tr><th>Model</th><th>Provider</th><th>Req/hr</th><th>Latency</th><th>Cost/hr</th><th>Errors</th><th>Circuit</th><th>Masters</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier l3">L3</span> llama-3.3-70b</td><td>Groq</td><td>22</td><td>0.3s</td><td>$0.02</td><td>0</td><td><span style="color:var(--green)">●</span></td><td>all</td></tr>
+      <tr><td><span class="tier l3">L3</span> llama-3.1-8b</td><td>Groq</td><td>8</td><td>0.1s</td><td>$0.00</td><td>0</td><td><span style="color:var(--green)">●</span></td><td>Win</td></tr>
+      <tr><td><span class="tier l3">L3</span> gemma2-9b</td><td>Groq</td><td>4</td><td>0.2s</td><td>$0.00</td><td>0</td><td><span style="color:var(--green)">●</span></td><td>—</td></tr>
+      <tr><td><span class="tier l3">L3</span> llama-3.3-70b</td><td>Cerebras</td><td>6</td><td>0.2s</td><td>$0.00</td><td>0</td><td><span style="color:var(--green)">●</span></td><td>m1</td></tr>
+      <tr><td><span class="tier l3">L3</span> qwen-3-32b</td><td>Cerebras</td><td>3</td><td>0.3s</td><td>$0.00</td><td>0</td><td><span style="color:var(--green)">●</span></td><td>—</td></tr>
+      <tr><td><span class="tier l3">L3</span> mistral-small</td><td>Mistral</td><td>6</td><td>0.9s</td><td>$0.01</td><td>0</td><td><span style="color:var(--green)">●</span></td><td>Captain</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>Fallback Chain</h3>
+      <div style="font-size:13px;margin-top:8px;line-height:1.8">
+        <div><span class="tier l1">L1</span> Opus 4 → <span class="tier l2">L2</span> Sonnet 4 → <span class="tier l2">L2</span> Gemini Flash → <span class="tier l3">L3</span> Groq Llama 70B</div>
+        <div><span class="tier l1">L1</span> GPT-5.2 → <span class="tier l2">L2</span> Mistral Large → <span class="tier l3">L3</span> Cerebras Llama</div>
+        <div style="color:var(--text3);font-size:11px;margin-top:8px">Circuit breaker triggers fallback after 3 consecutive failures. Recovery probe every 30s.</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cost Tracking</h3>
+      <div style="margin-top:8px">
+        <div class="cost-bar"><div class="label">Today</div><div class="bar"><div class="fill" style="width:28%;background:var(--accent)"></div></div><div class="amount">$4.20</div></div>
+        <div class="cost-bar"><div class="label">This Week</div><div class="bar"><div class="fill" style="width:45%;background:var(--accent)"></div></div><div class="amount">$22.40</div></div>
+        <div class="cost-bar"><div class="label">This Month</div><div class="bar"><div class="fill" style="width:35%;background:var(--accent)"></div></div><div class="amount">$67.80</div></div>
+        <div style="font-size:11px;color:var(--green);margin-top:8px">💡 Saved $142 vs API-only (68% savings from free tiers + OAuth subs)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 3: NOVEL PATTERNS ═══════════════ -->
+<div class="tab-content" id="tab-np">
+  <div class="section-header">
+    <div><h2>Novel Patterns</h2><div class="subtitle">32 discovered · 4.6/day discovery rate</div></div>
+    <div style="font-size:12px;color:var(--yellow)">⭐ 14 shipped</div>
+  </div>
+
+  <div class="filters" id="npFilters">
+    <button class="filter-btn active" data-filter="all">All (32)</button>
+    <button class="filter-btn" data-filter="infra">🔧 Infra</button>
+    <button class="filter-btn" data-filter="product">📦 Product</button>
+    <button class="filter-btn" data-filter="security">🔐 Security</button>
+    <button class="filter-btn" data-filter="mesh">🕸️ Mesh</button>
+    <button class="filter-btn" data-filter="luffy">🏴‍☠️ Luffy Review</button>
+  </div>
+
+  <div class="kanban" id="kanbanBoard">
+    <div class="kanban-col">
+      <h4>Discovered <span class="count">6</span></h4>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-020</div><div class="np-name">Nano Email Factory</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>📧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-023</div><div class="np-name">The Ghost Extension</div><div class="np-meta"><span class="stars">⭐⭐⭐</span><span>🔧 Infra</span><span>Win</span></div><div class="luffy-badge">🔍 Luffy reviewing</div></div>
+      <div class="np-card" data-cat="mesh"><div class="np-id">NP-L1-031</div><div class="np-name">Cross-Master Context Sync</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🕸️ Mesh</span><span>m1</span></div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-032</div><div class="np-name">Agent Marketplace Blueprint</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="security"><div class="np-id">NP-L1-011</div><div class="np-name">RBAC Hard Boundary</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔐 Security</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-013</div><div class="np-name">Missing Webhook</div><div class="np-meta"><span class="stars">⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+    </div>
+    <div class="kanban-col">
+      <h4>Rated <span class="count">5</span></h4>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-006</div><div class="np-name">Device Flow Bootstrap</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-007</div><div class="np-name">KV Lifeline</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-005</div><div class="np-name">Pulse Monitoring</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-012</div><div class="np-name">GitOps Overwrite</div><div class="np-meta"><span class="stars">⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="security"><div class="np-id">NP-L1-003</div><div class="np-name">Access Audit Automation</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🔐 Security</span><span>Captain</span></div></div>
+    </div>
+    <div class="kanban-col">
+      <h4>Queued <span class="count">4</span></h4>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-004</div><div class="np-name">Loop Detection</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-014</div><div class="np-name">Tool Not Shell Command</div><div class="np-meta"><span class="stars">⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="mesh"><div class="np-id">NP-L1-002</div><div class="np-name">Shape Discovery</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🕸️ Mesh</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-008</div><div class="np-name">Meek Hosting Matrix</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div></div>
+    </div>
+    <div class="kanban-col">
+      <h4>In Progress <span class="count">3</span></h4>
+      <div class="np-card" data-cat="security"><div class="np-id">NP-L1-001</div><div class="np-name">Self-Proving Silo</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🔐 Security</span><span>Captain</span></div><div class="luffy-badge">✅ Luffy verified</div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-010</div><div class="np-name">Static UI Illusion</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-024</div><div class="np-name">Free to Tree</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>📦 Product</span><span>m1</span></div></div>
+    </div>
+    <div class="kanban-col">
+      <h4>Shipped <span class="count">10</span></h4>
+      <div class="np-card" data-cat="mesh"><div class="np-id">NP-L1-029</div><div class="np-name">The Sovereign Mesh</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🕸️ Mesh</span><span>Captain</span></div><div class="luffy-badge">✅ Verified</div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-030</div><div class="np-name">The Throttle Pattern</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-027</div><div class="np-name">The Nameless Spawn</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-026</div><div class="np-name">The Missing Handshake</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-028</div><div class="np-name">The Birth Ceremony</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-017</div><div class="np-name">WS h2 Upgrade Fix</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-009</div><div class="np-name">Unpaired Gateway Restart</div><div class="np-meta"><span class="stars">⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-019</div><div class="np-name">Multi-Domain Mirror Deploy</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-022</div><div class="np-name">Subagent Parallel Build</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div></div>
+      <div class="np-card" data-cat="infra"><div class="np-id">NP-L1-025</div><div class="np-name">The Tree Was Always Here</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div></div>
+    </div>
+    <div class="kanban-col">
+      <h4>Product <span class="count">4</span></h4>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-021</div><div class="np-name">Kill the Tiers → $1</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div><div style="font-size:10px;color:var(--green);margin-top:4px">→ SERLF $1 pricing</div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-018</div><div class="np-name">Chicken-Egg Pairing</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐</span><span>🔧 Infra</span><span>Captain</span></div><div style="font-size:10px;color:var(--green);margin-top:4px">→ Device pairing flow</div></div>
+      <div class="np-card" data-cat="product"><div class="np-id">NP-L1-016</div><div class="np-name">Live Stripe in Static</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>📦 Product</span><span>Captain</span></div><div style="font-size:10px;color:var(--green);margin-top:4px">→ Stripe checkout flow</div></div>
+      <div class="np-card" data-cat="mesh"><div class="np-id">NP-L1-015</div><div class="np-name">OAuth Sub Pooling</div><div class="np-meta"><span class="stars">⭐⭐⭐⭐⭐</span><span>🕸️ Mesh</span><span>Captain</span></div><div style="font-size:10px;color:var(--green);margin-top:4px">→ Token Swarm core</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 4: FLEET CONTROL ═══════════════ -->
+<div class="tab-content" id="tab-fleet">
+  <div class="section-header">
+    <div><h2>Fleet Control</h2><div class="subtitle">19 agents across 3 masters</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>🌳 Crew Hierarchy</h3>
+    <div class="tree" style="margin-top:8px">
+      <div class="tree-node"><span class="emoji">⚓</span><strong>Admiral</strong> <span style="color:var(--text3)">(you are here)</span></div>
+      <div class="tree-children">
+        <div class="tree-node"><span class="emoji">🎯</span><strong>Bob</strong> — CPO · Opus 4</div>
+        <div class="tree-node"><span class="emoji">🔑</span><strong>John</strong> — OSS · Opus 4</div>
+        <div class="tree-node"><span class="emoji">💰</span><strong>Mo</strong> — CFO · Opus 4</div>
+        <div class="tree-node"><span class="emoji">📊</span><strong>Dao</strong> — CDO · Opus 4</div>
+        <div class="tree-children">
+          <div class="tree-node"><span class="emoji">🎖️</span>Officer — CISO · GPT-5.2</div>
+          <div class="tree-node"><span class="emoji">🔧</span>Bosun — Ops · GPT-5.2</div>
+          <div class="tree-node"><span class="emoji">🧭</span>Helmsman — Nav · GPT-5.2</div>
+          <div class="tree-node"><span class="emoji">🤖</span>Botwright — Build · GPT-5.2</div>
+          <div class="tree-node"><span class="emoji">🚢</span>Steward — Personal · GPT-5.2</div>
+          <div class="tree-node"><span class="emoji">💼</span>Work — Work · GPT-5.2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th>Agent</th><th>Master</th><th>Model</th><th>Status</th><th>Last HB</th><th>Tokens</th><th>Role</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr><td>⚓ Admiral (main)</td><td>Captain</td><td><span class="tier l1">L1</span> Opus 4</td><td><span class="status online">● online</span></td><td>now</td><td>61K</td><td>Command</td><td><a href="#" onclick="showSession('admiral');return false">peek</a></td></tr>
+      <tr><td>🎯 Bob</td><td>Captain</td><td><span class="tier l1">L1</span> Opus 4</td><td><span class="status online">● online</span></td><td>5m</td><td>12K</td><td>CPO</td><td><a href="#" onclick="showSession('bob');return false">peek</a></td></tr>
+      <tr><td>🔑 John</td><td>Captain</td><td><span class="tier l1">L1</span> Opus 4</td><td><span class="status online">● online</span></td><td>8m</td><td>9K</td><td>OSS Lead</td><td><a href="#" onclick="showSession('john');return false">peek</a></td></tr>
+      <tr><td>💰 Mo</td><td>Captain</td><td><span class="tier l1">L1</span> Opus 4</td><td><span class="status online">● online</span></td><td>12m</td><td>7K</td><td>CFO</td><td><a href="#" onclick="showSession('mo');return false">peek</a></td></tr>
+      <tr><td>📊 Dao</td><td>Captain</td><td><span class="tier l1">L1</span> Opus 4</td><td><span class="status online">● online</span></td><td>15m</td><td>5K</td><td>CDO</td><td><a href="#" onclick="showSession('dao');return false">peek</a></td></tr>
+      <tr><td>🎖️ Officer</td><td>Captain</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status online">● online</span></td><td>3m</td><td>18K</td><td>CISO</td><td><a href="#" onclick="showSession('officer');return false">peek</a></td></tr>
+      <tr><td>🔧 Bosun</td><td>Captain</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status online">● online</span></td><td>7m</td><td>14K</td><td>Ops</td><td><a href="#" onclick="showSession('bosun');return false">peek</a></td></tr>
+      <tr><td>🧭 Helmsman</td><td>Captain</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status degraded">● idle</span></td><td>45m</td><td>3K</td><td>Navigator</td><td><a href="#" onclick="showSession('helmsman');return false">peek</a></td></tr>
+      <tr><td>🤖 Botwright</td><td>Captain</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status online">● online</span></td><td>2m</td><td>22K</td><td>Builder</td><td><a href="#" onclick="showSession('botwright');return false">peek</a></td></tr>
+      <tr><td>🚢 Steward</td><td>Captain</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status online">● online</span></td><td>20m</td><td>8K</td><td>Personal</td><td>—</td></tr>
+      <tr><td>💼 Work</td><td>Captain</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status degraded">● idle</span></td><td>1h</td><td>4K</td><td>Work</td><td>—</td></tr>
+      <tr style="background:var(--bg3)"><td colspan="8" style="color:var(--text3);font-size:11px;text-align:center">— m1 (GCP Cloud Run) —</td></tr>
+      <tr><td>⚓ m1-main</td><td>m1</td><td><span class="tier l1">L1</span> Opus 4</td><td><span class="status online">● online</span></td><td>1m</td><td>34K</td><td>Master</td><td>—</td></tr>
+      <tr><td>🔧 m1-ops</td><td>m1</td><td><span class="tier l2">L2</span> Gemini Flash</td><td><span class="status online">● online</span></td><td>10m</td><td>11K</td><td>Ops</td><td>—</td></tr>
+      <tr><td>🎯 m1-product</td><td>m1</td><td><span class="tier l2">L2</span> Sonnet 4</td><td><span class="status online">● online</span></td><td>6m</td><td>8K</td><td>Product</td><td>—</td></tr>
+      <tr><td>📊 m1-data</td><td>m1</td><td><span class="tier l3">L3</span> Cerebras Llama</td><td><span class="status online">● online</span></td><td>22m</td><td>6K</td><td>Data</td><td>—</td></tr>
+      <tr><td>🔐 m1-sec</td><td>m1</td><td><span class="tier l3">L3</span> Groq Llama</td><td><span class="status online">● online</span></td><td>30m</td><td>2K</td><td>Security</td><td>—</td></tr>
+      <tr style="background:var(--bg3)"><td colspan="8" style="color:var(--text3);font-size:11px;text-align:center">— Win Fleet (Docker) —</td></tr>
+      <tr><td>⚓ win-main</td><td>Win</td><td><span class="tier l1">L1</span> GPT-5.2</td><td><span class="status degraded">● degraded</span></td><td>5m</td><td>15K</td><td>Master</td><td>—</td></tr>
+      <tr><td>🔧 win-ops</td><td>Win</td><td><span class="tier l3">L3</span> Groq Llama 8B</td><td><span class="status online">● online</span></td><td>8m</td><td>4K</td><td>Ops</td><td>—</td></tr>
+      <tr><td>🤖 win-build</td><td>Win</td><td><span class="tier l3">L3</span> Cerebras Qwen</td><td><span class="status online">● online</span></td><td>12m</td><td>3K</td><td>Builder</td><td>—</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════ TAB 5: SOVEREIGN MESH ═══════════════ -->
+<div class="tab-content" id="tab-mesh">
+  <div class="section-header">
+    <div><h2>Sovereign Mesh</h2><div class="subtitle">3-silo topology · 2-of-3 survival rule</div></div>
+  </div>
+
+  <div class="topo">
+    <div class="silo healthy">
+      <div style="font-size:28px">☁️</div>
+      <h4>Captain (AKS)</h4>
+      <div class="provider">Azure · canadacentral</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">master1-system namespace<br>Pod: master1-agent-68f9b4b64d</div>
+      <div class="health-bar"><div class="fill" style="width:94%;background:var(--green)"></div></div>
+      <div style="font-size:11px;color:var(--green);margin-top:6px">94% healthy</div>
+    </div>
+    <div class="silo healthy">
+      <div style="font-size:28px">☁️</div>
+      <h4>m1 (GCP)</h4>
+      <div class="provider">Cloud Run · northamerica-northeast1</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">m1-gcp-466191622816<br>.run.app</div>
+      <div class="health-bar"><div class="fill" style="width:88%;background:var(--green)"></div></div>
+      <div style="font-size:11px;color:var(--green);margin-top:6px">88% healthy</div>
+    </div>
+    <div class="silo degraded">
+      <div style="font-size:28px">🐳</div>
+      <h4>Win Fleet</h4>
+      <div class="provider">Docker · local machine</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Docker Desktop<br>WSL2 backend</div>
+      <div class="health-bar"><div class="fill" style="width:72%;background:var(--yellow)"></div></div>
+      <div style="font-size:11px;color:var(--yellow);margin-top:6px">72% healthy</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>🔗 Mesh Connections</h3>
+      <table>
+        <thead><tr><th>Link</th><th>Protocol</th><th>Latency</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Captain ↔ m1</td><td>WSS</td><td>12ms</td><td><span class="status online">● healthy</span></td></tr>
+          <tr><td>Captain ↔ Win</td><td>WSS</td><td>45ms</td><td><span class="status degraded">● slow</span></td></tr>
+          <tr><td>m1 ↔ Win</td><td>WSS</td><td>52ms</td><td><span class="status online">● healthy</span></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;font-size:12px;padding:8px;background:var(--bg3);border-radius:var(--radius);color:var(--green)">
+        ✅ Failover: If any 1 silo goes down, the remaining 2 maintain full mesh operation
+      </div>
+    </div>
+    <div class="card">
+      <h3>🌐 DNS Zones (28)</h3>
+      <div style="max-height:250px;overflow-y:auto;font-size:12px;margin-top:8px">
+        <table>
+          <thead><tr><th>Domain</th><th>Type</th><th>SSL</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>serlf.ca</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.com</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.org</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.net</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.info</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.club</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.shop</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>serlf.store</td><td>SERLF</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>eose.ca</td><td>Fleet</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>master.eose.ca</td><td>Fleet</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>master1.eose.ca</td><td>Fleet</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>*.gcp.eose.ca</td><td>Fleet</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>eose.dev</td><td>Fleet</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>feedles.ca</td><td>Incubation</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td>onba.ca</td><td>Client</td><td>✅ valid</td><td><span class="status online">●</span></td></tr>
+            <tr><td colspan="4" style="color:var(--text3)">+ 13 more fleet DNS zones...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 6: TOKEN ECONOMICS ═══════════════ -->
+<div class="tab-content" id="tab-econ">
+  <div class="section-header">
+    <div><h2>Token Economics</h2><div class="subtitle">Fleet-wide cost intelligence</div></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="label">Today</div><div class="val" style="color:var(--yellow)">$4.20</div></div>
+    <div class="stat-box"><div class="label">This Week</div><div class="val">$22.40</div></div>
+    <div class="stat-box"><div class="label">This Month</div><div class="val">$67.80</div></div>
+    <div class="stat-box"><div class="label">Budget</div><div class="val" style="color:var(--green)">$200</div></div>
+    <div class="stat-box"><div class="label">Projected</div><div class="val">$135</div></div>
+    <div class="stat-box"><div class="label">Savings</div><div class="val" style="color:var(--green)">68%</div></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Per-Master Breakdown</h3>
+      <div style="margin-top:12px">
+        <div class="cost-bar"><div class="label">Captain (AKS)</div><div class="bar"><div class="fill" style="width:55%;background:var(--accent)"></div></div><div class="amount">$37.30</div></div>
+        <div class="cost-bar"><div class="label">m1 (GCP)</div><div class="bar"><div class="fill" style="width:35%;background:var(--purple)"></div></div><div class="amount">$23.70</div></div>
+        <div class="cost-bar"><div class="label">Win Fleet</div><div class="bar"><div class="fill" style="width:10%;background:var(--green)"></div></div><div class="amount">$6.80</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Per-Provider Breakdown</h3>
+      <div style="margin-top:12px">
+        <div class="cost-bar"><div class="label">Anthropic</div><div class="bar"><div class="fill" style="width:60%;background:var(--accent)"></div></div><div class="amount">$40.68</div></div>
+        <div class="cost-bar"><div class="label">OpenAI</div><div class="bar"><div class="fill" style="width:25%;background:var(--purple)"></div></div><div class="amount">$16.95</div></div>
+        <div class="cost-bar"><div class="label">Mistral</div><div class="bar"><div class="fill" style="width:8%;background:var(--orange)"></div></div><div class="amount">$5.42</div></div>
+        <div class="cost-bar"><div class="label">Google</div><div class="bar"><div class="fill" style="width:0%;background:var(--green)"></div></div><div class="amount" style="color:var(--green)">$0.00</div></div>
+        <div class="cost-bar"><div class="label">Groq</div><div class="bar"><div class="fill" style="width:3%;background:var(--green)"></div></div><div class="amount">$2.10</div></div>
+        <div class="cost-bar"><div class="label">Cerebras</div><div class="bar"><div class="fill" style="width:0%;background:var(--green)"></div></div><div class="amount" style="color:var(--green)">$0.00</div></div>
+        <div class="cost-bar"><div class="label">DeepSeek</div><div class="bar"><div class="fill" style="width:2%;background:var(--green)"></div></div><div class="amount">$1.65</div></div>
+        <div class="cost-bar"><div class="label">xAI</div><div class="bar"><div class="fill" style="width:2%;background:var(--orange)"></div></div><div class="amount">$1.00</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>💡 Free Tier Savings</h3>
+      <div style="margin-top:8px;font-size:13px;line-height:1.8">
+        <div>🟢 Gemini 2.5 Flash: <strong style="color:var(--green)">$0.00</strong> (124 req/hr on free tier)</div>
+        <div>🟢 Cerebras Llama 70B: <strong style="color:var(--green)">$0.00</strong> (free, no limit)</div>
+        <div>🟢 Cerebras Qwen 32B: <strong style="color:var(--green)">$0.00</strong> (free, no limit)</div>
+        <div>🟢 OAuth Sub Pooling: <strong style="color:var(--green)">~$89/mo saved</strong> (flat sub vs per-token)</div>
+        <div style="margin-top:8px;padding:8px;background:var(--bg3);border-radius:var(--radius);color:var(--green)">
+          Token Swarm efficiency: <strong>68% cheaper</strong> than API-only at current usage<br>
+          Estimated API-only cost: $210/mo → Actual: $67.80/mo
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📈 Budget vs Actual</h3>
+      <div style="margin-top:12px">
+        <div class="cost-bar"><div class="label">Daily Budget</div><div class="bar"><div class="fill" style="width:42%;background:var(--green)"></div><div class="fill" style="width:100%;background:#ff446620;position:absolute;top:0;left:0;height:100%;border-right:2px dashed var(--red)"></div></div><div class="amount">$4.20 / $10</div></div>
+        <div class="cost-bar"><div class="label">Weekly</div><div class="bar"><div class="fill" style="width:32%;background:var(--green)"></div></div><div class="amount">$22.40 / $70</div></div>
+        <div class="cost-bar"><div class="label">Monthly</div><div class="bar"><div class="fill" style="width:34%;background:var(--green)"></div></div><div class="amount">$67.80 / $200</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--green);margin-top:12px">✅ On track. Projected $135 vs $200 budget (32% under)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 7: SECURITY & PEEK ═══════════════ -->
+<div class="tab-content" id="tab-security">
+  <div class="section-header">
+    <div><h2>Security & Peek</h2><div class="subtitle">Trust through verification · 8 peek domains</div></div>
+    <div style="font-size:24px;font-weight:700;color:var(--yellow)">Score: 71/100</div>
+  </div>
+
+  <div class="grid grid-4" style="margin-bottom:16px">
+    <div class="card"><h3>Security Peek</h3><div class="value" style="color:var(--red)">58</div><div class="sub">5 critical findings</div></div>
+    <div class="card"><h3>Code Peek</h3><div class="value" style="color:var(--green)">92</div><div class="sub">Tests passing</div></div>
+    <div class="card"><h3>NP Peek</h3><div class="value" style="color:var(--green)">85</div><div class="sub">32 NPs validated</div></div>
+    <div class="card"><h3>Captain Peek</h3><div class="value" style="color:var(--green)">88</div><div class="sub">3/3 masters healthy</div></div>
+    <div class="card"><h3>Crew Peek</h3><div class="value" style="color:var(--green)">82</div><div class="sub">19 agents active</div></div>
+    <div class="card"><h3>Architecture Peek</h3><div class="value" style="color:var(--yellow)">75</div><div class="sub">2 gaps flagged</div></div>
+    <div class="card"><h3>Owner Peek</h3><div class="value" style="color:var(--yellow)">70</div><div class="sub">CLO review pending</div></div>
+    <div class="card"><h3>Portal Peek</h3><div class="value" style="color:var(--green)">80</div><div class="sub">Dogfood: active</div></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>🚨 Security Audit Findings</h3>
+      <table style="margin-top:8px">
+        <thead><tr><th>Severity</th><th>Finding</th><th>Master</th></tr></thead>
+        <tbody>
+          <tr><td><span style="color:var(--red)">🔴 CRIT</span></td><td>allowInsecureAuth = true</td><td>Captain</td></tr>
+          <tr><td><span style="color:var(--red)">🔴 CRIT</span></td><td>dangerouslyDisableDeviceAuth = true</td><td>Captain</td></tr>
+          <tr><td><span style="color:var(--red)">🔴 CRIT</span></td><td>Small model sandbox off + web tools</td><td>Captain</td></tr>
+          <tr><td><span style="color:var(--red)">🔴 CRIT</span></td><td>/tmp/openclaw mode=777</td><td>Captain</td></tr>
+          <tr><td><span style="color:var(--red)">🔴 CRIT</span></td><td>/config/openclaw.json mode=777</td><td>Captain</td></tr>
+          <tr><td><span style="color:var(--yellow)">🟡 WARN</span></td><td>Config is a symlink</td><td>Captain</td></tr>
+          <tr><td><span style="color:var(--yellow)">🟡 WARN</span></td><td>auth-profiles.json readable (644)</td><td>Captain</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📜 CLO Trail</h3>
+      <div style="margin-top:8px;font-size:12px;line-height:1.8">
+        <div style="border-bottom:1px solid var(--border);padding:4px 0"><span style="color:var(--text3)">Feb 15 21:46</span> — Baseline audit: 5 critical findings logged</div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0"><span style="color:var(--text3)">Feb 15 20:00</span> — Device auth break-glass activated (justified: pairing bootstrap)</div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0"><span style="color:var(--text3)">Feb 14 22:00</span> — Fleet repo push: spawn allowlist config</div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0"><span style="color:var(--text3)">Feb 14 18:00</span> — Silo access audit: 6/6 passed (cross-ns denied)</div>
+        <div style="padding:4px 0"><span style="color:var(--text3)">Feb 14 12:00</span> — Admiral promotion authorized by Kay J</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>🏴‍☠️ Luffy Hallucination Sweep</h3>
+    <table style="margin-top:8px">
+      <thead><tr><th>Claim</th><th>Source</th><th>Verdict</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td>"20 model lanes operational"</td><td>Captain</td><td><span style="color:var(--green)">✅ Verified</span></td><td>98%</td></tr>
+        <tr><td>"68% cost savings vs API-only"</td><td>Mo (CFO)</td><td><span style="color:var(--green)">✅ Verified</span></td><td>94%</td></tr>
+        <tr><td>"32 Novel Patterns discovered"</td><td>Captain</td><td><span style="color:var(--yellow)">⚠️ 30 confirmed, 2 pending</span></td><td>85%</td></tr>
+        <tr><td>"OAuth sub pooling is unique"</td><td>Bob (CPO)</td><td><span style="color:var(--green)">✅ No competitor found</span></td><td>91%</td></tr>
+        <tr><td>"3-silo mesh survives 1 failure"</td><td>Captain</td><td><span style="color:var(--yellow)">⚠️ Untested in production</span></td><td>75%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 8: PRODUCTS & DOMAINS ═══════════════ -->
+<div class="tab-content" id="tab-products">
+  <div class="section-header">
+    <div><h2>Products & Domains</h2><div class="subtitle">12 products · 28 domains · $1/mo for everything</div></div>
+    <div style="font-size:12px">Customer Zero: <strong style="color:var(--accent)">Kay J</strong> ⚓</div>
+  </div>
+
+  <div class="grid grid-4" style="margin-bottom:16px">
+    <div class="product-card"><div class="icon">🏠</div><div class="name">SERLF Home</div><div class="desc">serlf.ca</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">🏢</div><div class="name">Enterprise</div><div class="desc">serlf.com</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">📜</div><div class="name">Open Source</div><div class="desc">serlf.org</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">🔧</div><div class="name">Dev Portal</div><div class="desc">serlf.net</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">📚</div><div class="name">Knowledge</div><div class="desc">serlf.info</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">🎪</div><div class="name">Community</div><div class="desc">serlf.club</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">🛍️</div><div class="name">Merch</div><div class="desc">serlf.shop</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">💎</div><div class="name">Marketplace</div><div class="desc">serlf.store</div><span class="status online">● live</span></div>
+    <div class="product-card"><div class="icon">🤖</div><div class="name">Token Swarm</div><div class="desc">Cost optimizer</div><span class="status building">● building</span></div>
+    <div class="product-card"><div class="icon">🎓</div><div class="name">SERLF Academy</div><div class="desc">RL learning</div><span class="status building">● building</span></div>
+    <div class="product-card"><div class="icon">⚓</div><div class="name">Admiral Portal</div><div class="desc">Fleet dashboard</div><span class="status building">● building</span></div>
+    <div class="product-card"><div class="icon">🐣</div><div class="name">Feedles</div><div class="desc">feedles.ca</div><span class="status" style="background:#aa66ff20;color:var(--purple)">● planned</span></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>💳 Stripe</h3>
+      <div style="margin-top:8px;font-size:13px;line-height:1.8">
+        <div>Price: <strong style="color:var(--green)">$1/mo for everything</strong> (NP-L1-021)</div>
+        <div>Payment Link: <a href="https://buy.stripe.com/fZufZbgo3cxr0Li9ZAgjC03" target="_blank">buy.stripe.com/...</a></div>
+        <div>Billing Portal: <a href="https://billing.stripe.com/p/login/5kQ7v3c5L5pE5b2cMM" target="_blank">billing.stripe.com/...</a></div>
+        <div style="margin-top:8px">Customers: <strong>1</strong> (Kay J — Customer Zero)</div>
+        <div>MRR: <strong style="color:var(--green)">$1.00</strong></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔐 Auth Flow</h3>
+      <div style="margin-top:8px;font-size:13px;line-height:1.8">
+        <div>OAuth Provider: Google</div>
+        <div>Client ID: 758788284456-vf6g...</div>
+        <div>Flow: serlf.ca → Google OAuth → Stripe ($1) → Welcome → Dashboard</div>
+        <div>GitHub Pages: All 8 SERLF domains</div>
+        <div>Repo: eose-sre/serlf (public)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 9: LUFFY'S CORNER ═══════════════ -->
+<div class="tab-content" id="tab-luffy">
+  <div class="section-header">
+    <div><h2>🏴‍☠️ Luffy's Corner</h2><div class="subtitle">The Hunter · Hallucination detector · Truth enforcer</div></div>
+    <div style="font-size:11px;color:var(--text3)">Current tier: East Blue → Gear 5</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="label">NPs Reviewed</div><div class="val" style="color:var(--green)">28</div></div>
+    <div class="stat-box"><div class="label">Flagged</div><div class="val" style="color:var(--yellow)">4</div></div>
+    <div class="stat-box"><div class="label">Verified</div><div class="val" style="color:var(--green)">22</div></div>
+    <div class="stat-box"><div class="label">Pending</div><div class="val" style="color:var(--orange)">6</div></div>
+    <div class="stat-box"><div class="label">Rejected</div><div class="val" style="color:var(--red)">2</div></div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>🎯 Trust Score per Master</h3>
+      <div style="margin-top:12px">
+        <div class="trust-meter"><span style="min-width:80px;font-size:12px">Captain</span><div class="bar"><div class="fill" style="width:92%;background:var(--green)"></div></div><span style="font-size:12px;font-weight:700;color:var(--green)">92%</span></div>
+        <div class="trust-meter"><span style="min-width:80px;font-size:12px">m1</span><div class="bar"><div class="fill" style="width:87%;background:var(--green)"></div></div><span style="font-size:12px;font-weight:700;color:var(--green)">87%</span></div>
+        <div class="trust-meter"><span style="min-width:80px;font-size:12px">Win Fleet</span><div class="bar"><div class="fill" style="width:74%;background:var(--yellow)"></div></div><span style="font-size:12px;font-weight:700;color:var(--yellow)">74%</span></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:8px">Trust = (verified claims / total claims) × uptime weight</div>
+    </div>
+    <div class="card">
+      <h3>⚠️ Pattern Anomalies</h3>
+      <div style="margin-top:8px;font-size:12px;line-height:1.8">
+        <div style="padding:6px;background:var(--bg3);border-radius:var(--radius);margin-bottom:6px">
+          <div style="color:var(--yellow)">NP-L1-032: Agent Marketplace Blueprint</div>
+          <div style="color:var(--text3)">Claim: "revenue from day 1" — needs validation</div>
+        </div>
+        <div style="padding:6px;background:var(--bg3);border-radius:var(--radius);margin-bottom:6px">
+          <div style="color:var(--yellow)">NP-L1-031: Cross-Master Context Sync</div>
+          <div style="color:var(--text3)">Claim: "<100ms sync" — untested at scale</div>
+        </div>
+        <div style="padding:6px;background:var(--bg3);border-radius:var(--radius)">
+          <div style="color:var(--orange)">NP-L1-015: OAuth Sub Pooling</div>
+          <div style="color:var(--text3)">Claim: "unique, no competitors" — needs market scan refresh</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔍 Fact-Check Queue</h3>
+      <div style="margin-top:8px;font-size:12px;line-height:1.8">
+        <div style="border-bottom:1px solid var(--border);padding:4px 0">📋 "Cerebras has no rate limits" — <span style="color:var(--yellow)">queued</span></div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0">📋 "3-silo failover works" — <span style="color:var(--yellow)">queued</span></div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0">📋 "GitHub Pages CNAME propagated" — <span style="color:var(--yellow)">queued</span></div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0">📋 "$1 pricing sustainable" — <span style="color:var(--yellow)">queued</span></div>
+        <div style="border-bottom:1px solid var(--border);padding:4px 0">📋 "Signal send works" — <span style="color:var(--red)">❌ FAILED</span></div>
+        <div style="padding:4px 0">📋 "Telegram enabled" — <span style="color:var(--red)">❌ FAILED (top-level disabled)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>🔄 Cross-Master Consistency Check</h3>
+    <table style="margin-top:8px">
+      <thead><tr><th>Claim</th><th>Captain</th><th>m1</th><th>Win</th><th>Consensus</th></tr></thead>
+      <tbody>
+        <tr><td>NP count</td><td>32</td><td>30</td><td>28</td><td><span style="color:var(--yellow)">⚠️ Divergent (registries not synced)</span></td></tr>
+        <tr><td>Model lanes</td><td>20</td><td>20</td><td>14</td><td><span style="color:var(--yellow)">⚠️ Win missing 6 lanes</span></td></tr>
+        <tr><td>Fleet health</td><td>94%</td><td>88%</td><td>72%</td><td><span style="color:var(--green)">✅ Consistent (expected variance)</span></td></tr>
+        <tr><td>Cost methodology</td><td>Token Swarm</td><td>Token Swarm</td><td>API-only</td><td><span style="color:var(--yellow)">⚠️ Win not using Swarm</span></td></tr>
+        <tr><td>Git HEAD</td><td>a572480</td><td>a572480</td><td>a572480</td><td><span style="color:var(--green)">✅ In sync</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 10: DEPLOY & SHIP ═══════════════ -->
+<div class="tab-content" id="tab-deploy">
+  <div class="section-header">
+    <div><h2>Deploy & Ship</h2><div class="subtitle">GitOps · CI/CD · Fleet deployments</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>📦 Git Repos</h3>
+    <table style="margin-top:8px">
+      <thead><tr><th>Repo</th><th>Branch</th><th>Last Commit</th><th>Build</th><th>Deploy</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#">eose-sre/openclaw-fleet</a></td><td>main</td><td><code>a572480</code> 🔧 NP-L1-030: Throttle Pattern</td><td><span style="color:var(--green)">✅ pass</span></td><td><span style="color:var(--green)">Flux synced</span></td></tr>
+        <tr><td><a href="#">eose-sre/serlf</a></td><td>main</td><td><code>a9619d8</code> 🚀 serlf v5 — $1 for everything</td><td><span style="color:var(--green)">✅ pass</span></td><td><span style="color:var(--green)">GitHub Pages live</span></td></tr>
+        <tr><td><a href="#">eose-sre/admiral-fleet-control</a></td><td>main</td><td><code>fa73a9d</code> Portal v4 + dashboard</td><td><span style="color:var(--green)">✅ pass</span></td><td><span style="color:var(--green)">GitHub Pages live</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>☁️ AKS (Captain)</h3>
+      <div style="margin-top:8px;font-size:12px;line-height:1.8">
+        <div>Cluster: <code>aks-eose-aaas-dev</code></div>
+        <div>Namespace: <code>master1-system</code></div>
+        <div>Flux: <span style="color:var(--green)">✅ Synced</span></div>
+        <div>Pod: <code>master1-agent-68f9b4b64d</code></div>
+        <div>Image: openclaw:latest</div>
+        <div>Istio: <span style="color:var(--green)">STRICT mTLS</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>☁️ GCP (m1)</h3>
+      <div style="margin-top:8px;font-size:12px;line-height:1.8">
+        <div>Service: <code>m1-gcp</code></div>
+        <div>Region: northamerica-northeast1</div>
+        <div>Status: <span style="color:var(--green)">✅ Running</span></div>
+        <div>Scale: 1 (always-on master)</div>
+        <div>IaC: Terraform ready</div>
+        <div>Cost: ~$35-55/mo idle</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🐳 Win Fleet</h3>
+      <div style="margin-top:8px;font-size:12px;line-height:1.8">
+        <div>Runtime: Docker Desktop</div>
+        <div>Backend: WSL2</div>
+        <div>Containers: 3 agents</div>
+        <div>Status: <span style="color:var(--yellow)">⚠️ Degraded</span></div>
+        <div>Network: WSS via Tailscale</div>
+        <div>Cost: $0 (local)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>🏗️ Terraform State</h3>
+    <div style="margin-top:8px;font-size:12px;line-height:1.6">
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <div><strong>AKS:</strong> 47 resources managed</div>
+        <div><strong>GCP:</strong> 12 resources (pending apply)</div>
+        <div><strong>DNS:</strong> 28 zones, 94 records</div>
+        <div><strong>Last plan:</strong> 2 to add, 0 to change, 0 to destroy</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- SESSION MODAL -->
+<div class="modal-overlay" id="sessionModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('sessionModal').classList.remove('show')">&times;</button>
+    <h3 id="sessionTitle">Session Peek</h3>
+    <div id="sessionContent" style="font-size:12px;font-family:monospace;line-height:1.6;margin-top:12px;padding:12px;background:var(--bg);border-radius:var(--radius);max-height:400px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<script>
+// TAB SWITCHING
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// NP FILTERS
+document.querySelectorAll('#npFilters .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#npFilters .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.np-card').forEach(card => {
+      if (f === 'all') { card.style.display = ''; return; }
+      if (f === 'luffy') { card.style.display = card.querySelector('.luffy-badge') ? '' : 'none'; return; }
+      card.style.display = card.dataset.cat === f ? '' : 'none';
+    });
+  });
+});
+
+// MESH SVG LINES
+function drawMesh() {
+  const svg = document.getElementById('meshSvg');
+  const viz = document.getElementById('meshViz');
+  if (!viz.offsetHeight) return;
+  const nodes = ['captain','m1','win'].map(id => {
+    const el = document.getElementById('node-' + id);
+    const r = el.getBoundingClientRect();
+    const vr = viz.getBoundingClientRect();
+    return { x: r.left - vr.left + r.width/2, y: r.top - vr.top + r.height/2 };
+  });
+  svg.innerHTML = `
+    <line x1="${nodes[0].x}" y1="${nodes[0].y}" x2="${nodes[1].x}" y2="${nodes[1].y}"/>
+    <line x1="${nodes[0].x}" y1="${nodes[0].y}" x2="${nodes[2].x}" y2="${nodes[2].y}"/>
+    <line x1="${nodes[1].x}" y1="${nodes[1].y}" x2="${nodes[2].x}" y2="${nodes[2].y}"/>
+  `;
+}
+setTimeout(drawMesh, 100);
+window.addEventListener('resize', drawMesh);
+
+// PULSE FEED
+const pulseData = [
+  { time: '22:26', source: 'Captain', msg: '🧠 Portal v2 subagent spawned — designing hive mind dashboard' },
+  { time: '22:24', source: 'm1', msg: '🔀 Model route: claude-opus-4-6 → 200 tokens consumed' },
+  { time: '22:20', source: 'Captain', msg: '📊 Baseline audit completed — 5 critical findings' },
+  { time: '22:18', source: 'Win', msg: '🐳 Container health check passed (3/3 agents)' },
+  { time: '22:15', source: 'm1', msg: '💡 NP-L1-031 discovered: Cross-Master Context Sync' },
+  { time: '22:10', source: 'Captain', msg: '🔐 Security peek scan: score 58/100 — 5 criticals' },
+  { time: '22:05', source: 'Captain', msg: '🚀 serlf v5 live on GitHub Pages — $1 for everything' },
+  { time: '22:00', source: 'm1', msg: '🕸️ Mesh heartbeat: all 3 connections healthy' },
+  { time: '21:55', source: 'Win', msg: '⚠️ Health degraded: 72% — Docker Desktop memory pressure' },
+  { time: '21:50', source: 'Captain', msg: '🔧 NP-L1-030 shipped: The Throttle Pattern deployed to fleet' },
+  { time: '21:45', source: 'm1', msg: '💰 Token Swarm: $0.00 cost for 124 Gemini Flash requests (free tier)' },
+  { time: '21:40', source: 'Captain', msg: '📦 Git push: a572480 to openclaw-fleet/main' },
+  { time: '21:35', source: 'Captain', msg: '🏴‍☠️ Luffy: NP-L1-029 (Sovereign Mesh) verified ✅' },
+  { time: '21:30', source: 'Win', msg: '🔄 Flux sync completed — config applied' },
+];
+const feed = document.getElementById('pulseFeed');
+pulseData.forEach(p => {
+  feed.innerHTML += `<div class="pulse-item"><span class="time">${p.time}</span><span class="source">${p.source}</span><span>${p.msg}</span></div>`;
+});
+
+// SESSION PEEK MODAL
+const sessions = {
+  admiral: '> Session: Admiral (main)\n> Model: claude-opus-4-6\n> Tokens: 61K/200K (30%)\n\n[22:26] Spawned subagent: portal-v2-hive-mind\n[22:24] Reading baseline/2026-02-15-rebaseline.md\n[22:20] Completed golden baseline audit\n[22:15] Reviewed NP registry (32 patterns)\n[22:10] Running security peek scan...',
+  bob: '> Session: Bob (CPO)\n> Model: claude-opus-4-6\n> Last active: 5m ago\n\n[22:20] Reviewed Token Swarm product spec\n[22:15] Updated go-to-market playbook\n[22:10] "OAuth Sub Pooling is our moat"\n[22:05] Analyzing SERLF v5 pricing model',
+  john: '> Session: John (OSS)\n> Model: claude-opus-4-6\n\n[22:18] Reviewing open source licensing\n[22:12] serlf.org content strategy\n[22:05] Community contribution guidelines draft',
+  mo: '> Session: Mo (CFO)\n> Model: claude-opus-4-6\n\n[22:15] Token economics report generated\n[22:10] "68% savings confirmed"\n[22:05] Monthly projection: $135 vs $200 budget',
+  dao: '> Session: Dao (CDO)\n> Model: claude-opus-4-6\n\n[22:12] Fleet telemetry review\n[22:08] Data pipeline health check\n[22:03] Cross-master metrics alignment',
+  officer: '> Session: Officer (CISO)\n> Model: gpt-5.2-codex\n\n[22:23] Security audit: 5 critical findings\n[22:18] Reviewing auth-profiles.json perms\n[22:12] "allowInsecureAuth must go"',
+  bosun: '> Session: Bosun (Ops)\n> Model: gpt-5.2-codex\n\n[22:19] Fleet health check: 3/3 masters reachable\n[22:14] DNS zone validation: 28/28 resolving\n[22:08] SSL cert check: all valid',
+  helmsman: '> Session: Helmsman (Navigator)\n> Model: gpt-5.2-codex\n> Last active: 45m ago\n\n[21:40] Route optimization complete\n[21:35] Model lane performance review',
+  botwright: '> Session: Botwright (Builder)\n> Model: gpt-5.2-codex\n\n[22:24] Building portal-v2.html components\n[22:18] CSS theme system updated\n[22:12] Responsive grid system deployed',
+};
+
+function showSession(agent) {
+  document.getElementById('sessionTitle').textContent = 'Session Peek — ' + agent;
+  document.getElementById('sessionContent').textContent = sessions[agent] || 'No session data available.';
+  document.getElementById('sessionModal').classList.add('show');
+}
+
+// Click outside modal to close
+document.getElementById('sessionModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('show');
+});
+
+// Animate pulse feed (add new items periodically)
+const newPulses = [
+  { source: 'Captain', msg: '🧠 Hive mind dashboard rendering...' },
+  { source: 'm1', msg: '🔀 Fallback triggered: DeepSeek → Groq Llama' },
+  { source: 'Win', msg: '🐳 Agent win-build: container restarted' },
+  { source: 'Captain', msg: '💡 NP-L1-032 rated: ⭐⭐⭐⭐' },
+  { source: 'm1', msg: '🔐 Certificate renewal: *.gcp.eose.ca' },
+];
+let pulseIdx = 0;
+setInterval(() => {
+  if (pulseIdx >= newPulses.length) pulseIdx = 0;
+  const p = newPulses[pulseIdx++];
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const el = document.createElement('div');
+  el.className = 'pulse-item';
+  el.style.opacity = '0';
+  el.innerHTML = `<span class="time">${time}</span><span class="source">${p.source}</span><span>${p.msg}</span>`;
+  feed.prepend(el);
+  requestAnimationFrame(() => { el.style.transition = 'opacity .5s'; el.style.opacity = '1'; });
+}, 8000);
+</script>
+</body>
+</html>
