@@ -1,133 +1,186 @@
-// ========== serlf Auth Module ==========
-// Supabase-powered auth + account management
-// Config: set SUPABASE_URL and SUPABASE_ANON_KEY when ready
+// serlf OAuth Authentication Module
+// Handles Google OAuth, session management, and auth state
 
-const SUPABASE_URL = ''; // TODO: set after Supabase project created
-const SUPABASE_ANON_KEY = ''; // TODO: set after Supabase project created
-
-let supabase = null;
-let currentUser = null;
-
-// ========== INIT ==========
-function initAuth() {
-    if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        supabase.auth.onAuthStateChange((event, session) => {
-            currentUser = session?.user || null;
-            updateAuthUI();
-            if (event === 'SIGNED_IN') loadAccount();
-        });
-        // Check existing session
-        supabase.auth.getSession().then(({ data }) => {
-            currentUser = data.session?.user || null;
-            updateAuthUI();
-            if (currentUser) loadAccount();
-        });
+const SERLF_AUTH = {
+  // Admin emails (full access)
+  ADMIN_EMAILS: ['kewinjoffe@gmail.com', 'kewin.joffe@gmail.com'],
+  
+  // Session key
+  SESSION_KEY: 'serlf_session',
+  
+  /**
+   * Check if user is authenticated
+   * @returns {boolean}
+   */
+  isAuthenticated() {
+    const session = this.getSession();
+    if (!session) return false;
+    
+    // Check if token is expired
+    if (session.expires && Date.now() > session.expires) {
+      this.logout();
+      return false;
     }
-}
-
-// ========== AUTH ACTIONS ==========
-async function signUp(email, password, name) {
-    if (!supabase) return mockAuth('signup', email, name);
-    const { data, error } = await supabase.auth.signUp({
-        email, password,
-        options: { data: { name } }
-    });
-    if (error) throw error;
-    return data;
-}
-
-async function signIn(email, password) {
-    if (!supabase) return mockAuth('signin', email);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    return data;
-}
-
-async function signInWithProvider(provider) {
-    if (!supabase) return mockAuth('oauth', provider);
-    const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: { redirectTo: window.location.origin }
-    });
-    if (error) throw error;
-    return data;
-}
-
-async function signOut() {
-    if (!supabase) {
-        currentUser = null;
-        localStorage.removeItem('serlf_mock_user');
-        updateAuthUI();
-        window.location.hash = '#/';
-        return;
+    
+    return true;
+  },
+  
+  /**
+   * Get current user session
+   * @returns {Object|null} User session object or null
+   */
+  getSession() {
+    try {
+      const session = sessionStorage.getItem(this.SESSION_KEY);
+      return session ? JSON.parse(session) : null;
+    } catch (e) {
+      console.warn('Invalid session data:', e);
+      sessionStorage.removeItem(this.SESSION_KEY);
+      return null;
     }
-    await supabase.auth.signOut();
-    currentUser = null;
-    updateAuthUI();
-    window.location.hash = '#/';
-}
-
-async function resetPassword(email) {
-    if (!supabase) return alert('Password reset will work once Supabase is connected.');
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/#/account'
-    });
-    if (error) throw error;
-}
-
-// ========== ACCOUNT ==========
-let accountData = null;
-
-async function loadAccount() {
-    if (!supabase || !currentUser) return;
-    const { data } = await supabase.from('accounts')
-        .select('*, subscriptions(*, products(*))')
-        .eq('id', currentUser.id)
-        .single();
-    accountData = data;
-}
-
-function getAccountTier() {
-    if (accountData?.tier) return accountData.tier;
-    return 'free';
-}
-
-// ========== MOCK AUTH (pre-Supabase) ==========
-function mockAuth(action, email, name) {
-    const mockUser = {
-        id: 'mock-' + Date.now(),
-        email: email || 'demo@serlf.ca',
-        user_metadata: { name: name || email?.split('@')[0] || 'Demo User' }
+  },
+  
+  /**
+   * Get current user info
+   * @returns {Object|null} User object with name, email, picture
+   */
+  getUser() {
+    const session = this.getSession();
+    if (!session) return null;
+    
+    return {
+      name: session.name,
+      email: session.email,
+      picture: session.picture,
+      given_name: session.given_name,
+      family_name: session.family_name
     };
-    currentUser = mockUser;
-    localStorage.setItem('serlf_mock_user', JSON.stringify(mockUser));
-    updateAuthUI();
-    window.location.hash = '#/account';
-    return { user: mockUser };
-}
-
-function loadMockUser() {
-    const stored = localStorage.getItem('serlf_mock_user');
-    if (stored) {
-        currentUser = JSON.parse(stored);
-        updateAuthUI();
+  },
+  
+  /**
+   * Check if current user is admin
+   * @param {string} [email] - Email to check (optional, uses current user if not provided)
+   * @returns {boolean}
+   */
+  isAdmin(email = null) {
+    if (!email) {
+      const user = this.getUser();
+      if (!user) return false;
+      email = user.email;
     }
-}
-
-// ========== UI ==========
-function updateAuthUI() {
-    const loginBtn = document.getElementById('loginBtn');
-    if (!loginBtn) return;
-    if (currentUser) {
-        const name = currentUser.user_metadata?.name || currentUser.email?.split('@')[0] || 'Account';
-        loginBtn.textContent = name;
-        loginBtn.href = '#/account';
-    } else {
-        loginBtn.textContent = 'Sign In';
-        loginBtn.href = '#/login';
+    
+    return this.ADMIN_EMAILS.includes(email.toLowerCase());
+  },
+  
+  /**
+   * Store user session
+   * @param {Object} userData - User data from Google OAuth
+   */
+  setSession(userData) {
+    try {
+      const session = {
+        name: userData.name,
+        email: userData.email,
+        picture: userData.picture,
+        given_name: userData.given_name,
+        family_name: userData.family_name,
+        created: Date.now(),
+        expires: userData.exp ? userData.exp * 1000 : (Date.now() + (24 * 60 * 60 * 1000)), // 24 hours default
+        token: userData.token || null
+      };
+      
+      sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(session));
+      console.log('Session created for:', userData.email);
+    } catch (e) {
+      console.error('Failed to store session:', e);
     }
-}
+  },
+  
+  /**
+   * Clear session and redirect to login
+   */
+  logout() {
+    sessionStorage.removeItem(this.SESSION_KEY);
+    window.location.href = '/login.html';
+  },
+  
+  /**
+   * Require authentication - redirect to login if not authenticated
+   */
+  requireAuth() {
+    if (!this.isAuthenticated()) {
+      // Store the current page to redirect back after login
+      sessionStorage.setItem('serlf_redirect', window.location.href);
+      window.location.href = '/login.html';
+      return false;
+    }
+    return true;
+  },
+  
+  /**
+   * Get redirect URL after successful login
+   * @returns {string}
+   */
+  getRedirectUrl() {
+    const redirect = sessionStorage.getItem('serlf_redirect');
+    sessionStorage.removeItem('serlf_redirect');
+    return redirect || '/portal.html';
+  },
+  
+  /**
+   * Decode JWT token (simple base64 decode, no verification)
+   * @param {string} token - JWT token
+   * @returns {Object|null} Decoded payload or null
+   */
+  decodeJWT(token) {
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      
+      const payload = parts[1];
+      // Add padding if needed
+      const padded = payload + '='.repeat((4 - payload.length % 4) % 4);
+      const decoded = atob(padded.replace(/-/g, '+').replace(/_/g, '/'));
+      
+      return JSON.parse(decoded);
+    } catch (e) {
+      console.error('Failed to decode JWT:', e);
+      return null;
+    }
+  },
+  
+  /**
+   * Validate Google JWT token
+   * @param {string} token - JWT token from Google
+   * @returns {Object|null} Validated user data or null
+   */
+  validateGoogleToken(token) {
+    const decoded = this.decodeJWT(token);
+    if (!decoded) return null;
+    
+    // Basic validation
+    if (!decoded.email || !decoded.name) {
+      console.warn('Invalid token: missing required fields');
+      return null;
+    }
+    
+    // Check if token is expired
+    if (decoded.exp && Date.now() > decoded.exp * 1000) {
+      console.warn('Token expired');
+      return null;
+    }
+    
+    // Check issuer (optional, for extra security)
+    if (decoded.iss && !['accounts.google.com', 'https://accounts.google.com'].includes(decoded.iss)) {
+      console.warn('Invalid token issuer:', decoded.iss);
+      return null;
+    }
+    
+    return decoded;
+  }
+};
 
-function isLoggedIn() { return !!currentUser; }
-function getUser() { return currentUser; }
+// Export for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = SERLF_AUTH;
+}
