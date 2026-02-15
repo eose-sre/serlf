@@ -1,697 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Captain Maple's Dashboard — serlf.ca</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SERLF — Fleet Control Dashboard</title>
+<link rel="stylesheet" href="styles.css">
 <style>
-:root {
-  --bg: #0a0e1a;
-  --surface: #111827;
-  --surface2: #1f2937;
-  --border: #374151;
-  --text: #f3f4f6;
-  --muted: #9ca3af;
-  --green: #34d399;
-  --cyan: #22d3ee;
-  --accent: #ef4444;
-  --accent-hover: #dc2626;
-  --red: #ef4444;
-  --yellow: #f59e0b;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-/* Glass morphism base */
-.glass {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(55, 65, 81, 0.3);
-  border-radius: 16px;
-}
-
-.glass-light {
-  background: rgba(31, 41, 55, 0.4);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(55, 65, 81, 0.2);
-  border-radius: 12px;
-}
-
-/* Header */
-.header {
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid rgba(55, 65, 81, 0.3);
-  background: rgba(17, 24, 39, 0.8);
-  backdrop-filter: blur(20px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--text);
-  text-decoration: none;
-  letter-spacing: -0.02em;
-}
-
-.captain-intro {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 1rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 20px;
-}
-
-.flag {
-  font-size: 1.2rem;
-}
-
-.captain-text {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-.user-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.billing-btn {
-  padding: 0.5rem 1rem;
-  background: rgba(52, 211, 153, 0.1);
-  color: var(--green);
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(52, 211, 153, 0.2);
-}
-
-.billing-btn:hover {
-  background: rgba(52, 211, 153, 0.2);
-  transform: translateY(-1px);
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Main container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-/* Welcome section */
-.welcome {
-  text-align: center;
-  margin-bottom: 3rem;
-  padding: 2rem;
-}
-
-.welcome h1 {
-  font-size: 2.5rem;
-  font-weight: 900;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--text), var(--muted));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.welcome .eh {
-  color: var(--accent);
-}
-
-.welcome p {
-  font-size: 1.1rem;
-  color: var(--muted);
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
-}
-
-.pricing-highlight {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 2px solid var(--accent);
-  border-radius: 25px;
-  font-weight: 700;
-  color: var(--accent);
-  font-size: 1rem;
-}
-
-/* Products grid */
-.products {
-  margin-bottom: 3rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-  text-align: center;
-  color: var(--text);
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 1.5rem;
-}
-
-.product-card {
-  padding: 2rem;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  position: relative;
-  overflow: hidden;
-}
-
-.product-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: 0 20px 40px rgba(239, 68, 68, 0.1);
-}
-
-.product-card.featured {
-  border-color: var(--accent);
-  background: rgba(239, 68, 68, 0.05);
-}
-
-.product-card.featured::before {
-  content: '🍁 Canadian Favourite';
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 0.7rem;
-  padding: 0.25rem 0.75rem;
-  background: var(--accent);
-  color: white;
-  border-radius: 12px;
-  font-weight: 600;
-}
-
-.product-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.product-icon {
-  font-size: 2rem;
-}
-
-.product-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.product-desc {
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
-.product-features {
-  list-style: none;
-  margin-bottom: 1.5rem;
-}
-
-.product-features li {
-  color: var(--muted);
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.product-features li::before {
-  content: '✓';
-  color: var(--green);
-  font-weight: bold;
-}
-
-.product-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: var(--accent);
-  color: white;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.product-cta:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-}
-
-/* Canadian advantages */
-.canadian-advantages {
-  margin-bottom: 3rem;
-  padding: 2rem;
-  text-align: center;
-}
-
-.advantages-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.advantage {
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.advantage-icon {
-  font-size: 2rem;
-  margin-bottom: 0.75rem;
-}
-
-.advantage-title {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
-
-.advantage-desc {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 2rem;
-  border-top: 1px solid rgba(55, 65, 81, 0.3);
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
-}
-
-.footer-links a {
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: var(--accent);
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  
-  .captain-intro {
-    order: -1;
-  }
-  
-  .container {
-    padding: 1rem;
-  }
-  
-  .welcome h1 {
-    font-size: 2rem;
-  }
-  
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .advantages-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .footer-links {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-
-/* Loading animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-/* Canadian flag pulse */
-@keyframes flagPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-.flag:hover {
-  animation: flagPulse 0.6s ease;
-}
+.tabs{display:flex;gap:0;overflow-x:auto;border-bottom:2px solid var(--bg3);margin-bottom:2rem}
+.tab{padding:.75rem 1.25rem;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--fg2);border:none;background:none;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab:hover{color:#fff}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.tab-content{display:none}.tab-content.active{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.stat{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:1.5rem;text-align:center}
+.stat .value{font-size:2rem;font-weight:900;color:var(--gold)}
+.stat .label{font-size:.8rem;color:var(--fg2);margin-top:.25rem}
+.log{background:var(--bg2);border-radius:var(--radius);padding:1rem;font-family:monospace;font-size:.8rem;color:var(--fg2);max-height:300px;overflow-y:auto;line-height:1.8}
+.log .ok{color:#4ade80}.log .warn{color:var(--gold)}.log .err{color:var(--maple)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{text-align:left;padding:.75rem;border-bottom:1px solid var(--bg3);color:var(--fg2);font-weight:600}
+td{padding:.75rem;border-bottom:1px solid rgba(255,255,255,.03)}
+.badge{display:inline-block;padding:.15rem .5rem;border-radius:99px;font-size:.7rem;font-weight:700}
+.badge-ok{background:rgba(74,222,128,.15);color:#4ade80}
+.badge-warn{background:rgba(244,162,97,.15);color:var(--gold)}
+.badge-err{background:rgba(230,57,70,.15);color:var(--maple)}
 </style>
 </head>
 <body>
+<header class="site-header"><div class="header-inner">
+<div class="logo">SERLF<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">Fleet Control</span></div>
+<nav>
+<a href="https://serlf.ca">.ca</a><a href="https://serlf.com">.com</a><a href="https://serlf.net">.net</a>
+</nav>
+</div></header>
 
-<header class="header">
-  <div class="logo-section">
-    <a href="#" class="logo">serlf</a>
-    <div class="captain-intro">
-      <span class="flag">🇨🇦</span>
-      <span class="captain-text">Captain Maple's Ship</span>
-    </div>
-  </div>
-  
-  <div class="user-section">
-    <a href="https://billing.stripe.com/p/login/test_aEU9C0dvCgCj5nG000" class="billing-btn">💳 Manage Billing</a>
-    <div class="user-info" id="user-info">
-      <span id="user-name">Loading...</span>
-    </div>
-  </div>
-</header>
-
-<div class="container">
-  
-  <section class="welcome fade-in">
-    <h1>Welcome aboard<span class="eh">, eh!</span></h1>
-    <p>I'm Captain Maple 🍁, your personal guide to serlf.ca — Canada's flagship platform for everything you need to run your business. Fair pricing, Canadian data residency, and honest service.</p>
-    <div class="pricing-highlight">
-      <span>🍁</span>
-      <span>Everything for $1 CAD/month</span>
-    </div>
-  </section>
-
-  <section class="products">
-    <h2 class="section-title">Your Complete Business Platform</h2>
-    <div class="products-grid">
-      
-      <!-- Sites - Featured for Canadians -->
-      <a href="../site/sites.html" class="product-card glass featured fade-in">
-        <div class="product-header">
-          <div class="product-icon">🌐</div>
-          <div class="product-title">Sites</div>
-        </div>
-        <div class="product-desc">
-          Get your Canadian business online in minutes. AI-built websites that work beautifully and rank well on Google.ca. Perfect for local businesses from Vancouver to Halifax.
-        </div>
-        <ul class="product-features">
-          <li>AI generates your complete website</li>
-          <li>Mobile-friendly & SEO optimized</li>
-          <li>Canadian hosting & fast .ca domains</li>
-          <li>No coding needed, ever</li>
-        </ul>
-        <button class="product-cta">Build Your Site →</button>
-      </a>
-
-      <!-- Security - Featured for Canadians -->
-      <a href="../site/security.html" class="product-card glass featured fade-in">
-        <div class="product-header">
-          <div class="product-icon">🔐</div>
-          <div class="product-title">Security</div>
-        </div>
-        <div class="product-desc">
-          Canadian data stays in Canada. Enterprise-grade protection with full compliance for privacy laws. Your customers trust you, you can trust us.
-        </div>
-        <ul class="product-features">
-          <li>Canadian data residency guaranteed</li>
-          <li>Domain security scanning</li>
-          <li>24/7 threat monitoring</li>
-          <li>PIPEDA & privacy compliant</li>
-        </ul>
-        <button class="product-cta">Secure Your Business →</button>
-      </a>
-
-      <!-- Platform -->
-      <a href="../site/platform.html" class="product-card glass fade-in">
-        <div class="product-header">
-          <div class="product-icon">🤖</div>
-          <div class="product-title">Platform</div>
-        </div>
-        <div class="product-desc">
-          Your AI team that never sleeps. Five specialized agents handle operations, content, research, security, and creative work. Like having a full team without the overhead.
-        </div>
-        <ul class="product-features">
-          <li>Operations AI for task management</li>
-          <li>Content AI for writing & marketing</li>
-          <li>Research AI for market insights</li>
-          <li>24/7 availability</li>
-        </ul>
-        <button class="product-cta">Meet Your AI Team →</button>
-      </a>
-
-      <!-- Transform -->
-      <a href="../site/transform.html" class="product-card glass fade-in">
-        <div class="product-header">
-          <div class="product-icon">☁️</div>
-          <div class="product-title">Transform</div>
-        </div>
-        <div class="product-desc">
-          Professional cloud infrastructure without the complexity. Deploy apps, databases, and services with enterprise architecture but startup simplicity.
-        </div>
-        <ul class="product-features">
-          <li>Container platform (Kubernetes)</li>
-          <li>Managed databases & backups</li>
-          <li>Auto-scaling & monitoring</li>
-          <li>Canadian data centres</li>
-        </ul>
-        <button class="product-cta">Deploy Your Cloud →</button>
-      </a>
-
-      <!-- Intelligence -->
-      <a href="../site/intelligence.html" class="product-card glass fade-in">
-        <div class="product-header">
-          <div class="product-icon">📊</div>
-          <div class="product-title">Intelligence</div>
-        </div>
-        <div class="product-desc">
-          AI-powered insights for your business. Ask questions about your data, spot trends, and get recommendations to grow smarter, not just harder.
-        </div>
-        <ul class="product-features">
-          <li>Business metrics & analytics</li>
-          <li>Natural language queries</li>
-          <li>Growth trend analysis</li>
-          <li>Automated insights</li>
-        </ul>
-        <button class="product-cta">Get Smart Insights →</button>
-      </a>
-
-      <!-- Labs -->
-      <a href="../site/labs.html" class="product-card glass fade-in">
-        <div class="product-header">
-          <div class="product-icon">🧪</div>
-          <div class="product-title">Labs</div>
-        </div>
-        <div class="product-desc">
-          Experimental AI tools before anyone else gets them. Text rewriting, color palettes, QR codes, and more cutting-edge features for creative work.
-        </div>
-        <ul class="product-features">
-          <li>AI text rewriter & analyzer</li>
-          <li>Color palette generator</li>
-          <li>QR code creator</li>
-          <li>Early access to new tools</li>
-        </ul>
-        <button class="product-cta">Experiment Now →</button>
-      </a>
-
-    </div>
-  </section>
-
-  <section class="canadian-advantages glass">
-    <h2 class="section-title">Why Canadians Choose serlf.ca</h2>
-    <div class="advantages-grid">
-      <div class="advantage fade-in">
-        <div class="advantage-icon">🇨🇦</div>
-        <div class="advantage-title">Canadian Data Residency</div>
-        <div class="advantage-desc">Your data stays in Canada, complying with Canadian privacy laws and keeping your customers' information secure.</div>
-      </div>
-      <div class="advantage fade-in">
-        <div class="advantage-icon">💰</div>
-        <div class="advantage-title">Fair Canadian Pricing</div>
-        <div class="advantage-desc">$1 CAD per month. That's it. No hidden fees, no surprise charges, no currency conversion surprises.</div>
-      </div>
-      <div class="advantage-icon">🤝</div>
-        <div class="advantage-title">Built by Canadians</div>
-        <div class="advantage-desc">We understand Canadian business needs, from coast to coast. Professional, reliable, and straightforward.</div>
-      </div>
-    </div>
-  </section>
-
+<div class="container" style="padding:2rem 1.5rem">
+<div class="tabs" id="tabs">
+<button class="tab active" data-tab="overview">Overview</button>
+<button class="tab" data-tab="fleet">Fleet</button>
+<button class="tab" data-tab="swarm">Token Swarm</button>
+<button class="tab" data-tab="academy">Academy</button>
+<button class="tab" data-tab="domains">Domains</button>
+<button class="tab" data-tab="costs">Costs</button>
+<button class="tab" data-tab="users">Users</button>
+<button class="tab" data-tab="logs">Logs</button>
+<button class="tab" data-tab="deploy">Deploy</button>
+<button class="tab" data-tab="settings">Settings</button>
 </div>
 
-<footer class="footer">
-  <div class="footer-links">
-    <a href="https://billing.stripe.com/p/login/test_aEU9C0dvCgCj5nG000">Billing</a>
-    <a href="mailto:hello@serlf.ca">Support</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms of Service</a>
-  </div>
-  <p>&copy; 2026 serlf.ca &bullet; Built in Canada, for Canadians &bullet; Captain Maple 🍁</p>
-  <p style="margin-top: 0.5rem; font-size: 0.8rem;">What is fair is fair.</p>
-</footer>
+<div class="tab-content active" id="overview">
+<div class="stat-grid">
+<div class="stat"><div class="value">8</div><div class="label">Domains Active</div></div>
+<div class="stat"><div class="value">6</div><div class="label">Products</div></div>
+<div class="stat"><div class="value">$1</div><div class="label">Price/mo</div></div>
+<div class="stat"><div class="value">✓</div><div class="label">All Systems Go</div></div>
+</div>
+<h3 style="margin-bottom:1rem">System Status</h3>
+<table>
+<tr><th>Service</th><th>Status</th><th>Uptime</th></tr>
+<tr><td>serlf.ca</td><td><span class="badge badge-ok">Online</span></td><td>99.9%</td></tr>
+<tr><td>GitHub Pages</td><td><span class="badge badge-ok">Online</span></td><td>99.9%</td></tr>
+<tr><td>Token Swarm</td><td><span class="badge badge-warn">Staging</span></td><td>—</td></tr>
+<tr><td>PEMOS</td><td><span class="badge badge-warn">Staging</span></td><td>—</td></tr>
+<tr><td>Academy</td><td><span class="badge badge-warn">Staging</span></td><td>—</td></tr>
+<tr><td>Fleet Control</td><td><span class="badge badge-ok">Online</span></td><td>100%</td></tr>
+</table>
+</div>
+
+<div class="tab-content" id="fleet">
+<h3 style="margin-bottom:1rem">Fleet Agents</h3>
+<table>
+<tr><th>Agent</th><th>Type</th><th>Status</th><th>Last Seen</th></tr>
+<tr><td>main-agent</td><td>Admiral</td><td><span class="badge badge-ok">Active</span></td><td>Just now</td></tr>
+<tr><td>build-agent</td><td>Worker</td><td><span class="badge badge-ok">Active</span></td><td>2 min ago</td></tr>
+<tr><td>monitor-agent</td><td>Sentinel</td><td><span class="badge badge-ok">Active</span></td><td>5 min ago</td></tr>
+</table>
+</div>
+
+<div class="tab-content" id="swarm">
+<h3 style="margin-bottom:1rem">Token Swarm — Provider Status</h3>
+<div class="stat-grid">
+<div class="stat"><div class="value">$0.00</div><div class="label">Today's Spend</div></div>
+<div class="stat"><div class="value">0</div><div class="label">Requests Routed</div></div>
+<div class="stat"><div class="value">3</div><div class="label">Providers</div></div>
+</div>
+<table>
+<tr><th>Provider</th><th>Status</th><th>Latency</th><th>Cost/1K</th></tr>
+<tr><td>OpenAI</td><td><span class="badge badge-ok">Ready</span></td><td>—</td><td>BYOK</td></tr>
+<tr><td>Anthropic</td><td><span class="badge badge-ok">Ready</span></td><td>—</td><td>BYOK</td></tr>
+<tr><td>Google</td><td><span class="badge badge-ok">Ready</span></td><td>—</td><td>BYOK</td></tr>
+</table>
+</div>
+
+<div class="tab-content" id="academy">
+<h3 style="margin-bottom:1rem">Academy — Learning Platform</h3>
+<div class="stat-grid">
+<div class="stat"><div class="value">0</div><div class="label">Enrolled</div></div>
+<div class="stat"><div class="value">0</div><div class="label">Graduated</div></div>
+<div class="stat"><div class="value">—</div><div class="label">Challenges Active</div></div>
+</div>
+<p style="color:var(--fg2)">Academy is in staging. Launch pending product release.</p>
+</div>
+
+<div class="tab-content" id="domains">
+<h3 style="margin-bottom:1rem">Domain Health</h3>
+<table>
+<tr><th>Domain</th><th>Purpose</th><th>Status</th><th>SSL</th></tr>
+<tr><td>serlf.ca</td><td>Home Base</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.com</td><td>Enterprise</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.org</td><td>Open Source</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.net</td><td>Developer</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.info</td><td>Knowledge</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.club</td><td>Community</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.shop</td><td>Merch</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+<tr><td>serlf.store</td><td>Digital</td><td><span class="badge badge-ok">Live</span></td><td>✓</td></tr>
+</table>
+</div>
+
+<div class="tab-content" id="costs">
+<h3 style="margin-bottom:1rem">Cost Overview</h3>
+<div class="stat-grid">
+<div class="stat"><div class="value">$0</div><div class="label">Infrastructure/mo</div></div>
+<div class="stat"><div class="value">$0</div><div class="label">AI Spend (BYOK)</div></div>
+<div class="stat"><div class="value">$0</div><div class="label">Revenue (MRR)</div></div>
+</div>
+<p style="color:var(--fg2)">GitHub Pages = free hosting. BYOK = $0 AI costs. The meek business model. 🧅</p>
+</div>
+
+<div class="tab-content" id="users">
+<h3 style="margin-bottom:1rem">User Management</h3>
+<p style="color:var(--fg2)">User registration launching with $1 payment integration.</p>
+</div>
+
+<div class="tab-content" id="logs">
+<h3 style="margin-bottom:1rem">System Logs</h3>
+<div class="log">
+<p><span class="ok">[OK]</span> 2026-02-15 22:00:00 — All 8 domains resolving</p>
+<p><span class="ok">[OK]</span> 2026-02-15 22:00:01 — GitHub Pages deployment active</p>
+<p><span class="ok">[OK]</span> 2026-02-15 22:00:02 — CNAME configured: serlf.ca</p>
+<p><span class="warn">[WARN]</span> 2026-02-15 22:00:03 — Products in staging mode</p>
+<p><span class="ok">[OK]</span> 2026-02-15 22:00:04 — Fleet Control dashboard online</p>
+<p><span class="ok">[OK]</span> 2026-02-15 22:00:05 — Full product suite built</p>
+</div>
+</div>
+
+<div class="tab-content" id="deploy">
+<h3 style="margin-bottom:1rem">Deployment</h3>
+<p style="color:var(--fg2);margin-bottom:1rem">Push to <code>eose-sre/serlf</code> main branch to deploy.</p>
+<div class="card" style="font-family:monospace;font-size:.85rem;line-height:2">
+<p style="color:var(--fg2)"># Deploy all sites</p>
+<p style="color:var(--cyan)">git add -A && git commit -m "ship it 🧅" && git push</p>
+</div>
+</div>
+
+<div class="tab-content" id="settings">
+<h3 style="margin-bottom:1rem">Settings</h3>
+<p style="color:var(--fg2)">Configuration management coming soon.</p>
+</div>
+</div>
 
 <script>
-// Import auth functionality
-import('/auth.js').then(module => {
-  // Require authentication
-  module.SERLF_AUTH.requireAuth();
-  
-  // Display user info
-  const auth = JSON.parse(localStorage.getItem('serlf_auth') || '{}');
-  const userInfo = document.getElementById('user-info');
-  const userName = (auth.name || auth.email || 'Friend').split(' ')[0];
-  
-  if (auth.picture) {
-    userInfo.innerHTML = `<img src="${auth.picture}" alt="Profile" style="width: 24px; height: 24px; border-radius: 50%; margin-right: 0.5rem;"><span>Welcome back, ${userName}!</span>`;
-  } else {
-    userInfo.innerHTML = `<span>Welcome back, ${userName}!</span>`;
-  }
-  
-  // Canadian greeting based on time
-  const hour = new Date().getHours();
-  const welcomeEl = document.querySelector('.welcome h1');
-  if (hour < 12) {
-    welcomeEl.innerHTML = 'Good morning<span class="eh">, eh!</span>';
-  } else if (hour < 17) {
-    welcomeEl.innerHTML = 'Good afternoon<span class="eh">, eh!</span>';
-  } else {
-    welcomeEl.innerHTML = 'Good evening<span class="eh">, eh!</span>';
-  }
-  
-}).catch(error => {
-  console.error('Auth module not found:', error);
-  // Fallback without auth
-  const userInfo = document.getElementById('user-info');
-  userInfo.innerHTML = '<span>Welcome, friend!</span>';
-});
-
-// Add staggered fade-in animations
-document.addEventListener('DOMContentLoaded', () => {
-  const fadeElements = document.querySelectorAll('.fade-in');
-  fadeElements.forEach((el, index) => {
-    el.style.animationDelay = `${index * 0.1}s`;
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
   });
 });
-
-// Captain Maple's personal touch - random Canadian phrases
-const canadianPhrases = [
-  "Hope you're having a good one, eh!",
-  "Let's get your business online, the Canadian way.",
-  "Fair prices, honest service - that's the Canadian promise.",
-  "From the Maritimes to BC, we've got you covered!",
-  "No funny business - just straight-up good service."
-];
-
-// Show a Canadian greeting occasionally
-if (Math.random() < 0.3) {
-  setTimeout(() => {
-    const phrase = canadianPhrases[Math.floor(Math.random() * canadianPhrases.length)];
-    const toast = document.createElement('div');
-    toast.style.cssText = `
-      position: fixed; top: 20px; right: 20px; z-index: 1000;
-      background: rgba(239, 68, 68, 0.9); color: white; padding: 1rem 1.5rem;
-      border-radius: 12px; font-size: 0.9rem; backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1); animation: slideIn 0.3s ease;
-      max-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    `;
-    toast.innerHTML = `🍁 <strong>Captain Maple:</strong> ${phrase}`;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.style.animation = 'slideOut 0.3s ease forwards';
-      setTimeout(() => toast.remove(), 300);
-    }, 4000);
-  }, 2000);
-}
-
-// Add slide animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(100%); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes slideOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(100%); }
-  }
-`;
-document.head.appendChild(style);
-
-// Track dashboard views (simple analytics)
-try {
-  if (window.SERLF_API) {
-    SERLF_API.submit('Dashboard', { 
-      captain: 'maple',
-      domain: 'serlf.ca',
-      timestamp: new Date().toISOString(),
-      features_emphasized: ['sites', 'security', 'canadian_data_residency']
-    });
-  }
-} catch (e) {
-  // Analytics optional
-}
 </script>
 
+<footer class="site-footer"><div class="footer-inner">
+<p class="footer-bottom">🍁 SERLF Fleet Control · EOSE · © 2026</p>
+</div></footer>
 </body>
 </html>

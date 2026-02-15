@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SERLF — Developer Portal & API Documentation</title>
+<meta name="description" content="Build on SERLF. API docs, SDKs, integration guides for sovereign AI infrastructure.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+<div class="logo">SERLF<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">Developers</span></div>
+<nav>
+<a href="https://serlf.ca">.ca</a><a href="https://serlf.com">.com</a><a href="https://serlf.org">.org</a><a href="https://serlf.net" class="active">.net</a><a href="https://serlf.info">.info</a><a href="https://serlf.club">.club</a><a href="https://serlf.shop">.shop</a><a href="https://serlf.store">.store</a>
+</nav>
+</div></header>
+
+<section class="hero">
+<p style="font-size:.9rem;color:var(--cyan);margin-bottom:1rem;font-family:monospace">// developer portal</p>
+<h1>Build on SERLF.</h1>
+<p class="tagline">APIs, SDKs, and integration guides for sovereign AI infrastructure. Your keys, your code, your fleet.</p>
+<div class="flex-center mt-2">
+<a href="#api" class="btn btn-primary">API Reference →</a>
+<a href="#sdks" class="btn btn-secondary">SDKs</a>
+</div>
+</section>
+
+<section id="api" style="background:var(--bg2)">
+<div class="container">
+<h2 class="section-title">API Reference</h2>
+<p class="section-sub">RESTful APIs for every SERLF product.</p>
+<div class="grid grid-2">
+<div class="card">
+<h3 style="font-family:monospace;color:var(--cyan)">/api/v1/swarm</h3>
+<p>Token Swarm API — intelligent routing, cost queries, provider management, usage metrics.</p>
+<span class="tag">Coming Soon</span>
+</div>
+<div class="card">
+<h3 style="font-family:monospace;color:var(--cyan)">/api/v1/fleet</h3>
+<p>Fleet Control API — agent management, health checks, deployment, scaling.</p>
+<span class="tag">Coming Soon</span>
+</div>
+<div class="card">
+<h3 style="font-family:monospace;color:var(--cyan)">/api/v1/pemos</h3>
+<p>PEMOS API — sovereign fleet orchestration, policy engine, audit logs.</p>
+<span class="tag">Coming Soon</span>
+</div>
+<div class="card">
+<h3 style="font-family:monospace;color:var(--cyan)">/api/v1/academy</h3>
+<p>Academy API — sandbox management, challenge submission, progress tracking.</p>
+<span class="tag">Coming Soon</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="sdks">
+<div class="container">
+<h2 class="section-title">SDKs & Libraries</h2>
+<p class="section-sub">Get started in your language of choice.</p>
+<div class="grid grid-3">
+<div class="card text-center">
+<div class="icon">🐍</div>
+<h3>Python</h3>
+<p style="font-family:monospace;font-size:.85rem;color:var(--cyan);margin-top:.5rem">pip install serlf</p>
+<span class="tag">Coming Soon</span>
+</div>
+<div class="card text-center">
+<div class="icon">📦</div>
+<h3>Node.js</h3>
+<p style="font-family:monospace;font-size:.85rem;color:var(--cyan);margin-top:.5rem">npm install @serlf/sdk</p>
+<span class="tag">Coming Soon</span>
+</div>
+<div class="card text-center">
+<div class="icon">🦀</div>
+<h3>Rust</h3>
+<p style="font-family:monospace;font-size:.85rem;color:var(--cyan);margin-top:.5rem">cargo add serlf</p>
+<span class="tag">Coming Soon</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="fleet" style="background:var(--bg2)">
+<div class="container">
+<h2 class="section-title">Architecture Overview</h2>
+<p class="section-sub">How the pieces fit together.</p>
+<div class="card" style="max-width:700px;margin:0 auto;font-family:monospace;font-size:.85rem;line-height:2;color:var(--fg2)">
+<pre style="overflow-x:auto">
+┌─────────────────────────────────────┐
+│          Fleet Control 🎛️           │
+│         (Admiral Dashboard)         │
+├──────────┬──────────┬───────────────┤
+│  Token   │  PEMOS   │   Academy    │
+│  Swarm 🐝│  ⚓      │   🎓         │
+│  routing │  fleet   │   learning   │
+├──────────┴──────────┴───────────────┤
+│            The Lab 🧪               │
+│        (Experimental Layer)         │
+├─────────────────────────────────────┤
+│     Your Keys · Your Data · $1/mo   │
+└─────────────────────────────────────┘
+</pre>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container text-center">
+<h2 class="section-title">Quick Start</h2>
+<div class="card" style="max-width:600px;margin:1.5rem auto;text-align:left;font-family:monospace;font-size:.9rem;line-height:2">
+<p style="color:var(--fg2)"># Install the CLI</p>
+<p style="color:var(--cyan)">curl -fsSL https://serlf.net/install.sh | sh</p>
+<br>
+<p style="color:var(--fg2)"># Login with your $1 account</p>
+<p style="color:var(--cyan)">serlf login</p>
+<br>
+<p style="color:var(--fg2)"># Deploy your first agent</p>
+<p style="color:var(--cyan)">serlf deploy --agent my-first-agent</p>
+</div>
+<span class="tag">CLI Coming Soon</span>
+</div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+<div class="footer-links">
+<a href="https://serlf.ca">serlf.ca</a><a href="https://serlf.com">serlf.com</a><a href="https://serlf.org">serlf.org</a><a href="https://serlf.net">serlf.net</a><a href="https://serlf.info">serlf.info</a><a href="https://serlf.club">serlf.club</a><a href="https://serlf.shop">serlf.shop</a><a href="https://serlf.store">serlf.store</a>
+</div>
+<p class="footer-bottom">🍁 Built in Canada · EOSE · © 2026 SERLF</p>
+</div></footer>
+</body>
+</html>

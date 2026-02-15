@@ -1,130 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>serlf Canada — Your AI Platform</title>
-<meta name="description" content="Canadian-built AI platform. Your own team. Your own cloud. Your own rules. $1/month.">
-<style>
-:root { --bg: #060610; --surface: #0c0c1a; --surface2: #12122a; --border: #1a1a3e; --text: #e8e8f0; --muted: #6b6b8d; --accent: #ef4444; --accent2: #dc2626; --green: #34d399; --cyan: #22d3ee; }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, system-ui, sans-serif; line-height: 1.6; overflow-x: hidden; }
-a { color: var(--accent); text-decoration: none; }
-
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(6,6,16,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(26,26,62,0.5); }
-.nav-logo { font-size: 1.3rem; font-weight: 800; }
-.nav-logo span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.nav-links { display: flex; gap: 1.5rem; align-items: center; }
-.nav-links a { color: var(--muted); font-size: 0.85rem; font-weight: 500; transition: color 0.3s; }
-.nav-links a:hover { color: var(--text); }
-.nav-signin { color: var(--accent) !important; font-weight: 600 !important; border: 1px solid #ef444440; padding: 6px 16px; border-radius: 8px; }
-.nav-signin:hover { background: #ef444415; }
-.nav-flag { font-size: 1.2rem; }
-
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; }
-.hero-orb { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, #ef444420 0%, #dc262610 40%, transparent 70%); animation: pulse 8s ease-in-out infinite; filter: blur(60px); }
-@keyframes pulse { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.8; } }
-
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
-.hero-flag { font-size: 3rem; margin-bottom: 1rem; }
-.logo { font-size: 5rem; font-weight: 900; letter-spacing: -3px; margin-bottom: 0.5rem; }
-.logo span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.price { font-size: 6rem; font-weight: 900; background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 1rem 0; }
-.tagline { font-size: 1.5rem; color: var(--text); font-weight: 300; margin-bottom: 0.5rem; }
-.subtitle { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; }
-
-.cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-.cta { padding: 0.9rem 2.2rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; display: inline-block; }
-.cta-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
-.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px #ef444450; }
-.cta-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
-.cta-secondary:hover { border-color: var(--accent); }
-
-.section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
-.section-title { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; }
-.section-title span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.section-desc { color: var(--muted); text-align: center; margin-bottom: 3rem; font-size: 1.05rem; }
-
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
-.card:hover { border-color: var(--accent); transform: translateY(-4px); }
-.card-icon { font-size: 2rem; margin-bottom: 1rem; }
-.card-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; }
-.card-desc { color: var(--muted); font-size: 0.9rem; }
-
-.captain-section { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 3rem; margin: 3rem auto; max-width: 700px; text-align: center; }
-.captain-emoji { font-size: 3rem; margin-bottom: 1rem; }
-.captain-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.captain-role { color: var(--muted); font-size: 0.95rem; }
-
-.cta-section { text-align: center; padding: 5rem 2rem; }
-.cta-section h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
-.cta-section p { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
-
-footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
-footer a { color: var(--muted); margin: 0 0.5rem; }
-
-@media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .logo { font-size: 3.5rem; } .price { font-size: 4rem; } .nav-links { display: none; } }
-</style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SERLF — Become the Enterprise. $1/mo AI Platform 🇨🇦</title>
+<meta name="description" content="SERLF: Sovereign enterprise reinforcement learning framework. All AI tools, $1/month. Built in Canada.">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<header class="site-header"><div class="header-inner">
+<div class="logo">SERLF<span class="maple">🍁</span></div>
 <nav>
-  <div class="nav-logo"><span>serlf</span> <span class="nav-flag">🇨🇦</span></div>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#captain">Captain</a>
-    <a href="login.html" class="nav-signin">Sign In</a>
-  </div>
+<a href="https://serlf.ca" class="active">.ca</a>
+<a href="https://serlf.com">.com</a>
+<a href="https://serlf.org">.org</a>
+<a href="https://serlf.net">.net</a>
+<a href="https://serlf.info">.info</a>
+<a href="https://serlf.club">.club</a>
+<a href="https://serlf.shop">.shop</a>
+<a href="https://serlf.store">.store</a>
 </nav>
+</div></header>
 
-<div class="hero">
-  <div class="hero-orb"></div>
-  <div class="hero-content">
-    <div class="hero-flag">🇨🇦</div>
-    <div class="logo"><span>serlf</span></div>
-    <div class="price">$1</div>
-    <div class="tagline">Built in Canada. Built for you.</div>
-    <p class="subtitle">The Canadian AI platform that gives you everything — your own team, your own cloud, your own digital world.</p>
-    <div class="cta-group">
-      <a href="https://buy.stripe.com/fZufZbgo3cxr0Li9ZAgjC03" class="cta cta-primary">Get Started — $1/month</a>
-      <a href="#features" class="cta cta-secondary">Learn More</a>
-    </div>
-  </div>
+<section class="hero">
+<p style="font-size:.9rem;color:var(--fg2);margin-bottom:1rem">🇨🇦 Canadian AI Platform</p>
+<h1>Become the Enterprise.</h1>
+<p class="tagline">Your sovereign AI fleet. Your keys. Your models. Your rules. Everything you need to run enterprise AI — for the price of a coffee.</p>
+<div class="price">$1<span>/mo</span></div>
+<div class="flex-center mt-2">
+<a href="#products" class="btn btn-primary">See What's Included</a>
+<a href="#pricing" class="btn btn-secondary">Get Started</a>
 </div>
+</section>
 
-<div class="section" id="features">
-  <div class="section-title">What's <span>Included</span></div>
-  <p class="section-desc">Everything. No tiers. No upsells. No gotchas.</p>
-  <div class="grid">
-    <div class="card"><div class="card-icon">🤖</div><div class="card-name">Your AI Team</div><div class="card-desc">Dedicated agents that learn your business, eh.</div></div>
-    <div class="card"><div class="card-icon">🌐</div><div class="card-name">Your Website</div><div class="card-desc">AI-built, AI-managed, always online.</div></div>
-    <div class="card"><div class="card-icon">🔐</div><div class="card-name">Your Security</div><div class="card-desc">Enterprise-grade, Canadian data residency.</div></div>
-    <div class="card"><div class="card-icon">☁️</div><div class="card-name">Your Cloud</div><div class="card-desc">Professional infrastructure, simplified.</div></div>
-    <div class="card"><div class="card-icon">📊</div><div class="card-name">Your Insights</div><div class="card-desc">AI-powered business intelligence.</div></div>
-    <div class="card"><div class="card-icon">🧪</div><div class="card-name">The Lab</div><div class="card-desc">Cutting edge tools, before anyone else.</div></div>
-  </div>
+<section id="products">
+<div class="container">
+<h2 class="section-title">The Complete Suite</h2>
+<p class="section-sub">Six products. One dollar. No compromises.</p>
+<div class="grid grid-3">
+
+<a href="https://serlf.ca/#academy" class="card" style="text-decoration:none;color:inherit">
+<div class="icon">🎓</div>
+<h3>SERLF Academy</h3>
+<p>Learn AI by doing. Reinforcement loops, sandboxes, agent playgrounds. Graduate from consumer to sovereign operator.</p>
+<span class="tag">Learning Platform</span>
+</a>
+
+<a href="https://serlf.com" class="card" style="text-decoration:none;color:inherit">
+<div class="icon">🐝</div>
+<h3>Token Swarm</h3>
+<p>BYOK intelligent routing. Never overpay for AI again. Failover, cost caps, multi-provider orchestration.</p>
+<span class="tag">Cost Control</span>
+</a>
+
+<a href="https://serlf.com/#pemos" class="card" style="text-decoration:none;color:inherit">
+<div class="icon">⚓</div>
+<h3>PEMOS</h3>
+<p>Sovereign AI fleet management. The enterprise product — run your own AI infrastructure without the enterprise price.</p>
+<span class="tag">Enterprise</span>
+</a>
+
+<a href="#pricing" class="card" style="text-decoration:none;color:inherit">
+<div class="icon">🧅</div>
+<h3>Meek Starter Kit</h3>
+<p>$1 gets you in. Everything included — no tiers, no paywalls, no "contact sales." The meek shall inherit the enterprise.</p>
+<span class="tag">$1 Onboarding</span>
+</a>
+
+<a href="https://serlf.net" class="card" style="text-decoration:none;color:inherit">
+<div class="icon">🧪</div>
+<h3>The Lab</h3>
+<p>Cutting-edge tools. Experimental agents, bleeding-edge models, research sandboxes. Where tomorrow's AI lives today.</p>
+<span class="tag">Experimental</span>
+</a>
+
+<a href="https://serlf.net/#fleet" class="card" style="text-decoration:none;color:inherit">
+<div class="icon">🎛️</div>
+<h3>Fleet Control</h3>
+<p>Admiral dashboard. Monitor, manage, and command your entire AI fleet from a single pane of glass.</p>
+<span class="tag">Dashboard</span>
+</a>
+
 </div>
-
-<div class="section" id="captain">
-  <div class="captain-section">
-    <div class="captain-emoji">🍁</div>
-    <div class="captain-name">Captain Maple</div>
-    <p class="captain-role">Your Canadian front door. Handles first impressions, onboarding, and making sure every visitor feels at home.</p>
-  </div>
 </div>
+</section>
 
-<div class="cta-section">
-  <h2>Ready?</h2>
-  <p>$1/month. Everything included. What is fair is fair.</p>
-  <a href="https://buy.stripe.com/fZufZbgo3cxr0Li9ZAgjC03" class="cta cta-primary">Start for $1</a>
+<section id="pricing" style="background:var(--bg2)">
+<div class="container">
+<h2 class="section-title">One Price. Everything.</h2>
+<p class="section-sub">No tiers. No enterprise pricing. No "contact sales." Just $1.</p>
+<div class="pricing-box">
+<div class="price">$1<span style="font-size:.3em;color:var(--fg2)">/month</span></div>
+<p style="color:var(--fg2);margin-top:.5rem">CAD. Seriously.</p>
+<ul>
+<li>SERLF Academy — full access</li>
+<li>Token Swarm — intelligent routing</li>
+<li>PEMOS — sovereign fleet</li>
+<li>Meek Starter Kit — onboarding</li>
+<li>The Lab — experimental tools</li>
+<li>Fleet Control — admiral dashboard</li>
+<li>Community access (serlf.club)</li>
+<li>API access (serlf.net)</li>
+<li>Marketplace access (serlf.store)</li>
+<li>Your keys. Your data. Your sovereignty.</li>
+</ul>
+<a href="#" class="btn btn-gold" style="width:100%;text-align:center">Start for $1 →</a>
 </div>
+</div>
+</section>
 
-<p style="text-align:center;color:var(--muted);margin-top:2rem;">🇨🇦 Proudly Canadian · Data stays in Canada · Powered by serlf</p>
+<section>
+<div class="container">
+<h2 class="section-title">The Meek Principle</h2>
+<p class="section-sub">Enterprise AI shouldn't cost enterprise money.</p>
+<div class="grid grid-2">
+<div class="card">
+<h3>🏢 Traditional Enterprise AI</h3>
+<p>$50,000/year minimum. Vendor lock-in. Their keys, their rules, their data. "Contact sales" for pricing. 6-month procurement cycle.</p>
+</div>
+<div class="card" style="border-color:var(--maple)">
+<h3>🧅 The SERLF Way</h3>
+<p>$1/month. Your keys. Open source core. No procurement, no vendor lock-in, no permission needed. Start in 60 seconds.</p>
+</div>
+</div>
+</div>
+</section>
 
-<footer>
-  <p>&copy; 2026 serlf · <a href="https://serlf.ca">serlf.ca</a> · <a href="https://serlf.com">serlf.com</a> · <a href="mailto:hello@serlf.com">Contact</a></p>
-</footer>
-
+<footer class="site-footer"><div class="footer-inner">
+<div class="footer-links">
+<a href="https://serlf.ca">serlf.ca</a>
+<a href="https://serlf.com">serlf.com</a>
+<a href="https://serlf.org">serlf.org</a>
+<a href="https://serlf.net">serlf.net</a>
+<a href="https://serlf.info">serlf.info</a>
+<a href="https://serlf.club">serlf.club</a>
+<a href="https://serlf.shop">serlf.shop</a>
+<a href="https://serlf.store">serlf.store</a>
+</div>
+<p class="footer-bottom">🍁 Built in Canada · EOSE · Off the grid. On the chain. · © 2026 SERLF</p>
+</div></footer>
 </body>
 </html>
