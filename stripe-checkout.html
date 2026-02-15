@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subscribe | SERLF — $1/mo</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 100%)}
+.checkout-box{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:3rem;text-align:center;max-width:480px;width:90%;box-shadow:0 25px 50px rgba(0,0,0,.3)}
+.checkout-box .logo{font-size:2rem;font-weight:700;color:var(--cyan);margin-bottom:.5rem}
+.price-hero{font-size:4rem;font-weight:900;color:var(--gold);margin:1.5rem 0 .5rem}
+.included{text-align:left;margin:1.5rem 0;color:var(--fg2);font-size:.9rem}
+.included li{padding:.3rem 0;list-style:none}.included li::before{content:"✓ ";color:var(--maple);font-weight:700}
+.pay-btn{display:block;width:100%;padding:1rem;background:var(--gold);color:var(--bg);border:none;border-radius:var(--radius);font-size:1.1rem;font-weight:800;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 20px rgba(244,162,97,.3)}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(244,162,97,.5)}
+.user-info{background:rgba(255,255,255,.05);border-radius:8px;padding:.75rem;margin-bottom:1.5rem;color:var(--fg2);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="checkout-box">
+<div class="logo">SERLF<span style="color:var(--maple)">🍁</span></div>
+<p style="color:var(--fg2)">Almost there! One click to join the fleet.</p>
+
+<div class="user-info" id="user-info"></div>
+
+<div class="price-hero">$1<span style="font-size:.3em;color:var(--fg2)">/mo</span></div>
+<p style="color:var(--fg2);font-size:.9rem">Everything. No tiers. No limits.</p>
+
+<ul class="included">
+<li>All 12 products — full access</li>
+<li>30+ Novel Patterns</li>
+<li>Fleet Command + Token Swarm</li>
+<li>Model Gateway (9 providers)</li>
+<li>Identity Fabric + zero-trust</li>
+<li>SERLF Academy</li>
+<li>DT Consulting</li>
+<li>Cancel anytime</li>
+</ul>
+
+<button class="pay-btn" onclick="SERLF_STRIPE.checkout()">Subscribe — $1/mo →</button>
+<p style="color:var(--fg2);font-size:.75rem;margin-top:1rem">Secure checkout via Stripe. Cancel anytime.</p>
+
+<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)">
+<a href="/" style="color:var(--fg2);font-size:.85rem">← Back to serlf.ca</a>
+</div>
+</div>
+
+<script src="auth.js"></script>
+<script src="stripe-checkout.js"></script>
+<script>
+// Must be logged in
+if (!SERLF_AUTH.isAuthenticated()) {
+  window.location.href = '/login.html';
+}
+// Already subscribed? Go to app
+if (SERLF_AUTH.isSubscribed()) {
+  window.location.href = '/app.html';
+}
+// Show user info
+const user = SERLF_AUTH.getUser();
+if (user) {
+  document.getElementById('user-info').innerHTML = `Subscribing as <strong>${user.name}</strong> (${user.email})`;
+}
+</script>
+</body>
+</html>

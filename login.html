@@ -1,335 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | serlf</title>
-    <meta name="description" content="Sign in to your serlf account">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            line-height: 1.6;
-        }
-        
-        .login-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2.5rem;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-        
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #3b82f6;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .tagline {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-        }
-        
-        .welcome-text {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .signin-section {
-            margin: 2rem 0;
-        }
-        
-        #g_id_signin {
-            display: flex;
-            justify-content: center;
-            margin: 1rem 0;
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 2rem 0;
-            color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .divider span {
-            padding: 0 1rem;
-            font-size: 0.85rem;
-        }
-        
-        .new-customer {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .new-customer h3 {
-            color: #3b82f6;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-        
-        .new-customer p {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1rem;
-        }
-        
-        .payment-link {
-            display: inline-block;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-        
-        .payment-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-        }
-        
-        .features {
-            text-align: left;
-            margin-top: 1.5rem;
-        }
-        
-        .feature-item {
-            display: flex;
-            align-items: center;
-            margin: 0.5rem 0;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .feature-item::before {
-            content: '✓';
-            color: #10b981;
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-        
-        .loading {
-            display: none;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-        
-        .loading .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #3b82f6;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 0.5rem;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            color: #fecaca;
-            font-size: 0.9rem;
-            display: none;
-        }
-        
-        .footer {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-            }
-            
-            .logo {
-                font-size: 2rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign In | SERLF</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="stylesheet" href="styles.css">
+<style>
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 100%)}
+.login-container{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:2.5rem;text-align:center;max-width:420px;width:90%;box-shadow:0 25px 50px rgba(0,0,0,.3)}
+.login-container .logo{font-size:2.5rem;font-weight:700;color:var(--cyan);margin-bottom:.25rem}
+.login-container .tagline{color:var(--fg2);margin-bottom:2rem;font-size:.95rem}
+#g_id_signin{display:flex;justify-content:center;margin:1.5rem 0}
+.price-callout{background:rgba(244,162,97,.1);border:1px solid rgba(244,162,97,.2);border-radius:12px;padding:1.25rem;margin-top:2rem}
+.price-callout .amt{font-size:2rem;font-weight:900;color:var(--gold)}
+.loading{display:none;color:var(--fg2);margin-top:1rem}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:var(--cyan);animation:spin 1s linear infinite;margin-right:.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-message{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:1rem;margin-top:1rem;color:#fecaca;display:none}
+.back-link{display:block;margin-top:1.5rem;color:var(--fg2);font-size:.85rem}
+</style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">serlf</div>
-        <div class="tagline">Intelligent automation platform</div>
-        
-        <div class="welcome-text">
-            Welcome back! Sign in to access your dashboard.
-        </div>
-        
-        <div class="signin-section">
-            <div id="g_id_signin"></div>
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                Signing you in...
-            </div>
-            <div class="error-message" id="error-message"></div>
-        </div>
-        
-        <div class="divider">
-            <span>or</span>
-        </div>
-        
-        <div class="new-customer">
-            <h3>New to serlf?</h3>
-            <p>Start your automation journey with our premium platform.</p>
-            <div class="features">
-                <div class="feature-item">8 specialized domain captains</div>
-                <div class="feature-item">AI-powered automation</div>
-                <div class="feature-item">Advanced integrations</div>
-                <div class="feature-item">24/7 intelligent assistance</div>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <a href="https://buy.stripe.com/fZufZbgo3cxr0Li9ZAgjC03" class="payment-link" target="_blank">
-                    Get Started
-                </a>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <div>Secure authentication via Google</div>
-        </div>
-    </div>
+<div class="login-container">
+<div class="logo">SERLF<span style="color:var(--maple)">🍁</span></div>
+<div class="tagline">Become the enterprise.</div>
 
-    <script src="/auth.js"></script>
-    <script>
-        // Check if already authenticated and redirect
-        if (SERLF_AUTH.isAuthenticated()) {
-            window.location.href = SERLF_AUTH.getRedirectUrl();
-        }
-        
-        // Google Sign-In configuration
-        window.onload = function() {
-            google.accounts.id.initialize({
-                client_id: '758788284456-vf6gmi5a8gkbr1oqu2ohol3p3i7m9s8e.apps.googleusercontent.com',
-                callback: handleCredentialResponse,
-                auto_select: false,
-                cancel_on_tap_outside: false
-            });
-            
-            google.accounts.id.renderButton(
-                document.getElementById('g_id_signin'),
-                {
-                    theme: 'filled_blue',
-                    size: 'large',
-                    type: 'standard',
-                    shape: 'rectangular',
-                    text: 'signin_with',
-                    logo_alignment: 'left',
-                    width: '280'
-                }
-            );
-            
-            // Optionally display One Tap if user was recently signed in
-            // google.accounts.id.prompt();
-        };
-        
-        function handleCredentialResponse(response) {
-            const loadingEl = document.getElementById('loading');
-            const errorEl = document.getElementById('error-message');
-            
-            // Show loading state
-            loadingEl.style.display = 'block';
-            errorEl.style.display = 'none';
-            
-            try {
-                // Validate the credential
-                const userData = SERLF_AUTH.validateGoogleToken(response.credential);
-                
-                if (!userData) {
-                    throw new Error('Invalid or expired token');
-                }
-                
-                // Check authorization
-                const isAdmin = SERLF_AUTH.isAdmin(userData.email);
-                const isValidUser = isAdmin || userData.email_verified;
-                
-                if (!isValidUser) {
-                    throw new Error('Your account is not authorized to access serlf');
-                }
-                
-                // Store session
-                userData.token = response.credential;
-                SERLF_AUTH.setSession(userData);
-                
-                // Redirect to portal
-                setTimeout(() => {
-                    window.location.href = SERLF_AUTH.getRedirectUrl();
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Sign-in error:', error);
-                
-                // Hide loading and show error
-                loadingEl.style.display = 'none';
-                errorEl.style.display = 'block';
-                errorEl.textContent = error.message || 'Sign-in failed. Please try again.';
-                
-                // Hide error after 5 seconds
-                setTimeout(() => {
-                    errorEl.style.display = 'none';
-                }, 5000);
-            }
-        }
-        
-        // Handle errors from Google Sign-In
-        window.addEventListener('error', function(e) {
-            if (e.message && e.message.includes('gsi')) {
-                const errorEl = document.getElementById('error-message');
-                errorEl.style.display = 'block';
-                errorEl.textContent = 'Google Sign-In failed to load. Please refresh the page.';
-            }
-        });
-    </script>
+<div id="g_id_signin"></div>
+<div class="loading" id="loading"><span class="spinner"></span>Signing you in...</div>
+<div class="error-message" id="error-message"></div>
+
+<div class="price-callout">
+<div class="amt">$1<span style="font-size:.4em;color:var(--fg2)">/mo</span></div>
+<p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">All 12 products. Everything included.<br>Sign in with Google to get started.</p>
+</div>
+
+<a href="/" class="back-link">← Back to serlf.ca</a>
+</div>
+
+<script src="auth.js"></script>
+<script src="stripe-checkout.js"></script>
+<script>
+if (SERLF_AUTH.isAuthenticated()) {
+  window.location.href = SERLF_AUTH.isSubscribed() ? '/app.html' : '/stripe-checkout.html';
+}
+
+window.onload = function() {
+  google.accounts.id.initialize({
+    client_id: '758788284456-vf6gmi5a8gkbr1oqu2ohol3p3i7m9s8e.apps.googleusercontent.com',
+    callback: handleCredentialResponse,
+    auto_select: false
+  });
+  google.accounts.id.renderButton(
+    document.getElementById('g_id_signin'),
+    { theme: 'filled_blue', size: 'large', type: 'standard', shape: 'rectangular', text: 'signin_with', width: '300' }
+  );
+};
+
+function handleCredentialResponse(response) {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('error-message').style.display = 'none';
+  try {
+    const userData = SERLF_AUTH.validateGoogleToken(response.credential);
+    if (!userData) throw new Error('Invalid or expired token');
+    if (!SERLF_AUTH.isAdmin(userData.email) && !userData.email_verified) throw new Error('Please use a verified Google account');
+    userData.token = response.credential;
+    SERLF_AUTH.setSession(userData);
+    setTimeout(() => {
+      window.location.href = SERLF_AUTH.isSubscribed() ? '/app.html' : '/stripe-checkout.html';
+    }, 800);
+  } catch (error) {
+    document.getElementById('loading').style.display = 'none';
+    const el = document.getElementById('error-message');
+    el.style.display = 'block';
+    el.textContent = error.message;
+    setTimeout(() => el.style.display = 'none', 5000);
+  }
+}
+</script>
 </body>
 </html>
