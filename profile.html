@@ -19,9 +19,9 @@ a{color:var(--cyan);text-decoration:none}
 .profile-title{color:var(--fg2);margin-top:.25rem}
 .member-since{color:var(--fg2);font-size:.8rem;margin-top:.5rem}
 
-/* Meek Score */
-.meek-score{display:inline-block;margin-top:1rem;padding:12px 30px;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(6,182,212,.15));border:1px solid var(--gold);border-radius:30px;font-size:1.4rem;font-weight:700;color:var(--gold)}
-.meek-score span{font-size:.8rem;color:var(--fg2);font-weight:400}
+/* Explorer Score */
+.friendly-score{display:inline-block;margin-top:1rem;padding:12px 30px;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(6,182,212,.15));border:1px solid var(--gold);border-radius:30px;font-size:1.4rem;font-weight:700;color:var(--gold)}
+.friendly-score span{font-size:.8rem;color:var(--fg2);font-weight:400}
 
 /* Grid */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:1.5rem}
@@ -70,7 +70,7 @@ canvas{max-width:100%}
 
 .nav-back{display:inline-block;padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--fg2);font-size:.85rem;margin-bottom:1rem}
 
-@media(max-width:600px){.profile-name{font-size:1.4rem}.meek-score{font-size:1.1rem}}
+@media(max-width:600px){.profile-name{font-size:1.4rem}.friendly-score{font-size:1.1rem}}
 </style>
 </head>
 <body>
@@ -80,10 +80,10 @@ canvas{max-width:100%}
 
   <div class="profile-header">
     <div class="avatar-large">KJ</div>
-    <div class="profile-name">Kay J</div>
-    <div class="profile-title">Founder · EOSE × E&Y · Fleet Admiral</div>
+    <div class="profile-name">Explorer</div>
+    <div class="profile-title">Founder · SERLF · Fleet Admiral</div>
     <div class="member-since">⚓ Member since Feb 14, 2026 — Valentine's Day Sailor</div>
-    <div class="meek-score" id="meekScore">0 <span>Meek Score</span></div>
+    <div class="friendly-score" id="explorerScore">0 <span>Explorer Score</span></div>
   </div>
 
   <div class="grid-2">
@@ -143,7 +143,7 @@ const PROFILE = {
     'Leadership': 85,
     'Security': 93,
   },
-  npsContributed: ['Silo Audit','Shape Detection','Kill the Tiers','Token Cascade','Meek Pricing','Self-Audit Blindspot','Pattern Feeds Pattern','CLO Veil'],
+  npsContributed: ['Silo Audit','Shape Detection','Kill the Tiers','Token Cascade','friendly Pricing','Self-Audit Blindspot','Pattern Feeds Pattern','CLO Veil'],
   roles: [
     {role:'Captain',date:'Feb 2026',desc:'Fleet command assumed'},
     {role:'Architect',date:'Feb 2026',desc:'Multi-cloud sovereignty design'},
@@ -158,7 +158,7 @@ const ACHIEVEMENTS = [
   {icon:'🥈',name:'Builder',earned:true},
   {icon:'🥇',name:'Fleet Captain',earned:true},
   {icon:'💎',name:'Admiral',earned:true},
-  {icon:'🧅',name:'The Meek',earned:true},
+  {icon:'🧅',name:'The friendly',earned:true},
   {icon:'🌀',name:'NP Pioneer',earned:true},
   {icon:'🔥',name:'14-Day Streak',earned:true},
   {icon:'🤝',name:'Mentor',earned:true},
@@ -168,9 +168,9 @@ const ACHIEVEMENTS = [
   {icon:'🏴‍☠️',name:'Pattern Pirate',earned:true},
 ];
 
-// Meek Score
+// Explorer Score
 const score = PROFILE.products*10 + PROFILE.nps*25 + PROFILE.courses*15 + PROFILE.helps*30 + PROFILE.streak*5;
-document.getElementById('meekScore').innerHTML = `${score} <span>Meek Score</span>`;
+document.getElementById('explorerScore').innerHTML = `${score} <span>Explorer Score</span>`;
 
 // Radar Chart
 function drawRadar(){

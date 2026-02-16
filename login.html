@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sign In | SERLF</title>
+<title>Sign In | serlf</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -12,7 +12,7 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
 .login-container .tagline{color:var(--fg2);margin-bottom:2rem;font-size:.95rem}
 #g_id_signin{display:flex;justify-content:center;margin:1.5rem 0}
 .price-callout{background:rgba(244,162,97,.1);border:1px solid rgba(244,162,97,.2);border-radius:12px;padding:1.25rem;margin-top:2rem}
-.price-callout .amt{font-size:2rem;font-weight:900;color:var(--gold)}
+.price-callout .amt{font-size:2rem;font-weight:900;color:var(--warm-gold)}
 .loading{display:none;color:var(--fg2);margin-top:1rem}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:var(--cyan);animation:spin 1s linear infinite;margin-right:.5rem}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -22,19 +22,20 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
 </head>
 <body>
 <div class="login-container">
-<div class="logo">SERLF<span style="color:var(--maple)">🍁</span></div>
-<div class="tagline">Become the enterprise.</div>
+<div class="logo">serlf<span style="color:var(--maple)">🍁</span></div>
+<div class="tagline">Welcome in. 👋</div>
 
+<p style="color:var(--fg2);font-size:.9rem;">Window shopping is free! Sign in only when you're ready to join a store.</p>
 <div id="g_id_signin"></div>
 <div class="loading" id="loading"><span class="spinner"></span>Signing you in...</div>
 <div class="error-message" id="error-message"></div>
 
 <div class="price-callout">
 <div class="amt">$1<span style="font-size:.4em;color:var(--fg2)">/mo</span></div>
-<p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">$1/mo per product. Pick what you need.<br>Sign in with Google to get started.</p>
+<p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">Each store is $1/mo to join. That's it.</p>
 </div>
 
-<a href="/" class="back-link">← Back to serlf.ca</a>
+<a href="/" class="back-link">← No thanks, just browsing</a>
 </div>
 
 <script src="auth.js"></script>
@@ -61,8 +62,7 @@ function handleCredentialResponse(response) {
   document.getElementById('error-message').style.display = 'none';
   try {
     const userData = SERLF_AUTH.validateGoogleToken(response.credential);
-    if (!userData) throw new Error('Invalid or expired token');
-    if (!SERLF_AUTH.isAdmin(userData.email) && !userData.email_verified) throw new Error('Please use a verified Google account');
+    if (!userData || !userData.email_verified) throw new Error('Please use a verified Google account.');
     userData.token = response.credential;
     SERLF_AUTH.setSession(userData);
     setTimeout(() => {
@@ -73,7 +73,6 @@ function handleCredentialResponse(response) {
     const el = document.getElementById('error-message');
     el.style.display = 'block';
     el.textContent = error.message;
-    setTimeout(() => el.style.display = 'none', 5000);
   }
 }
 </script>

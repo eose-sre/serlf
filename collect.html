@@ -122,7 +122,7 @@ const BADGES = [
   {id:'builder',icon:'🥈',name:'Builder',req:4},
   {id:'captain',icon:'🥇',name:'Fleet Captain',req:8},
   {id:'admiral',icon:'💎',name:'Admiral',req:12},
-  {id:'meek',icon:'🧅',name:'The Meek',req:13}, // 12 + NP contribution
+  {id:'friendly',icon:'🧅',name:'The friendly',req:13}, // 12 + NP contribution
 ];
 
 function getCollected(){ return JSON.parse(localStorage.getItem('serlf_collected') || '[]') }
@@ -137,7 +137,7 @@ function render(){
   
   // Badges
   document.getElementById('badgeRow').innerHTML = BADGES.map(b => {
-    const earned = b.id === 'meek' ? (count >= 12 && localStorage.getItem('serlf_np_contributed')) : count >= b.req;
+    const earned = b.id === 'friendly' ? (count >= 12 && localStorage.getItem('serlf_np_contributed')) : count >= b.req;
     return `<div class="badge ${earned?'earned':''}"><span class="badge-icon">${b.icon}</span> ${b.name}${earned?'':` (${b.req})`}</div>`;
   }).join('');
   
@@ -168,7 +168,7 @@ function collect(id){
 
 function shareCollection(){
   const count = getCollected().length;
-  const text = `🧅⚓ I've collected ${count}/12 SERLF products! The meekest shall inherit the fleet. serlf.ca`;
+  const text = `🧅⚓ I've collected ${count}/12 SERLF products! The friendlyest shall inherit the fleet. serlf.ca`;
   if(navigator.share){navigator.share({text})}
   else{navigator.clipboard.writeText(text);alert('Copied to clipboard!')}
 }
