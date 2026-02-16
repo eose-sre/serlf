@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>serlf — The Lab</title>
+<meta name="description" content="The serlf Lab. A collection of cool AI experiments and tools. Come play with our latest inventions.">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Original Lab Styles - Scoped for this page */
+.lab-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem}
+.lab-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.lab-icon{font-size:2rem}
+.lab-title{font-weight:700;font-size:1.1rem}
+.lab-tag{font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:600;background:rgba(124,109,240,.15);color:var(--cyan)}
+.lab-desc{color:var(--fg2);font-size:.9rem;margin-bottom:1.5rem}
+textarea.lab-input{width:100%;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:.95rem;outline:none;min-height:80px;resize:vertical}
+textarea.lab-input:focus{border-color:var(--cyan)}
+.lab-output{margin-top:1rem;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;min-height:60px;font-size:.9rem;display:none}
+.btn-lab{display:inline-block;padding:.8rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;border:none;cursor:pointer;background:var(--bg3);color:var(--cyan);margin-right:0.5rem;}
+.btn-lab:hover{background:var(--border)}
+.color-palette{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
+.color-swatch{width:48px;height:48px;border-radius:10px;cursor:pointer;transition:transform .2s;border:2px solid transparent}
+.color-swatch:hover{transform:scale(1.1)}
+.color-info{margin-top:.75rem;font-size:.85rem;color:var(--fg2);display:none}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+<div class="logo">⚓🧭 serlf<span class="maple">🍁</span></div>
+<nav><a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a></nav>
+</div></header>
+
+<section class="hero">
+<p style="font-size:.9rem;color:var(--fg2);margin-bottom:.5rem">🧪 The Innovation Lab</p>
+<h1>Come See What's<br><span style="color:var(--warm-gold)">New in the Lab.</span></h1>
+<p class="tagline">This is where our AI crew builds and tests new ideas. These tools are free for everyone to use. Have fun!</p>
+</section>
+
+<section>
+<div class="container" style="max-width:800px">
+  <!-- Text Rewriter -->
+  <div class="lab-card">
+    <div class="lab-header"><div class="lab-icon">✍️</div><div><div class="lab-title">AI Text Rewriter</div></div><span class="lab-tag">Experimental</span></div>
+    <div class="lab-desc">Paste any text and transform it — make it professional, casual, shorter, or more persuasive.</div>
+    <textarea class="lab-input" id="rewriteInput" placeholder="Paste your text here..."></textarea>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
+      <button class="btn-lab" onclick="rewrite('professional')">Professional</button>
+      <button class="btn-lab" onclick="rewrite('casual')">Casual</button>
+      <button class="btn-lab" onclick="rewrite('shorter')">Shorter</button>
+      <button class="btn-lab" onclick="rewrite('persuasive')">Persuasive</button>
+    </div>
+    <div class="lab-output" id="rewriteOutput"></div>
+  </div>
+
+  <!-- Color Palette Generator -->
+  <div class="lab-card">
+    <div class="lab-header"><div class="lab-icon">🎨</div><div><div class="lab-title">AI Color Palette</div></div><span class="lab-tag">Experimental</span></div>
+    <div class="lab-desc">Describe a mood, brand, or concept and get a matching color palette.</div>
+    <div style="display:flex;gap:0.75rem;">
+      <input type="text" id="colorPrompt" placeholder="e.g. ocean sunset, tech startup..." style="flex:1;padding:0.8rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.95rem;outline:none;font-family:inherit;">
+      <button class="btn-lab" onclick="generatePalette()">Generate</button>
+    </div>
+    <div class="color-palette" id="colorPalette"></div>
+    <div class="color-info" id="colorInfo"></div>
+  </div>
+</div>
+</section>
+
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-links"><a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a></div>
+<div class="footer-bottom">⚓🧭 serlf · The Lab · 🇨🇦 Canada</div>
+</div>
+</footer>
+
+<script>
+// Scripts from original labs.html, adapted for public use.
+function rewrite(style){const input=document.getElementById("rewriteInput").value.trim();if(!input){alert("Please enter some text");return}const output=document.getElementById("rewriteOutput");output.style.display="block";output.innerHTML='<span style="color:var(--fg2);font-style:italic;">Rewriting...</span>';setTimeout(()=>{const words=input.split(/\s+/);let result="";switch(style){case"professional":result=input.replace(/hey/gi,"Dear colleague").replace(/cool/gi,"excellent").replace(/awesome/gi,"outstanding").replace(/!/g,".")+"\n\nBest regards.";if(result===input+"\n\nBest regards.")result="We would like to bring to your attention the following: "+input.charAt(0).toLowerCase()+input.slice(1);break;case"casual":result="Hey! So basically — "+input.toLowerCase().replace(/\./g,"!")+" Pretty cool right? 😊";break;case"shorter":result=words.filter((w,i)=>i<Math.ceil(words.length*.6)).join(" ")+".";break;case"persuasive":result="Here's why this matters: "+input+" The opportunity is clear. The time to act is now. Don't miss out."}output.innerHTML='<span style="color:var(--cyan);font-weight:600;font-size:0.8rem;">'+style.toUpperCase()+":</span><br>"+result},800)}
+function generatePalette(){const prompt=document.getElementById("colorPrompt").value.trim().toLowerCase();if(!prompt){alert("Describe a mood or concept");return}const palettes={ocean:["#0077b6","#00b4d8","#90e0ef","#caf0f8","#023e8a"],sunset:["#ff6b35","#f7931e","#ffd166","#ef476f","#073b4c"],forest:["#2d6a4f","#40916c","#52b788","#74c69d","#b7e4c7"],tech:["#7209b7","#560bad","#480ca8","#3a0ca3","#3f37c9"],cozy:["#bc6c25","#dda15e","#fefae0","#606c38","#283618"],default:["#6366f1","#8b5cf6","#a78bfa","#c4b5fd","#312e81"]};let colors=palettes.default;for(const[key,vals]of Object.entries(palettes)){if(prompt.includes(key)){colors=vals;break}}const el=document.getElementById("colorPalette");el.innerHTML=colors.map(c=>`<div class="color-swatch" style="background:${c}" onclick="copyColor('${c}')" title="${c}"></div>`).join("");const info=document.getElementById("colorInfo");info.style.display="block";info.innerHTML="🎨 "+colors.join(" · ")+" — Click any swatch to copy."}
+function copyColor(hex){navigator.clipboard.writeText(hex).then(()=>{document.getElementById("colorInfo").innerHTML="✅ Copied "+hex+" to clipboard!"})}
+</script>
+
+</body>
+</html>
