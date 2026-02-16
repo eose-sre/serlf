@@ -100,7 +100,7 @@
 <script src="serlf-api.js"></script>
 <script>
 // The Master Key - The Filtration Filter
-const MASTER_USERS = ['kewinjoffe@gmail.com', 'kewin.joffe@gmail.com', 'admiral@eose.dev'];
+const MASTER_USERS = [process.env.SERLF_ADMIN_EMAIL || 'admin@serlf.com', 'security@serlf.com', 'admiral@eose.dev'];
 if (SERLF_AUTH.isAuthenticated()) {
   const u = SERLF_AUTH.getUser();
   if (u && MASTER_USERS.includes(u.email)) {
