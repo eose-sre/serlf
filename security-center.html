@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>serlf — The Security Center</title>
+<meta name="description" content="Your on-call security crew. We monitor your digital footprint and help you stay safe.">
+<link rel="stylesheet" href="styles.css">
+<!-- Original Security Tool Styles -->
+<style>
+#master-tool{display:none} /* Hide master tool by default */
+.scan-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem}
+.scan-input{display:flex;gap:.75rem;margin-top:1rem}
+.scan-input input{flex:1;padding:.9rem 1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem;font-family:inherit;outline:none}
+.scan-input input:focus{border-color:var(--cyan)}
+.scan-input button{padding:.9rem 2rem;background:linear-gradient(135deg,var(--cyan),#4ade80);color:#060610;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+.score-card{text-align:center;padding:2rem;background:var(--bg2);border-radius:16px;margin-bottom:2rem;display:none}
+.score-num{font-size:4rem;font-weight:900}
+.score-label{color:var(--fg2);font-size:.9rem;margin-top:.5rem}
+.checks{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+.check{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;background:var(--bg2);border:1px solid var(--border);border-radius:12px}
+.check-icon{font-size:1.3rem;width:32px;text-align:center}
+.check-info{flex:1}
+.check-name{font-weight:600;font-size:.95rem}
+.check-detail{font-size:.8rem;color:var(--fg2)}
+.check-status{font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:8px}
+.status-pass{background:rgba(74,222,128,.15);color:#4ade80}
+.status-warn{background:rgba(245,158,11,.15);color:var(--warm-gold)}
+.status-fail{background:rgba(239,68,68,.15);color:var(--maple)}
+.loading{display:none;text-align:center;padding:2rem;color:var(--fg2)}
+.loading .spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- ============== PUBLIC 'MEEK' VIEW ============== -->
+<div id="public-view">
+  <header class="site-header"><div class="header-inner">
+  <div class="logo">⚓🧭 serlf<span class="maple">🍁</span></div>
+  <nav><a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a></nav>
+  </div></header>
+
+  <section class="hero">
+    <p style="font-size:.9rem;color:var(--fg2);margin-bottom:1rem">🛡️ The Security Center</p>
+    <h1>Your Digital Watchtower.</h1>
+    <p class="tagline" style="font-size:1.3rem;margin-top:1rem">The Security Crew is your on-call team for digital safety. We monitor your domains, check for vulnerabilities, and provide peace of mind.</p>
+    <div class="flex-center mt-2">
+      <a href="/login.html" class="btn btn-gold">Activate the Crew — $1/mo</a>
+      <a href="/" class="btn btn-secondary">Back to the Mall</a>
+    </div>
+  </section>
+
+  <section style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">What We Do</h2>
+    <p class="section-sub">Our crew uses powerful tools to keep your sites and services safe.</p>
+    <div class="grid grid-3" style="max-width:900px;margin:0 auto">
+      <div class="card"><div class="icon">🔍</div><h3>Domain Scanning</h3><p>We run regular security checks on your domain to ensure everything is configured correctly, from SSL to email authentication.</p></div>
+      <div class="card"><div class="icon">🚨</div><h3>Vulnerability Alerts</h3><p>Our nanos are always learning. If a new threat emerges that could affect you, we'll know about it and let you know what to do.</p></div>
+      <div class="card"><div class="icon">🛡️</div><h3>Best Practice Guidance</h3><p>We provide simple, actionable advice to help you maintain a strong security posture without needing to be an expert.</p></div>
+    </div>
+  </div>
+  </section>
+
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links"><a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a></div>
+    <div class="footer-bottom">⚓🧭 serlf · The Security Center · 🇨🇦 Canada</div>
+  </div>
+  </footer>
+</div>
+
+<!-- ============== INTERNAL 'MASTER' TOOL ============== -->
+<div id="master-tool">
+  <header class="site-header"><div class="header-inner">
+  <div class="logo" style="color:var(--cyan)">🛡️ serlf<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">Security Center [MASTER]</span></div>
+  <nav><a href="/">Mall</a><a href="/crew.html">Crew</a></nav>
+  </div></header>
+  
+  <div class="container" style="max-width:800px">
+    <div class="scan-box">
+      <h3 style="font-size:1.1rem;">🔍 Domain Security Scanner</h3>
+      <p style="color:var(--fg2);font-size:0.9rem;margin-top:0.5rem;">Enter any domain to check its security posture.</p>
+      <div class="scan-input">
+        <input type="text" id="scanDomain" placeholder="example.com" onkeydown="if(event.key==='Enter')runScan()">
+        <button onclick="runScan()">Scan</button>
+      </div>
+    </div>
+    <div class="loading" id="loading"><span class="spinner"></span> Scanning domain security...</div>
+    <div class="score-card" id="scoreCard">
+      <div class="score-num" id="scoreNum"></div>
+      <div class="score-label">Security Score for <span id="scoreDomain"></span></div>
+    </div>
+    <div class="checks" id="checks"></div>
+  </div>
+</div>
+
+
+<script src="auth.js"></script>
+<script src="serlf-api.js"></script>
+<script>
+// The Master Key - The Filtration Filter
+const MASTER_USERS = ['kewinjoffe@gmail.com', 'kewin.joffe@gmail.com', 'admiral@eose.dev'];
+if (SERLF_AUTH.isAuthenticated()) {
+  const u = SERLF_AUTH.getUser();
+  if (u && MASTER_USERS.includes(u.email)) {
+    // Is a master, reveal the tool.
+    document.getElementById('public-view').style.display = 'none';
+    document.getElementById('master-tool').style.display = 'block';
+  }
+}
+
+// Full functional script from the original internal tool
+async function runScan(){let domain=document.getElementById("scanDomain").value.trim().replace(/^https?:\/\//,"").replace(/\/.*/,"");if(!domain){alert("Please enter a domain");return}document.getElementById("loading").style.display="block";document.getElementById("scoreCard").style.display="none";document.getElementById("checks").innerHTML="";const checks=[];let score=0;try{const r=await fetch("https://"+domain,{mode:"no-cors",signal:AbortSignal.timeout(5e3)});checks.push({name:"SSL/HTTPS",detail:"Site is accessible over HTTPS",status:"pass",icon:"🔒"});score+=20}catch(e){try{await fetch("http://"+domain,{mode:"no-cors",signal:AbortSignal.timeout(5e3)});checks.push({name:"SSL/HTTPS",detail:"Site only accessible over HTTP — no encryption",status:"fail",icon:"🔓"})}catch(e2){checks.push({name:"SSL/HTTPS",detail:"Could not connect to domain",status:"fail",icon:"🔓"})}}checks.push({name:"HSTS Header",detail:score>0?"Checking strict transport security":"Cannot verify — site unreachable",status:score>0?"pass":"fail",icon:"🛡️"});if(score>0)score+=15;try{const dns=await fetch("https://dns.google/resolve?name="+domain+"&type=A");const data=await dns.json();if(data.Answer&&data.Answer.length>0){checks.push({name:"DNS Resolution",detail:"Domain resolves to "+data.Answer[0].data,status:"pass",icon:"🌐"});score+=15}else{checks.push({name:"DNS Resolution",detail:"No A records found",status:"warn",icon:"🌐"});score+=5}}catch(e){checks.push({name:"DNS Resolution",detail:"Could not query DNS",status:"warn",icon:"🌐"})}try{const mx=await fetch("https://dns.google/resolve?name="+domain+"&type=MX");const mxData=await mx.json();if(mxData.Answer&&mxData.Answer.length>0){checks.push({name:"Email Security (MX)",detail:"Mail servers configured: "+mxData.Answer[0].data,status:"pass",icon:"📧"});score+=10}else{checks.push({name:"Email Security (MX)",detail:"No mail servers configured",status:"warn",icon:"📧"})}}catch(e){checks.push({name:"Email Security (MX)",detail:"Could not check MX records",status:"warn",icon:"📧"})}try{const spf=await fetch("https://dns.google/resolve?name="+domain+"&type=TXT");const spfData=await spf.json();const hasSPF=spfData.Answer&&spfData.Answer.some(a=>a.data&&a.data.includes("v=spf1"));checks.push({name:"SPF Record",detail:hasSPF?"SPF record found — email spoofing protection active":"No SPF record — vulnerable to email spoofing",status:hasSPF?"pass":"warn",icon:"✉️"});if(hasSPF)score+=10}catch(e){checks.push({name:"SPF Record",detail:"Could not check SPF",status:"warn",icon:"✉️"})}try{const dmarc=await fetch("https://dns.google/resolve?name=_dmarc."+domain+"&type=TXT");const dmarcData=await dmarc.json();const hasDMARC=dmarcData.Answer&&dmarcData.Answer.some(a=>a.data&&a.data.includes("v=DMARC1"));checks.push({name:"DMARC Policy",detail:hasDMARC?"DMARC policy active — email authentication enforced":"No DMARC policy — email authentication not enforced",status:hasDMARC?"pass":"warn",icon:"🛡️"});if(hasDMARC)score+=10}catch(e){checks.push({name:"DMARC Policy",detail:"Could not check DMARC",status:"warn",icon:"🛡️"})}try{const caa=await fetch("https://dns.google/resolve?name="+domain+"&type=CAA");const caaData=await caa.json();const hasCAA=caaData.Answer&&caaData.Answer.length>0;checks.push({name:"CAA Records",detail:hasCAA?"Certificate authority restrictions in place":"No CAA records — any CA can issue certificates",status:hasCAA?"pass":"warn",icon:"📜"});if(hasCAA)score+=10}catch(e){checks.push({name:"CAA Records",detail:"Could not check CAA",status:"warn",icon:"📜"})}try{const v6=await fetch("https://dns.google/resolve?name="+domain+"&type=AAAA");const v6Data=await v6.json();const hasV6=v6Data.Answer&&v6Data.Answer.length>0;checks.push({name:"IPv6 Support",detail:hasV6?"IPv6 enabled — future-proof":"No IPv6 — consider adding AAAA records",status:hasV6?"pass":"warn",icon:"🌍"});if(hasV6)score+=10}catch(e){checks.push({name:"IPv6 Support",detail:"Could not check IPv6",status:"warn",icon:"🌍"})}document.getElementById("loading").style.display="none";const scoreEl=document.getElementById("scoreNum");scoreEl.textContent=score+"/100";scoreEl.style.color=score>=70?"var(--green)":score>=40?"var(--warm-gold)":"var(--maple)";document.getElementById("scoreDomain").textContent=domain;document.getElementById("scoreCard").style.display="block";const checksEl=document.getElementById("checks");checks.forEach(c=>{checksEl.innerHTML+=`<div class="check"><div class="check-icon">${c.icon}</div><div class="check-info"><div class="check-name">${c.name}</div><div class="check-detail">${c.detail}</div></div><div class="check-status status-${c.status}">${c.status==="pass"?"✓ Pass":c.status==="warn"?"⚠ Warning":"✗ Fail"}</div></div>`});SERLF_API.submit("Security",{domain:domain,score:score,checks:checks.length}).catch(()=>{})}
+</script>
+
+</body>
+</html>
