@@ -128,7 +128,7 @@ function renderStoreDetail(el, id) {
                 </div>
             </div>
              <div style="text-align:center;padding:2rem 0">
-                <a href="/login.html" class="btn btn-gold">Join for $1/mo</a>
+                <a href="/stripe-checkout.html?product=${store.id}" class="btn btn-gold">Join for $1/mo</a>
             </div>
         </div>`;
 }
