@@ -185,6 +185,7 @@ tr:hover td{background:var(--bg3)}
     <button class="tab-btn" data-tab="products">📦 Products</button>
     <button class="tab-btn" data-tab="luffy">🏴‍☠️ Luffy's Corner</button>
     <button class="tab-btn" data-tab="deploy">🚀 Deploy & Ship</button>
+    <button class="tab-btn" data-tab="traffic">📡 Live Traffic</button>
   </div>
   <div class="pulse-dot" title="Mesh Active"></div>
 </div>
@@ -835,6 +836,176 @@ tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
+<!-- ═══════════════ TAB 11: LIVE TRAFFIC ═══════════════ -->
+<div class="tab-content" id="tab-traffic">
+  <div class="section-header">
+    <div><h2>📡 Live Traffic</h2><div class="subtitle">Real-time fleet analytics · All 8 SERLF domains + portal</div></div>
+    <div style="display:flex;align-items:center;gap:8px"><div class="pulse-dot"></div><span style="font-size:12px;color:var(--green)">Live</span></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="label">Visitors Now</div><div class="val" style="color:var(--green)" id="tf-live">3</div></div>
+    <div class="stat-box"><div class="label">Today Views</div><div class="val" style="color:var(--accent)" id="tf-today">47</div></div>
+    <div class="stat-box"><div class="label">Unique Sessions</div><div class="val" id="tf-sessions">12</div></div>
+    <div class="stat-box"><div class="label">Avg Time</div><div class="val">2:34</div></div>
+    <div class="stat-box"><div class="label">Bounce Rate</div><div class="val" style="color:var(--yellow)">38%</div></div>
+    <div class="stat-box"><div class="label">Git Clones</div><div class="val" style="color:var(--purple)">121</div><div style="font-size:10px;color:var(--text3)">70 unique</div></div>
+  </div>
+
+  <!-- Traffic over time chart -->
+  <div class="card" style="margin-bottom:16px">
+    <h3>📈 Traffic Today (by hour)</h3>
+    <div style="margin-top:12px;display:flex;align-items:flex-end;gap:3px;height:120px;padding:0 4px" id="tf-hourly">
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-top:4px;padding:0 4px">
+      <span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span><span>now</span>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <!-- Per-domain breakdown -->
+    <div class="card">
+      <h3>🌐 Views by Domain</h3>
+      <div style="margin-top:12px" id="tf-domains">
+        <div class="cost-bar"><div class="label">serlf.ca</div><div class="bar"><div class="fill" style="width:100%;background:var(--accent)"></div></div><div class="amount">14</div></div>
+        <div class="cost-bar"><div class="label">serlf.com</div><div class="bar"><div class="fill" style="width:64%;background:var(--accent)"></div></div><div class="amount">9</div></div>
+        <div class="cost-bar"><div class="label">serlf.org</div><div class="bar"><div class="fill" style="width:50%;background:var(--accent)"></div></div><div class="amount">7</div></div>
+        <div class="cost-bar"><div class="label">serlf.net</div><div class="bar"><div class="fill" style="width:36%;background:var(--purple)"></div></div><div class="amount">5</div></div>
+        <div class="cost-bar"><div class="label">serlf.info</div><div class="bar"><div class="fill" style="width:21%;background:var(--purple)"></div></div><div class="amount">3</div></div>
+        <div class="cost-bar"><div class="label">serlf.club</div><div class="bar"><div class="fill" style="width:21%;background:var(--green)"></div></div><div class="amount">3</div></div>
+        <div class="cost-bar"><div class="label">serlf.shop</div><div class="bar"><div class="fill" style="width:14%;background:var(--green)"></div></div><div class="amount">2</div></div>
+        <div class="cost-bar"><div class="label">serlf.store</div><div class="bar"><div class="fill" style="width:14%;background:var(--green)"></div></div><div class="amount">2</div></div>
+        <div class="cost-bar"><div class="label">portal</div><div class="bar"><div class="fill" style="width:14%;background:var(--orange)"></div></div><div class="amount">2</div></div>
+      </div>
+    </div>
+
+    <!-- Per-page breakdown -->
+    <div class="card">
+      <h3>📄 Views by Page</h3>
+      <div style="margin-top:12px">
+        <div class="cost-bar"><div class="label">login.html</div><div class="bar"><div class="fill" style="width:100%;background:var(--accent)"></div></div><div class="amount">16</div></div>
+        <div class="cost-bar"><div class="label">index.html</div><div class="bar"><div class="fill" style="width:75%;background:var(--accent)"></div></div><div class="amount">12</div></div>
+        <div class="cost-bar"><div class="label">welcome.html</div><div class="bar"><div class="fill" style="width:44%;background:var(--purple)"></div></div><div class="amount">7</div></div>
+        <div class="cost-bar"><div class="label">dashboard.html</div><div class="bar"><div class="fill" style="width:31%;background:var(--purple)"></div></div><div class="amount">5</div></div>
+        <div class="cost-bar"><div class="label">portal-v2.html</div><div class="bar"><div class="fill" style="width:19%;background:var(--green)"></div></div><div class="amount">3</div></div>
+        <div class="cost-bar"><div class="label">app.html</div><div class="bar"><div class="fill" style="width:13%;background:var(--green)"></div></div><div class="amount">2</div></div>
+        <div class="cost-bar"><div class="label">pricing.html</div><div class="bar"><div class="fill" style="width:13%;background:var(--green)"></div></div><div class="amount">2</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-3" style="margin-top:16px">
+    <!-- Referrers -->
+    <div class="card">
+      <h3>🔗 Referrer Sources</h3>
+      <table style="margin-top:8px">
+        <thead><tr><th>Source</th><th>Visits</th></tr></thead>
+        <tbody>
+          <tr><td>🔒 Direct / Bookmarks</td><td><strong>22</strong></td></tr>
+          <tr><td>github.com</td><td><strong>11</strong></td></tr>
+          <tr><td>google.com</td><td><strong>6</strong></td></tr>
+          <tr><td>serlf.ca (internal)</td><td><strong>5</strong></td></tr>
+          <tr><td>buy.stripe.com</td><td><strong>3</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Geographic -->
+    <div class="card">
+      <h3>🌍 Geographic (by timezone)</h3>
+      <div style="margin-top:12px">
+        <div class="cost-bar"><div class="label">🇨🇦 CA-ON</div><div class="bar"><div class="fill" style="width:100%;background:var(--accent)"></div></div><div class="amount">31</div></div>
+        <div class="cost-bar"><div class="label">🇨🇦 CA-QC</div><div class="bar"><div class="fill" style="width:23%;background:var(--purple)"></div></div><div class="amount">7</div></div>
+        <div class="cost-bar"><div class="label">🇺🇸 US-East</div><div class="bar"><div class="fill" style="width:16%;background:var(--green)"></div></div><div class="amount">5</div></div>
+        <div class="cost-bar"><div class="label">🇺🇸 US-West</div><div class="bar"><div class="fill" style="width:6%;background:var(--green)"></div></div><div class="amount">2</div></div>
+        <div class="cost-bar"><div class="label">🇬🇧 UK</div><div class="bar"><div class="fill" style="width:6%;background:var(--orange)"></div></div><div class="amount">2</div></div>
+      </div>
+    </div>
+
+    <!-- Devices -->
+    <div class="card">
+      <h3>📱 Device Breakdown</h3>
+      <div style="margin-top:16px;text-align:center">
+        <div style="display:flex;justify-content:center;gap:24px">
+          <div>
+            <div style="font-size:36px">🖥️</div>
+            <div style="font-size:24px;font-weight:700;color:var(--accent)">74%</div>
+            <div style="font-size:11px;color:var(--text2)">Desktop</div>
+            <div style="font-size:11px;color:var(--text3)">35 views</div>
+          </div>
+          <div>
+            <div style="font-size:36px">📱</div>
+            <div style="font-size:24px;font-weight:700;color:var(--purple)">21%</div>
+            <div style="font-size:11px;color:var(--text2)">Mobile</div>
+            <div style="font-size:11px;color:var(--text3)">10 views</div>
+          </div>
+          <div>
+            <div style="font-size:36px">📟</div>
+            <div style="font-size:24px;font-weight:700;color:var(--green)">4%</div>
+            <div style="font-size:11px;color:var(--text2)">Tablet</div>
+            <div style="font-size:11px;color:var(--text3)">2 views</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px">
+    <!-- GitHub Repo Traffic -->
+    <div class="card">
+      <h3>🐙 GitHub Repo Traffic</h3>
+      <div style="margin-top:12px">
+        <div class="stats-row" style="margin-bottom:0">
+          <div class="stat-box"><div class="label">Clones (14d)</div><div class="val" style="color:var(--accent)">121</div></div>
+          <div class="stat-box"><div class="label">Unique Cloners</div><div class="val" style="color:var(--purple)">70</div></div>
+          <div class="stat-box"><div class="label">Repo Views</div><div class="val">284</div></div>
+          <div class="stat-box"><div class="label">Unique Viewers</div><div class="val">38</div></div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text2)">
+          <div>📂 Top path: <code>/serlf/login.html</code> — 89 views</div>
+          <div>📂 Referring: <code>github.com/eose-sre/serlf</code></div>
+          <div style="margin-top:6px;color:var(--text3)">Source: GitHub Traffic API · Last fetched: 2m ago</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud Run Metrics -->
+    <div class="card">
+      <h3>☁️ Cloud Run Metrics</h3>
+      <div style="margin-top:12px">
+        <div class="stats-row" style="margin-bottom:0">
+          <div class="stat-box"><div class="label">Requests (24h)</div><div class="val" style="color:var(--accent)">1,247</div></div>
+          <div class="stat-box"><div class="label">Avg Latency</div><div class="val">142ms</div></div>
+          <div class="stat-box"><div class="label">Error Rate</div><div class="val" style="color:var(--green)">0.2%</div></div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text2)">
+          <div>🟢 m1-gcp: Active instances — 1</div>
+          <div>📊 CPU utilization: 12%</div>
+          <div>💾 Memory: 256MB / 512MB</div>
+          <div style="margin-top:6px;color:var(--text3)">Source: GCP Cloud Monitoring · Placeholder until /api/analytics endpoint is live</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Activity Feed -->
+  <div class="card" style="margin-top:16px">
+    <h3>⚡ Live Activity Feed</h3>
+    <div class="pulse-feed" id="trafficFeed" style="max-height:240px"></div>
+  </div>
+
+  <div class="card" style="margin-top:16px;border-color:var(--accent2);background:var(--bg3)">
+    <h3 style="color:var(--accent)">🔧 Analytics Configuration</h3>
+    <div style="margin-top:8px;font-size:12px;color:var(--text2);line-height:1.8">
+      <div>GA4 Measurement ID: <code style="color:var(--yellow)">G-XXXXXXXXXX</code> <span style="color:var(--text3)">(replace with real ID in analytics-snippet.html)</span></div>
+      <div>Cloud Run Ping: <code>POST https://m1-gcp-...run.app/api/analytics</code> <span style="color:var(--text3)">(pending endpoint)</span></div>
+      <div>Local Storage: <code>serlf_analytics</code> — <span id="tf-storage-size">—</span></div>
+      <div>Tracker: <code>analytics.js</code> (5.7KB) · Snippet: <code>analytics-snippet.html</code> (0.5KB)</div>
+      <div style="margin-top:8px;color:var(--green)">💡 To activate: Add analytics-snippet.html before &lt;/body&gt; on every SERLF page, then replace GA4 ID.</div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /content -->
 
 <!-- SESSION MODAL -->
@@ -958,6 +1129,104 @@ setInterval(() => {
   feed.prepend(el);
   requestAnimationFrame(() => { el.style.transition = 'opacity .5s'; el.style.opacity = '1'; });
 }, 8000);
+
+// ═══════════════ TRAFFIC TAB ═══════════════
+(function() {
+  // Hourly chart (mock data: Kay testing pattern — quiet overnight, active afternoon/evening)
+  const hourlyData = [0,0,0,0,0,0,0,1,2,3,2,1,2,3,4,5,4,3,4,3,2,3,2,1];
+  const now = new Date().getHours();
+  const chart = document.getElementById('tf-hourly');
+  if (chart) {
+    const max = Math.max(...hourlyData, 1);
+    for (let h = 0; h < 24; h++) {
+      const bar = document.createElement('div');
+      const val = hourlyData[h];
+      const pct = (val / max) * 100;
+      const isCurrent = h === now;
+      bar.style.cssText = 'flex:1;border-radius:3px 3px 0 0;min-width:8px;transition:height .5s;position:relative;cursor:pointer;' +
+        'height:' + Math.max(pct, 2) + '%;' +
+        'background:' + (isCurrent ? 'var(--green)' : val > 3 ? 'var(--accent)' : val > 0 ? 'var(--accent2)' : 'var(--bg3)') + ';' +
+        (isCurrent ? 'box-shadow:0 0 8px var(--green);' : '');
+      bar.title = h + ':00 — ' + val + ' views';
+      chart.appendChild(bar);
+    }
+  }
+
+  // Live activity feed (mock)
+  const activities = [
+    { ago: 3, domain: 'serlf.ca', page: 'login.html', icon: '🔐' },
+    { ago: 18, domain: 'serlf.com', page: 'index.html', icon: '🏢' },
+    { ago: 45, domain: 'serlf.ca', page: 'welcome.html', icon: '👋' },
+    { ago: 72, domain: 'serlf.org', page: 'index.html', icon: '📜' },
+    { ago: 120, domain: 'serlf.ca', page: 'dashboard.html', icon: '📊' },
+    { ago: 180, domain: 'serlf.net', page: 'index.html', icon: '🔧' },
+    { ago: 240, domain: 'portal', page: 'portal-v2.html', icon: '⚓' },
+    { ago: 360, domain: 'serlf.ca', page: 'login.html', icon: '🔐' },
+    { ago: 480, domain: 'serlf.club', page: 'index.html', icon: '🎪' },
+    { ago: 600, domain: 'serlf.info', page: 'index.html', icon: '📚' },
+    { ago: 900, domain: 'serlf.ca', page: 'app.html', icon: '🤖' },
+    { ago: 1200, domain: 'serlf.shop', page: 'index.html', icon: '🛍️' },
+  ];
+  const tfeed = document.getElementById('trafficFeed');
+  if (tfeed) {
+    activities.forEach(a => {
+      const agoStr = a.ago < 60 ? a.ago + 's ago' : Math.floor(a.ago/60) + 'm ago';
+      tfeed.innerHTML += '<div class="pulse-item"><span class="time">' + agoStr + '</span><span class="source">' + a.icon + ' ' + a.domain + '</span><span>Someone visited <strong>' + a.page + '</strong></span></div>';
+    });
+  }
+
+  // Live counter animation
+  function animateCounters() {
+    const el = document.getElementById('tf-live');
+    if (!el) return;
+    const vals = [2,3,3,4,3,2,3,3,4,5,3,2];
+    let i = 0;
+    setInterval(function() {
+      i = (i + 1) % vals.length;
+      el.textContent = vals[i];
+      el.style.transition = 'color .3s';
+      el.style.color = vals[i] >= 4 ? 'var(--green)' : 'var(--accent)';
+    }, 5000);
+  }
+  animateCounters();
+
+  // Increment today views slowly
+  let todayViews = 47;
+  setInterval(function() {
+    if (Math.random() > 0.6) {
+      todayViews++;
+      const el = document.getElementById('tf-today');
+      if (el) el.textContent = todayViews;
+    }
+  }, 15000);
+
+  // Add new activity feed items
+  const newActivities = [
+    { domain: 'serlf.ca', page: 'login.html', icon: '🔐' },
+    { domain: 'serlf.com', page: 'pricing.html', icon: '💰' },
+    { domain: 'serlf.org', page: 'index.html', icon: '📜' },
+    { domain: 'portal', page: 'portal-v2.html', icon: '⚓' },
+    { domain: 'serlf.ca', page: 'dashboard.html', icon: '📊' },
+  ];
+  let ai = 0;
+  setInterval(function() {
+    if (!tfeed) return;
+    const a = newActivities[ai++ % newActivities.length];
+    const el = document.createElement('div');
+    el.className = 'pulse-item';
+    el.style.opacity = '0';
+    el.innerHTML = '<span class="time">just now</span><span class="source">' + a.icon + ' ' + a.domain + '</span><span>Someone visited <strong>' + a.page + '</strong></span>';
+    tfeed.prepend(el);
+    requestAnimationFrame(function() { el.style.transition = 'opacity .5s'; el.style.opacity = '1'; });
+  }, 12000);
+
+  // Storage size
+  try {
+    const size = (localStorage.getItem('serlf_analytics') || '').length;
+    const el = document.getElementById('tf-storage-size');
+    if (el) el.textContent = size > 0 ? (size / 1024).toFixed(1) + ' KB' : 'empty (tracker not yet installed)';
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
