@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>serlf Marketplace | Shop All 50+ AI Stores | $1 Each</title>
+<meta name="description" content="Browse and buy from 50+ AI stores. Add to cart, mix and match, or get Mall Pass for everything. Easy shopping for all meeks.">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Shopping Cart Styles */
+.cart-panel {
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 400px;
+  height: 100vh;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+.cart-panel.open { right: 0; }
+.cart-header { 
+  padding: 1rem; 
+  border-bottom: 1px solid var(--border); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+}
+.cart-close { 
+  background: none; 
+  border: none; 
+  font-size: 1.5rem; 
+  cursor: pointer; 
+  color: var(--fg);
+}
+.cart-item {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-total {
+  padding: 1.5rem;
+  background: var(--bg2);
+  font-weight: bold;
+}
+.cart-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--warm-gold);
+  color: black;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 999;
+}
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.product-card {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.product-card:hover {
+  border-color: var(--warm-gold);
+  transform: translateY(-4px);
+}
+.product-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.product-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem; }
+.product-price { font-size: 1.5rem; color: var(--warm-gold); font-weight: bold; margin: 1rem 0; }
+.product-description { color: var(--fg2); margin-bottom: 1.5rem; }
+.add-to-cart { 
+  background: var(--warm-gold); 
+  color: black; 
+  border: none; 
+  padding: 0.8rem 1.5rem; 
+  border-radius: 6px; 
+  font-weight: bold; 
+  cursor: pointer; 
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.add-to-cart:hover { opacity: 0.9; }
+.add-to-cart.in-cart { 
+  background: var(--green); 
+  color: white; 
+}
+.view-details { 
+  background: transparent; 
+  color: var(--fg2); 
+  border: 1px solid var(--border); 
+  padding: 0.5rem 1rem; 
+  border-radius: 6px; 
+  font-size: 0.9rem; 
+  cursor: pointer; 
+  width: 100%;
+}
+
+/* Mall Pass Special */
+.mall-pass-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--warm-gold), #FFD700);
+  color: black;
+  border: none;
+  text-align: center;
+  padding: 2rem;
+}
+.mall-pass-card .product-price { color: black; font-size: 2rem; }
+</style>
+</head>
+<body>
+
+<!-- Shopping Cart Button -->
+<button class="cart-button" onclick="toggleCart()">
+  🛒
+  <span class="cart-count" id="cart-count" style="display:none">0</span>
+</button>
+
+<!-- Shopping Cart Panel -->
+<div class="cart-panel" id="cart-panel">
+  <div class="cart-header">
+    <h3>🛒 Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">×</button>
+  </div>
+  <div id="cart-items"></div>
+  <div class="cart-total" id="cart-total">
+    Total: $0/mo
+  </div>
+  <div style="padding: 1rem;">
+    <button class="btn btn-gold" style="width:100%;margin-bottom:1rem" onclick="checkout()">
+      Checkout - Start Free Trial
+    </button>
+    <p style="font-size:0.8rem;color:var(--fg2);text-align:center">
+      7-day free trial • Cancel anytime • No commitments
+    </p>
+  </div>
+</div>
+
+<header class="site-header">
+<div class="header-inner">
+<div class="logo">🏬 serlf marketplace</div>
+<nav>
+<a href="/">← Home</a>
+<a href="#flagship">Flagship</a>
+<a href="#all-stores">All Stores</a>
+<a href="#mall-pass">Mall Pass</a>
+</nav>
+</div>
+</header>
+
+<section class="hero">
+<div class="icon" style="font-size:5rem">🏬🛒</div>
+<h1>Shop the Complete AI Mall</h1>
+<p class="tagline">Browse, compare, and buy from 50+ AI stores. Add to cart and checkout in minutes. Built for all meeks.</p>
+<div style="background:var(--bg2);padding:1rem;border-radius:8px;margin:2rem auto;max-width:600px">
+<p><strong>🎯 Shopping Made Easy:</strong></p>
+<p>👀 Browse everything free • 🛒 Add favorites to cart • 💳 One-click checkout • ⚡ Start using immediately</p>
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<!-- Mall Pass Special Offer -->
+<div class="product-grid">
+<div class="product-card mall-pass-card" id="mall-pass">
+<div class="product-icon">🎫</div>
+<div class="product-name">Mall Pass - All Access</div>
+<div class="product-price">$25/mo</div>
+<div class="product-description">
+<strong>Get ALL 50+ stores for one low price!</strong><br>
+✅ Every store included • ✅ All future stores automatically • ✅ Priority support<br>
+<span style="text-decoration:line-through">Regular: $50+/mo</span> <strong>Save 50%!</strong>
+</div>
+<button class="add-to-cart" onclick="addToCart('mall-pass', 'Mall Pass - All Access', 25, '🎫')">
+Add Mall Pass to Cart - $25/mo
+</button>
+<button class="view-details" onclick="location.href='#mall-pass-details'">
+View Full Benefits
+</button>
+</div>
+</div>
+
+<h2 id="flagship">🌟 Flagship Stores</h2>
+<p>Our most popular AI stores - hand-built and battle-tested.</p>
+
+<div class="product-grid">
+<div class="product-card">
+<div class="product-icon">🏦</div>
+<div class="product-name">Token Bank</div>
+<div class="product-price">$1/mo</div>
+<div class="product-description">Save 87% on AI costs with smart routing. 4-gear system automatically uses cheapest models first.</div>
+<button class="add-to-cart" onclick="addToCart('token-bank', 'Token Bank', 1, '🏦')">Add to Cart</button>
+<button class="view-details" onclick="location.href='/token-bank.html'">View Details</button>
+</div>
+
+<div class="product-card">
+<div class="product-icon">🚗</div>
+<div class="product-name">AI Garage</div>
+<div class="product-price">$1/mo</div>
+<div class="product-description">Your personal AI mechanic shop. Custom models, fine-tuning, training data preparation.</div>
+<button class="add-to-cart" onclick="addToCart('ai-garage', 'AI Garage', 1, '🚗')">Add to Cart</button>
+<button class="view-details" onclick="location.href='/ai-garage.html'">View Details</button>
+</div>
+
+<div class="product-card">
+<div class="product-icon">🤖</div>
+<div class="product-name">Bot Builder</div>
+<div class="product-price">$1/mo</div>
+<div class="product-description">Build Discord, Slack, and web chatbots visually. No coding required, templates included.</div>
+<button class="add-to-cart" onclick="addToCart('bot-builder', 'Bot Builder', 1, '🤖')">Add to Cart</button>
+<button class="view-details" onclick="location.href='/bot-builder.html'">View Details</button>
+</div>
+
+<div class="product-card">
+<div class="product-icon">🖌️</div>
+<div class="product-name">Design Den</div>
+<div class="product-price">$1/mo</div>
+<div class="product-description">AI+human design studio. Logos, websites, graphics, brand kits with professional quality.</div>
+<button class="add-to-cart" onclick="addToCart('design-den', 'Design Den', 1, '🖌️')">Add to Cart</button>
+<button class="view-details" onclick="location.href='/design-den.html'">View Details</button>
+</div>
+</div>
+
+<h2 id="all-stores">🗺️ All AI Stores</h2>
+<p>Every store in the mall - $1/mo each or get them all with Mall Pass.</p>
+
+<div class="product-grid">
+<!-- Core Services -->
+<div class="product-card"><div class="product-icon">🔐</div><div class="product-name">Business Store</div><div class="product-price">$1/mo</div><div class="product-description">Enterprise architecture consulting, cloud strategy, security best practices.</div><button class="add-to-cart" onclick="addToCart('business', 'Business Store', 1, '🔐')">Add to Cart</button><button class="view-details" onclick="location.href='/com/'">View Details</button></div>
+
+<div class="product-card"><div class="product-icon">🤝</div><div class="product-name">Community Center</div><div class="product-price">$1/mo</div><div class="product-description">Open source projects, community contributions, collaborative development.</div><button class="add-to-cart" onclick="addToCart('community', 'Community Center', 1, '🤝')">Add to Cart</button><button class="view-details" onclick="location.href='/org/'">View Details</button></div>
+
+<div class="product-card"><div class="product-icon">🔧</div><div class="product-name">Workshop</div><div class="product-price">$1/mo</div><div class="product-description">Development tools, code generators, project templates, build environments.</div><button class="add-to-cart" onclick="addToCart('workshop', 'Workshop', 1, '🔧')">Add to Cart</button><button class="view-details" onclick="location.href='/net/'">View Details</button></div>
+
+<div class="product-card"><div class="product-icon">📚</div><div class="product-name">Library</div><div class="product-price">$1/mo</div><div class="product-description">Knowledge base, tutorials, documentation, learning resources in plain language.</div><button class="add-to-cart" onclick="addToCart('library', 'Library', 1, '📚')">Add to Cart</button><button class="view-details" onclick="location.href='/info/'">View Details</button></div>
+
+<div class="product-card"><div class="product-icon">🍕</div><div class="product-name">Food Court</div><div class="product-price">$1/mo</div><div class="product-description">Community hangout space, Q&A forums, meet other users, casual chat.</div><button class="add-to-cart" onclick="addToCart('food-court', 'Food Court', 1, '🍕')">Add to Cart</button><button class="view-details" onclick="location.href='/club/'">View Details</button></div>
+
+<div class="product-card"><div class="product-icon">🎁</div><div class="product-name">Gift Shop</div><div class="product-price">$1/mo</div><div class="product-description">Branded merchandise, digital assets, templates, fun extras to take home.</div><button class="add-to-cart" onclick="addToCart('gift-shop', 'Gift Shop', 1, '🎁')">Add to Cart</button><button class="view-details" onclick="location.href='/shop/'">View Details</button></div>
+
+<!-- AI & Development -->
+<div class="product-card"><div class="product-icon">💭</div><div class="product-name">Prompt Studio</div><div class="product-price">$1/mo</div><div class="product-description">Prompt templates, chains, optimization tools. Turn words into AI magic.</div><button class="add-to-cart" onclick="addToCart('prompt-studio', 'Prompt Studio', 1, '💭')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">🎨</div><div class="product-name">Neural Cafe</div><div class="product-price">$1/mo</div><div class="product-description">AI art, music generation, voice synthesis. Where imagination meets silicon.</div><button class="add-to-cart" onclick="addToCart('neural-cafe', 'Neural Cafe', 1, '🎨')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">👨‍🍳</div><div class="product-name">Code Kitchen</div><div class="product-price">$1/mo</div><div class="product-description">Code templates, snippets, boilerplates. Fresh code, cooked to perfection.</div><button class="add-to-cart" onclick="addToCart('code-kitchen', 'Code Kitchen', 1, '👨‍🍳')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">🥪</div><div class="product-name">API Deli</div><div class="product-price">$1/mo</div><div class="product-description">REST APIs, GraphQL, webhooks, integrations. Made to order.</div><button class="add-to-cart" onclick="addToCart('api-deli', 'API Deli', 1, '🥪')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">📦</div><div class="product-name">Docker Depot</div><div class="product-price">$1/mo</div><div class="product-description">Container images, K8s manifests, DevOps automation. Ship it clean.</div><button class="add-to-cart" onclick="addToCart('docker-depot', 'Docker Depot', 1, '📦')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">🏥</div><div class="product-name">Debug Clinic</div><div class="product-price">$1/mo</div><div class="product-description">Error fixing, performance tuning, monitoring tools. We heal broken code.</div><button class="add-to-cart" onclick="addToCart('debug-clinic', 'Debug Clinic', 1, '🏥')">Add to Cart</button></div>
+
+<!-- Business Services -->
+<div class="product-card"><div class="product-icon">🏢</div><div class="product-name">Strategy Suite</div><div class="product-price">$1/mo</div><div class="product-description">Business plans, market analysis, consulting. Think like a Fortune 500.</div><button class="add-to-cart" onclick="addToCart('strategy-suite', 'Strategy Suite', 1, '🏢')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">📢</div><div class="product-name">Marketing Mill</div><div class="product-price">$1/mo</div><div class="product-description">Content creation, SEO, social media campaigns. Get noticed.</div><button class="add-to-cart" onclick="addToCart('marketing-mill', 'Marketing Mill', 1, '📢')">Add to Cart</button></div>
+
+<div class="product-card"><div class="product-icon">🤝</div><div class="product-name">Sales Salon</div><div class="product-price">$1/mo</div><div class="product-description">CRM, lead generation, email campaigns. Turn browsers into buyers.</div><button class="add-to-cart" onclick="addToCart('sales-salon', 'Sales Salon', 1, '🤝')">Add to Cart</button></div>
+
+<!-- Plus 35+ more stores shown as "coming soon" -->
+<div style="grid-column: 1/-1; text-align:center; padding:3rem; background:var(--bg2); border-radius:12px;">
+<h3>📈 35+ More Stores Coming Soon!</h3>
+<p>Data Analytics • Personal Productivity • Communication Tools • Creative Services • Specialized Industries</p>
+<p style="color:var(--warm-gold); font-weight:bold">Mall Pass members get early access to all new stores!</p>
+</div>
+
+</div>
+
+<div style="text-align:center;margin:3rem 0;padding:2rem;background:var(--bg2);border-radius:12px">
+<h3>🛒 Ready to Shop?</h3>
+<p>Add your favorite stores to cart, or get Mall Pass for everything!</p>
+<button class="btn btn-gold" onclick="toggleCart()">Open Cart & Checkout</button>
+</div>
+
+</div>
+</section>
+
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-links">
+<a href="/">Mall Home</a>
+<a href="/safety.html">Shopping Safety</a>
+<a href="mailto:hello@serlf.com">Get Help</a>
+</div>
+<div class="footer-bottom">
+🏬 serlf Marketplace · Shop All AI Stores · 🇨🇦<br>
+<em>"Everything you need. Nothing you don't. Easy shopping for all meeks."</em>
+</div>
+</div>
+</footer>
+
+<script>
+// Shopping Cart Logic
+let cart = [];
+
+function addToCart(id, name, price, icon) {
+  // Check if Mall Pass - remove individual items if adding Mall Pass
+  if (id === 'mall-pass') {
+    cart = [{id, name, price, icon, quantity: 1}];
+  } else {
+    // Remove Mall Pass if adding individual items
+    cart = cart.filter(item => item.id !== 'mall-pass');
+    
+    // Check if item already in cart
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+      return; // Already in cart
+    } else {
+      cart.push({id, name, price, icon, quantity: 1});
+    }
+  }
+  
+  updateCartUI();
+  updateCartButton();
+  
+  // Visual feedback
+  const button = event.target;
+  const originalText = button.textContent;
+  button.textContent = 'Added! ✓';
+  button.classList.add('in-cart');
+  setTimeout(() => {
+    if (button.classList.contains('in-cart')) {
+      button.textContent = 'In Cart ✓';
+    }
+  }, 1000);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  updateCartUI();
+  updateCartButton();
+  updateProductButtons();
+}
+
+function updateCartUI() {
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+  
+  if (cart.length === 0) {
+    cartItems.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--fg2)">Your cart is empty<br>Browse stores and add favorites!</div>';
+    cartTotal.innerHTML = 'Total: $0/mo';
+    return;
+  }
+  
+  cartItems.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div>
+        <span style="font-size:1.2rem">${item.icon}</span>
+        <strong>${item.name}</strong><br>
+        <span style="color:var(--fg2)">$${item.price}/mo</span>
+      </div>
+      <button onclick="removeFromCart('${item.id}')" style="background:none;border:none;color:var(--fg2);cursor:pointer">×</button>
+    </div>
+  `).join('');
+  
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  cartTotal.innerHTML = `Total: $${total}/mo`;
+}
+
+function updateCartButton() {
+  const cartCount = document.getElementById('cart-count');
+  if (cart.length > 0) {
+    cartCount.textContent = cart.length;
+    cartCount.style.display = 'flex';
+  } else {
+    cartCount.style.display = 'none';
+  }
+}
+
+function updateProductButtons() {
+  // Update all product buttons to show current cart state
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.classList.remove('in-cart');
+    button.textContent = button.textContent.replace('In Cart ✓', 'Add to Cart').replace('Added! ✓', 'Add to Cart');
+  });
+  
+  // Mark items in cart
+  cart.forEach(item => {
+    const button = document.querySelector(`[onclick*="${item.id}"]`);
+    if (button) {
+      button.classList.add('in-cart');
+      button.textContent = 'In Cart ✓';
+    }
+  });
+}
+
+function toggleCart() {
+  const cartPanel = document.getElementById('cart-panel');
+  cartPanel.classList.toggle('open');
+}
+
+function checkout() {
+  if (cart.length === 0) {
+    alert('Your cart is empty! Add some stores first.');
+    return;
+  }
+  
+  // Simple checkout - redirect to login/signup
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const items = cart.map(item => item.name).join(', ');
+  
+  // Store cart in localStorage for checkout process
+  localStorage.setItem('serlf_cart', JSON.stringify(cart));
+  localStorage.setItem('serlf_cart_total', total);
+  
+  // Redirect to login with cart context
+  window.location.href = '/login.html?checkout=true&total=' + total;
+}
+
+// Close cart when clicking outside
+document.addEventListener('click', function(event) {
+  const cartPanel = document.getElementById('cart-panel');
+  const cartButton = document.querySelector('.cart-button');
+  
+  if (!cartPanel.contains(event.target) && !cartButton.contains(event.target)) {
+    cartPanel.classList.remove('open');
+  }
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  updateCartUI();
+  updateCartButton();
+});
+</script>
+
+</body>
+</html>
