@@ -1,8 +1,7 @@
 // SERLF v5 API — FormSubmit + auth helpers
-const SERLF_OWNERS = ['kewinjoffe@gmail.com', 'kewin.joffe@gmail.com'];
-
 const SERLF_API = {
-  endpoint: 'https://formsubmit.co/ajax/kewinjoffe@gmail.com',
+  // Use environment variable or generic contact email
+  endpoint: process.env.SERLF_CONTACT_ENDPOINT || 'https://formsubmit.co/ajax/hello@serlf.com',
 
   async submit(product, data) {
     const auth = SERLF_AUTH.getUser() || {};
@@ -25,7 +24,7 @@ const SERLF_API = {
       return { ok: json.success !== false, data: json };
     } catch (e) {
       const body = Object.entries(payload).map(([k, v]) => `${k}: ${v}`).join('\n');
-      window.location.href = `mailto:kewinjoffe@gmail.com?subject=${encodeURIComponent(payload._subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:hello@serlf.com?subject=${encodeURIComponent(payload._subject)}&body=${encodeURIComponent(body)}`;
       return { ok: true, fallback: true };
     }
   }

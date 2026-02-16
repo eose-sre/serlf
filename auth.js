@@ -1,6 +1,10 @@
 // SERLF v5 Auth — Google OAuth + Stripe subscription check
 const SERLF_AUTH = {
-  ADMIN_EMAILS: ['kewinjoffe@gmail.com', 'kewin.joffe@gmail.com'],
+  // Admin emails (use environment variable or generic contact)
+  ADMIN_EMAILS: [
+    process.env.SERLF_ADMIN_EMAIL || 'admin@serlf.com',
+    'support@serlf.com'
+  ],
   SESSION_KEY: 'serlf_session',
   SUB_KEY: 'serlf_subscription',
 
