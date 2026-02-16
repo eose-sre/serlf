@@ -1,4 +1,4 @@
-// ========== SERLF v6 SPA — Admiral Pair Edition · $1/mo Everything ==========
+// ========== SERLF v6 SPA — Admiral Pair Edition · $1/mo Per Product ==========
 const PRODUCTS = [
     { id: 'admiral-pair', icon: '⚓🧭', name: 'Admiral Pair', tag: 'THE PRODUCT', desc: 'Two sovereign AI masters (Captain + m1) working as one hive mind across AKS and GCP. The pair IS the product.', features: [
         { title: 'Dual-Master Architecture', desc: 'Captain (AKS, Canada Central) + m1 (GCP, Montreal). Two clouds, one mind.' },
@@ -75,7 +75,7 @@ const PRODUCTS = [
     { id: 'academy', icon: '🎓', name: 'SERLF Academy', tag: 'EOSE × E&Y', desc: 'Learn to build self-evolving systems. Joint delivery with Ernst & Young.', features: [
         { title: 'The Framework', desc: 'Self Engineering Reinforced Learning. Systems that teach themselves.' },
         { title: 'EOSE × E&Y Partnership', desc: 'Enterprise advisory meets sovereign AI. Co-developed curriculum.' },
-        { title: 'The Meek Curriculum', desc: 'Enterprise patterns for everyone. $1.' },
+        { title: 'The Meek Curriculum', desc: 'Enterprise patterns for everyone. $1 per product.' },
         { title: 'Novel Pattern Studies', desc: 'Learn from 32+ production patterns.' },
         { title: 'Fleet Operations', desc: 'How to run AI agent fleets. Admiral Pair methodology.' },
         { title: 'Cloud Control Plane', desc: 'The 10 pillars.' }
@@ -210,7 +210,7 @@ function renderHome(el) {
                 <div class="stat"><span class="num">13</span><span class="label">Products</span></div>
                 <div class="stat"><span class="num">${NPS.length}</span><span class="label">Novel Patterns</span></div>
                 <div class="stat"><span class="num">3</span><span class="label">Silos</span></div>
-                <div class="stat"><span class="num">$1</span><span class="label">/month</span></div>
+                <div class="stat"><span class="num">$1</span><span class="label">/mo each</span></div>
             </div>
             <div class="section">
                 <div class="section-label">The Admiral Pair + Products</div>
@@ -251,7 +251,7 @@ function renderProducts(el) {
         <div class="page">
             <div class="page-hero">
                 <h1>All Products</h1>
-                <p class="subtitle">${PRODUCTS.length} products. Admiral Pair + full suite. $1/mo.</p>
+                <p class="subtitle">${PRODUCTS.length} products. Admiral Pair + full suite. $1/mo each.</p>
             </div>
             <div class="section">
                 <div class="card-grid">
@@ -271,7 +271,7 @@ function renderProductDetail(el, id) {
                 <h1>${p.name}</h1>
                 <p class="subtitle">${p.desc}</p>
                 <div style="margin-top:1rem">
-                    <span class="tier-badge tier-subscriber" style="font-size:.85rem">INCLUDED — $1/mo</span>
+                    <span class="tier-badge tier-subscriber" style="font-size:.85rem">$1/mo</span>
                 </div>
             </div>
             <div class="section">
@@ -388,13 +388,13 @@ function renderAccount(el) {
             <div class="page-hero" style="padding-bottom:1rem">
                 <h1>⚓🧭 ${user.name}</h1>
                 <p class="subtitle">${user.email}</p>
-                <span class="tier-badge tier-subscriber" style="margin-top:1rem;display:inline-block">SUBSCRIBER — $1/mo — EVERYTHING</span>
+                <span class="tier-badge tier-subscriber" style="margin-top:1rem;display:inline-block">SUBSCRIBER — $1/mo per product</span>
             </div>
             <div class="section">
                 <div class="card-grid" style="max-width:600px;margin:0 auto">
                     <div class="card" onclick="location.hash='#/account/billing'" style="cursor:pointer">
                         <span class="icon">💳</span><h3>Billing & Subscription</h3>
-                        <p>Manage your $1/mo plan via Stripe.</p>
+                        <p>Manage your subscriptions via Stripe. $1/mo per product.</p>
                     </div>
                     <div class="card">
                         <span class="icon">🔐</span><h3>My Silos</h3>
@@ -424,15 +424,15 @@ function renderBilling(el) {
         <div class="page">
             <div class="page-hero" style="padding-bottom:1rem">
                 <h1>💳 Billing</h1>
-                <p class="subtitle">Your $1/mo subscription — Admiral Pair + Everything</p>
+                <p class="subtitle">Your subscriptions — $1/mo per product</p>
             </div>
             <div class="section" style="max-width:600px;margin:0 auto">
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
                         <h3 style="font-weight:400">Current Plan</h3>
-                        <span class="tier-badge tier-subscriber">SERLF ALL — $1/mo</span>
+                        <span class="tier-badge tier-subscriber">$1/mo per product</span>
                     </div>
-                    <p style="color:var(--muted);font-size:.9rem">Admiral Pair + all ${PRODUCTS.length} products. All ${NPS.length} Novel Patterns. Everything.</p>
+                    <p style="color:var(--muted);font-size:.9rem">$1/mo per product. ${PRODUCTS.length} products available. All ${NPS.length} Novel Patterns.</p>
                     ${sub ? `<p style="color:var(--green);font-size:.85rem;margin-top:.5rem">✓ Active since ${new Date(sub.activated).toLocaleDateString()}</p>` : ''}
                     <button class="btn btn-secondary" style="margin-top:1rem" onclick="SERLF_STRIPE.manageBilling()">Manage in Stripe →</button>
                 </div>
@@ -459,7 +459,7 @@ function productCard(p) {
     return `<a href="#/product/${p.id}" class="card" style="text-decoration:none;color:inherit;cursor:pointer">
         <span class="icon">${p.icon}</span><h3>${p.name}</h3>
         <div class="tag">${p.tag}</div><p>${p.desc}</p>
-        <div style="margin-top:.75rem;color:var(--gold);font-weight:600;font-size:.85rem">Included — $1/mo</div>
+        <div style="margin-top:.75rem;color:var(--gold);font-weight:600;font-size:.85rem">$1/mo</div>
     </a>`;
 }
 

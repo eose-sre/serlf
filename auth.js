@@ -52,7 +52,7 @@ const SERLF_AUTH = {
     localStorage.setItem(this.SUB_KEY, JSON.stringify({
       status: 'active',
       plan: 'serlf-all',
-      price: '$1/mo',
+      price: '$1/mo per product',
       activated: Date.now(),
       session_id: data.session_id || null,
       ...data

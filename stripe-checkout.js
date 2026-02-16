@@ -1,4 +1,4 @@
-// SERLF v5 Stripe Checkout — $1/mo for everything
+// SERLF v5 Stripe Checkout — $1/mo per product
 // Configure these in Stripe Dashboard and replace:
 const STRIPE_CONFIG = {
   paymentLink: 'https://buy.stripe.com/fZufZbgo3cxr0Li9ZAgjC03',
@@ -35,7 +35,7 @@ const SERLF_STRIPE = {
         localStorage.setItem('serlf_subscription', JSON.stringify({
           status: 'active',
           plan: 'serlf-all',
-          price: '$1/mo',
+          price: '$1/mo per product',
           activated: Date.now(),
           session_id: sessionId
         }));
