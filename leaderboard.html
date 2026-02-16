@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 The Meek Leaderboard — SERLF</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--surface:#1e293b;--border:#2d3a4f;--fg:#e2e8f0;--fg2:#94a3b8;--gold:#f59e0b;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#a855f7;--pink:#ec4899;--blue:#3b82f6;--radius:12px;--glow:0 0 20px rgba(6,182,212,.15)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+
+.container{max-width:1000px;margin:0 auto;padding:1rem}
+.hero{text-align:center;padding:3rem 1rem 2rem}
+.hero h1{font-size:2.2rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--fg2);margin-top:.5rem}
+.formula-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;margin:1.5rem auto;max-width:600px;font-family:monospace;font-size:.85rem;color:var(--cyan);text-align:center}
+
+/* Time Toggle */
+.time-toggle{display:flex;justify-content:center;gap:4px;margin-bottom:1.5rem}
+.time-btn{background:var(--bg3);border:1px solid var(--border);color:var(--fg2);padding:6px 16px;border-radius:20px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.time-btn.active{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}
+
+/* Category Tabs */
+.cat-tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:1.5rem;scrollbar-width:none;padding-bottom:4px}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{background:var(--bg3);border:1px solid var(--border);color:var(--fg2);padding:8px 14px;border-radius:var(--radius);cursor:pointer;font-size:.8rem;white-space:nowrap;transition:all .2s}
+.cat-tab.active{background:var(--surface);color:var(--gold);border-color:var(--gold)}
+.cat-tab:hover{border-color:var(--fg2)}
+
+/* Your Rank Badge */
+.rank-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,var(--gold),#d97706);color:#000;padding:10px 18px;border-radius:20px;font-weight:700;font-size:.9rem;box-shadow:0 4px 20px rgba(245,158,11,.3);z-index:100;animation:badgePulse 2s ease infinite}
+@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* Leaderboard Table */
+.lb-table{width:100%;border-collapse:separate;border-spacing:0 4px}
+.lb-row{background:var(--bg3);transition:all .3s}
+.lb-row:hover{background:var(--surface);transform:translateX(4px)}
+.lb-row.you{background:linear-gradient(90deg,rgba(6,182,212,.15),rgba(6,182,212,.05));border-left:3px solid var(--cyan)}
+.lb-row.top1{background:linear-gradient(90deg,rgba(245,158,11,.15),rgba(245,158,11,.05))}
+.lb-row.top2{background:linear-gradient(90deg,rgba(192,192,192,.1),rgba(192,192,192,.03))}
+.lb-row.top3{background:linear-gradient(90deg,rgba(205,127,50,.1),rgba(205,127,50,.03))}
+.lb-row td{padding:12px 14px;vertical-align:middle}
+.lb-row td:first-child{border-radius:var(--radius) 0 0 var(--radius);width:50px;text-align:center;font-weight:700;font-size:1.1rem}
+.lb-row td:last-child{border-radius:0 var(--radius) var(--radius) 0;text-align:right;font-weight:600;color:var(--gold)}
+
+.avatar{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;margin-right:10px;flex-shrink:0}
+.user-cell{display:flex;align-items:center}
+.user-name{font-weight:600;font-size:.9rem}
+.user-title{color:var(--fg2);font-size:.75rem}
+
+.rank-medal{font-size:1.3rem}
+
+/* Animations */
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.lb-row{animation:slideIn .3s ease forwards;opacity:0}
+
+.nav-back{display:inline-block;padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--fg2);font-size:.85rem;margin-bottom:1rem}
+.nav-back:hover{color:var(--fg);border-color:var(--fg2)}
+
+@media(max-width:600px){
+  .hero h1{font-size:1.6rem}
+  .lb-row td{padding:8px 10px}
+  .avatar{width:30px;height:30px;font-size:.7rem;margin-right:6px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="nav-back">⚓ Back to SERLF</a>
+  
+  <div class="hero">
+    <h1>🏆 The Meek Leaderboard</h1>
+    <p>The meekest shall inherit the leaderboard. 🧅⚓</p>
+    <div class="formula-box">
+      Meek Score = (Products × 10) + (NPs × 25) + (Courses × 15) + (Helps × 20) + (Streak × 5)
+    </div>
+  </div>
+
+  <div class="time-toggle" id="timeToggle">
+    <button class="time-btn active" data-period="weekly">This Week</button>
+    <button class="time-btn" data-period="monthly">This Month</button>
+    <button class="time-btn" data-period="alltime">All Time</button>
+  </div>
+
+  <div class="cat-tabs" id="catTabs">
+    <div class="cat-tab active" data-cat="overall">🏆 Meekest Overall</div>
+    <div class="cat-tab" data-cat="collector">📦 Product Collector</div>
+    <div class="cat-tab" data-cat="learner">📚 Top Learner</div>
+    <div class="cat-tab" data-cat="hunter">🌀 NP Hunter</div>
+    <div class="cat-tab" data-cat="mvp">🤝 Community MVP</div>
+    <div class="cat-tab" data-cat="speed">⚡ Speed Runner</div>
+    <div class="cat-tab" data-cat="streak">🔥 Streak Master</div>
+  </div>
+
+  <table class="lb-table" id="lbTable"></table>
+</div>
+
+<div class="rank-badge" id="rankBadge">Your rank: #7</div>
+
+<script>
+const AVATAR_COLORS = ['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#06b6d4','#f97316','#14b8a6','#a855f7'];
+
+const USERS = [
+  {name:'SovereignSailor',title:'Fleet Admiral',products:12,nps:8,courses:14,helps:22,streak:45},
+  {name:'MeekMaster99',title:'The Meekest',products:12,nps:6,courses:12,helps:18,streak:60},
+  {name:'AgentSmith_0x',title:'NP Hunter',products:10,nps:11,courses:10,helps:12,streak:30},
+  {name:'FleetCaptainZero',title:'Admiral',products:11,nps:5,courses:11,helps:20,streak:38},
+  {name:'SiloSensei',title:'Security Guru',products:9,nps:7,courses:13,helps:15,streak:25},
+  {name:'TheQuietOne',title:'Streak Legend',products:8,nps:4,courses:9,helps:10,streak:90},
+  {name:'Kay J',title:'Founder · EOSE',products:12,nps:32,courses:6,helps:30,streak:14,isYou:true},
+  {name:'NanoNinja',title:'Speed Demon',products:7,nps:3,courses:16,helps:8,streak:20},
+  {name:'PatternPirate',title:'NP Collector',products:6,nps:9,courses:7,helps:14,streak:22},
+  {name:'LoopLord',title:'Monitor Maven',products:8,nps:5,courses:11,helps:11,streak:35},
+  {name:'HelmHero',title:'Frontend Fleet',products:5,nps:2,courses:8,helps:16,streak:18},
+  {name:'MeshMonk',title:'Net Weaver',products:7,nps:4,courses:10,helps:9,streak:28},
+  {name:'TokenTitan',title:'Swarm Master',products:9,nps:3,courses:7,helps:7,streak:15},
+  {name:'CryptoCapt',title:'Identity Pro',products:4,nps:2,courses:12,helps:6,streak:42},
+  {name:'OnionKnight',title:'The Peeler',products:6,nps:6,courses:5,helps:13,streak:10},
+  {name:'RouteRanger',title:'Pathfinder',products:5,nps:1,courses:9,helps:5,streak:33},
+  {name:'BosunBot',title:'Ops Wizard',products:8,nps:3,courses:6,helps:19,streak:12},
+  {name:'DeployDragon',title:'Ship It',products:3,nps:1,courses:4,helps:3,streak:7},
+  {name:'MeekIntern',title:'Just Started',products:1,nps:0,courses:1,helps:1,streak:3},
+  {name:'GatewayGhost',title:'9 Providers',products:10,nps:4,courses:8,helps:10,streak:27},
+];
+
+function meekScore(u){return u.products*10+u.nps*25+u.courses*15+u.helps*20+u.streak*5}
+
+const CATEGORIES = {
+  overall: u => meekScore(u),
+  collector: u => u.products,
+  learner: u => u.courses,
+  hunter: u => u.nps,
+  mvp: u => u.helps,
+  speed: u => u.courses + u.nps,
+  streak: u => u.streak,
+};
+
+const PERIOD_MULT = {weekly:.3,monthly:.65,alltime:1};
+
+let currentCat = 'overall';
+let currentPeriod = 'alltime';
+
+function renderBoard(){
+  const scoreFn = CATEGORIES[currentCat];
+  const mult = PERIOD_MULT[currentPeriod];
+  const sorted = USERS.map(u => ({...u, score: Math.round(scoreFn(u) * mult)})).sort((a,b) => b.score - a.score);
+  const top10 = sorted.slice(0,10);
+  const youIdx = sorted.findIndex(u => u.isYou);
+  
+  document.getElementById('rankBadge').textContent = `Your rank: #${youIdx+1}`;
+  
+  const table = document.getElementById('lbTable');
+  table.innerHTML = top10.map((u, i) => {
+    const rank = i + 1;
+    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+    const cls = [u.isYou ? 'you' : '', rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : ''].filter(Boolean).join(' ');
+    const color = AVATAR_COLORS[(u.name.charCodeAt(0) + u.name.charCodeAt(1)) % AVATAR_COLORS.length];
+    const initials = u.name.slice(0,2).toUpperCase();
+    const delay = i * 0.05;
+    const unit = currentCat === 'overall' ? 'pts' : currentCat === 'collector' ? '📦' : currentCat === 'learner' ? '📚' : currentCat === 'hunter' ? '🌀' : currentCat === 'mvp' ? '🤝' : currentCat === 'speed' ? '⚡' : '🔥';
+    return `<tr class="lb-row ${cls}" style="animation-delay:${delay}s">
+      <td><span class="rank-medal">${medal}</span></td>
+      <td><div class="user-cell"><div class="avatar" style="background:${color}">${initials}</div><div><div class="user-name">${u.name}${u.isYou?' ← you':''}</div><div class="user-title">${u.title}</div></div></div></td>
+      <td>${u.score.toLocaleString()} ${unit}</td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('catTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.cat-tab');
+  if (!tab) return;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  currentCat = tab.dataset.cat;
+  renderBoard();
+});
+
+document.getElementById('timeToggle').addEventListener('click', e => {
+  const btn = e.target.closest('.time-btn');
+  if (!btn) return;
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPeriod = btn.dataset.period;
+  renderBoard();
+});
+
+renderBoard();
+</script>
+</body>
+</html>

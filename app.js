@@ -188,6 +188,9 @@ function navigate() {
     if (path === '/crew') return renderCrew(container);
     if (path === '/academy') return renderAcademy(container);
     if (path === '/status') return renderStatus(container);
+    if (path === '/leaderboard') return renderLeaderboard(container);
+    if (path === '/collection') return renderCollection(container);
+    if (path === '/profile') return renderProfile(container);
     if (path === '/account') return renderAccount(container);
     if (path === '/account/billing') return renderBilling(container);
 
@@ -478,6 +481,171 @@ function npCard(n) {
         <span class="icon">🌀</span><h3>${n.id}: ${n.name}</h3>
         <div class="tag">${'★'.repeat(n.stars)}${'☆'.repeat(5 - n.stars)}</div>
         <p>Owner: ${n.owner} · ${n.cat}</p>
+    </div>`;
+}
+
+// ========== GAMIFICATION ==========
+const SERLF_GAME = {
+    getCollected() { return JSON.parse(localStorage.getItem('serlf_collected') || '[]') },
+    setCollected(c) { localStorage.setItem('serlf_collected', JSON.stringify(c)) },
+    getStreak() { return parseInt(localStorage.getItem('serlf_streak') || '0') },
+    getNPsContributed() { return parseInt(localStorage.getItem('serlf_nps_contributed') || '0') },
+    getCourses() { return parseInt(localStorage.getItem('serlf_courses') || '0') },
+    getHelps() { return parseInt(localStorage.getItem('serlf_helps') || '0') },
+    meekScore() {
+        return this.getCollected().length * 10 + this.getNPsContributed() * 25 +
+               this.getCourses() * 15 + this.getHelps() * 20 + this.getStreak() * 5;
+    },
+    updateStreak() {
+        const today = new Date().toDateString();
+        const last = localStorage.getItem('serlf_streak_date');
+        if (last === today) return;
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        if (last === yesterday) {
+            localStorage.setItem('serlf_streak', this.getStreak() + 1);
+        } else if (last !== today) {
+            localStorage.setItem('serlf_streak', 1);
+        }
+        localStorage.setItem('serlf_streak_date', today);
+    },
+    collect(id) {
+        const c = this.getCollected();
+        if (!c.includes(id)) { c.push(id); this.setCollected(c); }
+    },
+    getBadge() {
+        const n = this.getCollected().length;
+        if (n >= 12 && this.getNPsContributed() > 0) return '🧅 The Meek';
+        if (n >= 12) return '💎 Admiral';
+        if (n >= 8) return '🥇 Fleet Captain';
+        if (n >= 4) return '🥈 Builder';
+        if (n >= 1) return '🥉 Starter';
+        return '—';
+    },
+    getProductRarity(id) {
+        const legendary = ['admiral-pair','incubator','consulting'];
+        const common = ['patterns','monitor'];
+        return legendary.includes(id) ? 'legendary' : common.includes(id) ? 'common' : 'rare';
+    }
+};
+SERLF_GAME.updateStreak();
+
+const LB_USERS = [
+    {name:'SovereignSailor',title:'Fleet Admiral',products:12,nps:8,courses:14,helps:22,streak:45},
+    {name:'MeekMaster99',title:'The Meekest',products:12,nps:6,courses:12,helps:18,streak:60},
+    {name:'AgentSmith_0x',title:'NP Hunter',products:10,nps:11,courses:10,helps:12,streak:30},
+    {name:'FleetCaptainZero',title:'Admiral',products:11,nps:5,courses:11,helps:20,streak:38},
+    {name:'SiloSensei',title:'Security Guru',products:9,nps:7,courses:13,helps:15,streak:25},
+    {name:'TheQuietOne',title:'Streak Legend',products:8,nps:4,courses:9,helps:10,streak:90},
+    {name:'Kay J',title:'Founder',products:12,nps:32,courses:6,helps:30,streak:14,isYou:true},
+    {name:'NanoNinja',title:'Speed Demon',products:7,nps:3,courses:16,helps:8,streak:20},
+    {name:'PatternPirate',title:'NP Collector',products:6,nps:9,courses:7,helps:14,streak:22},
+    {name:'LoopLord',title:'Monitor Maven',products:8,nps:5,courses:11,helps:11,streak:35},
+];
+
+function renderLeaderboard(el) {
+    const scoreFn = u => u.products*10 + u.nps*25 + u.courses*15 + u.helps*20 + u.streak*5;
+    const sorted = LB_USERS.map(u => ({...u, score: scoreFn(u)})).sort((a,b) => b.score - a.score);
+    const youRank = sorted.findIndex(u => u.isYou) + 1;
+    const colors = ['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#06b6d4','#f97316','#14b8a6','#a855f7'];
+
+    el.innerHTML = `
+    <div class="page">
+        <div class="page-hero">
+            <h1>🏆 The Meek Leaderboard</h1>
+            <p class="subtitle">The meekest shall inherit the leaderboard</p>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.75rem 1.25rem;margin:1rem auto;max-width:500px;font-family:monospace;font-size:.8rem;color:var(--cyan);text-align:center">
+                Meek Score = (Products × 10) + (NPs × 25) + (Courses × 15) + (Helps × 20) + (Streak × 5)
+            </div>
+        </div>
+        <div class="section">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+                ${sorted.slice(0,10).map((u, i) => {
+                    const rank = i + 1;
+                    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#' + rank;
+                    const c = colors[(u.name.charCodeAt(0)+u.name.charCodeAt(1))%colors.length];
+                    const bg = u.isYou ? 'rgba(6,182,212,.1)' : 'transparent';
+                    return `<div class="status-row" style="background:${bg}">
+                        <span style="min-width:40px;display:inline-block;text-align:center">${medal}</span>
+                        <span style="display:inline-flex;align-items:center;gap:8px;flex:1">
+                            <span style="width:30px;height:30px;border-radius:50%;background:${c};display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">${u.name.slice(0,2).toUpperCase()}</span>
+                            <span><strong>${u.name}</strong>${u.isYou?' ← you':''}<br><span style="font-size:.75rem;color:var(--muted)">${u.title}</span></span>
+                        </span>
+                        <span style="color:var(--gold);font-weight:600">${u.score.toLocaleString()} pts</span>
+                    </div>`;
+                }).join('')}
+            </div>
+            <div style="text-align:center;margin-top:1.5rem;color:var(--muted)">
+                Your rank: <strong style="color:var(--gold)">#${youRank}</strong> &nbsp;·&nbsp;
+                <a href="leaderboard.html">Full leaderboard with categories →</a>
+            </div>
+        </div>
+    </div>`;
+}
+
+function renderCollection(el) {
+    const collected = SERLF_GAME.getCollected();
+    const count = collected.length;
+    el.innerHTML = `
+    <div class="page">
+        <div class="page-hero">
+            <h1>📦 Gotta Collect 'Em All</h1>
+            <p class="subtitle">${count}/12 products collected · ${SERLF_GAME.getBadge()}</p>
+            <div style="max-width:400px;margin:1rem auto">
+                <div style="height:10px;background:var(--surface);border-radius:10px;overflow:hidden">
+                    <div style="height:100%;width:${count/12*100}%;background:linear-gradient(90deg,var(--cyan),var(--gold));border-radius:10px;transition:width .6s"></div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="card-grid">
+                ${PRODUCTS.map(p => {
+                    const isCollected = collected.includes(p.id);
+                    const rarity = SERLF_GAME.getProductRarity(p.id);
+                    const rarityColor = rarity === 'legendary' ? 'var(--gold)' : rarity === 'rare' ? 'var(--cyan)' : 'var(--muted)';
+                    return `<div class="card" style="text-align:center;position:relative;${isCollected ? 'border-color:var(--green)' : ''}${rarity === 'legendary' ? ';box-shadow:0 0 20px rgba(168,85,247,.15)' : ''}">
+                        ${isCollected ? '<span style="position:absolute;top:8px;right:10px">✅</span>' : ''}
+                        <span class="icon">${p.icon}</span>
+                        <h3>${p.name}</h3>
+                        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:${rarityColor}">${rarity}</div>
+                        <div style="color:var(--gold);font-size:.85rem;margin:.5rem 0">$1/mo</div>
+                        <button onclick="SERLF_GAME.collect('${p.id}');navigate()" style="padding:6px 16px;border:1px solid ${isCollected ? 'var(--green)' : 'var(--cyan)'};background:none;color:${isCollected ? 'var(--green)' : 'var(--cyan)'};border-radius:20px;cursor:pointer;font-size:.8rem">${isCollected ? '✅ Collected' : 'Collect'}</button>
+                    </div>`;
+                }).join('')}
+            </div>
+        </div>
+        <div style="text-align:center;padding:2rem 0">
+            <a href="collect.html" style="font-size:.85rem">Full collection page with animations →</a>
+        </div>
+    </div>`;
+}
+
+function renderProfile(el) {
+    const collected = SERLF_GAME.getCollected();
+    const score = SERLF_GAME.meekScore();
+    const streak = SERLF_GAME.getStreak();
+    const user = typeof SERLF_AUTH !== 'undefined' && SERLF_AUTH.getUser ? SERLF_AUTH.getUser() : null;
+    const name = user ? user.name : 'Kay J';
+
+    el.innerHTML = `
+    <div class="page">
+        <div class="page-hero">
+            <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--gold));display:inline-flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;margin-bottom:.75rem">${name.slice(0,2).toUpperCase()}</div>
+            <h1>${name}</h1>
+            <p class="subtitle">${SERLF_GAME.getBadge()} · Meek Score: <strong style="color:var(--gold)">${score}</strong></p>
+            <p style="color:var(--muted);font-size:.8rem;margin-top:.5rem">⚓ Member since Feb 14, 2026</p>
+        </div>
+        <div class="section">
+            <div class="section-label">📊 Stats</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;max-width:600px;margin:0 auto">
+                <div class="card" style="text-align:center"><span style="font-size:2rem;display:block">${collected.length}</span><span style="color:var(--muted);font-size:.8rem">Products</span></div>
+                <div class="card" style="text-align:center"><span style="font-size:2rem;display:block">${SERLF_GAME.getNPsContributed()}</span><span style="color:var(--muted);font-size:.8rem">NPs</span></div>
+                <div class="card" style="text-align:center"><span style="font-size:2rem;display:block">${SERLF_GAME.getCourses()}</span><span style="color:var(--muted);font-size:.8rem">Courses</span></div>
+                <div class="card" style="text-align:center"><span style="font-size:2rem;display:block">🔥 ${streak}</span><span style="color:var(--muted);font-size:.8rem">Day Streak</span></div>
+            </div>
+        </div>
+        <div style="text-align:center;padding:2rem 0">
+            <a href="profile.html" style="font-size:.85rem">Full profile with capability radar →</a>
+        </div>
     </div>`;
 }
 

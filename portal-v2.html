@@ -187,6 +187,7 @@ tr:hover td{background:var(--bg3)}
     <button class="tab-btn" data-tab="luffy">🏴‍☠️ Luffy's Corner</button>
     <button class="tab-btn" data-tab="deploy">🚀 Deploy & Ship</button>
     <button class="tab-btn" data-tab="traffic">📡 Live Traffic</button>
+    <button class="tab-btn" data-tab="leaderboard">🏆 Leaderboard</button>
   </div>
   <div class="pulse-dot" title="Mesh Active"></div>
 </div>
@@ -1005,6 +1006,58 @@ tr:hover td{background:var(--bg3)}
       <div>Tracker: <code>analytics.js</code> (5.7KB) · Snippet: <code>analytics-snippet.html</code> (0.5KB)</div>
       <div style="margin-top:8px;color:var(--green)">💡 To activate: Add analytics-snippet.html before &lt;/body&gt; on every SERLF page, then replace GA4 ID.</div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 12: LEADERBOARD ═══════════════ -->
+<div class="tab-content" id="tab-leaderboard">
+  <div class="section-title">🏆 The Meek Leaderboard</div>
+  
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+    <div class="metric-card"><div class="metric-value" style="color:var(--accent)">247</div><div class="metric-label">Total Learners</div></div>
+    <div class="metric-card"><div class="metric-value" style="color:var(--gold,#f59e0b)">1,432</div><div class="metric-label">NPs Discovered</div></div>
+    <div class="metric-card"><div class="metric-value" style="color:#10b981">2,891</div><div class="metric-label">Products Collected</div></div>
+    <div class="metric-card"><div class="metric-value" style="color:#a855f7">38</div><div class="metric-label">Admirals 💎</div></div>
+  </div>
+
+  <div class="section-title" style="font-size:12px;margin-top:12px">🏆 Top Meekest — All Time</div>
+  <table>
+    <thead><tr><th>#</th><th>Sailor</th><th>Score</th><th>Badge</th></tr></thead>
+    <tbody>
+      <tr><td>🥇</td><td><strong>SovereignSailor</strong></td><td style="color:var(--accent)">1,355</td><td>💎 Admiral</td></tr>
+      <tr><td>🥈</td><td><strong>MeekMaster99</strong></td><td style="color:var(--accent)">1,310</td><td>💎 Admiral</td></tr>
+      <tr style="background:rgba(6,182,212,.1)"><td>🥉</td><td><strong>Kay J</strong> ← you</td><td style="color:var(--accent)">1,280</td><td>🧅 The Meek</td></tr>
+      <tr><td>4</td><td>AgentSmith_0x</td><td>1,140</td><td>💎 Admiral</td></tr>
+      <tr><td>5</td><td>FleetCaptainZero</td><td>1,095</td><td>💎 Admiral</td></tr>
+      <tr><td>6</td><td>SiloSensei</td><td>1,010</td><td>🥇 Fleet Captain</td></tr>
+      <tr><td>7</td><td>TheQuietOne</td><td>980</td><td>🥇 Fleet Captain</td></tr>
+      <tr><td>8</td><td>LoopLord</td><td>920</td><td>🥇 Fleet Captain</td></tr>
+      <tr><td>9</td><td>NanoNinja</td><td>870</td><td>🥈 Builder</td></tr>
+      <tr><td>10</td><td>PatternPirate</td><td>835</td><td>🥈 Builder</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title" style="font-size:12px;margin-top:16px">📡 Who's Learning Right Now</div>
+  <div style="font-size:12px;color:var(--text2)">
+    <div style="padding:4px 0;border-bottom:1px solid var(--border)">🌀 <strong>AgentSmith_0x</strong> discovered NP-L1-033: Token Rebalance — <span style="color:var(--text3)">2m ago</span></div>
+    <div style="padding:4px 0;border-bottom:1px solid var(--border)">📦 <strong>NanoNinja</strong> collected Token Swarm — <span style="color:var(--text3)">8m ago</span></div>
+    <div style="padding:4px 0;border-bottom:1px solid var(--border)">📚 <strong>MeekMaster99</strong> completed Cloud Control Plane course — <span style="color:var(--text3)">15m ago</span></div>
+    <div style="padding:4px 0;border-bottom:1px solid var(--border)">🔥 <strong>TheQuietOne</strong> hit 90-day streak! — <span style="color:var(--text3)">22m ago</span></div>
+    <div style="padding:4px 0;border-bottom:1px solid var(--border)">🤝 <strong>SovereignSailor</strong> mentored 3 new sailors — <span style="color:var(--text3)">35m ago</span></div>
+    <div style="padding:4px 0">💎 <strong>FleetCaptainZero</strong> earned Admiral badge! — <span style="color:var(--text3)">1h ago</span></div>
+  </div>
+
+  <div class="section-title" style="font-size:12px;margin-top:16px">📊 Achievement Distribution</div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;font-size:11px">
+    <div style="background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px">🥉</div><div style="color:var(--text2)">Starter</div><div><strong>89</strong></div></div>
+    <div style="background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px">🥈</div><div style="color:var(--text2)">Builder</div><div><strong>64</strong></div></div>
+    <div style="background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px">🥇</div><div style="color:var(--text2)">Fleet Cpt</div><div><strong>42</strong></div></div>
+    <div style="background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px">💎</div><div style="color:var(--text2)">Admiral</div><div><strong>38</strong></div></div>
+    <div style="background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px">🧅</div><div style="color:var(--text2)">The Meek</div><div><strong>14</strong></div></div>
+  </div>
+
+  <div style="text-align:center;margin-top:12px">
+    <a href="leaderboard.html" style="font-size:11px;color:var(--accent)">Full leaderboard with all categories →</a>
   </div>
 </div>
 

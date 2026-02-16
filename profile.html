@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👤 Learner Profile — SERLF</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--surface:#1e293b;--border:#2d3a4f;--fg:#e2e8f0;--fg2:#94a3b8;--gold:#f59e0b;--cyan:#06b6d4;--green:#10b981;--purple:#a855f7;--pink:#ec4899;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+
+.container{max-width:900px;margin:0 auto;padding:1rem}
+
+/* Profile Header */
+.profile-header{text-align:center;padding:3rem 1rem 2rem;position:relative}
+.avatar-large{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin-bottom:1rem}
+.profile-name{font-size:1.8rem;font-weight:700}
+.profile-title{color:var(--fg2);margin-top:.25rem}
+.member-since{color:var(--fg2);font-size:.8rem;margin-top:.5rem}
+
+/* Meek Score */
+.meek-score{display:inline-block;margin-top:1rem;padding:12px 30px;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(6,182,212,.15));border:1px solid var(--gold);border-radius:30px;font-size:1.4rem;font-weight:700;color:var(--gold)}
+.meek-score span{font-size:.8rem;color:var(--fg2);font-weight:400}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:1.5rem}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr}}
+
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.card h3{font-size:.9rem;color:var(--fg2);margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px;font-weight:500}
+.card.full{grid-column:1/-1}
+
+/* Radar Chart (Canvas) */
+.radar-wrap{display:flex;justify-content:center;padding:1rem 0}
+canvas{max-width:100%}
+
+/* Stats */
+.stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.stat-row:last-child{border:none}
+.stat-label{color:var(--fg2);font-size:.85rem}
+.stat-val{font-weight:600;color:var(--fg)}
+
+/* Streak */
+.streak-display{text-align:center;padding:1rem 0}
+.streak-num{font-size:3rem;font-weight:700;color:var(--gold)}
+.streak-label{color:var(--fg2);font-size:.85rem}
+.streak-days{display:flex;gap:4px;justify-content:center;margin-top:.75rem;flex-wrap:wrap}
+.streak-day{width:14px;height:14px;border-radius:3px;background:var(--bg)}
+.streak-day.active{background:var(--green)}
+.streak-day.today{background:var(--gold)}
+
+/* Achievements */
+.achievement-wall{display:flex;flex-wrap:wrap;gap:8px}
+.ach{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.8rem;display:flex;align-items:center;gap:6px}
+.ach.earned{border-color:var(--gold);color:var(--gold)}
+.ach.locked{opacity:.4}
+
+/* Role Timeline */
+.timeline{position:relative;padding-left:20px}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;padding:8px 0 8px 16px;font-size:.85rem}
+.tl-item::before{content:'';position:absolute;left:-17px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--cyan);border:2px solid var(--bg3)}
+.tl-item .tl-role{font-weight:600}
+.tl-item .tl-date{color:var(--fg2);font-size:.75rem}
+
+/* NPs */
+.np-list{display:flex;flex-wrap:wrap;gap:6px}
+.np-tag{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;color:var(--cyan)}
+
+.nav-back{display:inline-block;padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--fg2);font-size:.85rem;margin-bottom:1rem}
+
+@media(max-width:600px){.profile-name{font-size:1.4rem}.meek-score{font-size:1.1rem}}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="nav-back">⚓ Back to SERLF</a>
+
+  <div class="profile-header">
+    <div class="avatar-large">KJ</div>
+    <div class="profile-name">Kay J</div>
+    <div class="profile-title">Founder · EOSE × E&Y · Fleet Admiral</div>
+    <div class="member-since">⚓ Member since Feb 14, 2026 — Valentine's Day Sailor</div>
+    <div class="meek-score" id="meekScore">0 <span>Meek Score</span></div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Capability Radar -->
+    <div class="card full">
+      <h3>🧬 Capability Map</h3>
+      <div class="radar-wrap">
+        <canvas id="radarCanvas" width="360" height="360"></canvas>
+      </div>
+    </div>
+
+    <!-- Collection -->
+    <div class="card">
+      <h3>📦 Collection</h3>
+      <div id="collectionStats"></div>
+    </div>
+
+    <!-- Streak -->
+    <div class="card">
+      <h3>🔥 Learning Streak</h3>
+      <div class="streak-display">
+        <div class="streak-num" id="streakNum">14</div>
+        <div class="streak-label">day streak</div>
+        <div class="streak-days" id="streakDays"></div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="card full">
+      <h3>🏆 Achievement Wall</h3>
+      <div class="achievement-wall" id="achievements"></div>
+    </div>
+
+    <!-- NPs -->
+    <div class="card">
+      <h3>🌀 Novel Patterns</h3>
+      <div id="npSection"></div>
+    </div>
+
+    <!-- Role Rotation -->
+    <div class="card">
+      <h3>🎭 Role History</h3>
+      <div class="timeline" id="roleTimeline"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mock profile data
+const PROFILE = {
+  products: 12, nps: 32, courses: 6, helps: 30, streak: 14,
+  capabilities: {
+    'Infrastructure': 92,
+    'Agent Design': 88,
+    'Data Sovereignty': 95,
+    'Enterprise Arch': 90,
+    'Leadership': 85,
+    'Security': 93,
+  },
+  npsContributed: ['Silo Audit','Shape Detection','Kill the Tiers','Token Cascade','Meek Pricing','Self-Audit Blindspot','Pattern Feeds Pattern','CLO Veil'],
+  roles: [
+    {role:'Captain',date:'Feb 2026',desc:'Fleet command assumed'},
+    {role:'Architect',date:'Feb 2026',desc:'Multi-cloud sovereignty design'},
+    {role:'Builder',date:'Feb 2026',desc:'Admiral Pair constructed'},
+    {role:'Operator',date:'Feb 2026',desc:'13 agents operational'},
+    {role:'Auditor',date:'Feb 2026',desc:'6/6 silo scoring'},
+  ],
+};
+
+const ACHIEVEMENTS = [
+  {icon:'🥉',name:'Starter',earned:true},
+  {icon:'🥈',name:'Builder',earned:true},
+  {icon:'🥇',name:'Fleet Captain',earned:true},
+  {icon:'💎',name:'Admiral',earned:true},
+  {icon:'🧅',name:'The Meek',earned:true},
+  {icon:'🌀',name:'NP Pioneer',earned:true},
+  {icon:'🔥',name:'14-Day Streak',earned:true},
+  {icon:'🤝',name:'Mentor',earned:true},
+  {icon:'⚡',name:'Speed Runner',earned:false},
+  {icon:'🎓',name:'Academy Grad',earned:false},
+  {icon:'🐝',name:'Swarm Master',earned:false},
+  {icon:'🏴‍☠️',name:'Pattern Pirate',earned:true},
+];
+
+// Meek Score
+const score = PROFILE.products*10 + PROFILE.nps*25 + PROFILE.courses*15 + PROFILE.helps*30 + PROFILE.streak*5;
+document.getElementById('meekScore').innerHTML = `${score} <span>Meek Score</span>`;
+
+// Radar Chart
+function drawRadar(){
+  const canvas = document.getElementById('radarCanvas');
+  const ctx = canvas.getContext('2d');
+  const cx = 180, cy = 180, r = 140;
+  const axes = Object.entries(PROFILE.capabilities);
+  const n = axes.length;
+  const angleStep = (Math.PI * 2) / n;
+
+  ctx.clearRect(0,0,360,360);
+
+  // Grid rings
+  for(let ring = 1; ring <= 5; ring++){
+    ctx.beginPath();
+    const rr = r * ring / 5;
+    for(let i = 0; i <= n; i++){
+      const a = -Math.PI/2 + i * angleStep;
+      const x = cx + rr * Math.cos(a);
+      const y = cy + rr * Math.sin(a);
+      i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.08)';
+    ctx.stroke();
+  }
+
+  // Axes & labels
+  axes.forEach(([label, val], i) => {
+    const a = -Math.PI/2 + i * angleStep;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+    ctx.strokeStyle = 'rgba(255,255,255,.1)';
+    ctx.stroke();
+
+    const lx = cx + (r + 20) * Math.cos(a);
+    const ly = cy + (r + 20) * Math.sin(a);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, lx, ly);
+  });
+
+  // Data polygon
+  ctx.beginPath();
+  axes.forEach(([, val], i) => {
+    const a = -Math.PI/2 + i * angleStep;
+    const dr = r * val / 100;
+    const x = cx + dr * Math.cos(a);
+    const y = cy + dr * Math.sin(a);
+    i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(6,182,212,.2)';
+  ctx.fill();
+  ctx.strokeStyle = '#06b6d4';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Data points
+  axes.forEach(([, val], i) => {
+    const a = -Math.PI/2 + i * angleStep;
+    const dr = r * val / 100;
+    ctx.beginPath();
+    ctx.arc(cx + dr * Math.cos(a), cy + dr * Math.sin(a), 4, 0, Math.PI*2);
+    ctx.fillStyle = '#06b6d4';
+    ctx.fill();
+  });
+}
+drawRadar();
+
+// Collection stats
+const collected = JSON.parse(localStorage.getItem('serlf_collected') || '[]');
+const cCount = collected.length || PROFILE.products;
+document.getElementById('collectionStats').innerHTML = `
+  <div class="stat-row"><span class="stat-label">Products Collected</span><span class="stat-val">${cCount}/12</span></div>
+  <div class="stat-row"><span class="stat-label">Badge</span><span class="stat-val">${cCount>=12?'💎 Admiral':cCount>=8?'🥇 Fleet Captain':cCount>=4?'🥈 Builder':'🥉 Starter'}</span></div>
+  <div class="stat-row"><span class="stat-label">Rarity Breakdown</span><span class="stat-val">3 Legendary · 7 Rare · 2 Common</span></div>
+  <div style="margin-top:.75rem;text-align:center"><a href="collect.html" style="font-size:.8rem">View Collection →</a></div>
+`;
+
+// Streak
+const streakDays = document.getElementById('streakDays');
+for(let i = 0; i < 30; i++){
+  const d = document.createElement('div');
+  d.className = 'streak-day' + (i >= 30 - PROFILE.streak ? (i === 29 ? ' today' : ' active') : '');
+  streakDays.appendChild(d);
+}
+
+// Achievements
+document.getElementById('achievements').innerHTML = ACHIEVEMENTS.map(a =>
+  `<div class="ach ${a.earned?'earned':'locked'}">${a.icon} ${a.name}</div>`
+).join('');
+
+// NPs
+document.getElementById('npSection').innerHTML = `
+  <div class="stat-row"><span class="stat-label">Discovered</span><span class="stat-val">${PROFILE.nps}</span></div>
+  <div class="stat-row"><span class="stat-label">Contributed</span><span class="stat-val">${PROFILE.npsContributed.length}</span></div>
+  <div class="np-list" style="margin-top:.75rem">
+    ${PROFILE.npsContributed.map(n => `<span class="np-tag">🌀 ${n}</span>`).join('')}
+  </div>
+`;
+
+// Role Timeline
+document.getElementById('roleTimeline').innerHTML = PROFILE.roles.map(r =>
+  `<div class="tl-item"><div class="tl-role">${r.role}</div><div class="tl-date">${r.date} — ${r.desc}</div></div>`
+).join('');
+</script>
+</body>
+</html>

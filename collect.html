@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📦 Collect 'Em All — SERLF</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--surface:#1e293b;--border:#2d3a4f;--fg:#e2e8f0;--fg2:#94a3b8;--gold:#f59e0b;--cyan:#06b6d4;--green:#10b981;--purple:#a855f7;--pink:#ec4899;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+
+.container{max-width:1000px;margin:0 auto;padding:1rem}
+.hero{text-align:center;padding:3rem 1rem 1.5rem}
+.hero h1{font-size:2.2rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--fg2);margin-top:.5rem}
+
+/* Progress */
+.progress-section{text-align:center;margin:1.5rem auto;max-width:500px}
+.progress-bar{height:12px;background:var(--bg3);border-radius:20px;overflow:hidden;margin:.75rem 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold));border-radius:20px;transition:width .6s ease}
+.progress-text{font-size:.9rem;color:var(--fg2)}
+.progress-text span{color:var(--gold);font-weight:700}
+
+/* Badges */
+.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:1.5rem 0}
+.badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:.8rem;color:var(--fg2);transition:all .3s}
+.badge.earned{border-color:var(--gold);color:var(--gold);box-shadow:0 0 12px rgba(245,158,11,.2)}
+.badge.earned .badge-icon{animation:badgeShine 2s ease infinite}
+@keyframes badgeShine{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
+
+/* Card Grid */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:1.5rem}
+
+/* Product Card */
+.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.pcard:hover{transform:translateY(-4px);box-shadow:var(--glow,0 4px 20px rgba(6,182,212,.1))}
+.pcard.collected{border-color:var(--green)}
+.pcard.collected::after{content:'✅';position:absolute;top:10px;right:10px;font-size:1.2rem}
+
+/* Rarity */
+.pcard.common{--glow:0 0 15px rgba(148,163,184,.1)}
+.pcard.rare{--glow:0 0 20px rgba(6,182,212,.2);border-color:rgba(6,182,212,.3)}
+.pcard.legendary{--glow:0 0 25px rgba(168,85,247,.25);border-color:rgba(168,85,247,.4)}
+.pcard.legendary::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(168,85,247,.06),transparent,rgba(245,158,11,.06),transparent);animation:holographic 4s linear infinite}
+@keyframes holographic{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+.pcard-icon{font-size:2.5rem;margin-bottom:.5rem;position:relative;z-index:1}
+.pcard-name{font-weight:600;font-size:1rem;position:relative;z-index:1}
+.pcard-price{color:var(--gold);font-size:.85rem;margin:.25rem 0;position:relative;z-index:1}
+.pcard-rarity{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;margin:.25rem 0;position:relative;z-index:1}
+.pcard-rarity.common{color:var(--fg2)}
+.pcard-rarity.rare{color:var(--cyan)}
+.pcard-rarity.legendary{color:var(--purple)}
+
+.collect-btn{margin-top:.75rem;padding:8px 20px;border:1px solid var(--cyan);background:transparent;color:var(--cyan);border-radius:20px;cursor:pointer;font-size:.8rem;transition:all .2s;position:relative;z-index:1}
+.collect-btn:hover{background:var(--cyan);color:var(--bg)}
+.collect-btn.collected-btn{border-color:var(--green);color:var(--green);cursor:default}
+.collect-btn.collected-btn:hover{background:transparent;color:var(--green)}
+
+/* Collect animation */
+@keyframes collectPop{0%{transform:scale(1)}30%{transform:scale(1.15)}60%{transform:scale(.95)}100%{transform:scale(1)}}
+.pcard.just-collected{animation:collectPop .4s ease}
+
+/* Share */
+.share-section{text-align:center;margin:2rem 0;padding:1.5rem;background:var(--bg3);border-radius:var(--radius)}
+.share-btn{padding:10px 24px;background:var(--cyan);color:var(--bg);border:none;border-radius:20px;cursor:pointer;font-weight:600;font-size:.85rem}
+
+.nav-back{display:inline-block;padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--fg2);font-size:.85rem;margin-bottom:1rem}
+
+@media(max-width:500px){
+  .hero h1{font-size:1.5rem}
+  .card-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+  .pcard{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="nav-back">⚓ Back to SERLF</a>
+
+  <div class="hero">
+    <h1>📦 Gotta Collect 'Em All</h1>
+    <p>12 products. $1/mo each. Build your sovereign fleet.</p>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-text">You've collected <span id="collectCount">0</span>/12 products</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="badges" id="badgeRow"></div>
+
+  <div class="card-grid" id="cardGrid"></div>
+
+  <div class="share-section">
+    <p style="color:var(--fg2);margin-bottom:.75rem">Show off your fleet 🧅⚓</p>
+    <button class="share-btn" onclick="shareCollection()">Share My Collection</button>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = [
+  {id:'admiral-pair',icon:'⚓🧭',name:'Admiral Pair',rarity:'legendary'},
+  {id:'silo',icon:'🔐',name:'Silo-as-a-Service',rarity:'rare'},
+  {id:'fleet',icon:'🎖️',name:'Fleet Command',rarity:'rare'},
+  {id:'net',icon:'🕸️',name:'The Net',rarity:'rare'},
+  {id:'patterns',icon:'🌀',name:'Novel Pattern Engine',rarity:'common'},
+  {id:'router',icon:'⚡',name:'The Router',rarity:'rare'},
+  {id:'identity',icon:'🪪',name:'Identity Fabric',rarity:'rare'},
+  {id:'monitor',icon:'🔄',name:'Loop Monitor',rarity:'common'},
+  {id:'incubator',icon:'🚀',name:'Captain Incubator',rarity:'legendary'},
+  {id:'academy',icon:'🎓',name:'SERLF Academy',rarity:'rare'},
+  {id:'swarm',icon:'🐝',name:'Token Swarm',rarity:'rare'},
+  {id:'gateway',icon:'🚀',name:'Model Gateway',rarity:'rare'},
+  {id:'consulting',icon:'🏗️',name:'Digital Transformation',rarity:'legendary'},
+];
+
+const BADGES = [
+  {id:'starter',icon:'🥉',name:'Starter',req:1},
+  {id:'builder',icon:'🥈',name:'Builder',req:4},
+  {id:'captain',icon:'🥇',name:'Fleet Captain',req:8},
+  {id:'admiral',icon:'💎',name:'Admiral',req:12},
+  {id:'meek',icon:'🧅',name:'The Meek',req:13}, // 12 + NP contribution
+];
+
+function getCollected(){ return JSON.parse(localStorage.getItem('serlf_collected') || '[]') }
+function setCollected(c){ localStorage.setItem('serlf_collected', JSON.stringify(c)) }
+
+function render(){
+  const collected = getCollected();
+  const count = collected.length;
+  
+  document.getElementById('collectCount').textContent = count;
+  document.getElementById('progressFill').style.width = (count/12*100)+'%';
+  
+  // Badges
+  document.getElementById('badgeRow').innerHTML = BADGES.map(b => {
+    const earned = b.id === 'meek' ? (count >= 12 && localStorage.getItem('serlf_np_contributed')) : count >= b.req;
+    return `<div class="badge ${earned?'earned':''}"><span class="badge-icon">${b.icon}</span> ${b.name}${earned?'':` (${b.req})`}</div>`;
+  }).join('');
+  
+  // Cards
+  document.getElementById('cardGrid').innerHTML = PRODUCTS.map(p => {
+    const isCollected = collected.includes(p.id);
+    const price = p.rarity === 'common' ? 'Free tier' : '$1/mo';
+    return `<div class="pcard ${p.rarity} ${isCollected?'collected':''}" id="card-${p.id}">
+      <div class="pcard-icon">${p.icon}</div>
+      <div class="pcard-name">${p.name}</div>
+      <div class="pcard-rarity ${p.rarity}">${p.rarity}</div>
+      <div class="pcard-price">${price}</div>
+      <button class="collect-btn ${isCollected?'collected-btn':''}" onclick="${isCollected?'':'collect(\''+p.id+'\')'}">${isCollected?'✅ Collected':'Collect'}</button>
+    </div>`;
+  }).join('');
+}
+
+function collect(id){
+  const collected = getCollected();
+  if(collected.includes(id)) return;
+  collected.push(id);
+  setCollected(collected);
+  const card = document.getElementById('card-'+id);
+  card.classList.add('just-collected');
+  setTimeout(() => card.classList.remove('just-collected'), 500);
+  render();
+}
+
+function shareCollection(){
+  const count = getCollected().length;
+  const text = `🧅⚓ I've collected ${count}/12 SERLF products! The meekest shall inherit the fleet. serlf.ca`;
+  if(navigator.share){navigator.share({text})}
+  else{navigator.clipboard.writeText(text);alert('Copied to clipboard!')}
+}
+
+render();
+</script>
+</body>
+</html>
