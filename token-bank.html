@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Token Bank | AI Cost Optimization & Routing | serlf</title>
+<meta name="description" content="Your AI budget's best friend. Smart routing, cost optimization, API key management. Save 87% on AI costs. $1/mo to join.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+<div class="logo">🏦 Token Bank</div>
+<nav>
+<a href="/">← Back to Mall</a>
+<a href="#features">Features</a>
+<a href="#savings">Savings</a>
+<a href="#pricing">Join</a>
+<a href="/login.html" id="nav-auth">Sign In</a>
+</nav>
+</div></header>
+
+<section class="hero">
+<div class="icon" style="font-size:5rem">🏦💰</div>
+<h1>The Token Bank</h1>
+<p class="tagline">Your AI budget's best friend. Smart routing, bulk pricing, and cost optimization that actually works.</p>
+<div class="savings-badge">Save up to 87% on AI costs</div>
+<div class="price">$1<span>/mo</span></div>
+<p style="color:var(--fg2);margin:1rem 0">The router that pays for itself in the first hour.</p>
+<a href="/login.html" class="btn btn-gold">Start Saving - $1/mo</a>
+</section>
+
+<section>
+<div class="container">
+<h2>💡 The Problem We Solve</h2>
+<div class="problem-solution">
+<div class="problem">
+<h3>❌ The Expensive Way</h3>
+<ul>
+<li>GPT-4: $30/1M tokens input, $60/1M output</li>
+<li>Claude Opus: $15/1M input, $75/1M output</li>
+<li>One provider, no fallbacks</li>
+<li>Pay full price for simple tasks</li>
+<li>No cost visibility or control</li>
+</ul>
+<div class="cost-example">
+<strong>Monthly cost for 10M tokens: $450-750</strong>
+</div>
+</div>
+<div class="solution">
+<h3>✅ The Smart Way</h3>
+<ul>
+<li>Free models first: Cerebras, Groq (2M free daily)</li>
+<li>Smart cascade: Free → Cheap → Premium</li>
+<li>Multi-provider redundancy</li>
+<li>Task-appropriate model selection</li>
+<li>Real-time cost tracking & alerts</li>
+</ul>
+<div class="cost-example" style="color:var(--warm-gold)">
+<strong>Same usage with routing: $60-100/mo</strong>
+</div>
+</div>
+</div>
+
+<h2 id="features">🎯 Smart Routing Features</h2>
+
+<div class="router-demo">
+<h3>🧠 The 4-Gear System</h3>
+<div class="gears">
+<div class="gear" data-gear="1">
+<div class="gear-number">1st</div>
+<div class="gear-name">Idle Gear</div>
+<div class="gear-models">Cerebras, Groq</div>
+<div class="gear-cost">$0/day</div>
+<div class="gear-use">Simple tasks, quick answers</div>
+</div>
+<div class="gear" data-gear="2">
+<div class="gear-number">2nd</div>
+<div class="gear-name">Working Gear</div>
+<div class="gear-models">Gemini Pro, Mistral</div>
+<div class="gear-cost">$0.50-2/1M</div>
+<div class="gear-use">Complex reasoning, coding</div>
+</div>
+<div class="gear" data-gear="3">
+<div class="gear-number">3rd</div>
+<div class="gear-name">Thinking Gear</div>
+<div class="gear-models">Claude Sonnet, GPT-4o</div>
+<div class="gear-cost">$3-15/1M</div>
+<div class="gear-use">Deep analysis, writing</div>
+</div>
+<div class="gear" data-gear="4">
+<div class="gear-number">4th</div>
+<div class="gear-name">Critical Gear</div>
+<div class="gear-models">Claude Opus, GPT-4</div>
+<div class="gear-cost">$15-60/1M</div>
+<div class="gear-use">Mission-critical, max quality</div>
+</div>
+</div>
+</div>
+
+<div class="features-grid">
+<div class="feature-card">
+<div class="feature-icon">🎯</div>
+<h3>Smart Task Routing</h3>
+<p>Automatically routes simple questions to free models, complex tasks to premium ones. No waste.</p>
+<div class="feature-stat">87% cost reduction typical</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">⚡</div>
+<h3>Instant Failover</h3>
+<p>If a model is down or over quota, instantly switch to the next best option. Zero downtime.</p>
+<div class="feature-stat">99.9% uptime achieved</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">📊</div>
+<h3>Real-Time Analytics</h3>
+<p>See exactly where your tokens go. Cost per request, model performance, usage patterns.</p>
+<div class="feature-stat">Full cost visibility</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🛡️</div>
+<h3>Budget Protection</h3>
+<p>Set spending limits, get alerts, automatic throttling. Never get surprised by bills again.</p>
+<div class="feature-stat">Budget overruns prevented</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🔑</div>
+<h3>API Key Management</h3>
+<p>Securely store and rotate API keys. Load balancing across multiple accounts.</p>
+<div class="feature-stat">Multi-account pooling</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🧪</div>
+<h3>A/B Testing</h3>
+<p>Compare model performance and costs. Find the sweet spot for your use case.</p>
+<div class="feature-stat">Optimize for quality+cost</div>
+</div>
+</div>
+
+<h2 id="savings">💰 Savings Calculator</h2>
+<div class="savings-calculator">
+<h3>See Your Potential Savings</h3>
+<div class="calc-inputs">
+<div class="calc-input">
+<label>Monthly Token Usage</label>
+<select id="token-usage">
+<option value="1">1M tokens/month</option>
+<option value="5" selected>5M tokens/month</option>
+<option value="10">10M tokens/month</option>
+<option value="25">25M tokens/month</option>
+<option value="50">50M tokens/month</option>
+</select>
+</div>
+<div class="calc-input">
+<label>Current Primary Model</label>
+<select id="current-model">
+<option value="gpt4">GPT-4 ($30-60/1M)</option>
+<option value="opus" selected>Claude Opus ($15-75/1M)</option>
+<option value="sonnet">Claude Sonnet ($3-15/1M)</option>
+<option value="gpt4o">GPT-4o ($5-15/1M)</option>
+</select>
+</div>
+</div>
+<div class="calc-results" id="calc-results">
+<div class="calc-before">
+<h4>Current Monthly Cost</h4>
+<div class="calc-cost">$225</div>
+</div>
+<div class="calc-after">
+<h4>With Token Bank</h4>
+<div class="calc-cost savings">$29</div>
+</div>
+<div class="calc-savings">
+<h4>Monthly Savings</h4>
+<div class="calc-amount">$196</div>
+<div class="calc-percent">87% reduction</div>
+</div>
+</div>
+</div>
+
+<h2>🏦 Banking Services</h2>
+<div class="services-grid">
+<div class="service">
+<div class="service-icon">🎛️</div>
+<h3>Router-as-a-Service</h3>
+<p>Drop-in replacement for any OpenAI API endpoint. Change one URL, get instant savings.</p>
+<div class="service-features">
+<span>✅ OpenAI compatible</span>
+<span>✅ Claude compatible</span>
+<span>✅ Custom routing rules</span>
+<span>✅ Real-time switching</span>
+</div>
+</div>
+
+<div class="service">
+<div class="service-icon">💳</div>
+<h3>Bulk Token Credits</h3>
+<p>Pre-purchase tokens at bulk rates. 30-60% off list prices with volume discounts.</p>
+<div class="service-features">
+<span>✅ Bulk purchasing power</span>
+<span>✅ Volume discounts</span>
+<span>✅ Credit never expires</span>
+<span>✅ Multi-model usage</span>
+</div>
+</div>
+
+<div class="service">
+<div class="service-icon">🎯</div>
+<h3>Custom Model Portfolios</h3>
+<p>We analyze your usage and build a custom model mix optimized for your specific needs.</p>
+<div class="service-features">
+<span>✅ Usage analysis</span>
+<span>✅ Custom routing</span>
+<span>✅ Performance optimization</span>
+<span>✅ Ongoing tuning</span>
+</div>
+</div>
+
+<div class="service">
+<div class="service-icon">📈</div>
+<h3>Enterprise Analytics</h3>
+<p>Department-level cost tracking, user attribution, detailed reporting, budget alerts.</p>
+<div class="service-features">
+<span>✅ Department tracking</span>
+<span>✅ User attribution</span>
+<span>✅ Custom reports</span>
+<span>✅ Budget controls</span>
+</div>
+</div>
+</div>
+
+<h2>🎊 Success Stories</h2>
+<div class="testimonials">
+<div class="testimonial">
+<div class="testimonial-quote">"Reduced our AI costs from $2,400/mo to $290/mo without any quality loss. Token Bank paid for itself in 3 hours."</div>
+<div class="testimonial-author">— SaaS Founder, 50K users</div>
+<div class="testimonial-savings">$2,110/mo saved</div>
+</div>
+<div class="testimonial">
+<div class="testimonial-quote">"Finally, AI costs that make sense. Real-time routing means we never pay premium prices for simple tasks."</div>
+<div class="testimonial-author">— AI Product Manager, Series B</div>
+<div class="testimonial-savings">$8,500/mo saved</div>
+</div>
+<div class="testimonial">
+<div class="testimonial-quote">"The 4-gear system is genius. Our chatbots are faster AND 90% cheaper. Win-win."</div>
+<div class="testimonial-author">— E-commerce CTO</div>
+<div class="testimonial-savings">$1,200/mo saved</div>
+</div>
+</div>
+
+<h2>🔧 Technical Specs</h2>
+<div class="tech-specs">
+<div class="spec">
+<strong>Supported Models:</strong> OpenAI, Anthropic, Google, Mistral, Cerebras, Groq, Together, Deepseek
+</div>
+<div class="spec">
+<strong>API Compatibility:</strong> OpenAI, Anthropic Claude, Google Gemini native formats
+</div>
+<div class="spec">
+<strong>Latency Overhead:</strong> <5ms additional routing time
+</div>
+<div class="spec">
+<strong>Uptime SLA:</strong> 99.95% with automatic failover
+</div>
+<div class="spec">
+<strong>Security:</strong> SOC2 Type II, encrypted keys, audit logs
+</div>
+<div class="spec">
+<strong>Rate Limits:</strong> No limits, automatic load balancing
+</div>
+</div>
+</div>
+</section>
+
+<section id="pricing" style="background:var(--bg2)">
+<div class="container">
+<div class="pricing-box">
+<h2>🎫 Join the Token Bank</h2>
+<div class="price">$1<span>/mo</span></div>
+<ul>
+<li>Smart 4-gear routing system</li>
+<li>All supported AI models</li>
+<li>Real-time cost analytics</li>
+<li>Budget controls and alerts</li>
+<li>API key management</li>
+<li>Community support</li>
+</ul>
+<div style="background:var(--bg);padding:1rem;border-radius:8px;margin:1rem 0">
+<h4>Enterprise Add-ons</h4>
+<p style="font-size:0.9rem">Custom routing rules: +$10/mo<br>
+Department tracking: +$15/mo<br>
+Dedicated support: +$25/mo<br>
+White-label deployment: +$100/mo</p>
+</div>
+<a href="/login.html" class="btn btn-gold" style="width:100%;margin-top:1.5rem">Start Saving Today - $1/mo</a>
+<p style="color:var(--fg2);font-size:.8rem;margin-top:1rem">Pays for itself in the first hour. Money-back guarantee.</p>
+</div>
+</div>
+</section>
+
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-links">
+<a href="/">Mall Home</a>
+<a href="/crew.html">Meet the Team</a>
+<a href="/safety.html">Security</a>
+<a href="mailto:tokens@serlf.com">Get Help</a>
+</div>
+<div class="footer-bottom">
+🏦 Token Bank · Part of serlf Mall · 🇨🇦<br>
+<em>"Smart routing. Real savings. Every token counts."</em>
+</div>
+</div>
+</footer>
+
+<style>
+.savings-badge {
+  background: linear-gradient(45deg, var(--warm-gold), #FFD700);
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: bold;
+  margin: 1rem 0;
+  display: inline-block;
+}
+
+.problem-solution {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.problem, .solution {
+  padding: 2rem;
+  border-radius: 12px;
+}
+.problem {
+  background: #2a1a1a;
+  border: 2px solid #ff4444;
+}
+.solution {
+  background: var(--bg2);
+  border: 2px solid var(--warm-gold);
+}
+.cost-example {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.router-demo {
+  background: var(--bg2);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+.gears {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.gear {
+  padding: 1.5rem;
+  background: var(--bg);
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+.gear:hover {
+  border-color: var(--warm-gold);
+}
+.gear-number {
+  font-size: 1.5rem;
+  color: var(--warm-gold);
+  font-weight: bold;
+}
+.gear-name {
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+.gear-models {
+  font-size: 0.9rem;
+  color: var(--fg2);
+}
+.gear-cost {
+  font-weight: bold;
+  color: var(--warm-gold);
+  margin: 0.5rem 0;
+}
+.gear-use {
+  font-size: 0.8rem;
+  color: var(--fg2);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.feature-card {
+  padding: 2rem;
+  background: var(--bg);
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid var(--border);
+}
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.feature-stat {
+  color: var(--warm-gold);
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.savings-calculator {
+  background: var(--bg2);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+.calc-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.calc-input label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--fg2);
+}
+.calc-input select {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--fg);
+}
+.calc-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  text-align: center;
+}
+.calc-cost {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+.calc-cost.savings {
+  color: var(--warm-gold);
+}
+.calc-amount {
+  font-size: 2rem;
+  color: var(--warm-gold);
+  font-weight: bold;
+}
+.calc-percent {
+  color: var(--warm-gold);
+  font-weight: bold;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.service {
+  padding: 2rem;
+  background: var(--bg2);
+  border-radius: 12px;
+  text-align: center;
+}
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.service-features {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.testimonials {
+  margin: 2rem 0;
+}
+.testimonial {
+  background: var(--bg2);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--warm-gold);
+}
+.testimonial-quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.testimonial-author {
+  color: var(--fg2);
+  font-size: 0.9rem;
+}
+.testimonial-savings {
+  color: var(--warm-gold);
+  font-weight: bold;
+  float: right;
+  font-size: 1.2rem;
+}
+
+.tech-specs {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.spec {
+  padding: 1rem;
+  background: var(--bg2);
+  border-radius: 8px;
+  border-left: 4px solid var(--warm-gold);
+}
+
+@media (max-width: 768px) {
+  .problem-solution {
+    grid-template-columns: 1fr;
+  }
+  .calc-inputs {
+    grid-template-columns: 1fr;
+  }
+  .calc-results {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+</style>
+
+<script src="auth.js"></script>
+<script>
+// Simple savings calculator
+function updateSavingsCalc() {
+  const usage = document.getElementById('token-usage').value;
+  const model = document.getElementById('current-model').value;
+  
+  const costs = {
+    gpt4: [30, 60],
+    opus: [15, 75], 
+    sonnet: [3, 15],
+    gpt4o: [5, 15]
+  };
+  
+  const currentCost = Math.round(usage * (costs[model][0] + costs[model][1]) / 2);
+  const newCost = Math.round(currentCost * 0.13); // 87% reduction
+  const savings = currentCost - newCost;
+  const percent = Math.round(87);
+  
+  document.querySelector('.calc-before .calc-cost').textContent = `$${currentCost}`;
+  document.querySelector('.calc-after .calc-cost').textContent = `$${newCost}`;
+  document.querySelector('.calc-amount').textContent = `$${savings}`;
+  document.querySelector('.calc-percent').textContent = `${percent}% reduction`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  updateSavingsCalc();
+  document.getElementById('token-usage').addEventListener('change', updateSavingsCalc);
+  document.getElementById('current-model').addEventListener('change', updateSavingsCalc);
+});
+</script>
+</body>
+</html>

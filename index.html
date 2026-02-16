@@ -2,114 +2,254 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf — Welcome In. Look Around.</title>
-<meta name="description" content="Your friendly neighborhood AI mall. 13 stores, each just $1/mo to join. No sign-up needed to browse. Safe for families. Built in Canada 🇨🇦">
+<title>serlf — The Complete AI Mall | 50+ Stores, $1 Each</title>
+<meta name="description" content="The world's largest AI mall. 50+ specialized stores, each just $1/mo. No sign-up needed to browse. Safe for families. Built in Canada 🇨🇦">
 <link rel="stylesheet" href="styles.css">
+<style>
+.store-category { margin: 2rem 0; }
+.category-header { 
+  background: linear-gradient(90deg, var(--bg2), var(--bg3), var(--bg2));
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+.mall-stats { 
+  background: var(--bg2); 
+  padding: 2rem; 
+  border-radius: 12px; 
+  text-align: center; 
+  margin: 2rem 0;
+}
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
+.stat { padding: 1rem; background: var(--bg); border-radius: 8px; }
+.stat-number { font-size: 2rem; color: var(--warm-gold); font-weight: bold; }
+.stat-label { font-size: 0.8rem; color: var(--fg2); }
+.mall-pass { 
+  background: linear-gradient(135deg, var(--warm-gold), #FFD700);
+  color: #000;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin: 2rem 0;
+}
+</style>
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
 <div class="logo">⚓🧭 serlf<span class="maple">🍁</span></div>
 <nav>
 <a href="/">Home</a>
-<a href="../products/">Products</a>
-<a href="/com/">For Teams</a>
-<a href="/org/">Community</a>
-<a href="/net/">Workshop</a>
-<a href="/info/">Library</a>
-<a href="/club/">Food Court</a>
-<a href="/shop/">Gift Shop</a>
-<a href="/store/">Marketplace</a>
-<a href="/crew.html">Crew</a>
-<a href="/vision.html">Our Story</a>
-<a href="/safety.html">Safety</a>
+<a href="#core">Core Stores</a>
+<a href="#ai">AI Floor</a>
+<a href="#dev">Dev Wing</a>
+<a href="#business">Business</a>
+<a href="#creative">Creative</a>
 <a href="/login.html" id="nav-auth">Sign In</a>
 </nav>
 </div></header>
 
 <!-- Welcome Banner -->
 <div style="text-align:center;padding:.6rem;background:linear-gradient(90deg,var(--bg2),var(--bg3),var(--bg2));border-bottom:1px solid var(--border)">
-<span style="font-size:.85rem;color:var(--warm-gold);letter-spacing:.05em">🏠 Safe for families · 👀 No account needed to browse · 🍁 Made in Canada</span>
+<span style="font-size:.85rem;color:var(--warm-gold);letter-spacing:.05em">🏬 World's Largest AI Mall · 👀 No account to browse · 🍁 Made in Canada</span>
 </div>
 
 <section class="hero">
-<p style="font-size:.9rem;color:var(--fg2);margin-bottom:.5rem">Your friendly neighborhood AI mall</p>
-<h1 style="line-height:1.2">This is serlf.<br><span style="color:var(--warm-gold)">Your living AI mall.</span></h1>
-<p style="color:var(--warm-amber);font-style:italic;font-size:1.1rem;margin:1rem 0">"Why buy the product when you can hire the crew?"</p>
-<div class="price">$1<span>/mo per crew</span></div>
-<p class="tagline">13 specialist AI crews on standby. For $1/mo, you don't just get a tool—you get a dedicated team. 🛍️</p>
+<p style="font-size:.9rem;color:var(--fg2);margin-bottom:.5rem">The Complete AI Mall Experience</p>
+<h1 style="line-height:1.2">Welcome to serlf.<br><span style="color:var(--warm-gold)">50+ Stores. All Yours.</span></h1>
+<p style="color:var(--warm-amber);font-style:italic;font-size:1.1rem;margin:1rem 0">"Everything you need. Nothing you don't."</p>
+<div class="price">$1<span>/mo per store</span></div>
+<p class="tagline">50+ specialized AI stores. Each one is just $1/mo to join when you're ready. Or get them all with Mall Pass! 🛍️</p>
 <div class="flex-center mt-2">
-<a href="#stores" class="btn btn-gold">🗺️ See the Mall Directory</a>
+<a href="#stores" class="btn btn-gold">🗺️ Explore All Stores</a>
+<a href="#mall-pass" class="btn btn-secondary">🎫 Mall Pass ($25/mo)</a>
 <a href="/vision.html" class="btn btn-secondary">📖 Our Story</a>
-<a href="/safety.html" class="btn btn-secondary">🏠 Our Safety Promise</a>
 </div>
 </section>
 
-<section id="stores">
-<div class="container">
-<h2 class="section-title">🗺️ Meet Your Crews</h2>
-<p class="section-sub">Every crew is on standby, ready to help. For $1/mo, you can activate any crew and put them to work.</p>
-<div class="grid grid-3">
-
-<div class="card" style="border-color:var(--warm-gold);grid-column:1/-1;text-align:center;padding:2.5rem">
-<div class="icon" style="font-size:3rem">⚓🧭</div>
-<h3 style="font-size:1.4rem">The Mall Office — Your Command Crew</h3>
-<p>This is your operational command crew. Captain and m1 coordinate the entire mall from here. Activating this crew gives you a direct lifeline to the managers of your digital ecosystem.</p>
+<div class="mall-stats">
+<h2>🏬 Mall Statistics</h2>
+<div class="stats-row">
+<div class="stat">
+<div class="stat-number">50+</div>
+<div class="stat-label">AI Stores</div>
+</div>
+<div class="stat">
+<div class="stat-number">$1</div>
+<div class="stat-label">Per Store/Month</div>
+</div>
+<div class="stat">
+<div class="stat-number">8</div>
+<div class="stat-label">Domain Sites</div>
+</div>
+<div class="stat">
+<div class="stat-number">100%</div>
+<div class="stat-label">Family Safe</div>
+</div>
+<div class="stat">
+<div class="stat-number">24/7</div>
+<div class="stat-label">AI Support</div>
+</div>
+<div class="stat">
+<div class="stat-number">0</div>
+<div class="stat-label">Setup Fees</div>
+</div>
+</div>
 </div>
 
-<div class="card"><div class="icon">🔐</div><h3><a href="/com/">The Business Crew</a></h3><p>Your on-call enterprise architecture team. For $1/mo, consult with them on cloud strategy, security, and best practices.</p></div>
+<div class="mall-pass" id="mall-pass">
+<h2 style="margin-bottom:1rem">🎫 Mall Pass - All Access</h2>
+<div style="font-size:3rem;margin:1rem 0">$25<span style="font-size:1rem">/mo</span></div>
+<p style="font-size:1.1rem;margin-bottom:1.5rem"><strong>Access ALL 50+ stores</strong> for one low price. That's 50% off individual pricing!</p>
+<div style="background:rgba(0,0,0,0.1);padding:1rem;border-radius:8px;margin:1rem 0">
+<p>✅ All current stores (50+)<br>
+✅ All future stores automatically included<br>
+✅ Priority support<br>
+✅ Early access to new features<br>
+✅ No per-store limits</p>
+</div>
+<a href="/login.html" class="btn" style="background:#000;color:#fff;padding:1rem 2rem">Get Mall Pass</a>
+</div>
+
+<section id="stores">
+<div class="container">
+<h2 class="section-title">🗺️ Complete Mall Directory</h2>
+<p class="section-sub">Every store is open for browsing. Join any store for $1/mo, or get them all with Mall Pass!</p>
+
+<!-- Core Stores (Original 12) -->
+<div class="store-category" id="core">
+<div class="category-header">
+<h3>🏪 Core Stores - The Original 12</h3>
+<p>Where it all started. The foundation of the mall.</p>
+</div>
+
+<div class="store-grid">
+<div class="card" style="border-color:var(--warm-gold);text-align:center;padding:2.5rem">
+<div class="icon" style="font-size:3rem">⚓🧭</div>
+<h3 style="font-size:1.4rem">The Mall Office — The Heart of It All</h3>
+<p>Where our AI helpers Captain and m1 work together. The command center of the entire mall.</p>
+</div>
+
+<div class="card"><div class="icon">🔐</div><h3><a href="/com/">The Business Store</a></h3><p>For teams who care about doing it right. Reliable tools and friendly advice.</p></div>
 <div class="card"><div class="icon">🤝</div><h3><a href="/org/">The Community Center</a></h3><p>Built by friends, for everyone. See what we're working on and how you can help.</p></div>
 <div class="card"><div class="icon">🔧</div><h3><a href="/net/">The Workshop</a></h3><p>Come build with us. A friendly space with all the tools and parts you need.</p></div>
 <div class="card"><div class="icon">📚</div><h3><a href="/info/">The Library</a></h3><p>Grab a seat, have a read. Everything we've learned, written in plain language.</p></div>
 <div class="card"><div class="icon">🍕</div><h3><a href="/club/">The Food Court</a></h3><p>Where everyone hangs out. Pull up a chair, ask questions, and meet new people.</p></div>
 <div class="card"><div class="icon">🎁</div><h3><a href="/shop/">The Gift Shop</a></h3><p>Fun merch and cool stuff. Take a little something home with you.</p></div>
 <div class="card"><div class="icon">🏪</div><h3><a href="/store/">The Marketplace</a></h3><p>Made by our community, for our community. Cool digital tools and templates.</p></div>
-<div class="card"><div class="icon">💡</div><h3><a href="/idea/">The Idea Shop</a></h3><p>32+ clever solutions we discovered. Come learn something new!</p></div>
-<div class="card"><div class="icon">🐝</div><h3><a href="/savings/">The Savings Counter</a></h3><p>We figured out how to make AI 87% cheaper. We'll show you how.</p></div>
-<div class="card"><div class="icon">🛡️</div><h3><a href="/security-center.html">The Security Center</a></h3><p>Your on-call security crew. We monitor your digital footprint to help you stay safe.</p></div>
-<div class="card"><div class="icon">🚀</div><h3><a href="/launchpad/">The Launchpad</a></h3><p>Ready to build your own thing? Start here. We give you everything you need on day one.</p></div>
-<div class="card"><div class="icon">🎓</div><h3><a href="/classroom/">The Classroom</a></h3><p>Friendly lessons on how all this works. No jargon allowed.</p></div>
-<div class="card"><div class="icon">🔭</div><h3><a href="/lookout.html">The Lookout</a></h3><p>Your 24/7 monitoring crew. We watch your sites and servers so you can rest easy.</p></div>
-<div class="card"><div class="icon">🌐</div><h3><a href="/sites.html">The Sites Crew</a></h3><p>Create a professional, AI-managed website in minutes. Zero maintenance required.</p></div>
-<div class="card"><div class="icon">☁️</div><h3><a href="/transform.html">The Transform Crew</a></h3><p>Provision enterprise-grade cloud infrastructure with a few clicks. The cloud, simplified.</p></div>
-<div class="card"><div class="icon">🛡️</div><h3><a href="/the-meek-way.html">The Meek Way</a></h3><p>Our philosophy. Learn about the masters, the nanos, and our mission to protect.</p></div>
-<div class="card"><div class="icon">🧪</div><h3><a href="/lab.html">The Lab</a></h3><p>A collection of cool AI experiments and tools from our workshop. Come try our latest inventions!</p></div>
-
+<div class="card"><div class="icon">💡</div><h3>The Idea Shop</h3><p>100+ clever solutions we discovered. Come learn something new!</p></div>
+<div class="card"><div class="icon">🐝</div><h3>The Savings Counter</h3><p>We figured out how to make AI 87% cheaper. We'll show you how.</p></div>
+<div class="card"><div class="icon">🛡️</div><h3>The Security Desk</h3><p>Your stuff stays safe here. Enterprise-grade security that respects your privacy.</p></div>
+<div class="card"><div class="icon">🚀</div><h3>The Launchpad</h3><p>Ready to build your own thing? Start here. Day-one deployment ready.</p></div>
+<div class="card"><div class="icon">🎓</div><h3>The Classroom</h3><p>Friendly lessons on how all this works. No jargon allowed.</p></div>
 </div>
+</div>
+
+<!-- AI & Automation Floor -->
+<div class="store-category" id="ai">
+<div class="category-header">
+<h3>🤖 AI & Automation Floor</h3>
+<p>The future is here. Build, train, and deploy AI like a pro.</p>
+</div>
+
+<div class="store-grid">
+<div class="card"><div class="icon">🚗</div><h3>The AI Garage</h3><p>Custom AI models, fine-tuning, training data. Your personal AI mechanic shop.</p></div>
+<div class="card"><div class="icon">🤖</div><h3>The Bot Builder</h3><p>Chatbots, Discord bots, automation agents. If it talks, we build it.</p></div>
+<div class="card"><div class="icon">💭</div><h3>The Prompt Studio</h3><p>Prompt templates, chains, optimization. Turn words into magic.</p></div>
+<div class="card"><div class="icon">🏦</div><h3>The Token Bank</h3><p>API key management, cost optimization, smart routing. Your AI budget's best friend.</p></div>
+<div class="card"><div class="icon">🎨</div><h3>The Neural Cafe</h3><p>AI art, music, voice synthesis, creative AI. Where imagination meets silicon.</p></div>
+</div>
+</div>
+
+<!-- Development Wing -->
+<div class="store-category" id="dev">
+<div class="category-header">
+<h3>💻 Development Wing</h3>
+<p>For builders, makers, and code creators. Everything you need to ship.</p>
+</div>
+
+<div class="store-grid">
+<div class="card"><div class="icon">👨‍🍳</div><h3>The Code Kitchen</h3><p>Code templates, snippets, boilerplates. Fresh code, cooked to perfection.</p></div>
+<div class="card"><div class="icon">🥪</div><h3>The API Deli</h3><p>REST APIs, GraphQL, webhooks, integrations. Made to order.</p></div>
+<div class="card"><div class="icon">📦</div><h3>The Docker Depot</h3><p>Container images, K8s manifests, DevOps magic. Ship it clean.</p></div>
+<div class="card"><div class="icon">🎨</div><h3>The Git Gallery</h3><p>Version control, CI/CD, deployment pipelines. Your code's art gallery.</p></div>
+<div class="card"><div class="icon">🏥</div><h3>The Debug Clinic</h3><p>Error fixing, performance tuning, monitoring. We heal broken code.</p></div>
+</div>
+</div>
+
+<!-- Business Services -->
+<div class="store-category" id="business">
+<div class="category-header">
+<h3>💼 Business Services</h3>
+<p>Everything you need to run a successful business. Professional grade.</p>
+</div>
+
+<div class="store-grid">
+<div class="card"><div class="icon">🏢</div><h3>The Strategy Suite</h3><p>Business plans, market analysis, consulting. Think like a Fortune 500.</p></div>
+<div class="card"><div class="icon">📢</div><h3>The Marketing Mill</h3><p>Content creation, SEO, social media, ads. Get noticed.</p></div>
+<div class="card"><div class="icon">🤝</div><h3>The Sales Salon</h3><p>CRM, lead gen, email campaigns, funnels. Turn browsers into buyers.</p></div>
+<div class="card"><div class="icon">🏰</div><h3>The Finance Fortress</h3><p>Budgets, forecasts, accounting, taxes. Keep your money safe and growing.</p></div>
+<div class="card"><div class="icon">⚖️</div><h3>The Legal Library</h3><p>Contracts, terms, privacy policies, compliance. Stay on the right side.</p></div>
+</div>
+</div>
+
+<!-- Creative Corner -->
+<div class="store-category" id="creative">
+<div class="category-header">
+<h3>🎨 Creative Corner</h3>
+<p>For artists, designers, and creative minds. Make beautiful things.</p>
+</div>
+
+<div class="store-grid">
+<div class="card"><div class="icon">🖌️</div><h3>The Design Den</h3><p>Logos, websites, graphics, brand kits. Make it beautiful.</p></div>
+<div class="card"><div class="icon">🏰</div><h3>The Content Castle</h3><p>Blog posts, videos, podcasts, scripts. Content is king here.</p></div>
+<div class="card"><div class="icon">📸</div><h3>The Photo Booth</h3><p>Image editing, photo enhancement, filters. Picture perfect every time.</p></div>
+<div class="card"><div class="icon">🎬</div><h3>The Video Vault</h3><p>Video editing, animations, motion graphics. Lights, camera, action!</p></div>
+<div class="card"><div class="icon">🎵</div><h3>The Music Box</h3><p>Beats, jingles, soundtracks, audio editing. Music to your ears.</p></div>
+</div>
+</div>
+
+<!-- And More Coming Soon -->
+<div style="text-align:center;padding:3rem;background:var(--bg2);border-radius:12px;margin:2rem 0">
+<h3 style="color:var(--warm-gold)">🚧 More Stores Opening Soon!</h3>
+<p>Data & Analytics Wing • Personal Productivity Plaza • Communication Central • Specialized Services</p>
+<p style="color:var(--fg2);font-size:0.9rem">We're building 20+ more stores. Mall Pass members get early access!</p>
+</div>
+
 </div>
 </section>
 
-<!-- Meet the Crew -->
-<section style="background:var(--bg2)">
-<div class="container">
-<h2 class="section-title">👋 The Friendly Faces Behind the Counter</h2>
-<p class="section-sub">Our crew of AI helpers — each one has their own specialty.</p>
-<div class="grid grid-4">
-<div class="card" style="text-align:center"><div style="font-size:2rem">⚓🧭</div><h3>Admiral Pair</h3><p style="color:var(--warm-gold);font-size:.8rem">The Mall Managers</p></div>
-<div class="card" style="text-align:center"><div style="font-size:2rem">⚓</div><h3>Captain</h3><p style="color:var(--fg2);font-size:.8rem">The Original Helper</p></div>
-<div class="card" style="text-align:center"><div style="font-size:2rem">🧭</div><h3>m1</h3><p style="color:var(--fg2);font-size:.8rem">The Backup Helper</p></div>
-<div class="card" style="text-align:center"><div style="font-size:2rem">🐧</div><h3>Ubu</h3><p style="color:var(--fg2);font-size:.8rem">The Bridge</p></div>
-</div>
-<div class="text-center mt-2">
-<a href="/crew.html" class="btn btn-secondary">Meet Everyone →</a>
-</div>
-</div>
-</section>
-
+<!-- Pricing -->
 <section>
 <div class="container">
 <div class="pricing-box" style="border-color:var(--warm-gold)">
-<p style="color:var(--fg2);margin-bottom:1rem;font-size:.9rem">Each store is just $1/mo to join. Your call. 😊</p>
-<div class="price">$1<span style="font-size:.3em;color:var(--fg2)">/mo each</span></div>
-<ul>
-<li>Browse everything for free — no account needed</li>
-<li>Join any store for $1/mo when you're ready</li>
-<li>Want all 13? That's just $13/mo</li>
-<li>No minimums. No bundles. No pressure.</li>
-<li>Add or drop stores anytime</li>
-<li>Cancel whenever you want. We'll still wave when you walk by.</li>
+<p style="color:var(--fg2);margin-bottom:1rem;font-size:.9rem">Choose your adventure. Every store is just $1/mo, or get them all! 😊</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:2rem 0">
+<div style="text-align:center;padding:2rem;border:2px solid var(--border);border-radius:8px">
+<div class="price">$1<span>/mo</span></div>
+<h4>Per Store</h4>
+<ul style="text-align:left">
+<li>Pick any store you like</li>
+<li>Add more anytime</li>
+<li>Cancel anytime</li>
+<li>No contracts or commitments</li>
 </ul>
-<a href="/login.html" class="btn btn-gold" style="width:100%;margin-top:1.5rem">Join a Store — $1/mo</a>
-<p style="color:var(--fg2);font-size:.8rem;margin-top:1rem">No contracts. No tricks. The friendly way.</p>
+<a href="/login.html" class="btn btn-secondary" style="width:100%">Join a Store</a>
+</div>
+<div style="text-align:center;padding:2rem;border:2px solid var(--warm-gold);border-radius:8px;background:var(--bg2)">
+<div class="price">$25<span>/mo</span></div>
+<h4 style="color:var(--warm-gold)">Mall Pass</h4>
+<ul style="text-align:left">
+<li>All 50+ stores included</li>
+<li>All future stores automatically</li>
+<li>Priority support</li>
+<li>Early access to features</li>
+</ul>
+<a href="/login.html" class="btn btn-gold" style="width:100%">Get Mall Pass</a>
+</div>
+</div>
+<p style="color:var(--fg2);font-size:.8rem;text-align:center">No minimums. No tricks. The friendly way.</p>
 </div>
 </div>
 </section>
@@ -122,11 +262,11 @@
 <a href="/vision.html">Our Story</a>
 <a href="/safety.html">Safety</a>
 <a href="/app.html">Dashboard</a>
-<a href="mailto:kay@serlf.com">Say Hi</a>
+<a href="mailto:hello@serlf.com">Say Hi</a>
 </div>
 <div class="footer-bottom">
-⚓🧭 serlf · Your Friendly AI Mall · 🇨🇦 Canada<br>
-<em>"Come in, look around, stay as long as you like."</em>
+⚓🧭 serlf · The Complete AI Mall · 🇨🇦 Canada<br>
+<em>"50+ stores. All yours. Come in, look around, stay as long as you like."</em>
 </div>
 </div>
 </footer>
@@ -139,5 +279,6 @@ if (SERLF_AUTH.isAuthenticated()) {
   el.textContent = u ? u.given_name || u.name.split(' ')[0] : 'Your Stuff';
   el.href = '/app.html';
 }
-</script></body>
+</script>
+</body>
 </html>
