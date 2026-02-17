@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>serlf Mall — 80% Off Everything, Forever 🐍</title>
+<meta name="description" content="80% off the lowest price anywhere. 20+ AI-powered products. $1 to enter. You'd have to be a fool to miss out.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* Header */
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:50}
+header .inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:800}
+.logo span{color:var(--gold)}
+nav a{color:var(--fg2);margin-left:20px;font-size:14px}
+nav a:hover{color:var(--fg)}
+.nav-cta{background:var(--gold)!important;color:#000!important;padding:6px 14px;border-radius:6px;font-weight:700}
+
+/* Hero */
+.hero{text-align:center;padding:80px 20px 60px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;margin-bottom:16px}
+.hero h1 .gold{color:var(--gold)}
+.hero h1 .red{color:var(--red)}
+.hero .subtitle{font-size:1.3rem;color:var(--fg2);margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:2.5rem;font-weight:900;color:var(--gold)}
+.hero-stat .label{font-size:0.85rem;color:var(--fg2)}
+.cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;border:none;transition:transform 0.1s}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:#000}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--fg)}
+
+/* Kill Shot Banner */
+.killshot{background:linear-gradient(135deg,#1a0000,#0a0e14,#001a00);border:2px solid var(--gold);border-radius:16px;padding:40px;text-align:center;margin:40px auto;max-width:900px}
+.killshot h2{font-size:2rem;color:var(--gold);margin-bottom:8px}
+.killshot .comparison{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;margin:24px 0}
+.killshot .them{text-align:right;color:var(--red)}
+.killshot .vs{font-size:2rem;color:var(--fg2)}
+.killshot .us{text-align:left;color:var(--green)}
+.killshot .price{font-size:2.5rem;font-weight:900}
+.killshot .note{color:var(--fg2);font-size:0.9rem;margin-top:16px}
+
+/* Product Grid */
+.section{padding:60px 0}
+.section h2{font-size:2rem;font-weight:800;margin-bottom:8px;text-align:center}
+.section .sub{color:var(--fg2);text-align:center;margin-bottom:32px}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.product{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color 0.2s}
+.product:hover{border-color:var(--accent)}
+.product .icon{font-size:32px;margin-bottom:8px}
+.product h3{font-size:1.1rem;margin-bottom:4px}
+.product .desc{color:var(--fg2);font-size:0.85rem;margin-bottom:12px}
+.product .pricing{display:flex;align-items:baseline;gap:8px}
+.product .old-price{color:var(--red);text-decoration:line-through;font-size:0.9rem}
+.product .new-price{color:var(--green);font-size:1.4rem;font-weight:900}
+.product .savings{background:var(--green);color:#000;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700}
+.product .specialist{color:var(--fg2);font-size:0.75rem;margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+
+/* Bundles */
+.bundles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:32px}
+.bundle{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.bundle.featured{border-color:var(--gold);background:linear-gradient(180deg,rgba(255,215,0,0.05),var(--bg2))}
+.bundle h3{font-size:1.3rem;margin-bottom:4px}
+.bundle .price{font-size:2.5rem;font-weight:900;color:var(--gold)}
+.bundle .price span{font-size:0.9rem;color:var(--fg2);font-weight:400}
+.bundle .includes{color:var(--fg2);font-size:0.9rem;margin:12px 0}
+.bundle .btn{width:100%;text-align:center;display:block;margin-top:12px;padding:10px}
+
+/* feedles */
+.feedles{background:linear-gradient(135deg,#0d1a0d,var(--bg2));border:1px solid var(--green);border-radius:16px;padding:40px;text-align:center;margin:40px 0}
+.feedles h2{color:var(--green)}
+.feedles .heart{font-size:3rem;margin:16px 0}
+
+/* Footer */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--fg2);font-size:0.85rem}
+
+@media(max-width:768px){
+  .killshot .comparison{grid-template-columns:1fr;gap:8px}
+  .killshot .them,.killshot .us{text-align:center}
+  .hero-stats{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="inner">
+  <div class="logo">⚓ serlf<span> Mall</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="#products">Products</a>
+    <a href="#bundles">Pricing</a>
+    <a href="#feedles">feedles</a>
+    <a href="/login.html" class="nav-cta">$1 Entry →</a>
+  </nav>
+</div>
+</header>
+
+<div class="hero">
+  <h1><span class="gold">80% Off</span> Everything.<br><span class="red">Forever.</span></h1>
+  <p class="subtitle">20+ AI-powered products. Each one priced at 80% below the cheapest competitor anywhere. $1 gets you in the door. You'd have to be a fool to miss out. 🐍</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">20+</div><div class="label">Products</div></div>
+    <div class="hero-stat"><div class="num">80%</div><div class="label">Off Lowest Price</div></div>
+    <div class="hero-stat"><div class="num">$1</div><div class="label">Entry</div></div>
+    <div class="hero-stat"><div class="num">$25</div><div class="label">All-In Pass</div></div>
+  </div>
+  <div class="cta-row">
+    <a href="/login.html" class="btn btn-gold">🐍 Enter the Mall — $1</a>
+    <a href="#products" class="btn btn-outline">Browse Products ↓</a>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="killshot">
+  <h2>🐍 The Kill Shot</h2>
+  <p style="color:var(--fg2)">We compared every product to the cheapest option on the market. Then we took 80% off.</p>
+  <div class="comparison">
+    <div class="them">
+      <div style="font-size:0.9rem">Competitors (all 20 products)</div>
+      <div class="price">$264<span style="font-size:1rem">/mo</span></div>
+    </div>
+    <div class="vs">→</div>
+    <div class="us">
+      <div style="font-size:0.9rem">serlf All-In Pass</div>
+      <div class="price">$25<span style="font-size:1rem">/mo</span></div>
+    </div>
+  </div>
+  <div style="font-size:2rem;color:var(--gold);font-weight:900">Save 90.5%</div>
+  <p class="note">Real prices. Real products. Real AI specialists running each one. Not a demo. Not a trial. Forever pricing.</p>
+</div>
+
+<div class="section" id="products">
+  <h2>The Products</h2>
+  <p class="sub">Each one powered by a dedicated AI Specialist. The specialist IS the product.</p>
+  
+  <div class="products">
+    <div class="product">
+      <div class="icon">💬</div>
+      <h3>AI Chat</h3>
+      <div class="desc">Full AI assistant. GPT, Claude, Gemini — all models, one interface.</div>
+      <div class="pricing"><span class="old-price">$20/mo</span><span class="new-price">$4/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🤖 Chat Specialist — always on, always learning</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🌐</div>
+      <h3>Site Builder</h3>
+      <div class="desc">AI-powered website creation. Templates, custom design, hosting included.</div>
+      <div class="pricing"><span class="old-price">$2.99/mo</span><span class="new-price">$1/mo</span><span class="savings">-67%</span></div>
+      <div class="specialist">🏗️ Website Specialist — builds your site, maintains it forever</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🎨</div>
+      <h3>AI Images</h3>
+      <div class="desc">Generate stunning images. Any style, any resolution. Batch processing.</div>
+      <div class="pricing"><span class="old-price">$12/mo</span><span class="new-price">$2.40/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🖌️ Image Specialist — trained on every style</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">✍️</div>
+      <h3>AI Writer</h3>
+      <div class="desc">Blog posts, SEO copy, social media, emails. Human-quality output.</div>
+      <div class="pricing"><span class="old-price">$16/mo</span><span class="new-price">$3.20/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">📝 Write Specialist — knows your voice, keeps it consistent</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">💻</div>
+      <h3>Code Pilot</h3>
+      <div class="desc">AI code assistant. Completion, review, refactoring. All languages.</div>
+      <div class="pricing"><span class="old-price">$10/mo</span><span class="new-price">$2/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">⚙️ Code Specialist — your always-on pair programmer</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">📧</div>
+      <h3>Mail Engine</h3>
+      <div class="desc">Email marketing. Campaigns, automation, analytics. Deliverability included.</div>
+      <div class="pricing"><span class="old-price">$13/mo</span><span class="new-price">$2.60/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">📮 Mail Specialist — writes, sends, optimizes</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🤝</div>
+      <h3>Deal Flow</h3>
+      <div class="desc">CRM & sales pipeline. Lead scoring, automation, follow-ups.</div>
+      <div class="pricing"><span class="old-price">$14/mo</span><span class="new-price">$2.80/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">💼 CRM Specialist — never forgets a lead</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🎙️</div>
+      <h3>Voice Lab</h3>
+      <div class="desc">AI voice & TTS. Clone voices, generate audio, podcasts.</div>
+      <div class="pricing"><span class="old-price">$5/mo</span><span class="new-price">$1/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🔊 Voice Specialist — any voice, any language</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🎨</div>
+      <h3>Design Studio</h3>
+      <div class="desc">Logos, banners, social graphics. AI + templates. Export anywhere.</div>
+      <div class="pricing"><span class="old-price">$13/mo</span><span class="new-price">$2.60/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🖼️ Design Specialist — brand-consistent every time</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">📊</div>
+      <h3>SEO Radar</h3>
+      <div class="desc">SEO audits, keyword research, rank tracking, competitor analysis.</div>
+      <div class="pricing"><span class="old-price">$29/mo</span><span class="new-price">$5.80/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🔍 SEO Specialist — finds your ranking opportunities</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">☁️</div>
+      <h3>Cloud Dock</h3>
+      <div class="desc">App hosting. Deploy anything. Auto-scaling, SSL, custom domains.</div>
+      <div class="pricing"><span class="old-price">$20/mo</span><span class="new-price">$4/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🚀 Hosting Specialist — deploys, monitors, scales</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🤖</div>
+      <h3>Bot Factory</h3>
+      <div class="desc">Build bots for Discord, Slack, web, Telegram. Visual builder + AI.</div>
+      <div class="pricing"><span class="old-price">$15/mo</span><span class="new-price">$3/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🏭 Bot Specialist — builds and deploys your bots</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🎬</div>
+      <h3>Video Forge</h3>
+      <div class="desc">AI video generation. Avatars, shorts, editing, subtitles.</div>
+      <div class="pricing"><span class="old-price">$24/mo</span><span class="new-price">$4.80/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🎥 Video Specialist — script to screen, fully automated</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">📋</div>
+      <h3>Task Board</h3>
+      <div class="desc">Project management. Sprints, tracking, team collaboration.</div>
+      <div class="pricing"><span class="old-price">$7/mo</span><span class="new-price">$1.40/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">📌 PM Specialist — keeps your projects on track</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🎧</div>
+      <h3>Help Desk</h3>
+      <div class="desc">AI customer support. Tickets, knowledge base, auto-resolution.</div>
+      <div class="pricing"><span class="old-price">$15/mo</span><span class="new-price">$3/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🛟 Support Specialist — resolves 80% of tickets automatically</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🏦</div>
+      <h3>Token Bank</h3>
+      <div class="desc">AI cost router. Save 87% on AI API costs. Smart model selection.</div>
+      <div class="pricing"><span class="old-price">N/A</span><span class="new-price">$2/mo</span><span class="savings">UNIQUE</span></div>
+      <div class="specialist">💰 Router Specialist — The Clutch, 4-gear AI cost optimizer</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🔧</div>
+      <h3>AI Garage</h3>
+      <div class="desc">Custom AI models. Fine-tuning, training data, deployment.</div>
+      <div class="pricing"><span class="old-price">$20/mo</span><span class="new-price">$4/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🧪 Model Specialist — trains and deploys your custom AI</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🔒</div>
+      <h3>Data Vault</h3>
+      <div class="desc">Backup & recovery. Encrypted, geo-redundant, point-in-time restore.</div>
+      <div class="pricing"><span class="old-price">$7/mo</span><span class="new-price">$1.40/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🛡️ Data Specialist — your data, always safe</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">📝</div>
+      <h3>Form Flow</h3>
+      <div class="desc">Smart forms & surveys. AI-powered analysis, integrations.</div>
+      <div class="pricing"><span class="old-price">$25/mo</span><span class="new-price">$5/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">📊 Form Specialist — designs forms that convert</div>
+    </div>
+
+    <div class="product">
+      <div class="icon">🔗</div>
+      <h3>Link Tree</h3>
+      <div class="desc">Bio link page. Analytics, custom design, unlimited links.</div>
+      <div class="pricing"><span class="old-price">$9/mo</span><span class="new-price">$1.80/mo</span><span class="savings">-80%</span></div>
+      <div class="specialist">🌳 Link Specialist — your entire web presence, one link</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="bundles">
+  <h2>Pick Your Pass</h2>
+  <p class="sub">$1 gets you in. Bundle up for even bigger savings.</p>
+
+  <div class="bundles">
+    <div class="bundle">
+      <h3>🚪 Entry</h3>
+      <div class="price">$1<span>/mo</span></div>
+      <div class="includes">Access to marketplace<br>+ 1 free product of your choice</div>
+      <a href="/login.html" class="btn btn-outline">Get Started</a>
+    </div>
+
+    <div class="bundle">
+      <h3>⚡ Starter</h3>
+      <div class="price">$5<span>/mo</span></div>
+      <div class="includes">Any 5 products<br>Priority specialist access</div>
+      <a href="/login.html" class="btn btn-outline">Choose 5</a>
+    </div>
+
+    <div class="bundle">
+      <h3>🔨 Builder</h3>
+      <div class="price">$10<span>/mo</span></div>
+      <div class="includes">Any 10 products<br>Priority + batch processing</div>
+      <a href="/login.html" class="btn btn-outline">Choose 10</a>
+    </div>
+
+    <div class="bundle featured">
+      <h3>👑 All-In Pass</h3>
+      <div class="price">$25<span>/mo</span></div>
+      <div class="includes">ALL 20+ products<br>Priority everything<br>Save 90.5% vs buying separately elsewhere</div>
+      <a href="/login.html" class="btn btn-gold">Get Everything</a>
+    </div>
+  </div>
+</div>
+
+<div class="feedles" id="feedles">
+  <div class="heart">🍽️</div>
+  <h2>feedles.ca — No Meek Is Immune</h2>
+  <p style="color:var(--fg2);margin:16px 0;max-width:600px;margin-left:auto;margin-right:auto">
+    10% of all serlf revenue goes directly to fighting food insecurity.
+    Food bank finder. Surplus food matching. Community gardens.
+    Because the meek feed the meek.
+  </p>
+  <a href="https://feedles.ca" class="btn btn-gold" style="margin-top:12px">Visit feedles.ca →</a>
+</div>
+
+<div style="text-align:center;padding:40px 0;color:var(--fg2)">
+  <p style="font-size:1.2rem;margin-bottom:8px">How is this possible?</p>
+  <p style="max-width:600px;margin:0 auto">Our products are powered by AI Specialists — dedicated agents that run 24/7 at near-zero cost. No employees. No offices. No overhead. Just AI agents on The Clutch, our smart model router that uses free-tier models first and only escalates when needed. The future of software isn't cheaper — it's fundamentally different.</p>
+</div>
+
+</div>
+
+<footer>
+  <p>⚓ serlf — Built in Canada 🇨🇦 | <a href="https://github.com/eose-sre">Open Source</a> | <a href="https://feedles.ca">feedles.ca</a></p>
+  <p style="margin-top:8px">80% off everything. Forever. No meek is immune. 🧭</p>
+</footer>
+
+</body>
+</html>
