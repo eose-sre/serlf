@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERLF Marketplace — The AI Mall</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6ed;min-height:100vh}
+.nav{background:#0d1117;border-bottom:1px solid #1e2d3d;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.nav .brand{font-size:1.3rem;font-weight:700;color:#fff}
+.nav .brand span{color:#58a6ff}
+.nav .user-info{display:flex;align-items:center;gap:.8rem}
+.nav .user-info img{width:32px;height:32px;border-radius:50%}
+.nav .user-info .name{color:#c9d1d9;font-size:.9rem}
+.nav a{color:#58a6ff;text-decoration:none;font-size:.9rem;margin-left:1rem}
+
+/* Steps indicator */
+.steps-bar{background:#161b22;border-bottom:1px solid #21262d;padding:1rem 2rem;display:flex;justify-content:center;gap:2rem}
+.step-item{display:flex;align-items:center;gap:.5rem;color:#484f58;font-size:.9rem}
+.step-item.active{color:#58a6ff}
+.step-item.done{color:#3fb950}
+.step-num{width:28px;height:28px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
+.step-item.done .step-num{background:#3fb950;border-color:#3fb950;color:#0a0e1a}
+.step-item.active .step-num{background:#58a6ff;border-color:#58a6ff;color:#0a0e1a}
+
+/* Panels */
+.panel{display:none;max-width:600px;margin:3rem auto;padding:0 2rem}
+.panel.active{display:block}
+.panel h1{font-size:2.2rem;text-align:center;margin-bottom:.5rem}
+.panel .subtitle{text-align:center;color:#8b949e;font-size:1.1rem;margin-bottom:2rem}
+
+/* Login panel */
+#google-btn-container{display:flex;justify-content:center;margin:2rem 0}
+.or-browse{text-align:center;margin-top:1.5rem}
+.or-browse a{color:#58a6ff;text-decoration:none;font-size:.95rem}
+
+/* Mall Pass panel */
+.pass-card{background:#161b22;border:2px solid #3fb950;border-radius:16px;padding:2.5rem;text-align:center}
+.pass-card .price{font-size:3.5rem;font-weight:900;color:#3fb950}
+.pass-card .price span{font-size:1rem;color:#8b949e;font-weight:400}
+.pass-card .perks{text-align:left;margin:1.5rem 0;list-style:none}
+.pass-card .perks li{padding:.4rem 0;color:#c9d1d9;font-size:.95rem}
+.pass-card .perks li::before{content:"✓ ";color:#3fb950;font-weight:700}
+.pay-btn{display:block;width:100%;background:#238636;color:#fff;border:none;padding:1.2rem;border-radius:10px;font-size:1.2rem;font-weight:700;cursor:pointer;margin-top:1.5rem;transition:background .2s}
+.pay-btn:hover{background:#2ea043}
+.secure-note{text-align:center;color:#484f58;font-size:.8rem;margin-top:1rem}
+
+/* Specialist picker */
+.specialist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+.spec-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.2rem;text-align:center;cursor:pointer;transition:all .2s}
+.spec-card:hover,.spec-card.selected{border-color:#58a6ff;background:#1c2333}
+.spec-card .icon{font-size:2rem;margin-bottom:.3rem}
+.spec-card .name{color:#fff;font-size:.85rem;font-weight:600}
+.spec-card .price{color:#3fb950;font-size:.8rem}
+
+/* Chat panel */
+.chat-container{background:#0d1117;border:1px solid #30363d;border-radius:16px;overflow:hidden;height:60vh;display:flex;flex-direction:column}
+.chat-header{background:#161b22;padding:1rem 1.5rem;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;align-items:center}
+.chat-header h3{color:#fff;font-size:1.1rem}
+.chat-header .status{color:#3fb950;font-size:.8rem}
+.chat-messages{flex:1;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:.8rem}
+.msg{max-width:80%;padding:.8rem 1.2rem;border-radius:12px;font-size:.95rem;line-height:1.5}
+.msg.specialist{background:#161b22;border:1px solid #1f6feb33;align-self:flex-start}
+.msg.user{background:#1f2937;align-self:flex-end}
+.msg .sender{font-size:.75rem;color:#58a6ff;margin-bottom:.2rem}
+.chat-input-area{display:flex;padding:1rem;border-top:1px solid #21262d;gap:.5rem}
+.chat-input-area input{flex:1;background:#161b22;border:1px solid #30363d;color:#e0e6ed;padding:.8rem 1rem;border-radius:10px;font-size:.95rem;outline:none}
+.chat-input-area input:focus{border-color:#58a6ff}
+.chat-input-area button{background:#238636;color:#fff;border:none;padding:.8rem 1.5rem;border-radius:10px;cursor:pointer;font-weight:600}
+.chat-input-area button:hover{background:#2ea043}
+
+/* Connecting animation */
+.connecting{text-align:center;padding:2rem;color:#8b949e}
+.connecting .dots::after{content:'';animation:dots 1.5s infinite}
+@keyframes dots{0%{content:''}33%{content:'.'}66%{content:'..'}100%{content:'...'}}
+
+/* Welcome banner */
+.welcome-banner{background:linear-gradient(135deg,#1a1e2e,#0d2137);border:1px solid #1f6feb44;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.welcome-banner img{width:48px;height:48px;border-radius:50%}
+.welcome-banner .text h3{color:#fff;font-size:1rem}
+.welcome-banner .text p{color:#8b949e;font-size:.85rem}
+
+footer{text-align:center;padding:2rem;color:#484f58;font-size:.8rem}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand"><span>serlf</span> marketplace</div>
+  <div class="user-info" id="userNav" style="display:none">
+    <img id="userAvatar" src="" alt="">
+    <span class="name" id="userName"></span>
+    <a href="#" onclick="logout()">Sign Out</a>
+  </div>
+</nav>
+
+<div class="steps-bar">
+  <div class="step-item active" id="step1"><span class="step-num">1</span> Sign In</div>
+  <div class="step-item" id="step2"><span class="step-num">2</span> Mall Pass</div>
+  <div class="step-item" id="step3"><span class="step-num">3</span> Pick Specialist</div>
+  <div class="step-item" id="step4"><span class="step-num">4</span> Chat</div>
+</div>
+
+<!-- STEP 1: Sign In -->
+<div class="panel active" id="panelLogin">
+  <h1>🐍 Welcome to SERLF</h1>
+  <p class="subtitle">Sign in with Google to enter the AI Mall</p>
+  <div id="google-btn-container">
+    <div id="g_id_onload"
+      data-client_id="758788284456-ru0m5k3ar66ptmkscg7d9020rov76qo7.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="popup"
+      data-callback="handleGoogleSignIn"
+      data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+      data-type="standard"
+      data-shape="rectangular"
+      data-theme="filled_black"
+      data-text="signin_with"
+      data-size="large"
+      data-logo_alignment="left"
+      data-width="300">
+    </div>
+  </div>
+  <div class="or-browse">
+    <a href="../mall.html">Just browsing? View products →</a>
+  </div>
+</div>
+
+<!-- STEP 2: Mall Pass -->
+<div class="panel" id="panelPass">
+  <h1>🎫 Your Mall Pass</h1>
+  <p class="subtitle">One pass. All products. 80% off everything.</p>
+  <div class="welcome-banner" id="welcomeBanner">
+    <img id="welcomeAvatar" src="" alt="">
+    <div class="text">
+      <h3 id="welcomeName">Welcome!</h3>
+      <p id="welcomeEmail"></p>
+    </div>
+  </div>
+  <div class="pass-card">
+    <div class="price">$1<span>/mo per product</span></div>
+    <ul class="perks">
+      <li>Access to all 20 AI specialists</li>
+      <li>Try before you buy — chat free first</li>
+      <li>Each specialist is YOUR dedicated AI</li>
+      <li>Siloed data — your stuff stays yours</li>
+      <li>Crew mode — specialists work together</li>
+      <li>80% off competitor pricing, always</li>
+      <li>Cancel anytime, no questions</li>
+    </ul>
+    <button class="pay-btn" onclick="startCheckout()">Get Mall Pass — $1/mo →</button>
+    <p class="secure-note">🔒 Secure checkout via Stripe</p>
+  </div>
+</div>
+
+<!-- STEP 3: Pick Specialist -->
+<div class="panel" id="panelPick">
+  <h1>🤖 Pick Your Specialist</h1>
+  <p class="subtitle">Who do you want to talk to first?</p>
+  <div class="specialist-grid" id="specialistGrid"></div>
+</div>
+
+<!-- STEP 4: Chat -->
+<div class="panel" id="panelChat">
+  <div class="chat-container">
+    <div class="chat-header">
+      <h3 id="chatSpecName">AI Writer Specialist</h3>
+      <div class="status" id="chatStatus">● Connected</div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="connecting" id="chatConnecting">
+        Connecting to your specialist<span class="dots"></span>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Say something to your specialist..." onkeypress="if(event.key==='Enter')sendMessage()">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  serlf marketplace — For the self. To protect ourself. 🧭<br>
+  <small>All products $1-$5/mo · 80% off competitors · Powered by the meek</small>
+</footer>
+
+<script>
+// ============ STATE ============
+const GOOGLE_CLIENT_ID = '758788284456-ru0m5k3ar66ptmkscg7d9020rov76qo7.apps.googleusercontent.com';
+const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/fZufZbgo3cxr0Li9ZAgjC03';
+const WS_ENDPOINT = 'wss://m1.aws.eose.ca/ws';
+
+let currentUser = null;
+let currentSpecialist = null;
+let ws = null;
+
+const SPECIALISTS = [
+  {slug:'ai-chat',name:'AI Chat',icon:'💬',price:'$4/mo',nano:'Lucien'},
+  {slug:'ai-writer',name:'AI Writer',icon:'✍️',price:'$3.20/mo',nano:'Lucien'},
+  {slug:'ai-images',name:'AI Images',icon:'🎨',price:'$2.40/mo',nano:'Captain'},
+  {slug:'code-pilot',name:'Code Pilot',icon:'💻',price:'$2/mo',nano:'Rick'},
+  {slug:'bot-factory',name:'Bot Factory',icon:'🤖',price:'$3/mo',nano:'Rick'},
+  {slug:'cloud-dock',name:'Cloud Dock',icon:'☁️',price:'$4/mo',nano:'Rick'},
+  {slug:'mail-engine',name:'Mail Engine',icon:'📧',price:'$2.60/mo',nano:'Bob'},
+  {slug:'deal-flow',name:'Deal Flow',icon:'📈',price:'$2.80/mo',nano:'Bob'},
+  {slug:'voice-lab',name:'Voice Lab',icon:'🎙️',price:'$1/mo',nano:'Captain'},
+  {slug:'design-studio',name:'Design Studio',icon:'🖌️',price:'$2.60/mo',nano:'Captain'},
+  {slug:'seo-radar',name:'SEO Radar',icon:'📊',price:'$5.80/mo',nano:'DAO'},
+  {slug:'site-builder',name:'Site Builder',icon:'🌐',price:'$1/mo',nano:'Captain'},
+  {slug:'video-forge',name:'Video Forge',icon:'🎬',price:'$4.80/mo',nano:'Captain'},
+  {slug:'task-board',name:'Task Board',icon:'📋',price:'$1.40/mo',nano:'Bob'},
+  {slug:'help-desk',name:'Help Desk',icon:'🎧',price:'$3/mo',nano:'Bob'},
+  {slug:'token-bank',name:'Token Bank',icon:'🏦',price:'$2/mo',nano:'Captain'},
+  {slug:'ai-garage',name:'AI Garage',icon:'🔧',price:'$4/mo',nano:'Rick'},
+  {slug:'data-vault',name:'Data Vault',icon:'🔐',price:'$1.40/mo',nano:'DAO'},
+  {slug:'form-flow',name:'Form Flow',icon:'📝',price:'$5/mo',nano:'DAO'},
+  {slug:'link-tree',name:'Link Tree',icon:'🔗',price:'$1.80/mo',nano:'Captain'}
+];
+
+// ============ NAVIGATION ============
+function goToStep(step) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-item').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i + 1 < step) s.classList.add('done');
+    if (i + 1 === step) s.classList.add('active');
+  });
+
+  const panels = ['panelLogin', 'panelPass', 'panelPick', 'panelChat'];
+  document.getElementById(panels[step - 1]).classList.add('active');
+}
+
+// ============ STEP 1: GOOGLE SIGN-IN ============
+function handleGoogleSignIn(response) {
+  const payload = parseJwt(response.credential);
+  currentUser = {
+    name: payload.name,
+    email: payload.email,
+    picture: payload.picture,
+    given_name: payload.given_name,
+    token: response.credential
+  };
+
+  // Save session
+  localStorage.setItem('serlf_user', JSON.stringify(currentUser));
+
+  // Update UI
+  document.getElementById('userNav').style.display = 'flex';
+  document.getElementById('userAvatar').src = currentUser.picture;
+  document.getElementById('userName').textContent = currentUser.name;
+  document.getElementById('welcomeAvatar').src = currentUser.picture;
+  document.getElementById('welcomeName').textContent = 'Welcome, ' + currentUser.given_name + '!';
+  document.getElementById('welcomeEmail').textContent = currentUser.email;
+
+  goToStep(2);
+}
+
+function parseJwt(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join('')));
+  } catch (e) {
+    return {};
+  }
+}
+
+function logout() {
+  localStorage.removeItem('serlf_user');
+  localStorage.removeItem('serlf_paid');
+  currentUser = null;
+  document.getElementById('userNav').style.display = 'none';
+  goToStep(1);
+}
+
+// ============ STEP 2: STRIPE CHECKOUT ============
+function startCheckout() {
+  let url = STRIPE_PAYMENT_LINK;
+  if (currentUser && currentUser.email) {
+    url += '?prefilled_email=' + encodeURIComponent(currentUser.email);
+  }
+
+  // For demo: mark as paid and continue (in production, verify via webhook)
+  // Open Stripe in new tab, continue flow here
+  const stripeWindow = window.open(url, '_blank');
+
+  // Show "waiting for payment" then auto-continue after a moment
+  // In production this would be webhook-verified
+  const payBtn = document.querySelector('.pay-btn');
+  payBtn.textContent = 'Waiting for payment...';
+  payBtn.disabled = true;
+
+  // Listen for return or allow manual continue
+  setTimeout(() => {
+    payBtn.textContent = '✓ Payment received! Continue →';
+    payBtn.disabled = false;
+    payBtn.onclick = () => {
+      localStorage.setItem('serlf_paid', 'true');
+      buildSpecialistGrid();
+      goToStep(3);
+    };
+  }, 5000);
+}
+
+// ============ STEP 3: SPECIALIST PICKER ============
+function buildSpecialistGrid() {
+  const grid = document.getElementById('specialistGrid');
+  grid.innerHTML = '';
+  SPECIALISTS.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'spec-card';
+    card.innerHTML = `
+      <div class="icon">${s.icon}</div>
+      <div class="name">${s.name}</div>
+      <div class="price">${s.price}</div>
+    `;
+    card.onclick = () => {
+      document.querySelectorAll('.spec-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      currentSpecialist = s;
+      setTimeout(() => startChat(), 400);
+    };
+    grid.appendChild(card);
+  });
+}
+
+// ============ STEP 4: LIVE CHAT ============
+function startChat() {
+  goToStep(4);
+  document.getElementById('chatSpecName').textContent = currentSpecialist.name + ' Specialist';
+  document.getElementById('chatMessages').innerHTML = '<div class="connecting" id="chatConnecting">Connecting to your specialist<span class="dots"></span></div>';
+  document.getElementById('chatInput').value = '';
+
+  connectWebSocket();
+}
+
+function connectWebSocket() {
+  const statusEl = document.getElementById('chatStatus');
+  const connectingEl = document.getElementById('chatConnecting');
+
+  try {
+    ws = new WebSocket(WS_ENDPOINT);
+
+    ws.onopen = () => {
+      statusEl.textContent = '● Connected';
+      statusEl.style.color = '#3fb950';
+      if (connectingEl) connectingEl.remove();
+
+      // Send specialist context as first message
+      const intro = {
+        type: 'message',
+        content: `You are the ${currentSpecialist.name} Specialist for SERLF. Your name is ${currentSpecialist.name} Specialist, backed by ${currentSpecialist.nano}. You help users with ${currentSpecialist.name} tasks. Be helpful, friendly, and show off what you can do. The user's name is ${currentUser.given_name}. Greet them warmly and tell them what you can do for them. Keep responses concise.`,
+        role: 'system'
+      };
+      ws.send(JSON.stringify(intro));
+
+      addMessage('specialist', `👋 Hey ${currentUser.given_name}! I'm your ${currentSpecialist.name} Specialist, backed by ${currentSpecialist.nano}. I'm yours — dedicated, siloed, always learning your preferences.\n\nWhat can I help you with?`);
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.content || data.message || data.text) {
+          addMessage('specialist', data.content || data.message || data.text);
+        }
+      } catch (e) {
+        // Plain text response
+        if (event.data && event.data.trim()) {
+          addMessage('specialist', event.data);
+        }
+      }
+    };
+
+    ws.onerror = () => {
+      statusEl.textContent = '● Demo Mode';
+      statusEl.style.color = '#f0883e';
+      if (connectingEl) connectingEl.remove();
+      addMessage('specialist', `👋 Hey ${currentUser.given_name}! I'm your ${currentSpecialist.name} Specialist, backed by ${currentSpecialist.nano}.\n\nI'm running in demo mode right now — in production, I'd be a full AI powered by the SERLF engine, dedicated just to you. What would you like to try?`);
+    };
+
+    ws.onclose = () => {
+      statusEl.textContent = '● Disconnected';
+      statusEl.style.color = '#f85149';
+    };
+  } catch (e) {
+    // Fallback to demo mode
+    if (connectingEl) connectingEl.remove();
+    statusEl.textContent = '● Demo Mode';
+    statusEl.style.color = '#f0883e';
+    addMessage('specialist', `👋 Hey ${currentUser.given_name}! I'm your ${currentSpecialist.name} Specialist. Running in demo mode — ask me anything!`);
+  }
+}
+
+function addMessage(type, text) {
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + type;
+  if (type === 'specialist') {
+    div.innerHTML = '<div class="sender">' + (currentSpecialist ? currentSpecialist.name + ' Specialist' : 'Specialist') + '</div>' + text.replace(/\n/g, '<br>');
+  } else {
+    div.textContent = text;
+  }
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage('user', text);
+  input.value = '';
+
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ type: 'message', content: text }));
+  } else {
+    // Demo mode response
+    setTimeout(() => {
+      const responses = [
+        `Great question! As your dedicated ${currentSpecialist.name} Specialist, I'd handle that by leveraging the SERLF engine. In production, I'd give you a real, detailed answer powered by AI. For now, know that when you buy me — I'm yours forever. Siloed, dedicated, always learning. 🧭`,
+        `I love that you're exploring! The ${currentSpecialist.name} is one of our most popular products. In full production mode, I'd be a real AI specialist backed by ${currentSpecialist.nano}, handling complex ${currentSpecialist.name.toLowerCase()} tasks for you daily.`,
+        `${currentUser.given_name}, that's exactly what I'm built for! Once fully wired up, I'll remember our conversations, learn your preferences, and get better at helping you every single day. That's the meek way. 🐍`
+      ];
+      addMessage('specialist', responses[Math.floor(Math.random() * responses.length)]);
+    }, 800 + Math.random() * 700);
+  }
+}
+
+// ============ RESTORE SESSION ============
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('serlf_user');
+  if (saved) {
+    try {
+      currentUser = JSON.parse(saved);
+      document.getElementById('userNav').style.display = 'flex';
+      document.getElementById('userAvatar').src = currentUser.picture;
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('welcomeAvatar').src = currentUser.picture;
+      document.getElementById('welcomeName').textContent = 'Welcome back, ' + currentUser.given_name + '!';
+      document.getElementById('welcomeEmail').textContent = currentUser.email;
+
+      if (localStorage.getItem('serlf_paid')) {
+        buildSpecialistGrid();
+        goToStep(3);
+      } else {
+        goToStep(2);
+      }
+    } catch (e) {}
+  }
+
+  // Check for Stripe success return
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('paid') === 'true' || params.get('session_id')) {
+    localStorage.setItem('serlf_paid', 'true');
+    if (currentUser) {
+      buildSpecialistGrid();
+      goToStep(3);
+    }
+  }
+});
+</script>
+</body>
+</html>
