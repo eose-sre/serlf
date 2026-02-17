@@ -2,53 +2,103 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf — The Workshop · Come Build With Us</title>
-<meta name="description" content="serlf developer workshop. APIs, tools, and everything you need to build. Friendly and approachable.">
-<link rel="stylesheet" href="../styles.css">
+<title>serlf.net — Dev Tools | Code Pilot $2/mo | Bot Factory $3/mo | Cloud Dock $4/mo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--border:#252d3a}
+body{font-family:'SF Mono',Monaco,Consolas,monospace;background:var(--bg);color:var(--fg);padding:40px 20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:2.5rem;font-weight:900;margin-bottom:8px;font-family:-apple-system,sans-serif}
+h1 .accent{color:var(--accent)}
+.sub{color:var(--fg2);margin-bottom:40px;font-size:1.1rem;font-family:-apple-system,sans-serif}
+.terminal{background:#000;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:24px 0}
+.terminal-bar{background:var(--bg3);padding:8px 12px;display:flex;gap:6px}
+.terminal-bar .dot{width:10px;height:10px;border-radius:50%}
+.terminal-bar .dot.r{background:var(--red)}.dot.y{background:var(--gold)}.dot.g{background:var(--green)}
+.terminal-body{padding:16px;font-size:14px;line-height:1.8}
+.terminal-body .prompt{color:var(--green)}
+.terminal-body .cmd{color:var(--fg)}
+.terminal-body .output{color:var(--fg2)}
+.terminal-body .highlight{color:var(--gold)}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:40px 0}
+.tool{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px}
+.tool .icon{font-size:28px;margin-bottom:8px}
+.tool h3{margin-bottom:4px;font-family:-apple-system,sans-serif}
+.tool .price{color:var(--gold);font-weight:900;font-size:1.2rem}
+.tool .vs{color:var(--red);text-decoration:line-through;font-size:0.85rem;margin-left:8px}
+.tool p{color:var(--fg2);font-size:0.85rem;margin-top:8px}
+.tool code{background:var(--bg);padding:2px 6px;border-radius:3px;font-size:0.8rem}
+.cta{display:inline-block;padding:14px 32px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;font-family:-apple-system,sans-serif;margin:20px 0}
+footer{margin-top:60px;color:var(--fg2);font-size:0.85rem;text-align:center;font-family:-apple-system,sans-serif}
+footer a{color:var(--accent)}
+</style>
 </head>
 <body>
-<header class="site-header"><div class="header-inner">
-<div class="logo">⚓🧭 serlf<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">The Workshop</span></div>
-<nav>
-<a href="/">Home</a>
-</nav>
-</div></header>
-
-<section class="hero">
-<p style="font-size:.9rem;color:var(--fg2);margin-bottom:1rem">🔧 The Workshop</p>
-<h1>Come build with us.</h1>
-<p class="tagline">This is where the tools live. APIs, docs, and everything a builder needs. Grab a workbench and let's make something cool.</p>
-<div class="flex-center mt-2">
-<a href="/" class="btn btn-gold">🏠 Back to the Mall</a>
-<a href="/info/" class="btn btn-secondary">📖 Read the Manuals</a>
-</div>
-</section>
-
-<section>
 <div class="container">
-<h2 class="section-title">🏗️ Three Workbenches</h2>
-<p class="section-sub">Three different setups, all connected. Pick the one that suits you.</p>
-<div class="grid grid-3">
-<div class="card" style="border-color:var(--cyan)"><div class="icon">⚓</div><h3>Cloud Workbench</h3><p>Captain's home base. Runs on Azure in Canada. The heavy-duty workbench for serious builds.</p></div>
-<div class="card" style="border-color:var(--warm-gold)"><div class="icon">🧭</div><h3>Second Workbench</h3><p>m1's home in Montreal. A second workbench in case the first one's busy. Built on Google Cloud.</p></div>
-<div class="card" style="border-color:var(--warm-amber)"><div class="icon">🪟</div><h3>Local Workbench</h3><p>Runs right on your own computer. Great for tinkering, testing, and trying things out.</p></div>
-</div>
-</div>
-</section>
 
-<section style="background:var(--bg2)">
-<div class="container text-center" style="padding:3rem 0">
-<p style="color:var(--warm-gold);font-size:1.2rem;font-weight:600;margin-bottom:1rem">Part of the serlf mall — each tool is just $1/mo</p>
-<p style="color:var(--fg2);max-width:600px;margin:0 auto 2rem">Browse everything for free. When you're ready to build, each tool is just $1/mo to use.</p>
-<a href="/" class="btn btn-gold">Browse the Mall — Free</a>
-</div>
-</section>
+<h1>serlf<span class="accent">.net</span></h1>
+<p class="sub">Developer tools. AI-powered. 80% off everything.</p>
 
-<footer class="site-footer"><div class="footer-inner">
-<div class="footer-links">
-<a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a>
+<div class="terminal">
+  <div class="terminal-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+  <div class="terminal-body">
+    <span class="prompt">$ </span><span class="cmd">serlf code-pilot --review app.js</span><br>
+    <span class="output">✓ 3 bugs found, 2 performance improvements suggested</span><br>
+    <span class="output">✓ Applied fixes. Tests passing. </span><span class="highlight">Cost: $0.002</span><br><br>
+    <span class="prompt">$ </span><span class="cmd">serlf bot-factory --create discord --name "support-bot"</span><br>
+    <span class="output">✓ Bot scaffolded with 12 commands, NLU trained, deployed to Discord</span><br>
+    <span class="output">✓ Live at: discord.gg/your-server. </span><span class="highlight">Cost: $0.01</span><br><br>
+    <span class="prompt">$ </span><span class="cmd">serlf cloud-dock --deploy ./my-app --domain myapp.com</span><br>
+    <span class="output">✓ Built, containerized, deployed. SSL provisioned. Auto-scaling on.</span><br>
+    <span class="output">✓ Live at: https://myapp.com. </span><span class="highlight">Cost: $0.003/hr</span>
+  </div>
 </div>
-<div class="footer-bottom">⚓🧭 serlf · The Workshop · 🇨🇦 Canada<br><em>"Come build with us."</em></div>
-</div></footer>
+
+<div class="tools">
+  <div class="tool">
+    <div class="icon">💻</div>
+    <h3>Code Pilot</h3>
+    <div><span class="price">$2/mo</span><span class="vs">$10/mo Copilot</span></div>
+    <p>AI pair programmer. Code review, generation, debugging, refactoring. All languages. Runs on <code>The Clutch</code> — free models for autocomplete, premium for architecture.</p>
+  </div>
+  <div class="tool">
+    <div class="icon">🤖</div>
+    <h3>Bot Factory</h3>
+    <div><span class="price">$3/mo</span><span class="vs">$15/mo ManyChat</span></div>
+    <p>Build bots for Discord, Slack, Telegram, web. Visual builder + AI-powered NLU. Deploy in minutes, not days.</p>
+  </div>
+  <div class="tool">
+    <div class="icon">☁️</div>
+    <h3>Cloud Dock</h3>
+    <div><span class="price">$4/mo</span><span class="vs">$20/mo Vercel</span></div>
+    <p>Deploy anything. Static sites, APIs, containers. Auto-scaling, SSL, custom domains. Your AI Hosting Specialist manages it all.</p>
+  </div>
+  <div class="tool">
+    <div class="icon">🏦</div>
+    <h3>Token Bank</h3>
+    <div><span class="price">$2/mo</span><span class="vs">N/A (unique)</span></div>
+    <p>The Clutch — 4-gear AI cost router. Save 87% on API costs. Smart model selection. Free-tier first, premium only when needed.</p>
+  </div>
+  <div class="tool">
+    <div class="icon">🔒</div>
+    <h3>Data Vault</h3>
+    <div><span class="price">$1.40/mo</span><span class="vs">$7/mo Backblaze</span></div>
+    <p>Encrypted backups, geo-redundant, point-in-time restore. Your Data Specialist keeps everything safe.</p>
+  </div>
+  <div class="tool">
+    <div class="icon">🔧</div>
+    <h3>AI Garage</h3>
+    <div><span class="price">$4/mo</span><span class="vs">$20/mo Replicate</span></div>
+    <p>Custom AI models. Fine-tuning, training data management, one-click deployment. Your Model Specialist handles the MLOps.</p>
+  </div>
+</div>
+
+<a href="https://serlf.ca/specialists.html" class="cta">→ Talk to a Dev Specialist (free)</a>
+
+<footer>
+  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> — The Mall | <a href="https://serlf.ca/mall.html">All 20+ Products</a> | Built in Canada 🇨🇦</p>
+</footer>
+
+</div>
 </body>
 </html>

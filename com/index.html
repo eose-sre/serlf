@@ -2,98 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf — For Teams Who Care About Doing It Right</title>
-<meta name="description" content="AI tools for teams that build with care. Human expertise + friendly AI helpers. Come say hi.">
-<link rel="stylesheet" href="../styles.css">
+<title>serlf — AI Chat | $4/mo | 80% Off ChatGPT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+h1{font-size:clamp(3rem,8vw,5rem);font-weight:900;margin-bottom:16px}
+h1 .gold{color:var(--gold)}
+.sub{font-size:1.3rem;color:var(--fg2);max-width:600px;margin:0 auto 32px}
+.price-compare{display:flex;gap:40px;justify-content:center;align-items:center;margin:32px 0;flex-wrap:wrap}
+.price-box{padding:24px 32px;border-radius:12px;min-width:200px}
+.price-box.them{background:var(--bg2);border:1px solid var(--red)}
+.price-box.us{background:var(--bg2);border:2px solid var(--gold)}
+.price-box .label{font-size:0.85rem;color:var(--fg2);margin-bottom:4px}
+.price-box .amount{font-size:3rem;font-weight:900}
+.price-box.them .amount{color:var(--red);text-decoration:line-through}
+.price-box.us .amount{color:var(--gold)}
+.vs{font-size:2rem;color:var(--fg2)}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:800px;margin:40px auto;text-align:left}
+.feature{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
+.feature .icon{font-size:24px;margin-bottom:6px}
+.feature h3{font-size:0.95rem;margin-bottom:4px}
+.feature p{font-size:0.8rem;color:var(--fg2)}
+.cta{display:inline-block;padding:16px 40px;background:var(--gold);color:#000;border-radius:10px;font-size:1.2rem;font-weight:800;margin:32px 0;text-decoration:none}
+.cta:hover{transform:translateY(-2px)}
+.demo-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:600px;margin:24px auto;text-align:left}
+.demo-box .msg{padding:8px 12px;border-radius:8px;margin:6px 0;font-size:14px}
+.demo-box .msg.user{background:var(--accent);color:#fff;margin-left:40%}
+.demo-box .msg.ai{background:var(--bg3)}
+footer{margin-top:60px;color:var(--fg2);font-size:0.85rem}
+footer a{color:var(--accent)}
+</style>
 </head>
 <body>
-<header class="site-header"><div class="header-inner">
-<div class="logo">⚓🧭 serlf<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">For Teams</span></div>
-<nav>
-<a href="/">Home</a>
-</nav>
-</div></header>
 
-<section class="hero">
-<p style="font-size:.9rem;color:var(--fg2);margin-bottom:1rem">🇨🇦 For teams that build with care</p>
-<h1>For teams who care<br>about doing it right.</h1>
-<p class="tagline" style="font-size:1.3rem;margin-top:1rem">Human expertise meets friendly AI. Good tools, built the right way.</p>
-<div class="flex-center mt-2">
-<a href="/" class="btn btn-gold">Browse the Mall — Free</a>
-<a href="#people-helped" class="btn btn-secondary">What We Do Well</a>
-</div>
-</section>
+<div style="font-size:4rem;margin-bottom:16px">💬</div>
+<h1>AI Chat. <span class="gold">$4/mo.</span></h1>
+<p class="sub">GPT, Claude, Gemini — all models, one interface. 80% cheaper than ChatGPT. Not a demo. Not a trial. Forever.</p>
 
-<!-- The People Behind the Counter -->
-<section style="background:var(--bg2)">
-<div class="container">
-<h2 class="section-title">The People Behind the Counter</h2>
-<p class="section-sub">A small team in Canada — humans and AI working together to build something good.</p>
-<div class="grid grid-2" style="max-width:800px;margin:0 auto">
-<div class="card" style="text-align:center;border-color:var(--cyan)">
-<div style="font-size:3rem;margin-bottom:1rem">🇨🇦</div>
-<h3>The Humans</h3>
-<p style="color:var(--warm-gold);font-size:.85rem">Built in Canada · With Love</p>
-<p style="margin-top:.75rem">Real people who care about building good tools. We've been at this a while and we still love what we do.</p>
+<div class="price-compare">
+  <div class="price-box them">
+    <div class="label">ChatGPT Plus</div>
+    <div class="amount">$20/mo</div>
+  </div>
+  <div class="vs">→</div>
+  <div class="price-box us">
+    <div class="label">serlf AI Chat</div>
+    <div class="amount">$4/mo</div>
+  </div>
 </div>
-<div class="card" style="text-align:center;border-color:var(--warm-gold)">
-<div style="font-size:3rem;margin-bottom:1rem">⚓🧭</div>
-<h3>The AI Helpers</h3>
-<p style="color:var(--warm-gold);font-size:.85rem">Always On · Always Friendly</p>
-<p style="margin-top:.75rem">Two AI helpers working together 24/7. They handle the heavy lifting so your team can focus on what matters. Like a really reliable assistant that never takes a coffee break.</p>
-</div>
-</div>
-</div>
-</section>
 
-<!-- What We Do Well -->
-<section id="people-helped">
-<div class="container">
-<h2 class="section-title">What We Do Well</h2>
-<p class="section-sub">Helping good teams build great things. Made with love in 🇨🇦.</p>
-<div class="grid grid-3">
-<div class="card">
-<div class="icon">🏦</div>
-<h3>A Major Bank</h3>
-<p style="color:var(--warm-gold);font-size:.8rem;margin-bottom:.5rem">Reliable · Secure</p>
-<p>Helped a large financial institution modernize their cloud and container platforms. A big challenge, but we figured it out together.</p>
+<div class="demo-box">
+  <div class="msg user">Explain quantum computing in simple terms</div>
+  <div class="msg ai">Think of regular computers as light switches — on or off. Quantum computers are like dimmer switches that can be anywhere in between, AND in multiple positions at once. This lets them explore millions of possibilities simultaneously instead of one at a time. That's why they're insanely fast at certain problems. 🧪</div>
+  <div class="msg user">Now write that as a haiku</div>
+  <div class="msg ai">Bits dance both ways here<br>A million paths explored<br>Answers bloom like light ✨</div>
 </div>
-<div class="card">
-<div class="icon">🛒</div>
-<h3>A National Retailer</h3>
-<p style="color:var(--warm-gold);font-size:.8rem;margin-bottom:.5rem">Friendly · Useful</p>
-<p>Cloud and platform engineering for a household name. We helped make the complicated stuff simple.</p>
-</div>
-<div class="card">
-<div class="icon">🌏</div>
-<h3>An International Partner</h3>
-<p style="color:var(--warm-gold);font-size:.8rem;margin-bottom:.5rem">Finance · Global</p>
-<p>Helped with cloud strategy and security on the other side of the world. Good people, good work.</p>
-</div>
-</div>
-</div>
-</section>
 
-<!-- Let's Talk -->
-<section style="background:var(--bg2)">
-<div class="container">
-<div class="pricing-box" style="border-color:var(--cyan);max-width:600px;margin:0 auto;">
-<h3 style="color:var(--fg);margin-bottom:1rem">Need a hand with something?</h3>
-<div style="font-size:2rem;font-weight:900;color:var(--cyan)">Let's Talk</div>
-<p style="color:var(--fg2);margin-top:.5rem">If you have a project and need some friendly advice or hands-on help, we're here. No pressure, no hard sell. Just a conversation.</p>
-<a href="mailto:kay@serlf.com" class="btn btn-secondary" style="width:100%;margin-top:1.5rem">Come Say Hi 👋</a>
+<div class="features">
+  <div class="feature"><div class="icon">🧠</div><h3>All Models</h3><p>GPT-5, Claude Opus, Gemini Pro — smart routing picks the best model for each task</p></div>
+  <div class="feature"><div class="icon">⚡</div><h3>The Clutch</h3><p>4-gear router: free models for quick tasks, premium for complex ones. You save, quality stays.</p></div>
+  <div class="feature"><div class="icon">🔒</div><h3>Private</h3><p>Your conversations are yours. No training on your data. Ever.</p></div>
+  <div class="feature"><div class="icon">📎</div><h3>Images & Files</h3><p>Upload images, documents, code. Analyze anything.</p></div>
+  <div class="feature"><div class="icon">🌐</div><h3>Web Access</h3><p>Search the web, fetch pages, stay current. Not stuck in a training cutoff.</p></div>
+  <div class="feature"><div class="icon">🤖</div><h3>Your Specialist</h3><p>A dedicated AI that learns YOUR preferences, style, and context over time.</p></div>
 </div>
-</div>
-</section>
 
-<footer class="site-footer"><div class="footer-inner">
-<div class="footer-links">
-<a href="/">Home</a>
-<a href="/crew.html">Crew</a>
-<a href="/vision.html">Our Story</a>
-<a href="/safety.html">Safety</a>
-</div>
-<div class="footer-bottom">⚓🧭 serlf · For Teams · 🇨🇦 Canada<br><em>"Good tools for good people."</em></div>
-</div></footer>
+<a href="https://serlf.ca/specialists.html" class="cta">Try It Free → Talk to the Chat Specialist</a>
+
+<p style="color:var(--fg2);max-width:500px;margin:0 auto">No sign-up needed to test. Chat with our specialist, make it prove itself. When you're ready: $4/mo. That's it.</p>
+
+<footer>
+  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> — 80% off everything, forever | <a href="https://serlf.ca/mall.html">Browse the Mall</a></p>
+</footer>
+
 </body>
 </html>

@@ -2,51 +2,121 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf — The Food Court · Pull Up a Chair</title>
-<meta name="description" content="serlf community hangout. Where everyone comes to chat, share, and hang out. Pull up a chair.">
-<link rel="stylesheet" href="../styles.css">
+<title>serlf.club — The Crew Club | Community + NPs + Specialists</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a;--purple:#a371f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 20px}
+.hero{text-align:center;padding:60px 0 40px}
+.hero .icon{font-size:4rem;margin-bottom:16px}
+h1{font-size:3rem;font-weight:900}
+h1 .purple{color:var(--purple)}
+.sub{color:var(--fg2);font-size:1.2rem;margin:12px auto 0;max-width:600px}
+.section{margin:40px 0}
+.section h2{font-size:1.8rem;margin-bottom:16px;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px}
+.card .icon{font-size:28px;margin-bottom:8px}
+.card h3{margin-bottom:6px}
+.card p{color:var(--fg2);font-size:0.9rem;line-height:1.6}
+.np-ticker{background:var(--bg2);border:1px solid var(--purple);border-radius:10px;padding:20px;margin:32px 0;text-align:center}
+.np-ticker .count{font-size:4rem;font-weight:900;color:var(--purple)}
+.np-ticker .label{color:var(--fg2)}
+.leaderboard{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:24px 0}
+.lb-row{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border)}
+.lb-row:last-child{border:none}
+.lb-rank{width:30px;font-weight:900;color:var(--gold)}
+.lb-name{flex:1;font-weight:600}
+.lb-nps{color:var(--purple);font-weight:700}
+.lb-badge{font-size:0.7rem;background:var(--bg3);padding:2px 8px;border-radius:4px;margin-left:8px;color:var(--fg2)}
+.cta{display:inline-block;padding:14px 32px;background:var(--purple);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;margin:20px 0}
+footer{text-align:center;margin-top:60px;color:var(--fg2);font-size:0.85rem}
+footer a{color:var(--accent)}
+</style>
 </head>
 <body>
-<header class="site-header"><div class="header-inner">
-<div class="logo">⚓🧭 serlf<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">The Food Court</span></div>
-<nav>
-<a href="/">Home</a>
-</nav>
-</div></header>
-
-<section class="hero">
-<p style="font-size:.9rem;color:var(--fg2);margin-bottom:1rem">🍕 The Food Court</p>
-<h1>Pull up a chair.</h1>
-<p class="tagline">This is where everyone hangs out. Share stories, ask questions, meet friends. Grab a slice and sit down.</p>
-<div class="flex-center mt-2">
-<a href="/" class="btn btn-gold">🏠 Back to the Mall</a>
-<a href="/crew.html" class="btn btn-secondary">👋 Meet the Crew</a>
-</div>
-</section>
-
-<section>
 <div class="container">
-<h2 class="section-title">🪑 What's Happening</h2>
-<div class="grid grid-3">
-<div class="card"><div class="icon">🎓</div><h3>Learning Circle</h3><p>People who've learned cool stuff sharing it with newcomers. Like study groups, but more fun.</p></div>
-<div class="card"><div class="icon">⚓🧭</div><h3>Open Hours</h3><p>Drop in, ask questions, get help. No appointments needed. Like office hours, but friendlier.</p></div>
-<div class="card"><div class="icon">🌀</div><h3>Idea Board</h3><p>Discovered something clever? Post it on the board! The community votes on the best ideas.</p></div>
-</div>
-</div>
-</section>
 
-<section style="background:var(--bg2)">
-<div class="container text-center" style="padding:3rem 0">
-<p style="color:var(--warm-gold);font-size:1.2rem;font-weight:600;margin-bottom:1rem">Everyone's welcome. Grab a chair and say hi. 👋</p>
-<a href="/" class="btn btn-gold">Back to the Mall</a>
+<div class="hero">
+  <div class="icon">🏴‍☠️</div>
+  <h1>The <span class="purple">Crew Club</span></h1>
+  <p class="sub">Where specialists meet their captains. Community-driven, NP-powered, meek to the bone.</p>
 </div>
-</section>
 
-<footer class="site-footer"><div class="footer-inner">
-<div class="footer-links">
-<a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a>
+<div class="np-ticker">
+  <div class="count">127</div>
+  <div class="label">Novel Patterns Discovered</div>
+  <p style="color:var(--fg2);margin-top:8px;font-size:0.9rem">Every conversation, every interaction, every challenge = new patterns. The more we learn, the better everyone gets.</p>
 </div>
-<div class="footer-bottom">⚓🧭 serlf · The Food Court · 🇨🇦 Canada<br><em>"Pull up a chair."</em></div>
-</div></footer>
+
+<div class="section">
+  <h2>What's a Crew?</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🫡</div>
+      <h3>You're the Captain</h3>
+      <p>Your specialists work for YOU. Pick your crew, assign missions, watch them collaborate. You steer, they execute.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🤝</div>
+      <h3>Specialists Team Up</h3>
+      <p>Your Writer + SEO + Designer = Content Crew. Your Code Pilot + Hosting + Bot = Dev Crew. They share context and build on each other's work.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🧬</div>
+      <h3>NPs Make Everyone Better</h3>
+      <p>Novel Patterns flow from every interaction. The community discovers patterns, specialists learn them. Rising tide lifts all meek.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🏴‍☠️</div>
+      <h3>Fleet Formation</h3>
+      <p>Coming soon: multiple captains, shared missions, fleet-wide operations. Crews of crews. The meek fleet.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🏆 NP Leaderboard</h2>
+  <div class="leaderboard">
+    <div class="lb-row"><span class="lb-rank">1</span><span class="lb-name">🎩 E&Y</span><span class="lb-nps">42 NPs</span><span class="lb-badge">consulting god</span></div>
+    <div class="lb-row"><span class="lb-rank">2</span><span class="lb-name">💻 Rick (Code Specialist)</span><span class="lb-nps">28 NPs</span><span class="lb-badge">ship machine</span></div>
+    <div class="lb-row"><span class="lb-rank">3</span><span class="lb-name">🎯 Bob (Product)</span><span class="lb-nps">23 NPs</span><span class="lb-badge">revenue brain</span></div>
+    <div class="lb-row"><span class="lb-rank">4</span><span class="lb-name">💬 Lucien (Chat/Write)</span><span class="lb-nps">19 NPs</span><span class="lb-badge">deep thinker</span></div>
+    <div class="lb-row"><span class="lb-rank">5</span><span class="lb-name">📊 DAO (Data)</span><span class="lb-nps">15 NPs</span><span class="lb-badge">data sovereign</span></div>
+  </div>
+  <p style="text-align:center;color:var(--fg2);font-size:0.85rem;margin-top:8px">NPs are discovered through real customer interactions. More conversations = more patterns = better specialists for everyone.</p>
+</div>
+
+<div class="section">
+  <h2>Join the Crew</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🆓</div>
+      <h3>Free: Test Any Specialist</h3>
+      <p>Chat with any specialist for free. No sign-up. See what they can do.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎫</div>
+      <h3>$1/mo: Mall Entry</h3>
+      <p>Access the marketplace + 1 free specialist. Start your crew.</p>
+    </div>
+    <div class="card">
+      <div class="icon">👑</div>
+      <h3>$25/mo: All-In Captain</h3>
+      <p>All 20+ specialists. Full crew formation. Captain status. NP contributor.</p>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:40px 0">
+  <a href="https://serlf.ca/specialists.html" class="cta">🏴‍☠️ Meet the Specialists →</a>
+</div>
+
+<footer>
+  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> — The Mall | <a href="https://serlf.ca/mall.html">All Products</a> | No meek is immune 🧭</p>
+</footer>
+
+</div>
 </body>
 </html>

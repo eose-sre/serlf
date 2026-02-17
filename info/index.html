@@ -2,54 +2,104 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf — The Library · Grab a Seat, Have a Read</title>
-<meta name="description" content="serlf knowledge base. 32+ patterns, guides, and friendly explanations. The cozy library of the mall.">
-<link rel="stylesheet" href="../styles.css">
+<title>serlf.info — Knowledge Base | Learn AI | Tutorials & Guides</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--border:#252d3a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
+.container{max-width:800px;margin:0 auto;padding:40px 20px}
+.hero{text-align:center;padding:40px 0}
+h1{font-size:2.5rem;font-weight:900}
+h1 .accent{color:var(--accent)}
+.sub{color:var(--fg2);font-size:1.1rem;margin:12px 0 40px}
+.topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.topic{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:border-color 0.2s}
+.topic:hover{border-color:var(--accent)}
+.topic .icon{font-size:28px;margin-bottom:8px}
+.topic h3{margin-bottom:6px}
+.topic p{color:var(--fg2);font-size:0.85rem}
+.topic .count{color:var(--accent);font-size:0.8rem;margin-top:8px}
+.np-section{background:var(--bg2);border:1px solid var(--gold);border-radius:12px;padding:24px;margin:40px 0;text-align:center}
+.np-section h2{color:var(--gold);margin-bottom:8px}
+footer{text-align:center;margin-top:60px;color:var(--fg2);font-size:0.85rem}
+footer a{color:var(--accent)}
+</style>
 </head>
 <body>
-<header class="site-header"><div class="header-inner">
-<div class="logo">⚓🧭 serlf<span class="maple">🍁</span> <span style="font-size:.6em;color:var(--fg2)">The Library</span></div>
-<nav>
-<a href="/">Home</a>
-</nav>
-</div></header>
-
-<section class="hero">
-<p style="font-size:.9rem;color:var(--fg2);margin-bottom:1rem">📖 The Library</p>
-<h1>Grab a seat,<br>have a read.</h1>
-<p class="tagline">Everything we've learned, written down in plain language. No jargon. No gatekeeping. Just good, honest documentation.</p>
-<div class="flex-center mt-2">
-<a href="/" class="btn btn-gold">🏠 Back to the Mall</a>
-<a href="/vision.html" class="btn btn-secondary">📖 Our Story</a>
-</div>
-</section>
-
-<section>
 <div class="container">
-<h2 class="section-title">📚 What's on the Shelves</h2>
-<div class="grid grid-3">
-<div class="card"><div class="icon">⚓🧭</div><h3>How the Helpers Work</h3><p>A simple explanation of how our two AI helpers, Captain and m1, work together.</p></div>
-<div class="card"><div class="icon">🌀</div><h3>32+ Clever Patterns</h3><p>Every trick we figured out, written down so anyone can learn from them.</p></div>
-<div class="card"><div class="icon">🐝</div><h3>Saving Money on AI</h3><p>How we cut AI costs by 87%. The math, the method, no secrets.</p></div>
-<div class="card"><div class="icon">🔐</div><h3>Keeping Things Safe</h3><p>How we protect your stuff from day one. Written so anyone can understand it.</p></div>
-<div class="card"><div class="icon">🤝</div><h3>How We Work Together</h3><p>Human experts + AI helpers. How the partnership actually works in practice.</p></div>
-<div class="card"><div class="icon">💡</div><h3>The Friendly Way</h3><p>Good tools for everyone at prices everyone can afford. The philosophy behind it all.</p></div>
-</div>
-</div>
-</section>
 
-<section style="background:var(--bg2)">
-<div class="container text-center" style="padding:3rem 0">
-<p style="color:var(--warm-gold);font-size:1.2rem;font-weight:600;margin-bottom:1rem">Part of the serlf mall — browse everything for free</p>
-<a href="/" class="btn btn-gold">Back to the Mall</a>
+<div class="hero">
+  <div style="font-size:3rem">📚</div>
+  <h1>serlf<span class="accent">.info</span></h1>
+  <p class="sub">Everything you need to know. Tutorials, guides, patterns, and the knowledge that powers the meek.</p>
 </div>
-</section>
 
-<footer class="site-footer"><div class="footer-inner">
-<div class="footer-links">
-<a href="/">Home</a><a href="/crew.html">Crew</a><a href="/vision.html">Our Story</a>
+<div class="topics">
+  <div class="topic">
+    <div class="icon">🚀</div>
+    <h3>Getting Started</h3>
+    <p>Your first specialist, your first crew, your first mall pass. Zero to productive in 5 minutes.</p>
+    <div class="count">8 guides</div>
+  </div>
+  <div class="topic">
+    <div class="icon">💬</div>
+    <h3>AI Chat Mastery</h3>
+    <p>Prompt engineering, context management, model selection. Get 10x more from your Chat Specialist.</p>
+    <div class="count">12 guides</div>
+  </div>
+  <div class="topic">
+    <div class="icon">💻</div>
+    <h3>Dev Tools</h3>
+    <p>Code Pilot workflows, Bot Factory blueprints, Cloud Dock deployment patterns.</p>
+    <div class="count">15 guides</div>
+  </div>
+  <div class="topic">
+    <div class="icon">🎨</div>
+    <h3>Creative Suite</h3>
+    <p>Image generation prompts, Design Studio templates, Video Forge workflows, Voice Lab setup.</p>
+    <div class="count">10 guides</div>
+  </div>
+  <div class="topic">
+    <div class="icon">📈</div>
+    <h3>Business Tools</h3>
+    <p>CRM pipelines, email sequences, SEO audits, project management. Grow your business with AI.</p>
+    <div class="count">14 guides</div>
+  </div>
+  <div class="topic">
+    <div class="icon">🏦</div>
+    <h3>The Clutch & Token Bank</h3>
+    <p>How the 4-gear router works, cost optimization strategies, model selection deep-dive.</p>
+    <div class="count">6 guides</div>
+  </div>
+  <div class="topic">
+    <div class="icon">🏴‍☠️</div>
+    <h3>Crew Formation</h3>
+    <p>How to build specialist crews, assign missions, enable cross-specialist workflows.</p>
+    <div class="count">Coming soon</div>
+  </div>
+  <div class="topic">
+    <div class="icon">🔧</div>
+    <h3>API & Integration</h3>
+    <p>REST APIs, webhooks, embed widgets. Connect serlf specialists to your existing tools.</p>
+    <div class="count">9 guides</div>
+  </div>
 </div>
-<div class="footer-bottom">⚓🧭 serlf · The Library · 🇨🇦 Canada<br><em>"Grab a seat, have a read."</em></div>
-</div></footer>
+
+<div class="np-section">
+  <h2>📖 Novel Patterns Library</h2>
+  <p style="color:var(--fg2)">127 patterns discovered and growing. Every interaction teaches us something new.</p>
+  <p style="margin-top:12px"><a href="https://serlf.ca/club" style="color:var(--gold);font-weight:700">Browse the NP Library →</a></p>
+</div>
+
+<div style="text-align:center;margin:40px 0">
+  <p style="color:var(--fg2)">Can't find what you need? Ask any specialist — they'll help you learn.</p>
+  <a href="https://serlf.ca/specialists.html" style="display:inline-block;padding:12px 28px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;margin-top:12px">Talk to a Specialist →</a>
+</div>
+
+<footer>
+  <p>📚 serlf.info — part of the <a href="https://serlf.ca">serlf</a> ecosystem | <a href="https://github.com/eose-sre">Open Source</a> 🧭</p>
+</footer>
+
+</div>
 </body>
 </html>
