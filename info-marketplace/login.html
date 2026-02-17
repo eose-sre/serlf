@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.info — Log In</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-container{max-width:420px;width:90%;padding:48px 36px;background:#111827;border-radius:16px;border:1px solid #1e293b;box-shadow:0 0 60px rgba(255,179,0,.08)}
+.logo{font-size:2rem;font-weight:800;color:#ffb300;text-align:center;margin-bottom:8px}.logo .domain{color:#fff}
+.tagline{text-align:center;color:#94a3b8;margin-bottom:32px}
+.welcome{text-align:center;font-size:1.2rem;margin-bottom:24px;color:#fff}.welcome span{color:#ffb300}
+label{display:block;font-size:.85rem;color:#94a3b8;margin-bottom:6px}
+input{width:100%;padding:12px 16px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#fff;font-size:1rem;outline:none}input:focus{border-color:#ffb300}
+.btn{width:100%;padding:14px;background:#ffb300;color:#0a0e1a;font-size:1.1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-top:20px}.btn:hover{background:#ffa000;transform:translateY(-1px)}.btn:disabled{opacity:.5}
+.signup-link{text-align:center;margin-top:20px;color:#94a3b8;font-size:.9rem}.signup-link a{color:#ffb300;text-decoration:none}
+.status{text-align:center;margin-top:16px;font-size:.9rem;min-height:24px}.status.error{color:#ef4444}.status.ok{color:#ffb300}
+.wisdom{text-align:center;margin-top:24px;padding:12px;background:#0f172a;border-radius:8px;font-size:.85rem;color:#ffb30050;font-style:italic}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <div class="logo">serlf<span class="domain">.info</span></div>
+  <div class="tagline">Knowledge Base</div>
+  <div class="welcome">Welcome back, <span>seeker</span>.</div>
+  <form id="loginForm">
+    <label>Email</label><input type="email" id="email" placeholder="learner@example.com" required>
+    <button type="submit" class="btn" id="submitBtn">Log In →</button>
+    <div class="status" id="status"></div>
+  </form>
+  <div class="signup-link">New here? <a href="signup.html">Sign up for $1</a></div>
+  <div class="wisdom">"Knowledge is the only treasure that grows when shared."</div>
+</div>
+<script src="../shared/auth.js"></script>
+<script>
+document.getElementById('loginForm').addEventListener('submit',async(e)=>{e.preventDefault();const btn=document.getElementById('submitBtn'),status=document.getElementById('status');btn.disabled=true;btn.textContent='Connecting...';try{await SerlfAuth.login(document.getElementById('email').value);status.className='status ok';status.textContent='📚 Welcome back';setTimeout(()=>window.location.href='my-marketplace.html',800);}catch(err){status.className='status error';status.textContent=err.message;btn.disabled=false;btn.textContent='Log In →';}});
+</script>
+</body></html>

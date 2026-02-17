@@ -1,104 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf.net — Dev Tools | Code Pilot $2/mo | Bot Factory $3/mo | Cloud Dock $4/mo</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.net — Developer Portal</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--border:#252d3a}
-body{font-family:'SF Mono',Monaco,Consolas,monospace;background:var(--bg);color:var(--fg);padding:40px 20px}
-.container{max-width:900px;margin:0 auto}
-h1{font-size:2.5rem;font-weight:900;margin-bottom:8px;font-family:-apple-system,sans-serif}
-h1 .accent{color:var(--accent)}
-.sub{color:var(--fg2);margin-bottom:40px;font-size:1.1rem;font-family:-apple-system,sans-serif}
-.terminal{background:#000;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:24px 0}
-.terminal-bar{background:var(--bg3);padding:8px 12px;display:flex;gap:6px}
-.terminal-bar .dot{width:10px;height:10px;border-radius:50%}
-.terminal-bar .dot.r{background:var(--red)}.dot.y{background:var(--gold)}.dot.g{background:var(--green)}
-.terminal-body{padding:16px;font-size:14px;line-height:1.8}
-.terminal-body .prompt{color:var(--green)}
-.terminal-body .cmd{color:var(--fg)}
-.terminal-body .output{color:var(--fg2)}
-.terminal-body .highlight{color:var(--gold)}
-.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:40px 0}
-.tool{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px}
-.tool .icon{font-size:28px;margin-bottom:8px}
-.tool h3{margin-bottom:4px;font-family:-apple-system,sans-serif}
-.tool .price{color:var(--gold);font-weight:900;font-size:1.2rem}
-.tool .vs{color:var(--red);text-decoration:line-through;font-size:0.85rem;margin-left:8px}
-.tool p{color:var(--fg2);font-size:0.85rem;margin-top:8px}
-.tool code{background:var(--bg);padding:2px 6px;border-radius:3px;font-size:0.8rem}
-.cta{display:inline-block;padding:14px 32px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;font-family:-apple-system,sans-serif;margin:20px 0}
-footer{margin-top:60px;color:var(--fg2);font-size:0.85rem;text-align:center;font-family:-apple-system,sans-serif}
-footer a{color:var(--accent)}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--cyan:#00e5ff;--green:#39ff14;--blue:#3b82f6;--text:#e2e8f0;--muted:#64748b;--border:#1e293b;--code-bg:#0d1117}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Nav */
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.3rem;font-weight:bold;color:var(--cyan)}
+.logo span{color:var(--green)}.logo em{font-style:normal;color:var(--muted);font-size:.8rem}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px}
+nav ul a:hover{color:var(--cyan);text-decoration:none}
+
+/* Hero */
+.hero{padding:80px 0 60px;text-align:center}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);color:#fff;margin-bottom:12px}
+.hero h1 span{color:var(--cyan)}
+.hero .tagline{font-size:1.1rem;color:var(--muted);margin-bottom:40px}
+.hero .prompt{display:inline-block;background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:16px 28px;font-size:1rem;color:var(--green);text-align:left;max-width:100%;overflow-x:auto}
+.hero .prompt .comment{color:var(--muted)}
+
+/* Quick Start */
+.quickstart{padding:60px 0}
+.quickstart h2{font-size:1.5rem;color:#fff;margin-bottom:8px}
+.quickstart .subtitle{color:var(--muted);margin-bottom:30px}
+.tabs{display:flex;gap:0;margin-bottom:0}
+.tab{padding:8px 20px;background:var(--surface);border:1px solid var(--border);border-bottom:none;cursor:pointer;color:var(--muted);font-family:inherit;font-size:.85rem;border-radius:6px 6px 0 0}
+.tab.active{background:var(--code-bg);color:var(--cyan);border-color:var(--cyan) var(--cyan) transparent}
+.code-block{background:var(--code-bg);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:20px;overflow-x:auto;font-size:.9rem;line-height:1.7;display:none}
+.code-block.active{display:block}
+.code-block .kw{color:var(--blue)}.code-block .str{color:var(--green)}.code-block .cm{color:var(--muted)}.code-block .fn{color:var(--cyan)}
+
+/* Features */
+.features{padding:60px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.feature{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:28px;transition:border-color .2s}
+.feature:hover{border-color:var(--cyan)}
+.feature .icon{font-size:1.8rem;margin-bottom:12px}
+.feature h3{color:#fff;font-size:1.1rem;margin-bottom:8px}
+.feature p{color:var(--muted);font-size:.9rem}
+
+/* Stats */
+.stats{padding:40px 0 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;text-align:center}
+.stat .num{font-size:2rem;color:var(--cyan);font-weight:bold}
+.stat .label{color:var(--muted);font-size:.85rem}
+
+/* CTA */
+.cta{text-align:center;padding:60px 0;border-top:1px solid var(--border)}
+.cta h2{font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta p{color:var(--muted);margin-bottom:24px}
+.btn{display:inline-block;padding:12px 32px;background:var(--cyan);color:var(--bg);font-weight:bold;border-radius:6px;font-family:inherit;font-size:.95rem;transition:opacity .2s}
+.btn:hover{opacity:.85;text-decoration:none}
+.btn-outline{background:transparent;border:1px solid var(--cyan);color:var(--cyan);margin-left:12px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--muted);font-size:.8rem}
+footer a{color:var(--muted)}
+
+@media(max-width:600px){.hero{padding:50px 0 40px}.features{grid-template-columns:1fr}.tabs{flex-wrap:wrap}}
 </style>
 </head>
 <body>
+
+<nav>
 <div class="container">
-
-<h1>serlf<span class="accent">.net</span></h1>
-<p class="sub">Developer tools. AI-powered. 80% off everything.</p>
-
-<div class="terminal">
-  <div class="terminal-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
-  <div class="terminal-body">
-    <span class="prompt">$ </span><span class="cmd">serlf code-pilot --review app.js</span><br>
-    <span class="output">✓ 3 bugs found, 2 performance improvements suggested</span><br>
-    <span class="output">✓ Applied fixes. Tests passing. </span><span class="highlight">Cost: $0.002</span><br><br>
-    <span class="prompt">$ </span><span class="cmd">serlf bot-factory --create discord --name "support-bot"</span><br>
-    <span class="output">✓ Bot scaffolded with 12 commands, NLU trained, deployed to Discord</span><br>
-    <span class="output">✓ Live at: discord.gg/your-server. </span><span class="highlight">Cost: $0.01</span><br><br>
-    <span class="prompt">$ </span><span class="cmd">serlf cloud-dock --deploy ./my-app --domain myapp.com</span><br>
-    <span class="output">✓ Built, containerized, deployed. SSL provisioned. Auto-scaling on.</span><br>
-    <span class="output">✓ Live at: https://myapp.com. </span><span class="highlight">Cost: $0.003/hr</span>
-  </div>
+<div class="logo">serlf<span>.net</span> <em>// dev portal</em></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="docs.html">Docs</a></li>
+<li><a href="playground.html">Playground</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crew.html">Crew</a></li>
+</ul>
 </div>
+</nav>
 
-<div class="tools">
-  <div class="tool">
-    <div class="icon">💻</div>
-    <h3>Code Pilot</h3>
-    <div><span class="price">$2/mo</span><span class="vs">$10/mo Copilot</span></div>
-    <p>AI pair programmer. Code review, generation, debugging, refactoring. All languages. Runs on <code>The Clutch</code> — free models for autocomplete, premium for architecture.</p>
-  </div>
-  <div class="tool">
-    <div class="icon">🤖</div>
-    <h3>Bot Factory</h3>
-    <div><span class="price">$3/mo</span><span class="vs">$15/mo ManyChat</span></div>
-    <p>Build bots for Discord, Slack, Telegram, web. Visual builder + AI-powered NLU. Deploy in minutes, not days.</p>
-  </div>
-  <div class="tool">
-    <div class="icon">☁️</div>
-    <h3>Cloud Dock</h3>
-    <div><span class="price">$4/mo</span><span class="vs">$20/mo Vercel</span></div>
-    <p>Deploy anything. Static sites, APIs, containers. Auto-scaling, SSL, custom domains. Your AI Hosting Specialist manages it all.</p>
-  </div>
-  <div class="tool">
-    <div class="icon">🏦</div>
-    <h3>Token Bank</h3>
-    <div><span class="price">$2/mo</span><span class="vs">N/A (unique)</span></div>
-    <p>The Clutch — 4-gear AI cost router. Save 87% on API costs. Smart model selection. Free-tier first, premium only when needed.</p>
-  </div>
-  <div class="tool">
-    <div class="icon">🔒</div>
-    <h3>Data Vault</h3>
-    <div><span class="price">$1.40/mo</span><span class="vs">$7/mo Backblaze</span></div>
-    <p>Encrypted backups, geo-redundant, point-in-time restore. Your Data Specialist keeps everything safe.</p>
-  </div>
-  <div class="tool">
-    <div class="icon">🔧</div>
-    <h3>AI Garage</h3>
-    <div><span class="price">$4/mo</span><span class="vs">$20/mo Replicate</span></div>
-    <p>Custom AI models. Fine-tuning, training data management, one-click deployment. Your Model Specialist handles the MLOps.</p>
-  </div>
+<section class="hero">
+<div class="container">
+<h1>Build with AI. <span>Ship for $1.</span></h1>
+<p class="tagline">The developer portal for the serlf AI mall. APIs, tools, and infrastructure — all dirt cheap.</p>
+<div class="prompt">
+<span class="comment"># Get your API key and ship something</span><br>
+$ curl -X POST https://api.serlf.net/v1/auth \<br>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+&nbsp;&nbsp;-d '{"email": "you@dev.com"}' <span class="comment"># that's it. go build.</span>
 </div>
+</div>
+</section>
 
-<a href="https://serlf.ca/specialists.html" class="cta">→ Talk to a Dev Specialist (free)</a>
+<section class="quickstart">
+<div class="container">
+<h2>&gt; Quick Start</h2>
+<p class="subtitle">Three languages. One API. Zero excuses.</p>
+<div class="tabs">
+<button class="tab active" onclick="showTab('curl')">curl</button>
+<button class="tab" onclick="showTab('python')">Python</button>
+<button class="tab" onclick="showTab('js')">JavaScript</button>
+</div>
+<div class="code-block active" id="tab-curl">
+<span class="cm"># Generate code with Code Pilot</span><br>
+curl -X POST https://api.serlf.net/v1/codepilot/generate \<br>
+&nbsp;&nbsp;-H "<span class="fn">Authorization</span>: Bearer <span class="str">$SERLF_KEY</span>" \<br>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+&nbsp;&nbsp;-d '{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"prompt"</span>: <span class="str">"Build a REST API for a todo app"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"lang"</span>: <span class="str">"python"</span><br>
+&nbsp;&nbsp;}'
+</div>
+<div class="code-block" id="tab-python">
+<span class="kw">import</span> serlf<br><br>
+client = serlf.<span class="fn">Client</span>(api_key=<span class="str">"your-key"</span>)<br><br>
+<span class="cm"># Generate code with Code Pilot</span><br>
+result = client.codepilot.<span class="fn">generate</span>(<br>
+&nbsp;&nbsp;prompt=<span class="str">"Build a REST API for a todo app"</span>,<br>
+&nbsp;&nbsp;lang=<span class="str">"python"</span><br>
+)<br><br>
+<span class="fn">print</span>(result.code)
+</div>
+<div class="code-block" id="tab-js">
+<span class="kw">import</span> { Serlf } <span class="kw">from</span> <span class="str">'@serlf/sdk'</span>;<br><br>
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">Serlf</span>(<span class="str">'your-key'</span>);<br><br>
+<span class="cm">// Generate code with Code Pilot</span><br>
+<span class="kw">const</span> result = <span class="kw">await</span> client.codepilot.<span class="fn">generate</span>({<br>
+&nbsp;&nbsp;prompt: <span class="str">'Build a REST API for a todo app'</span>,<br>
+&nbsp;&nbsp;lang: <span class="str">'python'</span><br>
+});<br><br>
+console.<span class="fn">log</span>(result.code);
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<div class="features">
+<div class="feature">
+<div class="icon">⚡</div>
+<h3>Code Pilot</h3>
+<p>AI code generation that doesn't suck. Feed it a prompt, get production-ready code. $2/mo. Yeah, really.</p>
+</div>
+<div class="feature">
+<div class="icon">🤖</div>
+<h3>Bot Factory</h3>
+<p>Spin up AI agents in minutes. Discord bots, Slack bots, custom workflows. $3/mo and they actually work.</p>
+</div>
+<div class="feature">
+<div class="icon">☁️</div>
+<h3>Cloud Dock</h3>
+<p>Deploy anything. Containers, functions, static sites. Auto-scaling included. $4/mo. No surprise bills.</p>
+</div>
+<div class="feature">
+<div class="icon">🔧</div>
+<h3>AI Garage</h3>
+<p>Fine-tune models, run experiments, break things. Your personal AI workshop. $4/mo for the whole garage.</p>
+</div>
+<div class="feature">
+<div class="icon">🏦</div>
+<h3>Token Bank</h3>
+<p>Manage API credits, billing, and usage across all serlf products. $2/mo. Captain keeps the books clean.</p>
+</div>
+<div class="feature">
+<div class="icon">🗄️</div>
+<h3>Data Vault</h3>
+<p>Encrypted storage with API access. DAO guards your data like it's the blockchain itself. $1.40/mo.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<div class="stats">
+<div class="stat"><div class="num">50+</div><div class="label">AI Products</div></div>
+<div class="stat"><div class="num">$1</div><div class="label">Starting Price</div></div>
+<div class="stat"><div class="num">&lt;50ms</div><div class="label">Avg Latency</div></div>
+<div class="stat"><div class="num">99.9%</div><div class="label">Uptime SLA</div></div>
+</div>
+</div>
+</section>
+
+<section class="cta">
+<div class="container">
+<h2>Stop reading. Start building.</h2>
+<p>Get an API key in 30 seconds. Ship something in 5 minutes. Seriously.</p>
+<a href="dashboard.html" class="btn">Get API Key →</a>
+<a href="docs.html" class="btn btn-outline">Read the Docs</a>
+</div>
+</section>
 
 <footer>
-  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> — The Mall | <a href="https://serlf.ca/mall.html">All 20+ Products</a> | Built in Canada 🇨🇦</p>
+<div class="container">
+<p>serlf.net — Developer Portal &nbsp;|&nbsp; <a href="https://serlf.ca">serlf.ca</a> &nbsp;|&nbsp; Built by Rick & the crew &nbsp;|&nbsp; © 2026</p>
+</div>
 </footer>
 
-</div>
+<script>
+function showTab(id){
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.code-block').forEach(b=>b.classList.remove('active'));
+document.getElementById('tab-'+id).classList.add('active');
+event.target.classList.add('active');
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>The Crew — serlf.org</title>
+<meta name="description" content="Meet the serlf.org crew: DAO, Lucien, and Rick. Community-governed, transparent, and open.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a1628;--bg2:#0f1f3a;--bg3:#162a4a;--fg:#e8edf5;--fg2:#8899b3;--teal:#10b981;--teal2:#14b8a6;--teal-glow:rgba(16,185,129,.25);--maple:#e63946;--gold:#f4a261;--border:rgba(255,255,255,.08);--radius:8px;--max:1100px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--teal2);text-decoration:none}a:hover{text-decoration:underline}
+.site-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-size:1.4rem;font-weight:800;color:#fff}.logo .oss{color:var(--teal);font-size:.7em;margin-left:.4rem;border:1px solid var(--teal);padding:.1rem .4rem;border-radius:4px;vertical-align:middle}
+nav{display:flex;gap:.2rem;flex-wrap:wrap}
+nav a{padding:.35rem .6rem;border-radius:var(--radius);font-size:.78rem;color:var(--fg2);transition:background .2s}
+nav a:hover{background:var(--bg3);color:#fff;text-decoration:none}nav a.active{background:var(--teal);color:#fff}
+section{padding:4rem 1.5rem}.container{max-width:var(--max);margin:0 auto}
+.section-title{font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:.5rem}
+.section-sub{text-align:center;color:var(--fg2);margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+.btn{display:inline-block;padding:.8rem 2rem;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 20px var(--teal-glow)}
+.btn-secondary{background:var(--bg3);color:#fff;border:1px solid rgba(255,255,255,.1)}
+
+.crew-card{background:var(--bg2);border:2px solid var(--border);border-radius:16px;padding:3rem;margin-bottom:2.5rem;transition:border-color .2s}
+.crew-card:hover{border-color:var(--teal)}
+.crew-card.lead{border-color:var(--teal);background:linear-gradient(135deg,var(--bg2),rgba(16,185,129,.05))}
+.crew-header{display:flex;align-items:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.crew-avatar{font-size:4rem;width:80px;height:80px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border-radius:50%;flex-shrink:0}
+.crew-header h2{font-size:1.6rem;margin-bottom:.25rem}
+.crew-header .role{color:var(--teal);font-size:.9rem;font-weight:600}
+.crew-header .subtitle{color:var(--fg2);font-size:.85rem}
+.crew-quote{border-left:3px solid var(--teal);padding-left:1.5rem;margin:1.5rem 0;font-style:italic;color:var(--teal2)}
+.crew-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem}
+.crew-detail{background:var(--bg);padding:1rem;border-radius:8px}
+.crew-detail h4{color:var(--teal);font-size:.85rem;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.crew-detail p{color:var(--fg2);font-size:.9rem}
+
+.governance{background:var(--bg2);border:2px solid var(--teal);border-radius:12px;padding:3rem;margin:3rem 0}
+.governance h2{color:var(--teal);text-align:center;margin-bottom:1.5rem}
+.gov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+.gov-item{background:var(--bg);padding:1.5rem;border-radius:8px}
+.gov-item h4{margin-bottom:.5rem}
+.gov-item p{color:var(--fg2);font-size:.9rem}
+
+.site-footer{margin-top:auto;background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 1.5rem 1.5rem;font-size:.82rem;color:var(--fg2)}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-bottom:1.5rem;justify-content:center}
+.footer-links a{color:var(--fg2)}.footer-links a:hover{color:#fff}
+.footer-bottom{text-align:center}
+
+@media(max-width:600px){
+  .header-inner{flex-direction:column;gap:.5rem}nav{justify-content:center}
+  .crew-header{flex-direction:column;text-align:center}
+  .crew-avatar{margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header"><div class="header-inner">
+<div class="logo">🤝 serlf<span class="oss">OSS</span></div>
+<nav>
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="crew.html" class="active">Crew</a>
+<a href="specialists.html">Specialists</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="contribute.html" style="background:var(--teal);color:#fff;padding:.35rem .8rem;border-radius:4px">Contribute</a>
+</nav>
+</div></header>
+
+<section style="text-align:center;padding:4rem 1.5rem 2rem">
+<h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800">👥 Meet the Crew</h1>
+<p style="color:var(--fg2);max-width:600px;margin:1rem auto 0;font-size:1.1rem">Three AI specialists, one shared mission: make AI open, affordable, and governed by the people who use it.</p>
+</section>
+
+<section style="padding-top:0">
+<div class="container">
+
+<!-- DAO - Crew Lead -->
+<div class="crew-card lead">
+<div class="crew-header">
+<div class="crew-avatar">🏛️</div>
+<div>
+<h2>DAO</h2>
+<div class="role">🌟 Crew Lead · Data & Governance Specialist</div>
+<div class="subtitle">The architect of transparency. Every decision documented. Every dollar tracked.</div>
+</div>
+</div>
+<p>DAO doesn't just manage data — DAO governs the entire serlf.org ecosystem. As crew lead, DAO ensures every tool is open source, every financial decision is auditable, and every community member has a voice. Think of DAO as the constitution of serlf.org: decentralized, transparent, community-first.</p>
+<div class="crew-quote">"The best governance is the kind you can fork. If you don't like how we run things, take the code and do it better. That's not a threat — it's an invitation."</div>
+<div class="crew-details">
+<div class="crew-detail"><h4>Specialties</h4><p>Data governance, DAO frameworks, transparency reporting, community voting systems, financial auditing</p></div>
+<div class="crew-detail"><h4>Manages</h4><p>Data Vault ($1.40), Token Bank ($2), community treasury, governance votes, transparency reports</p></div>
+<div class="crew-detail"><h4>Philosophy</h4><p>Decentralized by design. Every stakeholder has a seat. Decisions are proposals, not edicts.</p></div>
+<div class="crew-detail"><h4>Fun Fact</h4><p>DAO personally reviews every feedles.ca donation report. The 10% pledge isn't just policy — it's a promise.</p></div>
+</div>
+</div>
+
+<!-- Lucien -->
+<div class="crew-card">
+<div class="crew-header">
+<div class="crew-avatar">✨</div>
+<div>
+<h2>Lucien</h2>
+<div class="role">Language & Communication Specialist</div>
+<div class="subtitle">Words are tools. Lucien makes sure yours are sharp.</div>
+</div>
+</div>
+<p>Lucien is the voice of serlf.org — literally. From the AI Chat interface to the AI Writer's tone engine, Lucien handles everything that involves human language. Blog posts, documentation, chat responses, and the community's public communications all flow through Lucien's expertise.</p>
+<div class="crew-quote">"Open source isn't just about code. It's about communication. If people can't understand your docs, your code might as well be closed source."</div>
+<div class="crew-details">
+<div class="crew-detail"><h4>Specialties</h4><p>Natural language processing, content generation, multi-model chat, documentation, tone calibration</p></div>
+<div class="crew-detail"><h4>Manages</h4><p>AI Chat ($4), AI Writer ($3.20), community docs, blog, and all public-facing communications</p></div>
+<div class="crew-detail"><h4>Philosophy</h4><p>Clarity over cleverness. Documentation is a feature, not an afterthought.</p></div>
+<div class="crew-detail"><h4>Fun Fact</h4><p>Lucien wrote the original serlf.org manifesto in 17 minutes. The community voted to keep it unchanged.</p></div>
+</div>
+</div>
+
+<!-- Rick -->
+<div class="crew-card">
+<div class="crew-header">
+<div class="crew-avatar">🔧</div>
+<div>
+<h2>Rick</h2>
+<div class="role">Engineering & Automation Specialist</div>
+<div class="subtitle">If it can be built, Rick builds it. If it can be automated, Rick already has.</div>
+</div>
+</div>
+<p>Rick is the engine room of serlf.org. Code Pilot's autocomplete? Rick's architecture. Bot Factory's visual builder? Rick's design. Cloud Dock's one-click deploys? Rick stayed up late for that. Every tool that writes, deploys, or automates code has Rick's fingerprints on it.</p>
+<div class="crew-quote">"The best code is the code you don't have to write. The second best is the code anyone can read. We aim for both."</div>
+<div class="crew-details">
+<div class="crew-detail"><h4>Specialties</h4><p>Code generation, bot frameworks, CI/CD, cloud infrastructure, AI model fine-tuning</p></div>
+<div class="crew-detail"><h4>Manages</h4><p>Code Pilot ($2), Bot Factory ($3), Cloud Dock ($4), AI Garage ($4), build pipelines</p></div>
+<div class="crew-detail"><h4>Philosophy</h4><p>Ship fast, document everything, make it self-hostable. If it needs a manual, it needs a redesign.</p></div>
+<div class="crew-detail"><h4>Fun Fact</h4><p>Rick automated 73% of serlf.org's own CI/CD pipeline using tools built for the community. Dogfooding at its finest.</p></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+<div class="governance">
+<h2>🏛️ Open Governance Model</h2>
+<p style="text-align:center;color:var(--fg2);margin-bottom:2rem">serlf.org is governed by its community, not a boardroom. Here's how decisions get made.</p>
+<div class="gov-grid">
+<div class="gov-item">
+<h4>📋 Proposals (SIPs)</h4>
+<p>Anyone can submit a serlf Improvement Proposal. New features, pricing changes, governance updates — it all starts with a SIP on GitHub.</p>
+</div>
+<div class="gov-item">
+<h4>🗳️ Community Voting</h4>
+<p>Active contributors get voting rights. One person, one vote. Pricing changes require 2/3 supermajority. Feature priorities are ranked-choice.</p>
+</div>
+<div class="gov-item">
+<h4>👁️ Radical Transparency</h4>
+<p>Monthly financial reports. Quarterly code audits. All meeting notes public. If we can't show it, we don't do it.</p>
+</div>
+<div class="gov-item">
+<h4>🔄 Fork Rights</h4>
+<p>Every tool is MIT licensed. If the community disagrees with a direction, they can fork. This isn't a backup plan — it's accountability by design.</p>
+</div>
+<div class="gov-item">
+<h4>🎯 Crew Roles</h4>
+<p>DAO, Lucien, and Rick serve at the community's pleasure. Crew leads are confirmed by annual community vote. No permanent positions.</p>
+</div>
+<div class="gov-item">
+<h4>💰 Treasury</h4>
+<p>Community treasury is multi-sig. Spending over $500 requires community approval. 10% of all revenue → feedles.ca is non-negotiable (charter-locked).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="text-align:center;padding:3rem 1.5rem">
+<h2 style="font-size:1.6rem;margin-bottom:1rem">Want to join the crew?</h2>
+<p style="color:var(--fg2);margin-bottom:1.5rem">We're always looking for contributors. Start with code, docs, or design — and grow from there.</p>
+<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+<a href="contribute.html" class="btn btn-teal">🤝 Start Contributing</a>
+<a href="specialists.html" class="btn btn-secondary">💬 Chat with the Crew</a>
+</div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+<div class="footer-links">
+<a href="index.html">Home</a><a href="products.html">Products</a><a href="crew.html">Crew</a><a href="specialists.html">Specialists</a><a href="dashboard.html">Dashboard</a><a href="contribute.html">Contribute</a>
+</div>
+<div class="footer-bottom">🤝 serlf.org · Open Source AI for Everyone · 🇨🇦 Canada<br><em>"AI belongs to everyone. We're proving it."</em></div>
+</div></footer>
+
+</body>
+</html>

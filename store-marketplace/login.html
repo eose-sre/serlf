@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.store — Welcome Back, Creator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121828;--orange:#e8922a;--orange-light:#f5a623;--amber:#ffbf47;--text:#e0e0e0;--text-dim:#8890a0;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-container{width:100%;max-width:440px}
+.logo{text-align:center;margin-bottom:32px}
+.logo h1{font-size:28px;font-weight:700;color:#fff}
+.logo h1 span{color:var(--orange)}
+.logo p{color:var(--text-dim);margin-top:8px;font-size:15px}
+.card{background:var(--navy-light);border:1px solid rgba(232,146,42,.15);border-radius:var(--radius);padding:36px 32px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--amber))}
+h2{font-size:22px;font-weight:600;color:#fff;margin-bottom:6px}
+.subtitle{color:var(--text-dim);font-size:14px;margin-bottom:28px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;color:var(--text-dim);margin-bottom:6px;font-weight:500}
+.field input{width:100%;padding:12px 14px;background:var(--navy);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-size:15px;outline:none;transition:.2s}
+.field input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,146,42,.15)}
+.options{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;font-size:13px}
+.options label{color:var(--text-dim);display:flex;align-items:center;gap:6px;cursor:pointer}
+.options input[type=checkbox]{accent-color:var(--orange)}
+.options a{color:var(--orange);text-decoration:none}
+.btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--orange),var(--orange-light));color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,146,42,.3)}
+.footer{text-align:center;margin-top:20px;font-size:13px;color:var(--text-dim)}
+.footer a{color:var(--orange);text-decoration:none}
+.meek{text-align:center;margin-top:24px;font-size:12px;color:var(--text-dim);font-style:italic;opacity:.6}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <div class="logo">
+    <h1>serlf<span>.store</span></h1>
+    <p>Welcome back, creator.</p>
+  </div>
+  <div class="card">
+    <h2>Sign in</h2>
+    <p class="subtitle">Your digital storefront awaits</p>
+    <form id="loginForm">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Your password" required>
+      </div>
+      <div class="options">
+        <label><input type="checkbox" name="remember"> Remember me</label>
+        <a href="#">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+  </div>
+  <p class="footer">New here? <a href="signup.html">Create an account — $1</a></p>
+  <p class="meek">We are meeks, we are all, always</p>
+</div>
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+  console.log('Login:', Object.fromEntries(fd));
+  window.location.href = 'my-marketplace.html';
+});
+</script>
+<script src="../shared/auth.js" defer></script>
+</body>
+</html>

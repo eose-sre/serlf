@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crews — serlf.shop | Link Tree</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6ed;min-height:100vh}
+.nav{background:#0d1117;border-bottom:1px solid #1e2d3d;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.nav a{color:#58a6ff;text-decoration:none;margin-left:1.5rem;font-size:.9rem}
+.nav a:hover{color:#79c0ff}
+.nav .brand{font-size:1.2rem;font-weight:700;color:#fff}
+.nav .brand span{color:#58a6ff}
+.hero{text-align:center;padding:4rem 2rem 2rem}
+.hero h1{font-size:2.8rem;margin-bottom:.5rem}
+.hero .subtitle{color:#f0883e;font-size:1.3rem;font-weight:600}
+.hero p{color:#8b949e;margin-top:1rem;font-size:1.1rem;max-width:600px;margin-left:auto;margin-right:auto}
+.section{max-width:1000px;margin:3rem auto;padding:0 2rem}
+.section h2{font-size:1.8rem;margin-bottom:1.5rem;color:#fff}
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.crew-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:2rem;transition:border-color .2s}
+.crew-card:hover{border-color:#f0883e}
+.crew-card h3{color:#f0883e;font-size:1.3rem;margin-bottom:.5rem}
+.crew-card .members{display:flex;gap:.3rem;margin:.8rem 0;flex-wrap:wrap}
+.crew-card .member{background:#1f2937;color:#58a6ff;padding:.2rem .6rem;border-radius:1rem;font-size:.75rem}
+.crew-card p{color:#8b949e;font-size:.9rem;line-height:1.5}
+.crew-card .price{color:#3fb950;font-size:1.2rem;font-weight:700;margin-top:.8rem}
+.how-it-works{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:2.5rem;margin-top:2rem}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:1.5rem}
+.step{text-align:center}
+.step .num{font-size:2rem;color:#f0883e;font-weight:700}
+.step h4{color:#fff;margin:.5rem 0}
+.step p{color:#8b949e;font-size:.85rem}
+.cta{text-align:center;padding:3rem 2rem}
+.cta-btn{display:inline-block;background:#f0883e;color:#fff;padding:1rem 2.5rem;border-radius:8px;font-size:1.1rem;text-decoration:none;font-weight:600}
+.cta-btn:hover{background:#d2691e}
+.luffy-banner{background:linear-gradient(135deg,#1a1e2e,#2d1f3d);border:2px solid #f0883e;border-radius:16px;padding:2rem;text-align:center;margin:2rem auto;max-width:800px}
+.luffy-banner h3{color:#f0883e;font-size:1.5rem}
+.luffy-banner p{color:#c9d1d9;margin-top:.5rem}
+footer{text-align:center;padding:2rem;color:#484f58;font-size:.8rem;border-top:1px solid #21262d;margin-top:2rem}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="brand"><span>serlf</span>.shop</div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="specialists.html">Specialists</a>
+    <a href="crew.html">Our Crew</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="subtitle">⚓ LUFFY PRESENTS</div>
+  <h1>Crews</h1>
+  <p>Your specialists don't work alone. Build a crew — specialists that collaborate, share context, and tackle complex projects as a team. <strong>You're the Captain.</strong></p>
+</div>
+
+<div class="luffy-banner">
+  <h3>🏴‍☠️ "A specialist is good. A crew is unstoppable."</h3>
+  <p>— Luffy, Crew Architect</p>
+</div>
+
+<div class="section">
+  <h2>Pre-Built Crews</h2>
+  <div class="crew-grid">
+    <div class="crew-card">
+      <h3>🚀 Launch Crew</h3>
+      <div class="members">
+        <span class="member">Site Builder</span>
+        <span class="member">AI Writer</span>
+        <span class="member">Design Studio</span>
+        <span class="member">SEO Radar</span>
+        <span class="member">Link Tree</span>
+      </div>
+      <p>Everything you need to launch a product. Site, content, design, SEO, and your bio link — all working together.</p>
+      <div class="price">$8/mo <span style="color:#8b949e;font-size:.8rem">(save 40% vs individual)</span></div>
+    </div>
+
+    <div class="crew-card">
+      <h3>💼 Business Crew</h3>
+      <div class="members">
+        <span class="member">Deal Flow</span>
+        <span class="member">Mail Engine</span>
+        <span class="member">Help Desk</span>
+        <span class="member">Task Board</span>
+        <span class="member">Form Flow</span>
+      </div>
+      <p>Run your business end-to-end. CRM, email, support, project management, and data collection — one crew.</p>
+      <div class="price">$10/mo <span style="color:#8b949e;font-size:.8rem">(save 35% vs individual)</span></div>
+    </div>
+
+    <div class="crew-card">
+      <h3>🎨 Creator Crew</h3>
+      <div class="members">
+        <span class="member">AI Images</span>
+        <span class="member">Video Forge</span>
+        <span class="member">Voice Lab</span>
+        <span class="member">Design Studio</span>
+        <span class="member">AI Writer</span>
+      </div>
+      <p>Create anything. Images, video, audio, graphics, and copy — a full creative studio in your pocket.</p>
+      <div class="price">$9/mo <span style="color:#8b949e;font-size:.8rem">(save 38% vs individual)</span></div>
+    </div>
+
+    <div class="crew-card">
+      <h3>🛠️ Dev Crew</h3>
+      <div class="members">
+        <span class="member">Code Pilot</span>
+        <span class="member">Bot Factory</span>
+        <span class="member">Cloud Dock</span>
+        <span class="member">AI Garage</span>
+        <span class="member">Data Vault</span>
+      </div>
+      <p>Ship software faster. Code, bots, hosting, ML, and backup — your engineering team in a box.</p>
+      <div class="price">$10/mo <span style="color:#8b949e;font-size:.8rem">(save 32% vs individual)</span></div>
+    </div>
+
+    <div class="crew-card">
+      <h3>📈 Growth Crew</h3>
+      <div class="members">
+        <span class="member">SEO Radar</span>
+        <span class="member">Mail Engine</span>
+        <span class="member">Deal Flow</span>
+        <span class="member">AI Writer</span>
+        <span class="member">Design Studio</span>
+      </div>
+      <p>Grow your audience and revenue. SEO, email, CRM, content, and design — the full growth stack.</p>
+      <div class="price">$11/mo <span style="color:#8b949e;font-size:.8rem">(save 30% vs individual)</span></div>
+    </div>
+
+    <div class="crew-card">
+      <h3>👑 All-In Crew</h3>
+      <div class="members">
+        <span class="member">ALL 20 SPECIALISTS</span>
+      </div>
+      <p>Every specialist. Every product. Full cross-specialist context sharing. The ultimate crew. You're the Admiral now.</p>
+      <div class="price">$25/mo <span style="color:#8b949e;font-size:.8rem">(save 90% vs competitors)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="how-it-works">
+    <h2>How Crews Work</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h4>Pick Your Crew</h4>
+        <p>Choose a pre-built crew or assemble your own from any specialists.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h4>They Share Context</h4>
+        <p>Your crew members share project context. Writer knows what Designer made. Coder knows the spec.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h4>You're the Captain</h4>
+        <p>Direct your crew. Set priorities. They coordinate autonomously but you're in command.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h4>They Get Smarter</h4>
+        <p>Every project teaches your crew. They learn YOUR preferences, YOUR style. Forever.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta">
+  <a href="specialists.html" class="cta-btn">Build Your Crew →</a>
+</div>
+
+<footer>
+  serlf.shop — The AI Mall. Everything 80% off. · Crews by Luffy. For the self. To protect ourself. 🧭
+</footer>
+</body>
+</html>

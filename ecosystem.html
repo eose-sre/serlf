@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf — One Account. Eight Worlds.</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121828;--navy-mid:#1a2138;--text:#e0e0e0;--text-dim:#8890a0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);min-height:100vh}
+/* Hero */
+.hero{text-align:center;padding:80px 24px 48px}
+.hero h1{font-size:clamp(32px,5vw,52px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:16px}
+.hero h1 .gradient{background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899,#e8922a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:18px;color:var(--text-dim);max-width:560px;margin:0 auto 8px}
+.hero .price{font-size:20px;color:#fff;font-weight:600;margin-top:16px}
+.hero .price span{background:linear-gradient(135deg,#6366f1,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* Grid */
+.grid-container{max-width:1100px;margin:0 auto;padding:0 24px 60px;position:relative}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+/* Connections SVG */
+.connections{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.15}
+/* Card */
+.domain-card{background:var(--navy-light);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px 24px;position:relative;z-index:1;overflow:hidden;transition:all .25s;cursor:pointer}
+.domain-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.domain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.domain-card .accent-glow{position:absolute;top:-40px;right:-40px;width:100px;height:100px;border-radius:50%;filter:blur(50px);opacity:.15}
+.card-ext{font-size:13px;font-weight:600;margin-bottom:12px;letter-spacing:.5px}
+.card-name{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:6px}
+.card-tagline{font-size:16px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.4}
+.card-meta{display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:var(--text-dim)}
+.card-meta span{display:flex;align-items:center;gap:4px}
+.card-crew{font-size:12px;color:var(--text-dim);margin-bottom:16px}
+.card-crew strong{color:#fff;font-weight:500}
+.card-btn{display:inline-block;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;color:#fff;transition:.15s}
+.card-btn:hover{filter:brightness(1.15)}
+/* Philosophy */
+.philosophy{text-align:center;padding:60px 24px 40px}
+.philosophy blockquote{font-size:clamp(20px,3vw,28px);font-weight:300;color:#fff;font-style:italic;max-width:600px;margin:0 auto 16px;line-height:1.5;opacity:.9}
+.philosophy .attr{color:var(--text-dim);font-size:14px}
+/* Captain */
+.captain-note{text-align:center;padding:0 24px 80px;max-width:600px;margin:0 auto}
+.captain-note p{font-size:14px;color:var(--text-dim);line-height:1.7}
+.captain-note p strong{color:#fff}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>One Account.<br><span class="gradient">Eight Worlds.</span></h1>
+  <p>The serlf ecosystem — your personal digital empire, one domain at a time.</p>
+  <div class="price"><span>$1</span> each. That's it.</div>
+</div>
+
+<div class="grid-container">
+  <div class="grid" id="domainGrid"></div>
+</div>
+
+<div class="philosophy">
+  <blockquote>"We are meeks, we are all, always"</blockquote>
+  <p class="attr">— The serlf philosophy</p>
+</div>
+
+<div class="captain-note">
+  <p><strong>You start with a Cap</strong> — your Captain, your guide. He brings the crew online as needed. Over time, it will only be his, silo attached to us, forever.</p>
+</div>
+
+<script>
+const domains = [
+  {
+    ext: '.ca', label: 'Home', tagline: 'Your digital home base. Everything starts here.',
+    crew: 'Captain + Facilitator', products: 7, color: '#6366f1',
+    url: 'https://serlf.ca/signup.html'
+  },
+  {
+    ext: '.com', label: 'Enterprise', tagline: 'Business tools. Scalable solutions. Enterprise ready.',
+    crew: 'CTO + Captain', products: 7, color: '#3b82f6',
+    url: 'https://serlf.com/signup.html'
+  },
+  {
+    ext: '.org', label: 'Open Source', tagline: 'Community-driven. Open protocols. Transparent.',
+    crew: 'Maintainer + Captain', products: 7, color: '#22c55e',
+    url: 'https://serlf.org/signup.html'
+  },
+  {
+    ext: '.net', label: 'Dev Portal', tagline: 'APIs, SDKs, and developer tools. Build anything.',
+    crew: 'Architect + Captain', products: 7, color: '#a855f7',
+    url: 'https://serlf.net/signup.html'
+  },
+  {
+    ext: '.info', label: 'Knowledge', tagline: 'Learn, discover, and master new skills.',
+    crew: 'Librarian + Captain', products: 7, color: '#06b6d4',
+    url: 'https://serlf.info/signup.html'
+  },
+  {
+    ext: '.club', label: 'Community', tagline: 'Connect with creators. Events. Discussions.',
+    crew: 'Host + Captain', products: 7, color: '#ec4899',
+    url: 'https://serlf.club/signup.html'
+  },
+  {
+    ext: '.shop', label: 'Shop', tagline: 'Physical goods. Merch. The serlf storefront.',
+    crew: 'Merchant + Captain', products: 7, color: '#f43f5e',
+    url: 'https://serlf.shop/signup.html'
+  },
+  {
+    ext: '.store', label: 'Digital Store', tagline: 'Digital assets. AI-powered. Creator economy.',
+    crew: 'DAO + Captain', products: 7, color: '#e8922a',
+    url: 'https://serlf.store/signup.html'
+  },
+];
+
+const grid = document.getElementById('domainGrid');
+domains.forEach(d => {
+  const card = document.createElement('div');
+  card.className = 'domain-card';
+  card.style.cssText = `--accent:${d.color}`;
+  card.innerHTML = `
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${d.color}"></div>
+    <div class="accent-glow" style="background:${d.color}"></div>
+    <div class="card-ext" style="color:${d.color}">serlf${d.ext}</div>
+    <div class="card-name">${d.label}</div>
+    <div class="card-tagline">${d.tagline}</div>
+    <div class="card-meta">
+      <span>📦 ${d.products} products</span>
+    </div>
+    <div class="card-crew">Crew: <strong>${d.crew}</strong></div>
+    <a class="card-btn" href="${d.url}" style="background:${d.color}">Join — $1</a>
+  `;
+  card.addEventListener('click', e => {
+    if (e.target.tagName !== 'A') window.location.href = d.url;
+  });
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

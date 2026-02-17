@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — serlf.club</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--purple:#a855f7;--magenta:#ec4899;--grad:linear-gradient(135deg,#a855f7,#ec4899);--text:#e2e8f0;--muted:#94a3b8;--card:#1e293b;--border:#334155}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);line-height:1.6}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:99}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.9rem}nav ul a:hover{color:#fff;text-decoration:none}
+.page-header{text-align:center;padding:60px 20px 40px}
+.page-header h1{font-size:2.4rem;font-weight:800;margin-bottom:10px}
+.page-header p{color:var(--muted);max-width:550px;margin:0 auto}
+h2{font-size:1.6rem;font-weight:800;margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:24px}
+section{padding:40px 0}
+.btn{display:inline-block;padding:10px 20px;border-radius:8px;font-weight:700;font-size:.85rem;border:none;cursor:pointer;transition:transform .2s}
+.btn-primary{background:var(--grad);color:#fff}.btn-primary:hover{transform:translateY(-2px);text-decoration:none}
+.btn-outline{border:2px solid var(--purple);color:var(--purple);background:transparent}.btn-outline:hover{background:rgba(168,85,247,.1);text-decoration:none}
+.featured{background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(236,72,153,.1));border:1px solid var(--magenta);border-radius:16px;padding:36px;margin-bottom:32px;position:relative;overflow:hidden}
+.featured::before{content:"🔥 FEATURED";position:absolute;top:16px;right:16px;background:var(--grad);color:#fff;padding:4px 12px;border-radius:6px;font-size:.7rem;font-weight:700}
+.featured h3{font-size:1.4rem;margin-bottom:6px}
+.featured .event-date{color:var(--magenta);font-weight:600;font-size:.9rem;margin-bottom:10px}
+.featured p{color:var(--muted);max-width:600px;margin-bottom:16px}
+.featured .event-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.featured .event-meta span{color:var(--muted);font-size:.8rem}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.event-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color .2s,transform .2s}
+.event-card:hover{border-color:var(--purple);transform:translateY(-3px)}
+.event-type{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.7rem;font-weight:600;margin-bottom:10px}
+.type-hackathon{background:rgba(168,85,247,.15);color:var(--purple)}
+.type-challenge{background:rgba(236,72,153,.15);color:var(--magenta)}
+.type-meetup{background:rgba(34,197,94,.15);color:#22c55e}
+.type-workshop{background:rgba(251,191,36,.15);color:#fbbf24}
+.event-card h3{font-size:1.1rem;margin-bottom:6px}
+.event-card .event-date{color:var(--purple);font-size:.85rem;font-weight:600;margin-bottom:8px}
+.event-card p{color:var(--muted);font-size:.85rem;margin-bottom:14px}
+.event-card .event-footer{display:flex;justify-content:space-between;align-items:center}
+.attendees{color:var(--muted);font-size:.8rem}
+.past-events{opacity:.7}
+.past-events .event-card{border-color:var(--border)}
+.past-label{display:inline-block;background:var(--border);color:var(--muted);padding:2px 8px;border-radius:4px;font-size:.7rem;margin-bottom:10px}
+.calendar-cta{text-align:center;padding:50px 20px;background:var(--navy2);border-radius:16px;margin:40px 0}
+.calendar-cta h2{margin-bottom:10px}
+.calendar-cta p{color:var(--muted);margin-bottom:20px}
+.luffy-quote{border-left:3px solid var(--magenta);padding:14px 18px;background:rgba(236,72,153,.06);border-radius:0 8px 8px 0;margin:30px 0;font-style:italic;color:var(--muted);font-size:.9rem}
+.luffy-quote strong{color:var(--magenta);font-style:normal}
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+@media(max-width:600px){.events-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">serlf<span>.club</span></a>
+<ul>
+<li><a href="products.html">Products</a></li>
+<li><a href="crew.html">Crew</a></li>
+<li><a href="leaderboard.html">Leaderboard</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="events.html" style="color:#fff">Events</a></li>
+</ul>
+</div></nav>
+
+<div class="page-header">
+<h1>🎪 Events</h1>
+<p>Hackathons, challenges, meetups, and workshops. The meek gather, build, and celebrate.</p>
+</div>
+
+<section class="container">
+<div class="featured">
+<h3>🏴‍☠️ Crew Formation Hackathon</h3>
+<div class="event-date">Feb 28 – Mar 2, 2026</div>
+<p>The first-ever Crews hackathon. Form a crew of 3-5 members, build something using any serlf tools, and compete for 10,000 XP + mystery prizes. Luffy will be watching.</p>
+<div class="event-meta">
+<span>👥 127 registered</span>
+<span>🏆 10,000 XP prize pool</span>
+<span>⏱️ 48 hours</span>
+<span>🌍 Virtual</span>
+</div>
+<a href="dashboard.html" class="btn btn-primary">Register Now</a>
+</div>
+
+<h2>Upcoming Events</h2>
+<p class="section-sub">Mark your calendar. The meek don't miss these.</p>
+
+<div class="events-grid">
+
+<div class="event-card">
+<span class="event-type type-challenge">Challenge</span>
+<h3>Bot Battle Royale</h3>
+<div class="event-date">Feb 22, 2026 · 3:00 PM UTC</div>
+<p>Pit your Bot Factory creation against others. Community votes on the most useful, creative, and absurd bots.</p>
+<div class="event-footer"><span class="attendees">👥 84 joined</span><a href="dashboard.html" class="btn btn-outline" style="padding:6px 14px;font-size:.8rem">Join</a></div>
+</div>
+
+<div class="event-card">
+<span class="event-type type-workshop">Workshop</span>
+<h3>Voice Lab Masterclass</h3>
+<div class="event-date">Feb 24, 2026 · 7:00 PM UTC</div>
+<p>jade_ai teaches advanced voice cloning techniques. From basic packs to cinematic narration. Beginners welcome.</p>
+<div class="event-footer"><span class="attendees">👥 62 joined</span><a href="dashboard.html" class="btn btn-outline" style="padding:6px 14px;font-size:.8rem">Join</a></div>
+</div>
+
+<div class="event-card">
+<span class="event-type type-meetup">Meetup</span>
+<h3>Meek Monday Hangout</h3>
+<div class="event-date">Every Monday · 8:00 PM UTC</div>
+<p>Weekly community hangout. Show off what you built, ask questions, vibe. No agenda, just meek energy.</p>
+<div class="event-footer"><span class="attendees">👥 200+ recurring</span><a href="dashboard.html" class="btn btn-outline" style="padding:6px 14px;font-size:.8rem">Join</a></div>
+</div>
+
+<div class="event-card">
+<span class="event-type type-challenge">Challenge</span>
+<h3>NP Hunt Week</h3>
+<div class="event-date">Mar 3–9, 2026</div>
+<p>7 days. 7 hidden NPs to find. Clues drop daily. Top hunters earn exclusive badges and permanent leaderboard fame.</p>
+<div class="event-footer"><span class="attendees">👥 156 interested</span><a href="dashboard.html" class="btn btn-outline" style="padding:6px 14px;font-size:.8rem">Remind Me</a></div>
+</div>
+
+<div class="event-card">
+<span class="event-type type-hackathon">Hackathon</span>
+<h3>Design Jam: Meek Aesthetics</h3>
+<div class="event-date">Mar 15, 2026 · All Day</div>
+<p>24-hour design sprint using Design Studio. Theme revealed at kickoff. Best designs become official community templates.</p>
+<div class="event-footer"><span class="attendees">👥 45 interested</span><a href="dashboard.html" class="btn btn-outline" style="padding:6px 14px;font-size:.8rem">Remind Me</a></div>
+</div>
+
+<div class="event-card">
+<span class="event-type type-workshop">Workshop</span>
+<h3>Link Tree Portfolio Night</h3>
+<div class="event-date">Mar 20, 2026 · 6:00 PM UTC</div>
+<p>buildoor_sam walks you through building a stunning serlf Link Tree page. Templates provided, creativity required.</p>
+<div class="event-footer"><span class="attendees">👥 38 interested</span><a href="dashboard.html" class="btn btn-outline" style="padding:6px 14px;font-size:.8rem">Remind Me</a></div>
+</div>
+
+</div>
+</section>
+
+<section class="container past-events">
+<h2>Past Events</h2>
+<p class="section-sub">Missed it? Catch the highlights.</p>
+<div class="events-grid">
+<div class="event-card">
+<span class="past-label">Completed</span>
+<h3>Launch Week Celebration</h3>
+<div class="event-date" style="color:var(--muted)">Feb 1–7, 2026</div>
+<p>The week serlf.club went live. 500+ members joined in 7 days. Luffy's first public appearance.</p>
+<div class="event-footer"><span class="attendees">👥 512 attended</span><span style="color:var(--muted);font-size:.8rem">Recap coming</span></div>
+</div>
+<div class="event-card">
+<span class="past-label">Completed</span>
+<h3>First Bot Factory Sprint</h3>
+<div class="event-date" style="color:var(--muted)">Feb 10, 2026</div>
+<p>48 bots built in 24 hours. Winner: mira.eth with "Pixel Pal" — a creative companion bot with 200+ users.</p>
+<div class="event-footer"><span class="attendees">👥 89 attended</span><span style="color:var(--muted);font-size:.8rem">🏆 mira.eth</span></div>
+</div>
+</div>
+</section>
+
+<div class="container">
+<div class="luffy-quote">
+<strong>Luffy says:</strong> "Events are where crews are born. Show up. Build something. The people you meet here? They'll be your crew someday. 🏴‍☠️"
+</div>
+</div>
+
+<div class="container">
+<div class="calendar-cta">
+<h2>Never Miss an Event</h2>
+<p>Join the community and get notified about every hackathon, challenge, and hangout.</p>
+<a href="dashboard.html" class="btn btn-primary">Join serlf.club</a>
+</div>
+</div>
+
+<footer>
+<p>&copy; 2026 serlf.club — The Meek Community · Part of the <a href="https://serlf.ca">serlf</a> ecosystem</p>
+</footer>
+</body>
+</html>

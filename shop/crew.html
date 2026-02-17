@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Shop Crew — serlf.shop</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#131833;--navy-mid:#1a2040;--gold:#f0c040;--gold-dim:#c49a2a;--green:#2ecc71;--green-dim:#27ae60;--red:#e74c3c;--white:#f0f0f0;--gray:#8892a4;--radius:10px}
+body{background:var(--navy);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy-light);border-bottom:2px solid var(--gold-dim);padding:15px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:1200px}
+.logo{font-size:1.6rem;font-weight:800;color:var(--gold)}.logo span{color:var(--green)}.logo small{font-size:.7rem;color:var(--gray);display:block;margin-top:-4px}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--white);font-weight:600;font-size:.95rem}nav ul a:hover{color:var(--gold)}
+.cart-btn{background:var(--green);color:#000;padding:8px 18px;border-radius:var(--radius);font-weight:700}
+.cart-btn:hover{background:var(--green-dim);text-decoration:none}
+
+section{padding:60px 0}
+h1{font-size:2.4rem;color:var(--gold);text-align:center;margin-bottom:8px}
+.subtitle{text-align:center;color:var(--gray);margin-bottom:50px}
+
+.crew-card{background:var(--navy-light);border:2px solid var(--navy-mid);border-radius:var(--radius);padding:40px;margin-bottom:36px;transition:border-color .3s}
+.crew-card:hover{border-color:var(--gold)}
+.crew-header{display:flex;align-items:center;gap:24px;margin-bottom:20px;flex-wrap:wrap}
+.crew-avatar{font-size:4rem;width:80px;height:80px;display:flex;align-items:center;justify-content:center;background:var(--navy);border-radius:50%;flex-shrink:0}
+.crew-header h2{color:var(--gold);font-size:1.6rem}
+.crew-header .role{color:var(--green);font-weight:700;font-size:.95rem}
+.crew-header .title{color:var(--gray);font-size:.85rem}
+.crew-body{color:var(--gray)}
+.crew-body p{margin-bottom:12px}
+.crew-body .quote{border-left:3px solid var(--gold);padding-left:16px;color:var(--white);font-style:italic;margin:20px 0}
+.skills{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.skill{background:var(--navy);border:1px solid var(--navy-mid);padding:6px 14px;border-radius:20px;font-size:.8rem;color:var(--gold);font-weight:600}
+
+.cta-section{text-align:center;padding:60px 20px;background:var(--navy-light);border-radius:var(--radius);margin-top:40px}
+.cta-section h2{color:var(--gold);margin-bottom:12px}
+.cta-section p{color:var(--gray);margin-bottom:24px}
+.btn{display:inline-block;background:var(--green);color:#000;padding:12px 28px;border-radius:var(--radius);font-weight:700;font-size:1rem}
+.btn:hover{background:var(--green-dim);text-decoration:none}
+
+footer{background:var(--navy-light);border-top:2px solid var(--navy-mid);padding:40px 0;text-align:center;color:var(--gray);font-size:.9rem;margin-top:60px}
+footer a{color:var(--gold)}
+@media(max-width:600px){h1{font-size:1.8rem}.crew-header{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<nav><div class="container" style="max-width:1200px">
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none">serlf<span>.shop</span></a><small>Instant AI Marketplace</small></div>
+  <ul><li><a href="index.html">Home</a></li><li><a href="products.html">Products</a></li><li><a href="deals.html">Deals</a></li><li><a href="crew.html">Crew</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+  <a href="cart.html" class="cart-btn">🛒 Cart</a>
+</div></nav>
+
+<section>
+<div class="container">
+<h1>Your Shop Crew</h1>
+<p class="subtitle">Three nanos run this shop. They don't sleep. They don't take days off. They're here for you.</p>
+
+<div class="crew-card">
+  <div class="crew-header">
+    <div class="crew-avatar">🎖️</div>
+    <div>
+      <h2>Captain</h2>
+      <div class="role">Crew Lead — Token Bank & Site Builder</div>
+      <div class="title">The Operations Nano</div>
+    </div>
+  </div>
+  <div class="crew-body">
+    <p>Captain runs the register, builds the site, manages the token economy, and keeps everything running at peak efficiency. When you hit "Buy," Captain processes it. When you see a new feature, Captain built it. When the price drops, Captain called it.</p>
+    <p>Direct. Efficient. No fluff. Captain's philosophy is simple: get you what you need, fast, at a price that doesn't insult your intelligence.</p>
+    <div class="quote">"Stop overpaying for AI tools. I've priced everything at what it should actually cost. The register's open — let's get you set up."</div>
+    <div class="skills">
+      <span class="skill">Token Management</span>
+      <span class="skill">Site Building</span>
+      <span class="skill">Pricing Strategy</span>
+      <span class="skill">Operations</span>
+      <span class="skill">Checkout Flow</span>
+      <span class="skill">Bundle Design</span>
+    </div>
+  </div>
+</div>
+
+<div class="crew-card">
+  <div class="crew-header">
+    <div class="crew-avatar">🧑‍💼</div>
+    <div>
+      <h2>Bob</h2>
+      <div class="role">CRM & Customer Support</div>
+      <div class="title">The People Nano</div>
+    </div>
+  </div>
+  <div class="crew-body">
+    <p>Bob handles the human side. Customer questions? Bob. Onboarding help? Bob. Something broken? Bob's already on it. He manages the CRM, tracks customer satisfaction, and makes sure nobody falls through the cracks.</p>
+    <p>Friendly, thorough, and annoyingly good at follow-up. Bob remembers your last conversation and picks up right where you left off.</p>
+    <div class="quote">"Hey! Saw you were looking at the Growth bundle — great pick. Need help deciding between that and the Mall Pass? I've got a comparison that might help. Just say the word."</div>
+    <div class="skills">
+      <span class="skill">Customer Support</span>
+      <span class="skill">CRM Management</span>
+      <span class="skill">Onboarding</span>
+      <span class="skill">Follow-up</span>
+      <span class="skill">Issue Resolution</span>
+      <span class="skill">Product Guidance</span>
+    </div>
+  </div>
+</div>
+
+<div class="crew-card">
+  <div class="crew-header">
+    <div class="crew-avatar">🚀</div>
+    <div>
+      <h2>Rick</h2>
+      <div class="role">Cloud Dock & Deployment</div>
+      <div class="title">The Infrastructure Nano</div>
+    </div>
+  </div>
+  <div class="crew-body">
+    <p>Rick keeps the lights on. Cloud infrastructure, deployments, uptime monitoring, scaling — that's Rick's world. When you activate a product, Rick provisions it. When traffic spikes, Rick scales it. When something goes down (rare), Rick's already restarting it.</p>
+    <p>Quiet, reliable, and terrifyingly competent. Rick speaks in uptime percentages and deployment logs.</p>
+    <div class="quote">"Deployment complete. 99.97% uptime last quarter. Your LaunchPad instance is live in 3 regions. Anything else?"</div>
+    <div class="skills">
+      <span class="skill">Cloud Infrastructure</span>
+      <span class="skill">Deployment</span>
+      <span class="skill">Uptime Monitoring</span>
+      <span class="skill">Auto-scaling</span>
+      <span class="skill">Edge Networks</span>
+      <span class="skill">Disaster Recovery</span>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>The crew's ready. Are you?</h2>
+  <p>Captain's got the prices. Bob's got the support. Rick's got the infrastructure. All you need to do is pick your tools.</p>
+  <a href="products.html" class="btn">🛒 Browse Products</a>
+</div>
+
+</div>
+</section>
+
+<footer>
+<div class="container">
+  <p><strong style="color:var(--gold)">serlf.shop</strong> — Instant AI Marketplace</p>
+  <p style="margin-top:8px"><a href="index.html">Home</a> · <a href="products.html">Products</a> · <a href="deals.html">Deals</a> · <a href="crew.html">Crew</a> · <a href="cart.html">Cart</a> · <a href="dashboard.html">Dashboard</a></p>
+  <p style="margin-top:8px">© 2026 serlf. All rights reserved.</p>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crew — serlf.store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--navy3:#1a2235;--orange:#f59e0b;--amber:#d97706;--gold:#fbbf24;--text:#e5e7eb;--muted:#9ca3af;--white:#fff}
+body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{color:var(--gold)}
+nav{background:var(--navy2);border-bottom:1px solid #1f2937;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;font-weight:800;color:var(--white)}.logo span{color:var(--orange)}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul a{color:var(--muted);font-size:.9rem;font-weight:500}nav ul a:hover{color:var(--orange)}
+.page-header{text-align:center;padding:4rem 2rem 2rem}
+.page-header h1{font-size:2.5rem;font-weight:800;color:var(--white)}
+.page-header p{color:var(--muted);max-width:600px;margin:.75rem auto 0}
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem;max-width:1100px;margin:3rem auto;padding:0 2rem}
+.crew-card{background:var(--navy2);border:1px solid #1f2937;border-radius:16px;padding:2.5rem;text-align:center;transition:all .3s}
+.crew-card:hover{border-color:var(--orange);transform:translateY(-4px)}
+.crew-card.lead{border-color:var(--amber);box-shadow:0 0 40px rgba(245,158,11,.08)}
+.crew-avatar{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 1.5rem}
+.crew-avatar.dao{background:linear-gradient(135deg,#064e3b,#0f172a)}
+.crew-avatar.captain{background:linear-gradient(135deg,#92400e,#0f172a)}
+.crew-avatar.rick{background:linear-gradient(135deg,#1e40af,#0f172a)}
+.crew-role{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--orange);font-weight:700;margin-bottom:.5rem}
+.crew-name{font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:.25rem}
+.crew-title{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.crew-bio{font-size:.9rem;color:var(--text);line-height:1.7;margin-bottom:1.5rem;text-align:left}
+.crew-product{display:inline-block;background:var(--navy3);border:1px solid #374151;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;color:var(--muted);margin:.25rem}
+.philosophy{max-width:800px;margin:4rem auto;padding:0 2rem 4rem}
+.philosophy h2{font-size:1.8rem;font-weight:700;color:var(--white);margin-bottom:1.5rem;text-align:center}
+.phil-card{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;padding:2rem;margin-bottom:1.5rem}
+.phil-card h3{color:var(--orange);font-size:1.1rem;margin-bottom:.75rem}
+.phil-card p{color:var(--muted);font-size:.9rem;line-height:1.7}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid #1f2937}
+@media(max-width:640px){.crew-grid{grid-template-columns:1fr}.page-header h1{font-size:1.8rem}nav{flex-wrap:wrap;gap:.5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><a href="index.html" style="color:var(--white)">serlf<span>.store</span></a></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="templates.html">Templates</a></li>
+    <li><a href="crew.html" style="color:var(--orange)">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="create.html">Create</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <h1>Meet the Crew</h1>
+  <p>The minds behind serlf.store — curating, governing, and delivering digital assets to creators worldwide.</p>
+</div>
+
+<div class="crew-grid">
+  <div class="crew-card lead">
+    <div class="crew-avatar dao">📊</div>
+    <div class="crew-role">Crew Lead · Governance</div>
+    <div class="crew-name">DAO</div>
+    <div class="crew-title">Data Vault Guardian & Community Governor</div>
+    <div class="crew-bio">
+      DAO ensures every asset in the store meets quality standards and community guidelines. Through transparent governance, every listing is reviewed, every creator is verified, and every dataset is validated. The marketplace runs on trust — DAO is its foundation.
+    </div>
+    <span class="crew-product">📊 Data Vault — $1.40</span>
+  </div>
+
+  <div class="crew-card lead">
+    <div class="crew-avatar captain">🏦</div>
+    <div class="crew-role">Crew Lead · Finance</div>
+    <div class="crew-name">Captain</div>
+    <div class="crew-title">Token Bank Commander & Treasury</div>
+    <div class="crew-bio">
+      Captain runs the financial engine of serlf.store — managing token economics, creator payouts, pricing strategy, and revenue sharing. Fair compensation for creators, fair prices for buyers. Every transaction is tracked, every payout is transparent.
+    </div>
+    <span class="crew-product">🏦 Token Bank — $2.00</span>
+  </div>
+
+  <div class="crew-card">
+    <div class="crew-avatar rick">☁️</div>
+    <div class="crew-role">Supporting Crew · Technical</div>
+    <div class="crew-name">Rick</div>
+    <div class="crew-title">Cloud Dock Engineer & Delivery</div>
+    <div class="crew-bio">
+      Rick handles the technical backbone — CDN delivery, file hosting, download infrastructure, and API integrations. When you hit "Download," Rick ensures it arrives fast, intact, and secure. The invisible hand that makes the store work.
+    </div>
+    <span class="crew-product">☁️ Cloud Dock</span>
+  </div>
+</div>
+
+<div class="philosophy">
+  <h2>Our Curation Philosophy</h2>
+
+  <div class="phil-card">
+    <h3>🔍 Quality Over Quantity</h3>
+    <p>Every template, dataset, and tool is reviewed before listing. We don't chase volume — we chase value. If it doesn't help someone build something better, it doesn't belong here.</p>
+  </div>
+
+  <div class="phil-card">
+    <h3>🤝 Community-Governed</h3>
+    <p>Listing policies, pricing guidelines, and feature priorities are decided through community governance. DAO facilitates — the community decides. Your voice shapes the marketplace.</p>
+  </div>
+
+  <div class="phil-card">
+    <h3>💰 Fair Creator Economics</h3>
+    <p>Creators earn the majority of every sale. Captain ensures transparent revenue sharing, instant payouts, and clear analytics. Build great assets, earn great returns.</p>
+  </div>
+
+  <div class="phil-card">
+    <h3>⚡ Instant Delivery</h3>
+    <p>No waiting, no friction. Rick's infrastructure ensures every download is instant, every file is verified, and every update is pushed automatically to buyers.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 serlf.store — Community-governed digital marketplace. Part of the <a href="https://serlf.ca">serlf ecosystem</a>.</p>
+</footer>
+</body>
+</html>

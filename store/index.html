@@ -1,109 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf.store — Token Bank | The Clutch | Save 87% on AI Costs</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>serlf.store — Digital Assets. AI-Powered. Instantly Yours.</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
-.container{max-width:800px;margin:0 auto;padding:40px 20px}
-.hero{text-align:center;padding:60px 0 40px}
-h1{font-size:3rem;font-weight:900}
-h1 .gold{color:var(--gold)}
-h1 .green{color:var(--green)}
-.sub{color:var(--fg2);font-size:1.2rem;margin:12px auto 0;max-width:600px}
-.gears{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:40px 0}
-.gear{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
-.gear .icon{font-size:2rem;margin-bottom:6px}
-.gear h3{font-size:0.9rem;margin-bottom:4px}
-.gear .cost{color:var(--green);font-weight:900;font-size:1.1rem}
-.gear .desc{font-size:0.75rem;color:var(--fg2);margin-top:4px}
-.gear.active{border-color:var(--green);background:rgba(63,185,80,0.05)}
-.calc{background:var(--bg2);border:2px solid var(--gold);border-radius:12px;padding:32px;margin:32px 0}
-.calc h2{color:var(--gold);margin-bottom:16px;text-align:center}
-.calc-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
-.calc-row:last-child{border:none}
-.calc-row .label{color:var(--fg2)}
-.calc-row .value{font-weight:700;font-size:1.2rem}
-.calc-row .value.red{color:var(--red)}
-.calc-row .value.green{color:var(--green)}
-.calc-row .value.gold{color:var(--gold);font-size:1.5rem}
-.how{margin:40px 0}
-.how h2{text-align:center;margin-bottom:20px}
-.step{display:flex;gap:16px;margin:16px 0;align-items:flex-start}
-.step .num{background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0}
-.step .text h3{margin-bottom:2px}
-.step .text p{color:var(--fg2);font-size:0.9rem}
-.cta{display:inline-block;padding:16px 40px;background:var(--gold);color:#000;border-radius:10px;font-size:1.2rem;font-weight:800;text-decoration:none;margin:24px 0}
-footer{text-align:center;margin-top:60px;color:var(--fg2);font-size:0.85rem}
-footer a{color:var(--accent)}
-@media(max-width:600px){.gears{grid-template-columns:repeat(2,1fr)}}
+:root{--navy:#0a0e1a;--navy2:#111827;--navy3:#1a2235;--orange:#f59e0b;--amber:#d97706;--gold:#fbbf24;--text:#e5e7eb;--muted:#9ca3af;--white:#fff}
+body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{color:var(--gold)}
+nav{background:var(--navy2);border-bottom:1px solid #1f2937;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;font-weight:800;color:var(--white)}
+.logo span{color:var(--orange)}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul a{color:var(--muted);font-size:.9rem;font-weight:500}nav ul a:hover{color:var(--orange)}
+.hero{text-align:center;padding:5rem 2rem 4rem;background:linear-gradient(180deg,var(--navy2) 0%,var(--navy) 100%)}
+.hero h1{font-size:3rem;font-weight:800;color:var(--white);margin-bottom:1rem}
+.hero h1 span{color:var(--orange)}
+.hero p{font-size:1.2rem;color:var(--muted);max-width:600px;margin:0 auto 2rem}
+.btn{display:inline-block;padding:.75rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--orange);color:var(--navy)}
+.btn-primary:hover{background:var(--gold);color:var(--navy)}
+.btn-outline{border:2px solid var(--orange);color:var(--orange);background:transparent}
+.btn-outline:hover{background:var(--orange);color:var(--navy)}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-title{font-size:1.8rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.section-sub{color:var(--muted);margin-bottom:2rem}
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem}
+.cat-card{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;padding:1.5rem;text-align:center;transition:all .2s;cursor:pointer}
+.cat-card:hover{border-color:var(--orange);transform:translateY(-2px)}
+.cat-icon{font-size:2rem;margin-bottom:.5rem}
+.cat-name{font-weight:600;color:var(--white);font-size:.95rem}
+.cat-count{font-size:.8rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.card{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;overflow:hidden;transition:all .2s}
+.card:hover{border-color:var(--orange);transform:translateY(-3px)}
+.card-img{height:160px;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.card-body{padding:1.25rem}
+.card-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--orange);font-weight:700;margin-bottom:.5rem}
+.card-title{font-weight:700;color:var(--white);font-size:1.1rem;margin-bottom:.5rem}
+.card-desc{font-size:.85rem;color:var(--muted);margin-bottom:1rem}
+.card-footer{display:flex;justify-content:space-between;align-items:center}
+.card-price{font-weight:800;color:var(--gold);font-size:1.1rem}
+.card-dl{font-size:.8rem;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;padding:3rem 2rem;max-width:1200px;margin:0 auto;text-align:center}
+.stat-num{font-size:2.5rem;font-weight:800;color:var(--orange)}
+.stat-label{color:var(--muted);font-size:.9rem}
+.cta{text-align:center;padding:4rem 2rem;background:var(--navy2);margin-top:2rem}
+.cta h2{font-size:2rem;color:var(--white);margin-bottom:1rem}
+.cta p{color:var(--muted);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid #1f2937}
+@media(max-width:640px){.hero h1{font-size:2rem}nav ul{gap:.75rem}nav{flex-wrap:wrap;gap:.5rem}}
 </style>
 </head>
 <body>
-<div class="container">
+<nav>
+  <div class="logo">serlf<span>.store</span></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="templates.html">Templates</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="create.html">Create</a></li>
+  </ul>
+</nav>
 
-<div class="hero">
-  <div style="font-size:4rem">🏦</div>
-  <h1>Token <span class="gold">Bank</span></h1>
-  <p class="sub">The Clutch — 4-gear AI model router. Save <span style="color:var(--green);font-weight:900">87%</span> on AI costs. $2/mo.</p>
-</div>
-
-<div class="gears">
-  <div class="gear active">
-    <div class="icon">⚡</div>
-    <h3>Idle</h3>
-    <div class="cost">FREE</div>
-    <div class="desc">Cerebras, Groq<br>Quick tasks, autocomplete</div>
+<section class="hero">
+  <h1>Digital assets. <span>AI-powered.</span><br>Instantly yours.</h1>
+  <p>The marketplace for AI templates, datasets, bots, and digital tools — built by creators, governed by community.</p>
+  <div class="hero-btns">
+    <a href="products.html" class="btn btn-primary">Browse Store</a>
+    <a href="create.html" class="btn btn-outline">Start Selling</a>
   </div>
-  <div class="gear">
-    <div class="icon">🔧</div>
-    <h3>Working</h3>
-    <div class="cost">$0.001</div>
-    <div class="desc">Gemini Flash<br>Standard work, analysis</div>
+</section>
+
+<div class="stats">
+  <div><div class="stat-num">7</div><div class="stat-label">Digital Products</div></div>
+  <div><div class="stat-num">50+</div><div class="stat-label">AI Templates</div></div>
+  <div><div class="stat-num">$1</div><div class="stat-label">Starting Price</div></div>
+  <div><div class="stat-num">∞</div><div class="stat-label">Instant Downloads</div></div>
+</div>
+
+<section class="section">
+  <h2 class="section-title">Browse Categories</h2>
+  <p class="section-sub">Find the perfect AI-powered asset for your next project.</p>
+  <div class="categories">
+    <div class="cat-card" onclick="location.href='templates.html'">
+      <div class="cat-icon">🤖</div>
+      <div class="cat-name">Bot Templates</div>
+      <div class="cat-count">Bot Factory — $3</div>
+    </div>
+    <div class="cat-card" onclick="location.href='templates.html'">
+      <div class="cat-icon">🌐</div>
+      <div class="cat-name">Site Templates</div>
+      <div class="cat-count">Site Builder — $1</div>
+    </div>
+    <div class="cat-card" onclick="location.href='products.html'">
+      <div class="cat-icon">🧠</div>
+      <div class="cat-name">AI Models</div>
+      <div class="cat-count">AI Garage — $4</div>
+    </div>
+    <div class="cat-card" onclick="location.href='products.html'">
+      <div class="cat-icon">📊</div>
+      <div class="cat-name">Datasets</div>
+      <div class="cat-count">Data Vault — $1.40</div>
+    </div>
+    <div class="cat-card" onclick="location.href='templates.html'">
+      <div class="cat-icon">🎨</div>
+      <div class="cat-name">Design Assets</div>
+      <div class="cat-count">Design Studio — $2.60</div>
+    </div>
+    <div class="cat-card" onclick="location.href='templates.html'">
+      <div class="cat-icon">📝</div>
+      <div class="cat-name">Form Templates</div>
+      <div class="cat-count">Form Flow — $5</div>
+    </div>
   </div>
-  <div class="gear">
-    <div class="icon">🧠</div>
-    <h3>Thinking</h3>
-    <div class="cost">$0.01</div>
-    <div class="desc">Sonnet, Codex<br>Complex reasoning</div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">🔥 Trending Now</h2>
+  <p class="section-sub">Most downloaded assets this week.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-img">🏦</div>
+      <div class="card-body">
+        <div class="card-tag">Finance</div>
+        <div class="card-title">Token Bank</div>
+        <div class="card-desc">Token management system — track, mint, and govern digital tokens with built-in analytics.</div>
+        <div class="card-footer">
+          <span class="card-price">$2.00</span>
+          <span class="card-dl">⬇ 1.2k downloads</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">🤖</div>
+      <div class="card-body">
+        <div class="card-tag">AI Templates</div>
+        <div class="card-title">Bot Factory</div>
+        <div class="card-desc">Pre-built bot templates — chatbots, assistants, automation agents ready to deploy.</div>
+        <div class="card-footer">
+          <span class="card-price">$3.00</span>
+          <span class="card-dl">⬇ 980 downloads</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">🌐</div>
+      <div class="card-body">
+        <div class="card-tag">Web</div>
+        <div class="card-title">Site Builder</div>
+        <div class="card-desc">Responsive site templates — landing pages, portfolios, storefronts. Zero dependencies.</div>
+        <div class="card-footer">
+          <span class="card-price">$1.00</span>
+          <span class="card-dl">⬇ 2.1k downloads</span>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="gear">
-    <div class="icon">🔥</div>
-    <h3>Critical</h3>
-    <div class="cost">$0.05</div>
-    <div class="desc">Opus, GPT-5<br>Maximum intelligence</div>
-  </div>
-</div>
+</section>
 
-<p style="text-align:center;color:var(--fg2)">87% of requests resolve in Idle or Working. That's where the savings come from.</p>
-
-<div class="calc">
-  <h2>💰 Your Savings</h2>
-  <div class="calc-row"><span class="label">Typical AI spend (ChatGPT + Claude + APIs)</span><span class="value red">$200/mo</span></div>
-  <div class="calc-row"><span class="label">With The Clutch (same quality, smart routing)</span><span class="value green">$26/mo</span></div>
-  <div class="calc-row"><span class="label">Token Bank subscription</span><span class="value">$2/mo</span></div>
-  <div class="calc-row"><span class="label"><strong>You save</strong></span><span class="value gold">$172/mo</span></div>
-</div>
-
-<div class="how">
-  <h2>How The Clutch Works</h2>
-  <div class="step"><div class="num">1</div><div class="text"><h3>You send a message</h3><p>Any task — coding, writing, analysis, chat. You don't pick a model.</p></div></div>
-  <div class="step"><div class="num">2</div><div class="text"><h3>The Clutch analyzes complexity</h3><p>Is this a quick answer? Standard work? Complex reasoning? Critical decision?</p></div></div>
-  <div class="step"><div class="num">3</div><div class="text"><h3>Right model, right gear</h3><p>Free model for quick stuff. Premium only when the task truly needs it.</p></div></div>
-  <div class="step"><div class="num">4</div><div class="text"><h3>Smart reverse fallback</h3><p>If a cheaper model struggles, it automatically escalates. Quality never drops.</p></div></div>
-</div>
-
-<div style="text-align:center">
-  <a href="https://serlf.ca/specialists.html" class="cta">Talk to the Router Specialist →</a>
-  <p style="color:var(--fg2);margin-top:8px">Free test. $2/mo when you're ready. Saves $100s.</p>
-</div>
+<section class="cta">
+  <h2>Build. Upload. Earn.</h2>
+  <p>Join the creator economy. Upload your AI templates, datasets, and digital tools — earn revenue with every download.</p>
+  <a href="create.html" class="btn btn-primary">Start Creating →</a>
+</section>
 
 <footer>
-  <p>🏦 Token Bank — part of the <a href="https://serlf.ca">serlf</a> ecosystem | <a href="https://serlf.ca/mall.html">All 20+ Products</a> 🧭</p>
+  <p>© 2026 serlf.store — Community-governed digital marketplace. Part of the <a href="https://serlf.ca">serlf ecosystem</a>.</p>
 </footer>
-
-</div>
 </body>
 </html>

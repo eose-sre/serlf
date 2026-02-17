@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf Enterprise — Products | 80% Off Everything</title>
+<meta name="description" content="12 enterprise AI products. Each 80% below market. AI Chat, Writer, CRM, Help Desk, and more.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#c9a227;--gold-bright:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:50}
+header .inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:800}.logo .ent{color:var(--gold);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;display:block;line-height:1}
+nav a{color:var(--fg2);margin-left:20px;font-size:14px}nav a:hover{color:var(--fg)}
+.nav-cta{background:var(--gold)!important;color:#000!important;padding:6px 14px;border-radius:6px;font-weight:700}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:12px}
+.hero h1 .gold{color:var(--gold-bright)}
+.hero .sub{color:var(--fg2);font-size:1.1rem;max-width:600px;margin:0 auto}
+.ey-note{background:rgba(201,162,39,.06);border-left:3px solid var(--gold);padding:16px 20px;border-radius:0 8px 8px 0;margin:32px auto;max-width:700px;font-style:italic;color:var(--gold);text-align:left}
+.ey-note .sig{font-style:normal;color:var(--fg2);font-size:.85rem;margin-top:8px}
+
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:40px 0}
+.product{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color .2s}
+.product:hover{border-color:var(--gold)}
+.product .top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.product .icon{font-size:2rem}
+.product h3{font-size:1.2rem}
+.product .desc{color:var(--fg2);font-size:.9rem;margin-bottom:16px;min-height:40px}
+.product .pricing{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.product .old{color:var(--red);text-decoration:line-through;font-size:.9rem}
+.product .new{color:var(--green);font-size:1.6rem;font-weight:900}
+.product .save{background:var(--green);color:#000;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700}
+.product .features{list-style:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.product .features li{color:var(--fg2);font-size:.8rem;padding:2px 0}
+.product .features li::before{content:'✓ ';color:var(--green)}
+.product .crew{color:var(--fg2);font-size:.75rem;margin-top:12px;padding-top:8px;border-top:1px solid var(--border)}
+
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:#000}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--fg)}
+
+.total-bar{background:var(--bg2);border:2px solid var(--gold);border-radius:12px;padding:32px;text-align:center;margin:20px 0 60px}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--fg2);font-size:.85rem}
+@media(max-width:768px){nav a{margin-left:10px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<header><div class="inner">
+  <div class="logo">🏢 serlf<span class="ent">enterprise</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="crew.html">Crew</a>
+    <a href="specialists.html">Specialists</a>
+    <a href="mall.html">Pricing</a>
+    <a href="dashboard.html" class="nav-cta">Dashboard →</a>
+  </nav>
+</div></header>
+
+<div class="hero">
+  <h1>The <span class="gold">Enterprise Stack</span></h1>
+  <p class="sub">12 products. Each one 80% below the cheapest competitor. Each one run by a dedicated AI specialist.</p>
+</div>
+
+<div class="ey-note">
+  "I priced every tool against the market leader AND the cheapest alternative. Then I took 80% off the cheap one. If your procurement team questions this, fire them."
+  <div class="sig">— E&Y, Crew Lead</div>
+</div>
+
+<div class="container">
+<div class="products">
+
+  <div class="product">
+    <div class="top"><div class="icon">💬</div><h3>AI Chat</h3></div>
+    <div class="desc">Full AI assistant. GPT, Claude, Gemini — all models, one enterprise interface. Context-aware, team-shared threads.</div>
+    <div class="pricing"><span class="old">$20/mo</span><span class="new">$4/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>All major AI models included</li>
+      <li>Team-shared conversation threads</li>
+      <li>Custom system prompts per department</li>
+      <li>API access for integrations</li>
+    </ul>
+    <div class="crew">👤 Managed by Lucien · AI Chat Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">✍️</div><h3>AI Writer</h3></div>
+    <div class="desc">Enterprise content engine. Blog posts, reports, proposals, SOPs. Learns your brand voice and keeps it consistent.</div>
+    <div class="pricing"><span class="old">$16/mo</span><span class="new">$3.20/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Brand voice training</li>
+      <li>Template library (proposals, reports, SOPs)</li>
+      <li>Multi-language support</li>
+      <li>Plagiarism & tone checking</li>
+    </ul>
+    <div class="crew">👤 Managed by Lucien · AI Writer Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">📧</div><h3>Mail Engine</h3></div>
+    <div class="desc">Enterprise email campaigns. Automation, segmentation, analytics. Deliverability baked in, not bolted on.</div>
+    <div class="pricing"><span class="old">$13/mo</span><span class="new">$2.60/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Drag-and-drop campaign builder</li>
+      <li>Advanced segmentation & automation</li>
+      <li>Deliverability monitoring</li>
+      <li>A/B testing built in</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · Mail Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">🤝</div><h3>Deal Flow / CRM</h3></div>
+    <div class="desc">Enterprise CRM & pipeline. Lead scoring, automation, follow-ups. Bob never forgets a lead, ever.</div>
+    <div class="pricing"><span class="old">$14/mo</span><span class="new">$2.80/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Visual pipeline management</li>
+      <li>AI lead scoring & prioritization</li>
+      <li>Automated follow-up sequences</li>
+      <li>Custom fields & workflows</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · CRM Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">🎧</div><h3>Help Desk</h3></div>
+    <div class="desc">AI-powered support. Tickets, knowledge base, auto-resolution. Resolves 80% of tickets before a human blinks.</div>
+    <div class="pricing"><span class="old">$15/mo</span><span class="new">$3/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>AI auto-resolution (80% ticket deflection)</li>
+      <li>Knowledge base with smart search</li>
+      <li>SLA tracking & escalation rules</li>
+      <li>Multi-channel (email, chat, web)</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · Support Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">📋</div><h3>Task Board</h3></div>
+    <div class="desc">Enterprise project management. Sprints, Kanban, Gantt. All views, one price that won't insult you.</div>
+    <div class="pricing"><span class="old">$7/mo</span><span class="new">$1.40/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Kanban, list, Gantt, calendar views</li>
+      <li>Sprint planning & velocity tracking</li>
+      <li>Time tracking & reporting</li>
+      <li>Unlimited team members</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · PM Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">🔒</div><h3>Data Vault</h3></div>
+    <div class="desc">Enterprise backup & recovery. Encrypted, geo-redundant, point-in-time restore. Sleep well at night.</div>
+    <div class="pricing"><span class="old">$7/mo</span><span class="new">$1.40/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>AES-256 encryption at rest & transit</li>
+      <li>Geo-redundant Canadian storage</li>
+      <li>Point-in-time restore</li>
+      <li>Automated daily snapshots</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · Data Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">📊</div><h3>SEO Radar</h3></div>
+    <div class="desc">Enterprise SEO suite. Audits, rank tracking, competitor intelligence. Know everything about your search presence.</div>
+    <div class="pricing"><span class="old">$29/mo</span><span class="new">$5.80/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Full site audits & health scoring</li>
+      <li>Keyword research & rank tracking</li>
+      <li>Competitor analysis & gap reports</li>
+      <li>Automated weekly reports</li>
+    </ul>
+    <div class="crew">👤 Managed by E&Y · SEO Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">📝</div><h3>Form Flow</h3></div>
+    <div class="desc">Smart forms & surveys with AI analysis. Conditional logic, integrations, conversion optimization.</div>
+    <div class="pricing"><span class="old">$25/mo</span><span class="new">$5/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Drag-and-drop form builder</li>
+      <li>Conditional logic & branching</li>
+      <li>AI-powered response analysis</li>
+      <li>CRM & webhook integrations</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · Form Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">☁️</div><h3>Cloud Dock</h3></div>
+    <div class="desc">Enterprise hosting. Deploy anything. Auto-scaling, SSL, custom domains, 99.9% uptime SLA.</div>
+    <div class="pricing"><span class="old">$20/mo</span><span class="new">$4/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>One-click deploy (Docker, Node, Python)</li>
+      <li>Auto-scaling & load balancing</li>
+      <li>Free SSL & custom domains</li>
+      <li>99.9% uptime SLA</li>
+    </ul>
+    <div class="crew">👤 Managed by Bob · Hosting Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">💻</div><h3>Code Pilot</h3></div>
+    <div class="desc">AI code assistant. Completion, review, refactoring, documentation. Your team's always-on senior dev.</div>
+    <div class="pricing"><span class="old">$10/mo</span><span class="new">$2/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>All major languages & frameworks</li>
+      <li>Code review & security scanning</li>
+      <li>Auto-documentation generation</li>
+      <li>IDE plugins & API access</li>
+    </ul>
+    <div class="crew">👤 Managed by Lucien · Code Specialist</div>
+  </div>
+
+  <div class="product">
+    <div class="top"><div class="icon">🤖</div><h3>Bot Factory</h3></div>
+    <div class="desc">Build enterprise bots. Discord, Slack, Teams, web, Telegram. Visual builder + AI brain.</div>
+    <div class="pricing"><span class="old">$15/mo</span><span class="new">$3/mo</span><span class="save">-80%</span></div>
+    <ul class="features">
+      <li>Visual bot builder (no code)</li>
+      <li>Multi-platform deployment</li>
+      <li>AI-powered conversation flows</li>
+      <li>Analytics & conversation logging</li>
+    </ul>
+    <div class="crew">👤 Managed by Lucien · Bot Specialist</div>
+  </div>
+
+</div>
+
+<div class="total-bar">
+  <p style="color:var(--fg2);margin-bottom:8px">All 12 products individually: <span style="color:var(--red);text-decoration:line-through">$192/mo</span></p>
+  <div style="font-size:3rem;font-weight:900;color:var(--gold-bright)">$38.20<span style="font-size:1rem;color:var(--fg2);font-weight:400">/mo à la carte</span></div>
+  <p style="margin:12px 0;font-size:1.1rem">Or get the <strong style="color:var(--gold-bright)">Enterprise Pass</strong> for just <strong style="color:var(--green);font-size:1.4rem">$25/mo</strong></p>
+  <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+    <a href="mall.html" class="btn btn-gold">Get Enterprise Pass — $25/mo</a>
+    <a href="specialists.html" class="btn btn-outline">Talk to a Specialist</a>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <p>🏢 serlf.com — Enterprise AI Suite · Built in Canada 🇨🇦</p>
+  <p style="margin-top:8px">"If you're paying more than this, E&Y would like a word." 🎩</p>
+</footer>
+
+</body>
+</html>

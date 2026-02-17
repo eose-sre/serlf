@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — serlf.club</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--purple:#a855f7;--magenta:#ec4899;--grad:linear-gradient(135deg,#a855f7,#ec4899);--text:#e2e8f0;--muted:#94a3b8;--card:#1e293b;--border:#334155}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);line-height:1.6}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:99}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.9rem}nav ul a:hover{color:#fff;text-decoration:none}
+.dash-header{display:flex;align-items:center;gap:20px;padding:40px 0 24px;flex-wrap:wrap}
+.dash-avatar{width:72px;height:72px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:700;flex-shrink:0}
+.dash-info h1{font-size:1.6rem;font-weight:800}
+.dash-info p{color:var(--muted);font-size:.9rem}
+.dash-level{display:inline-block;background:var(--grad);color:#fff;padding:2px 12px;border-radius:99px;font-size:.75rem;font-weight:700;margin-top:4px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;padding:20px 0 40px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:1.8rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-card .label{color:var(--muted);font-size:.8rem;margin-top:2px}
+h2{font-size:1.4rem;font-weight:800;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+section{padding:20px 0}
+.badges-grid{display:flex;flex-wrap:wrap;gap:12px}
+.badge-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-align:center;min-width:100px}
+.badge-item.locked{opacity:.4}
+.badge-item .icon{font-size:1.6rem;margin-bottom:4px}
+.badge-item .name{font-size:.75rem;color:var(--muted)}
+.xp-progress{background:var(--border);border-radius:6px;height:10px;overflow:hidden;margin:8px 0}
+.xp-fill{height:100%;background:var(--grad);border-radius:6px;transition:width .5s}
+.xp-label{color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between}
+.activity-list{display:flex;flex-direction:column;gap:10px}
+.act-item{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.act-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px}
+.act-item .meta{color:var(--muted);font-size:.75rem;margin-top:2px}
+.connections{display:flex;flex-wrap:wrap;gap:10px}
+.conn{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.conn-avatar{width:32px;height:32px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.conn-name{font-size:.85rem}
+.conn-tag{color:var(--muted);font-size:.7rem}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;transition:border-color .2s}
+.tool-card:hover{border-color:var(--purple);text-decoration:none}
+.tool-icon{font-size:1.4rem}
+.tool-card .tool-name{font-size:.9rem;font-weight:600}
+.tool-card .tool-status{color:#22c55e;font-size:.7rem}
+.luffy-quote{border-left:3px solid var(--magenta);padding:14px 18px;background:rgba(236,72,153,.06);border-radius:0 8px 8px 0;margin:30px 0;font-style:italic;color:var(--muted);font-size:.9rem}
+.luffy-quote strong{color:var(--magenta);font-style:normal}
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">serlf<span>.club</span></a>
+<ul>
+<li><a href="products.html">Products</a></li>
+<li><a href="crew.html">Crew</a></li>
+<li><a href="leaderboard.html">Leaderboard</a></li>
+<li><a href="dashboard.html" style="color:#fff">Dashboard</a></li>
+<li><a href="events.html">Events</a></li>
+</ul>
+</div></nav>
+
+<div class="container">
+<div class="dash-header">
+<div class="dash-avatar">Y</div>
+<div class="dash-info">
+<h1>Welcome back, You</h1>
+<p>Member since January 2026 · Rank #42</p>
+<span class="dash-level">Level 7 — Builder</span>
+</div>
+</div>
+
+<div class="stats-row">
+<div class="stat-card"><div class="num">3,240</div><div class="label">Total XP</div></div>
+<div class="stat-card"><div class="num">12</div><div class="label">Badges</div></div>
+<div class="stat-card"><div class="num">5</div><div class="label">Bots Built</div></div>
+<div class="stat-card"><div class="num">28</div><div class="label">Connections</div></div>
+<div class="stat-card"><div class="num">14</div><div class="label">Day Streak 🔥</div></div>
+</div>
+
+<section>
+<h2>XP Progress</h2>
+<div class="xp-label"><span>Level 7 — Builder</span><span>3,240 / 5,000 XP</span></div>
+<div class="xp-progress"><div class="xp-fill" style="width:64.8%"></div></div>
+<p style="color:var(--muted);font-size:.8rem;margin-top:6px">1,760 XP to Level 8 — Creator</p>
+</section>
+
+<section>
+<h2>🎖️ Badges</h2>
+<div class="badges-grid">
+<div class="badge-item"><div class="icon">🤖</div><div class="name">Bot Builder</div></div>
+<div class="badge-item"><div class="icon">🎙️</div><div class="name">Voice Maker</div></div>
+<div class="badge-item"><div class="icon">🔥</div><div class="name">7-Day Streak</div></div>
+<div class="badge-item"><div class="icon">💜</div><div class="name">Helper</div></div>
+<div class="badge-item"><div class="icon">🎨</div><div class="name">Designer</div></div>
+<div class="badge-item"><div class="icon">⭐</div><div class="name">Early Meek</div></div>
+<div class="badge-item locked"><div class="icon">🔍</div><div class="name">NP Hunter</div></div>
+<div class="badge-item locked"><div class="icon">🏴‍☠️</div><div class="name">Crew Ready</div></div>
+</div>
+</section>
+
+<div class="grid2">
+<section>
+<h2>📡 Recent Activity</h2>
+<div class="activity-list">
+<div class="act-item"><div class="act-icon">🤖</div><div><strong>Deployed "Helper Bot v3"</strong><div class="meta">2 hours ago · Bot Factory · +120 XP</div></div></div>
+<div class="act-item"><div class="act-icon">🎙️</div><div><strong>Created voice pack "Warm Narrator"</strong><div class="meta">Yesterday · Voice Lab · +80 XP</div></div></div>
+<div class="act-item"><div class="act-icon">💬</div><div><strong>Helped neo_flux with Design Studio</strong><div class="meta">Yesterday · Community · +50 XP</div></div></div>
+<div class="act-item"><div class="act-icon">🎨</div><div><strong>Shared template "Neon Card"</strong><div class="meta">Feb 15 · Design Studio · +60 XP</div></div></div>
+<div class="act-item"><div class="act-icon">🏆</div><div><strong>Unlocked "Designer" badge</strong><div class="meta">Feb 14 · Achievement · +200 XP</div></div></div>
+</div>
+</section>
+
+<section>
+<h2>👥 Connections</h2>
+<div class="connections">
+<div class="conn"><div class="conn-avatar">M</div><div><div class="conn-name">mira.eth</div><div class="conn-tag">#1 Creator</div></div></div>
+<div class="conn"><div class="conn-avatar">Q</div><div><div class="conn-name">quietstorm</div><div class="conn-tag">NP Hunter</div></div></div>
+<div class="conn"><div class="conn-avatar">B</div><div><div class="conn-name">buildoor_sam</div><div class="conn-tag">Link Wizard</div></div></div>
+<div class="conn"><div class="conn-avatar">J</div><div><div class="conn-name">jade_ai</div><div class="conn-tag">Voice Architect</div></div></div>
+<div class="conn"><div class="conn-avatar">N</div><div><div class="conn-name">neo_flux</div><div class="conn-tag">Designer</div></div></div>
+<div class="conn"><div class="conn-avatar">+23</div><div><div class="conn-name">more</div><div class="conn-tag">View all</div></div></div>
+</div>
+</section>
+</div>
+
+<section>
+<h2>🧰 Your Tools</h2>
+<div class="tools-grid">
+<a href="products.html" class="tool-card"><div class="tool-icon">💬</div><div><div class="tool-name">AI Chat</div><div class="tool-status">● Active</div></div></a>
+<a href="products.html" class="tool-card"><div class="tool-icon">🤖</div><div><div class="tool-name">Bot Factory</div><div class="tool-status">● Active</div></div></a>
+<a href="products.html" class="tool-card"><div class="tool-icon">🎙️</div><div><div class="tool-name">Voice Lab</div><div class="tool-status">● Active</div></div></a>
+<a href="products.html" class="tool-card"><div class="tool-icon">🎨</div><div><div class="tool-name">Design Studio</div><div class="tool-status">● Active</div></div></a>
+<a href="products.html" class="tool-card"><div class="tool-icon">🌳</div><div><div class="tool-name">Link Tree</div><div class="tool-status">● Active</div></div></a>
+<a href="products.html" class="tool-card"><div class="tool-icon">📋</div><div><div class="tool-name">Task Board</div><div style="color:var(--muted);font-size:.7rem">Not subscribed</div></div></a>
+</div>
+</section>
+
+<div class="luffy-quote">
+<strong>Luffy says:</strong> "You're building something, I can tell. When Crews drop, builders like you will lead them. Stay ready. 🏴‍☠️"
+</div>
+</div>
+
+<footer>
+<p>&copy; 2026 serlf.club — The Meek Community · Part of the <a href="https://serlf.ca">serlf</a> ecosystem</p>
+</footer>
+</body>
+</html>

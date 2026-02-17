@@ -1,80 +1,285 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sign In | serlf</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="styles.css">
-<style>
-body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#1e3a5f 100%)}
-.login-container{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:2.5rem;text-align:center;max-width:420px;width:90%;box-shadow:0 25px 50px rgba(0,0,0,.3)}
-.login-container .logo{font-size:2.5rem;font-weight:700;color:var(--cyan);margin-bottom:.25rem}
-.login-container .tagline{color:var(--fg2);margin-bottom:2rem;font-size:.95rem}
-#g_id_signin{display:flex;justify-content:center;margin:1.5rem 0}
-.price-callout{background:rgba(244,162,97,.1);border:1px solid rgba(244,162,97,.2);border-radius:12px;padding:1.25rem;margin-top:2rem}
-.price-callout .amt{font-size:2rem;font-weight:900;color:var(--warm-gold)}
-.loading{display:none;color:var(--fg2);margin-top:1rem}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:var(--cyan);animation:spin 1s linear infinite;margin-right:.5rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-.error-message{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:1rem;margin-top:1rem;color:#fecaca;display:none}
-.back-link{display:block;margin-top:1.5rem;color:var(--fg2);font-size:.85rem}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Meek Mall!</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+    <style>
+        :root {
+            --navy-dark: #0a0a2e;
+            --light-text: #f0f0f0;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --input-bg: #1e1e4a;
+            --border-color: #3a3a6a;
+            --card-bg: #101038;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--navy-dark);
+            color: var(--light-text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .mall-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 600px) {
+            .mall-container {
+                padding: 20px;
+                border: none;
+                background-color: transparent;
+                box-shadow: none;
+            }
+            body {
+                padding: 10px;
+            }
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: #b0b0d0;
+            margin-bottom: 30px;
+        }
+
+        .just-browsing-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--input-bg);
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s, border-color 0.2s;
+            margin-bottom: 30px;
+        }
+
+        .just-browsing-btn:hover {
+            background-color: #2a2a5a;
+            border-color: var(--accent-color);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .divider:not(:empty)::before {
+            margin-right: .5em;
+        }
+        .divider:not(:empty)::after {
+            margin-left: .5em;
+        }
+
+        .join-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .email-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        #email {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--light-text);
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #email:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+
+        .domain-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .domain-btn {
+            background-color: #2a2a5a;
+            border: 1px solid var(--border-color);
+            color: #c0c0e0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .domain-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .suggestion-text {
+            font-size: 0.9rem;
+            color: #b0b0d0;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="login-container">
-<div class="logo">serlf<span style="color:var(--maple)">🍁</span></div>
-<div class="tagline">Welcome in. 👋</div>
 
-<p style="color:var(--fg2);font-size:.9rem;">Window shopping is free! Sign in only when you're ready to join a store.</p>
-<div id="g_id_signin"></div>
-<div class="loading" id="loading"><span class="spinner"></span>Signing you in...</div>
-<div class="error-message" id="error-message"></div>
+    <main class="mall-container">
+        <header class="hero">
+            <h1>Welcome to the Meek Mall 🏬</h1>
+            <p class="subtitle">Window shopping is free! Sign in when you're ready to join a store.</p>
+        </header>
 
-<div class="price-callout">
-<div class="amt">$1<span style="font-size:.4em;color:var(--fg2)">/mo</span></div>
-<p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">Each store is $1/mo to join. That's it.</p>
-</div>
+        <a href="marketplace.html" class="just-browsing-btn">Just Browsing 👀</a>
 
-<a href="/" class="back-link">← No thanks, just browsing</a>
-</div>
+        <div class="divider">or</div>
 
-<script src="auth.js"></script>
-<script src="stripe-checkout.js"></script>
-<script>
-if (SERLF_AUTH.isAuthenticated()) {
-  window.location.href = SERLF_AUTH.isSubscribed() ? '/app.html' : '/stripe-checkout.html';
-}
+        <section class="join-section">
+            <h2>Ready to Join?</h2>
+            <p class="suggestion-text">Use your own email or pick a @serlf address.</p>
+            <form id="login-form">
+                <div class="email-input-group">
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    <div class="domain-picker">
+                        <button type="button" class="domain-btn" data-domain="@serlf.ca">@serlf.ca 🇨🇦</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.com">@serlf.com</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.org">@serlf.org</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.net">@serlf.net</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.info">@serlf.info</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.club">@serlf.club</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.shop">@serlf.shop</button>
+                        <button type="button" class="domain-btn" data-domain="@serlf.store">@serlf.store</button>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Sign In / Sign Up</button>
+            </form>
+        </section>
 
-window.onload = function() {
-  google.accounts.id.initialize({
-    client_id: '758788284456-vf6gmi5a8gkbr1oqu2ohol3p3i7m9s8e.apps.googleusercontent.com',
-    callback: handleCredentialResponse,
-    auto_select: false
-  });
-  google.accounts.id.renderButton(
-    document.getElementById('g_id_signin'),
-    { theme: 'filled_blue', size: 'large', type: 'standard', shape: 'rectangular', text: 'signin_with', width: '300' }
-  );
-};
+        <footer>
+            <p>For all meeks, with love from Canada 🇨🇦</p>
+            <p><a href="#">Terms of Service</a> &bull; <a href="#">Privacy Policy</a> &bull; <a href="#">Help</a></p>
+        </footer>
+    </main>
 
-function handleCredentialResponse(response) {
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('error-message').style.display = 'none';
-  try {
-    const userData = SERLF_AUTH.validateGoogleToken(response.credential);
-    if (!userData || !userData.email_verified) throw new Error('Please use a verified Google account.');
-    userData.token = response.credential;
-    SERLF_AUTH.setSession(userData);
-    setTimeout(() => {
-      window.location.href = SERLF_AUTH.isSubscribed() ? '/app.html' : '/stripe-checkout.html';
-    }, 800);
-  } catch (error) {
-    document.getElementById('loading').style.display = 'none';
-    const el = document.getElementById('error-message');
-    el.style.display = 'block';
-    el.textContent = error.message;
-  }
-}
-</script>
+    <script src="shared/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const emailInput = document.getElementById('email');
+            const domainPicker = document.querySelector('.domain-picker');
+            const loginForm = document.getElementById('login-form');
+
+            domainPicker.addEventListener('click', (event) => {
+                if (event.target.classList.contains('domain-btn')) {
+                    const domain = event.target.dataset.domain;
+                    const currentValue = emailInput.value;
+                    const atIndex = currentValue.indexOf('@');
+                    
+                    let username = currentValue;
+                    if (atIndex !== -1) {
+                        username = currentValue.substring(0, atIndex);
+                    }
+
+                    if (username) {
+                        emailInput.value = username + domain;
+                        emailInput.focus();
+                    }
+                }
+            });
+
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const email = emailInput.value;
+                if (email) {
+                    console.log(`Attempting login/signup for: ${email}`);
+                    
+                    // Use the existing SerlfAuth.login method
+                    SerlfAuth.login(email).then(user => {
+                        console.log('Logged in successfully:', user);
+                        // Redirect to the marketplace
+                        window.location.href = 'marketplace.html';
+                    }).catch(error => {
+                        console.error('Login failed:', error);
+                        alert('Login failed. Please try again.');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

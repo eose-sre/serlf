@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.net — Rick | Specialist</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;height:100vh;display:flex;flex-direction:column}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#111827;border-bottom:1px solid #1e293b}
+.top-left .logo{font-size:1.3rem;font-weight:800;color:#00e5ff}.logo .domain{color:#fff}
+.top-right{display:flex;gap:12px;align-items:center}
+.nav-link{color:#94a3b8;text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:6px}
+.nav-link:hover{color:#00e5ff;background:#1e293b}
+.logout-btn{background:none;border:1px solid #334155;color:#94a3b8;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
+.specialist-view{flex:1;display:flex;flex-direction:column;max-width:800px;margin:0 auto;width:100%}
+.spec-header{padding:24px;text-align:center;border-bottom:1px solid #1e293b}
+.spec-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#00e5ff,#0088a3);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 12px;position:relative}
+.spec-avatar .status-dot{position:absolute;bottom:4px;right:4px;width:14px;height:14px;border-radius:50%;background:#00e5ff;border:3px solid #111827}
+.spec-name{font-size:1.3rem;font-weight:700;color:#fff}
+.spec-role{color:#00e5ff;font-size:.85rem;margin-top:4px}
+.spec-bio{color:#64748b;font-size:.85rem;margin-top:8px;max-width:400px;margin-left:auto;margin-right:auto}
+.wake-animation{display:none;text-align:center;padding:40px}
+.wake-animation.active{display:block}
+.wake-text{font-size:1.5rem;color:#00e5ff;animation:wakeGlow 2s ease-in-out}
+@keyframes wakeGlow{0%{opacity:0;transform:scale(.8)}50%{opacity:1;transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+.chat-area{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.chat-msg{max-width:70%;padding:12px 16px;border-radius:14px;font-size:.95rem;line-height:1.5;animation:fadeIn .3s}
+.chat-msg.user{align-self:flex-end;background:#1e293b;color:#fff;border-bottom-right-radius:4px}
+.chat-msg.specialist{align-self:flex-start;background:#00e5ff10;color:#e0e0e0;border-bottom-left-radius:4px;border-left:3px solid #00e5ff}
+.chat-msg .msg-name{font-size:.75rem;color:#00e5ff;font-weight:600;margin-bottom:4px}
+.chat-msg .msg-time{font-size:.7rem;color:#475569;margin-top:4px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.typing-indicator{align-self:flex-start;padding:12px 16px;color:#64748b;font-size:.9rem}
+.typing-indicator span{animation:typingDot 1.4s infinite;display:inline-block;margin:0 1px}
+.typing-indicator span:nth-child(2){animation-delay:.2s}
+.typing-indicator span:nth-child(3){animation-delay:.4s}
+@keyframes typingDot{0%,100%{opacity:.3}50%{opacity:1}}
+.input-bar{padding:16px 20px;border-top:1px solid #1e293b;display:flex;gap:10px;background:#111827}
+.chat-input{flex:1;padding:12px 16px;background:#1e293b;border:1px solid #334155;border-radius:10px;color:#fff;font-size:1rem;outline:none}
+.chat-input:focus{border-color:#00e5ff}
+.send-btn{padding:12px 24px;background:#00e5ff;color:#0a0e1a;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:1rem}
+.send-btn:hover{background:#00b8d4}
+.product-browser{padding:12px 20px;border-top:1px solid #1e293b;display:flex;gap:8px;overflow-x:auto;background:#0f172a}
+.mini-product{padding:8px 14px;background:#111827;border:1px solid #1e293b;border-radius:8px;cursor:pointer;white-space:nowrap;font-size:.8rem;color:#94a3b8;transition:all .2s;flex-shrink:0}
+.mini-product:hover{border-color:#00e5ff;color:#00e5ff}
+.clear-btn{background:none;border:none;color:#475569;cursor:pointer;font-size:.8rem;padding:6px 12px}
+.clear-btn:hover{color:#ef4444}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-left"><span class="logo">serlf<span class="domain">.net</span></span></div>
+  <div class="top-right">
+    <a href="my-marketplace.html" class="nav-link">🏪 Market</a>
+    <a href="my-specialist.html" class="nav-link" style="color:#00e5ff">💬 Specialist</a>
+    <button class="clear-btn" onclick="clearChat()">Clear Chat</button>
+    <button onclick="SerlfAuth.logout()" class="logout-btn">Logout</button>
+  </div>
+</div>
+<div class="specialist-view">
+  <div class="spec-header">
+    <div class="spec-avatar">⚡<div class="status-dot" id="statusDot"></div></div>
+    <div class="spec-name">Rick</div>
+    <div class="spec-role">Dev Specialist • serlf.net</div>
+    <div class="spec-bio">Technical. Efficient. Ships code. Your personal dev crew lead.</div>
+  </div>
+  <div class="wake-animation" id="wakeAnim"><div class="wake-text">⚡ Rick is waking up...</div></div>
+  <div class="chat-area" id="chatArea"></div>
+  <div class="product-browser" id="productBrowser"></div>
+  <div class="input-bar">
+    <input class="chat-input" id="chatInput" placeholder="Talk to Rick..." onkeydown="if(event.key==='Enter')sendMessage()">
+    <button class="send-btn" onclick="sendMessage()">Send</button>
+  </div>
+</div>
+<script src="../shared/auth.js"></script>
+<script src="../shared/specialist-engine.js"></script>
+<script src="../shared/marketplace-ui.js"></script>
+<script>
+const user=SerlfAuth.requireAuth();if(!user)throw'';
+const spec=SpecialistEngine.init('net');
+// Wake animation
+document.getElementById('wakeAnim').classList.add('active');
+setTimeout(()=>{document.getElementById('wakeAnim').classList.remove('active');const w=SpecialistEngine.wake();addBot(w.message);document.getElementById('statusDot').style.background='#00e5ff';},1500);
+// Load history
+SpecialistEngine.getHistory().forEach(m=>{if(m.role==='user')addUser(m.content,m.ts);else if(m.role==='specialist')addBot(m.content,m.ts);});
+// Product browser
+const products=MarketplaceUI.getProducts('net');
+document.getElementById('productBrowser').innerHTML=products.map(p=>`<div class="mini-product" onclick="askAbout('${p.name}')">${p.icon} ${p.name}</div>`).join('');
+
+function addBot(text,ts){const el=document.createElement('div');el.className='chat-msg specialist';el.innerHTML=`<div class="msg-name">⚡ Rick</div>${text.replace(/
+/g,'<br>')}<div class="msg-time">${ts?new Date(ts).toLocaleTimeString():'now'}</div>`;document.getElementById('chatArea').appendChild(el);scrollBottom();}
+function addUser(text,ts){const el=document.createElement('div');el.className='chat-msg user';el.innerHTML=`${text}<div class="msg-time">${ts?new Date(ts).toLocaleTimeString():'now'}</div>`;document.getElementById('chatArea').appendChild(el);scrollBottom();}
+function showTyping(){const el=document.createElement('div');el.className='typing-indicator';el.id='typing';el.innerHTML='Rick is typing <span>.</span><span>.</span><span>.</span>';document.getElementById('chatArea').appendChild(el);scrollBottom();}
+function hideTyping(){const el=document.getElementById('typing');if(el)el.remove();}
+function scrollBottom(){const a=document.getElementById('chatArea');a.scrollTop=a.scrollHeight;}
+function sendMessage(){const input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;input.value='';addUser(text);showTyping();setTimeout(()=>{hideTyping();const r=SpecialistEngine.respond(text);addBot(r.content);},600+Math.random()*1400);}
+function askAbout(name){document.getElementById('chatInput').value=`Tell me about ${name}`;sendMessage();}
+function clearChat(){SpecialistEngine.clearHistory();document.getElementById('chatArea').innerHTML='';const w=SpecialistEngine.wake();addBot(w.message);}
+</script>
+</body></html>

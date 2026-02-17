@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — serlf.net</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--cyan:#00e5ff;--green:#39ff14;--blue:#3b82f6;--text:#e2e8f0;--muted:#64748b;--border:#1e293b;--code-bg:#0d1117}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.3rem;font-weight:bold;color:var(--cyan)}.logo span{color:var(--green)}.logo em{font-style:normal;color:var(--muted);font-size:.8rem}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px}nav ul a:hover{color:var(--cyan);text-decoration:none}
+
+.page-header{padding:60px 0 40px;text-align:center}
+.page-header h1{font-size:2rem;color:#fff;margin-bottom:8px}
+.page-header p{color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;padding-bottom:80px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;position:relative;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.card .badge{position:absolute;top:16px;right:16px;background:var(--cyan);color:var(--bg);font-size:.7rem;font-weight:bold;padding:3px 10px;border-radius:20px}
+.card .icon{font-size:2rem;margin-bottom:14px}
+.card h2{font-size:1.2rem;color:#fff;margin-bottom:4px}
+.card .price{color:var(--green);font-size:1.1rem;font-weight:bold;margin-bottom:12px}
+.card .price span{color:var(--muted);font-size:.8rem;font-weight:normal}
+.card p{color:var(--muted);font-size:.88rem;margin-bottom:16px;line-height:1.5}
+.card .endpoints{background:var(--code-bg);border-radius:6px;padding:12px;font-size:.8rem;margin-bottom:16px}
+.card .endpoints div{color:var(--muted);margin-bottom:4px}
+.card .endpoints .method{color:var(--cyan);font-weight:bold}
+.card .endpoints .path{color:var(--green)}
+.card .tier{display:flex;gap:8px;flex-wrap:wrap}
+.card .tier span{font-size:.75rem;padding:3px 10px;border-radius:4px;border:1px solid var(--border);color:var(--muted)}
+.card .tier span.included{border-color:var(--green);color:var(--green)}
+
+.compare{padding:40px 0 80px}
+.compare h2{text-align:center;color:#fff;font-size:1.4rem;margin-bottom:24px}
+.compare table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:10px;overflow:hidden}
+.compare th,.compare td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:.85rem}
+.compare th{background:var(--surface2);color:var(--cyan);text-transform:uppercase;font-size:.75rem;letter-spacing:1px}
+.compare td{color:var(--muted)}
+.compare td:first-child{color:#fff;font-weight:bold}
+.compare .check{color:var(--green)}
+.compare .dash{color:var(--border)}
+
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--muted);font-size:.8rem}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.compare table{font-size:.75rem}}
+</style>
+</head>
+<body>
+
+<nav><div class="container">
+<div class="logo">serlf<span>.net</span> <em>// products</em></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="docs.html">Docs</a></li>
+<li><a href="playground.html">Playground</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crew.html">Crew</a></li>
+</ul>
+</div></nav>
+
+<section class="page-header"><div class="container">
+<h1>&gt; ls ./products</h1>
+<p>Everything you need to build with AI. Nothing you don't. Priced for humans, not enterprises.</p>
+</div></section>
+
+<div class="container">
+<div class="grid">
+
+<div class="card">
+<div class="badge">CORE</div>
+<div class="icon">⚡</div>
+<h2>Code Pilot</h2>
+<div class="price">$2<span>/mo</span></div>
+<p>AI-powered code generation. Give it context, get back code that actually compiles. Supports 40+ languages. Rick's personal favorite — because good code writes itself (with a little help).</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/codepilot/generate</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/codepilot/review</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/codepilot/refactor</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span class="included">✓ SDK</span>
+<span class="included">✓ CLI</span>
+<span>10K req/day</span>
+</div>
+</div>
+
+<div class="card">
+<div class="badge">CORE</div>
+<div class="icon">🤖</div>
+<h2>Bot Factory</h2>
+<div class="price">$3<span>/mo</span></div>
+<p>Deploy AI agents and chatbots anywhere. Discord, Slack, Telegram, custom webhooks. Comes with conversation memory, tool use, and the personality module. They'll pass the Turing test (probably).</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/bots/create</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/bots/{id}/deploy</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/bots/{id}/logs</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span class="included">✓ SDK</span>
+<span>5 bots</span>
+<span>50K msgs/mo</span>
+</div>
+</div>
+
+<div class="card">
+<div class="badge">INFRA</div>
+<div class="icon">☁️</div>
+<h2>Cloud Dock</h2>
+<div class="price">$4<span>/mo</span></div>
+<p>Container hosting with auto-scale. Push code, get a URL. Supports Docker, serverless functions, and static sites. No YAML nightmares. No bill shock. Rick built the deploy pipeline himself — it's fast.</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/dock/deploy</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/dock/services</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/dock/scale</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span class="included">✓ CLI</span>
+<span>3 services</span>
+<span>Auto-scale</span>
+</div>
+</div>
+
+<div class="card">
+<div class="badge">AI/ML</div>
+<div class="icon">🔧</div>
+<h2>AI Garage</h2>
+<div class="price">$4<span>/mo</span></div>
+<p>Your AI workshop. Fine-tune models, run training jobs, experiment with architectures. GPU access included. Break things, learn things, ship things. The whole point of a garage.</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/garage/finetune</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/garage/inference</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/garage/models</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span class="included">✓ GPU</span>
+<span>2 concurrent jobs</span>
+</div>
+</div>
+
+<div class="card">
+<div class="icon">🏦</div>
+<h2>Token Bank</h2>
+<div class="price">$2<span>/mo</span></div>
+<p>Unified billing and credit management. Track usage across all serlf products, set spending limits, manage team access. Captain runs a tight ship — every token accounted for.</p>
+<div class="endpoints">
+<div><span class="method">GET </span> <span class="path">/v1/tokens/balance</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/tokens/transfer</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/tokens/usage</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span>Team billing</span>
+<span>Alerts</span>
+</div>
+</div>
+
+<div class="card">
+<div class="icon">🌐</div>
+<h2>Site Builder</h2>
+<div class="price">$1<span>/mo</span></div>
+<p>AI-generated websites from a prompt. Describe what you want, get a deployed site. Custom domains, SSL, the works. Captain handles the hosting so you handle the building.</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/sites/create</span></div>
+<div><span class="method">POST</span> <span class="path">/v1/sites/{id}/publish</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/sites/{id}/status</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span>3 sites</span>
+<span>Custom domains</span>
+</div>
+</div>
+
+<div class="card">
+<div class="icon">🗄️</div>
+<h2>Data Vault</h2>
+<div class="price">$1.40<span>/mo</span></div>
+<p>Encrypted, API-accessible storage. DAO oversees data governance — your bits are safe, versioned, and queryable. Pair it with any other serlf product for persistent state.</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/vault/store</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/vault/{key}</span></div>
+<div><span class="method">DELETE</span> <span class="path">/v1/vault/{key}</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ API</span>
+<span class="included">✓ Encrypted</span>
+<span>5GB</span>
+</div>
+</div>
+
+<div class="card">
+<div class="badge">META</div>
+<div class="icon">🔑</div>
+<h2>API Access</h2>
+<div class="price">Free<span> tier</span></div>
+<p>Every serlf product has an API. Free tier gets you 1K requests/day across all endpoints. Upgrade any product for higher limits. One key, one SDK, all products. That's the whole point.</p>
+<div class="endpoints">
+<div><span class="method">POST</span> <span class="path">/v1/auth/key</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/auth/me</span></div>
+<div><span class="method">GET </span> <span class="path">/v1/status</span></div>
+</div>
+<div class="tier">
+<span class="included">✓ Free tier</span>
+<span>1K req/day</span>
+<span>All endpoints</span>
+</div>
+</div>
+
+</div>
+</div>
+
+<section class="compare"><div class="container">
+<h2>&gt; diff --tiers</h2>
+<div style="overflow-x:auto">
+<table>
+<tr><th>Product</th><th>Price</th><th>API</th><th>SDK</th><th>CLI</th><th>Free Tier</th><th>Rate Limit</th></tr>
+<tr><td>Code Pilot</td><td>$2/mo</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td>10K/day</td></tr>
+<tr><td>Bot Factory</td><td>$3/mo</td><td class="check">✓</td><td class="check">✓</td><td class="dash">—</td><td class="check">✓</td><td>50K msgs/mo</td></tr>
+<tr><td>Cloud Dock</td><td>$4/mo</td><td class="check">✓</td><td class="dash">—</td><td class="check">✓</td><td class="dash">—</td><td>3 services</td></tr>
+<tr><td>AI Garage</td><td>$4/mo</td><td class="check">✓</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td><td>2 jobs</td></tr>
+<tr><td>Token Bank</td><td>$2/mo</td><td class="check">✓</td><td class="check">✓</td><td class="dash">—</td><td class="check">✓</td><td>Unlimited</td></tr>
+<tr><td>Site Builder</td><td>$1/mo</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td><td>3 sites</td></tr>
+<tr><td>Data Vault</td><td>$1.40/mo</td><td class="check">✓</td><td class="check">✓</td><td class="dash">—</td><td class="check">✓</td><td>5GB</td></tr>
+</table>
+</div>
+</div></section>
+
+<footer><div class="container">
+<p>serlf.net — Developer Portal &nbsp;|&nbsp; <a href="https://serlf.ca">serlf.ca</a> &nbsp;|&nbsp; Built by Rick & the crew &nbsp;|&nbsp; © 2026</p>
+</div></footer>
+
+</body>
+</html>

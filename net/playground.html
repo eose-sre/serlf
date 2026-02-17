@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playground — serlf.net</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--cyan:#00e5ff;--green:#39ff14;--blue:#3b82f6;--text:#e2e8f0;--muted:#64748b;--border:#1e293b;--code-bg:#0d1117;--red:#ef4444;--yellow:#eab308}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.3rem;font-weight:bold;color:var(--cyan)}.logo span{color:var(--green)}.logo em{font-style:normal;color:var(--muted);font-size:.8rem}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px}nav ul a:hover{color:var(--cyan);text-decoration:none}
+
+.play-header{padding:40px 0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.play-header h1{font-size:1.5rem;color:#fff}
+.play-header p{color:var(--muted);font-size:.85rem}
+
+/* Controls bar */
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.controls select,.controls input{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:6px;font-family:inherit;font-size:.85rem}
+.controls select:focus,.controls input:focus{outline:none;border-color:var(--cyan)}
+.controls select{cursor:pointer}
+.btn-run{background:var(--green);color:var(--bg);border:none;padding:8px 24px;border-radius:6px;font-family:inherit;font-size:.9rem;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-run:hover{opacity:.85}
+.btn-run.loading{opacity:.6;cursor:wait}
+
+/* Editor layout */
+.editor-layout{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;min-height:500px}
+.editor-pane{display:flex;flex-direction:column}
+.pane-header{background:var(--surface2);padding:8px 16px;font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.pane-header .tag{color:var(--cyan)}
+.editor-area{flex:1;position:relative}
+.editor-area textarea{width:100%;height:100%;min-height:400px;background:var(--code-bg);color:var(--green);border:none;padding:16px;font-family:'Courier New',monospace;font-size:.88rem;line-height:1.7;resize:none;outline:none}
+.editor-area textarea::placeholder{color:var(--muted)}
+.response-area{flex:1;background:var(--code-bg);padding:16px;font-size:.88rem;line-height:1.7;overflow:auto;min-height:400px;white-space:pre-wrap;color:var(--text)}
+.response-area .waiting{color:var(--muted);font-style:italic}
+.response-area .ts{color:var(--muted);font-size:.8rem}
+.response-area .status{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.response-area .status.ok{color:var(--green)}
+.response-area .status.err{color:var(--red)}
+
+/* Presets */
+.presets{margin:24px 0}
+.presets h3{font-size:.9rem;color:#fff;margin-bottom:12px}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.preset{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;transition:border-color .2s}
+.preset:hover{border-color:var(--cyan)}
+.preset h4{color:var(--cyan);font-size:.9rem;margin-bottom:4px}
+.preset p{color:var(--muted);font-size:.8rem}
+.preset code{color:var(--green);font-size:.75rem}
+
+/* Tips */
+.tips{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin:32px 0}
+.tips h3{color:#fff;font-size:.95rem;margin-bottom:8px}
+.tips ul{list-style:none;color:var(--muted);font-size:.85rem}
+.tips li{padding:4px 0}.tips li::before{content:'→ ';color:var(--cyan)}
+
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--muted);font-size:.8rem;margin-top:40px}
+@media(max-width:768px){.editor-layout{grid-template-columns:1fr;grid-template-rows:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="container">
+<div class="logo">serlf<span>.net</span> <em>// playground</em></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="docs.html">Docs</a></li>
+<li><a href="playground.html">Playground</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crew.html">Crew</a></li>
+</ul>
+</div></nav>
+
+<div class="container">
+
+<div class="play-header">
+<div>
+<h1>&gt; playground</h1>
+<p>Test any serlf API endpoint. No setup, no SDK, no excuses. Just pick an endpoint and hit Run.</p>
+</div>
+</div>
+
+<div class="controls">
+<select id="method-select">
+<option value="POST">POST</option>
+<option value="GET">GET</option>
+<option value="PUT">PUT</option>
+<option value="DELETE">DELETE</option>
+</select>
+<select id="endpoint-select" onchange="loadPreset()">
+<option value="/v1/codepilot/generate">Code Pilot — Generate</option>
+<option value="/v1/codepilot/review">Code Pilot — Review</option>
+<option value="/v1/codepilot/refactor">Code Pilot — Refactor</option>
+<option value="/v1/bots/create">Bot Factory — Create</option>
+<option value="/v1/dock/deploy">Cloud Dock — Deploy</option>
+<option value="/v1/vault/store">Data Vault — Store</option>
+<option value="/v1/garage/inference">AI Garage — Inference</option>
+<option value="/v1/tokens/balance">Token Bank — Balance</option>
+</select>
+<input type="text" id="api-key-input" placeholder="sk_test_your_key_here" style="flex:1;min-width:200px">
+<button class="btn-run" id="run-btn" onclick="runRequest()">▶ Run</button>
+</div>
+
+<div class="editor-layout">
+<div class="editor-pane">
+<div class="pane-header">
+<span><span class="tag">REQUEST</span> body (JSON)</span>
+<span>Ctrl+Enter to run</span>
+</div>
+<div class="editor-area">
+<textarea id="request-body" placeholder="// Enter your JSON request body here...">{
+  "prompt": "Build a REST API for a todo app with CRUD endpoints",
+  "lang": "python",
+  "style": "documented"
+}</textarea>
+</div>
+</div>
+<div class="editor-pane">
+<div class="pane-header">
+<span><span class="tag">RESPONSE</span></span>
+<span id="response-time"></span>
+</div>
+<div class="response-area" id="response-output">
+<span class="waiting">// Hit Run to send your request.
+// Response will appear here.
+//
+// Pro tip: Use sk_test_ keys here.
+// They don't cost credits.
+// Rick is generous like that.</span>
+</div>
+</div>
+</div>
+
+<!-- Presets -->
+<div class="presets">
+<h3>&gt; Quick presets</h3>
+<div class="preset-grid">
+<div class="preset" onclick="setPreset('POST','/v1/codepilot/generate',`{
+  &quot;prompt&quot;: &quot;Express.js middleware for JWT auth&quot;,
+  &quot;lang&quot;: &quot;javascript&quot;,
+  &quot;style&quot;: &quot;concise&quot;
+}`)">
+<h4>⚡ Generate JS Code</h4>
+<p>Express.js JWT middleware</p>
+<code>POST /v1/codepilot/generate</code>
+</div>
+<div class="preset" onclick="setPreset('POST','/v1/bots/create',`{
+  &quot;name&quot;: &quot;my-support-bot&quot;,
+  &quot;platform&quot;: &quot;discord&quot;,
+  &quot;personality&quot;: &quot;Friendly but efficient tech support. Answers in code blocks when possible.&quot;
+}`)">
+<h4>🤖 Create Discord Bot</h4>
+<p>Support bot with personality</p>
+<code>POST /v1/bots/create</code>
+</div>
+<div class="preset" onclick="setPreset('POST','/v1/dock/deploy',`{
+  &quot;name&quot;: &quot;my-api&quot;,
+  &quot;source&quot;: &quot;github.com/you/repo&quot;,
+  &quot;env&quot;: {
+    &quot;NODE_ENV&quot;: &quot;production&quot;,
+    &quot;PORT&quot;: &quot;3000&quot;
+  }
+}`)">
+<h4>☁️ Deploy Service</h4>
+<p>Deploy from GitHub repo</p>
+<code>POST /v1/dock/deploy</code>
+</div>
+<div class="preset" onclick="setPreset('POST','/v1/vault/store',`{
+  &quot;key&quot;: &quot;app:config&quot;,
+  &quot;value&quot;: {
+    &quot;feature_flags&quot;: { &quot;dark_mode&quot;: true }
+  },
+  &quot;ttl&quot;: 604800
+}`)">
+<h4>🗄️ Store Data</h4>
+<p>Save config with 7-day TTL</p>
+<code>POST /v1/vault/store</code>
+</div>
+<div class="preset" onclick="setPreset('POST','/v1/garage/inference',`{
+  &quot;model&quot;: &quot;serlf-mini-v2&quot;,
+  &quot;input&quot;: &quot;Classify this text: The product is amazing and works perfectly&quot;,
+  &quot;task&quot;: &quot;sentiment&quot;
+}`)">
+<h4>🔧 Run Inference</h4>
+<p>Sentiment analysis with AI Garage</p>
+<code>POST /v1/garage/inference</code>
+</div>
+<div class="preset" onclick="setPreset('POST','/v1/codepilot/review',`{
+  &quot;code&quot;: &quot;def login(user, pw):
+  if db.query(f\&quot;SELECT * FROM users WHERE name='{user}' AND pass='{pw}'\&quot;):
+    return True&quot;,
+  &quot;focus&quot;: &quot;security&quot;
+}`)">
+<h4>🔍 Security Review</h4>
+<p>Find the SQL injection (it's obvious)</p>
+<code>POST /v1/codepilot/review</code>
+</div>
+</div>
+</div>
+
+<div class="tips">
+<h3>💡 Rick's Playground Tips</h3>
+<ul>
+<li>Use <code style="color:var(--cyan)">sk_test_</code> keys — they're free and hit the real API</li>
+<li>Ctrl+Enter runs the request from the editor</li>
+<li>Response includes headers, timing, and token usage</li>
+<li>The playground doesn't store your API key (check the source if you don't believe me)</li>
+<li>Found a bug? Good. <a href="https://serlf.ca">Report it</a> and Rick will buy you a coffee (metaphorically)</li>
+</ul>
+</div>
+
+</div>
+
+<footer><div class="container">
+<p>serlf.net — Developer Portal &nbsp;|&nbsp; <a href="https://serlf.ca">serlf.ca</a> &nbsp;|&nbsp; Built by Rick & the crew &nbsp;|&nbsp; © 2026</p>
+</div></footer>
+
+<script>
+const presetBodies={
+'/v1/codepilot/generate':'{
+  "prompt": "Build a REST API for a todo app with CRUD endpoints",
+  "lang": "python",
+  "style": "documented"
+}',
+'/v1/codepilot/review':'{
+  "code": "def hello():
+  print(\'world\')",
+  "focus": "style"
+}',
+'/v1/codepilot/refactor':'{
+  "code": "x=1;y=2;z=x+y;print(z)",
+  "goal": "readability"
+}',
+'/v1/bots/create':'{
+  "name": "my-bot",
+  "platform": "discord",
+  "personality": "Helpful assistant"
+}',
+'/v1/dock/deploy':'{
+  "name": "my-app",
+  "source": "github.com/you/repo"
+}',
+'/v1/vault/store':'{
+  "key": "test:data",
+  "value": {"hello": "world"}
+}',
+'/v1/garage/inference':'{
+  "model": "serlf-mini-v2",
+  "input": "Hello world",
+  "task": "classify"
+}',
+'/v1/tokens/balance':'{}'
+};
+
+function loadPreset(){
+const ep=document.getElementById('endpoint-select').value;
+if(presetBodies[ep])document.getElementById('request-body').value=presetBodies[ep];
+document.getElementById('method-select').value=ep.includes('balance')?'GET':'POST';
+}
+
+function setPreset(method,endpoint,body){
+document.getElementById('method-select').value=method;
+const sel=document.getElementById('endpoint-select');
+for(let o of sel.options){if(o.value===endpoint){o.selected=true;break;}}
+document.getElementById('request-body').value=body;
+}
+
+function runRequest(){
+const btn=document.getElementById('run-btn');
+const output=document.getElementById('response-output');
+const timer=document.getElementById('response-time');
+const method=document.getElementById('method-select').value;
+const endpoint=document.getElementById('endpoint-select').value;
+
+btn.classList.add('loading');
+btn.textContent='⏳ Running...';
+output.innerHTML='<span class="waiting">// Sending request...</span>';
+
+const start=Date.now();
+
+// Simulate API response
+setTimeout(()=>{
+const ms=Math.floor(Math.random()*300+80);
+timer.textContent=ms+'ms';
+btn.classList.remove('loading');
+btn.textContent='▶ Run';
+
+const responses={
+'/v1/codepilot/generate':`<span class="status ok">200 OK</span>
+{
+  "id": "gen_${Math.random().toString(36).slice(2,10)}",
+  "code": "from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+todos = {}
+
+class Todo(BaseModel):
+    title: str
+    done: bool = False
+
+@app.post('/todos')
+def create_todo(todo: Todo):
+    id = len(todos) + 1
+    todos[id] = todo
+    return {'id': id, **todo.dict()}
+
+@app.get('/todos')
+def list_todos():
+    return todos",
+  "lang": "python",
+  "tokens_used": ${Math.floor(Math.random()*500+300)},
+  "model": "codepilot-v3",
+  "latency_ms": ${ms}
+}`,
+'/v1/bots/create':`<span class="status ok">201 Created</span>
+{
+  "id": "bot_${Math.random().toString(36).slice(2,10)}",
+  "name": "my-bot",
+  "platform": "discord",
+  "status": "created",
+  "deploy_url": "https://bots.serlf.net/bot_abc123",
+  "created_at": "${new Date().toISOString()}"
+}`,
+'/v1/dock/deploy':`<span class="status ok">202 Accepted</span>
+{
+  "id": "svc_${Math.random().toString(36).slice(2,10)}",
+  "name": "my-app",
+  "status": "building",
+  "url": "https://my-app.dock.serlf.net",
+  "build_log": "https://api.serlf.net/v1/dock/svc_abc/logs",
+  "eta_seconds": 45
+}`,
+'/v1/vault/store':`<span class="status ok">201 Created</span>
+{
+  "key": "test:data",
+  "version": 1,
+  "encrypted": true,
+  "created_at": "${new Date().toISOString()}",
+  "size_bytes": 24
+}`
+};
+
+output.innerHTML=responses[endpoint]||`<span class="status ok">200 OK</span>
+{
+  "status": "success",
+  "endpoint": "${endpoint}",
+  "method": "${method}",
+  "demo": true,
+  "message": "This is a simulated response. Get a real API key to see actual results."
+}`;
+},Math.random()*800+400);
+}
+
+document.getElementById('request-body').addEventListener('keydown',function(e){
+if(e.ctrlKey&&e.key==='Enter')runRequest();
+});
+</script>
+</body>
+</html>

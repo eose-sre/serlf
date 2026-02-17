@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specialists — serlf.ca | Personal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6ed;min-height:100vh}
+.nav{background:#0d1117;border-bottom:1px solid #1e2d3d;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.nav a{color:#58a6ff;text-decoration:none;margin-left:1.5rem;font-size:.9rem}
+.nav a:hover{color:#79c0ff}
+.nav .brand{font-size:1.2rem;font-weight:700;color:#fff}
+.nav .brand span{color:#58a6ff}
+.hero{text-align:center;padding:3rem 2rem 1rem}
+.hero h1{font-size:2.5rem}
+.hero p{color:#8b949e;margin-top:.5rem;font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;max-width:1200px;margin:2rem auto;padding:0 2rem}
+.specialist-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.5rem;text-align:center;transition:border-color .2s}
+.specialist-card:hover{border-color:#58a6ff}
+.specialist-avatar{font-size:3rem;margin-bottom:.5rem}
+.specialist-card h3{color:#fff;margin-bottom:.3rem}
+.nano-badge{color:#58a6ff;font-size:.8rem;margin-bottom:.5rem}
+.specialist-card p{color:#8b949e;font-size:.85rem;line-height:1.4}
+.specialist-price{color:#3fb950;font-size:1.3rem;font-weight:700;margin:.8rem 0}
+.try-btn{background:#238636;color:#fff;border:none;padding:.7rem 1.5rem;border-radius:8px;cursor:pointer;font-size:.95rem;font-weight:600}
+.try-btn:hover{background:#2ea043}
+.chat-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:1000;justify-content:center;align-items:center}
+.chat-modal.active{display:flex}
+.chat-box{background:#0d1117;border:1px solid #30363d;border-radius:16px;width:90%;max-width:500px;height:70vh;display:flex;flex-direction:column}
+.chat-header{padding:1rem;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;align-items:center}
+.chat-header h3{color:#fff}
+.chat-close{background:none;border:none;color:#8b949e;font-size:1.5rem;cursor:pointer}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem}
+.chat-msg{background:#161b22;border-radius:12px;padding:.8rem 1rem;margin-bottom:.8rem;max-width:80%}
+.chat-msg.specialist{border:1px solid #1f6feb33}
+.chat-msg.user{background:#1f2937;margin-left:auto}
+.chat-input{display:flex;padding:1rem;border-top:1px solid #21262d;gap:.5rem}
+.chat-input input{flex:1;background:#161b22;border:1px solid #30363d;color:#e0e6ed;padding:.7rem 1rem;border-radius:8px;font-size:.95rem}
+.chat-input button{background:#238636;color:#fff;border:none;padding:.7rem 1.2rem;border-radius:8px;cursor:pointer}
+footer{text-align:center;padding:2rem;color:#484f58;font-size:.8rem;border-top:1px solid #21262d;margin-top:2rem}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="brand"><span>serlf</span>.ca</div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="crews.html">Crews</a>
+    <a href="crew.html">Our Crew</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>🐍 Meet Your Specialists</h1>
+  <p>Warm, friendly, personal. Your AI crew, your way.</p>
+  <p style="color:#3fb950;margin-top:.5rem">Try before you buy. Chat with any specialist for free.</p>
+</div>
+
+<div class="grid">
+
+    <div class='specialist-card' id='ai-chat'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>AI Chat Specialist</h3>
+      <p class='nano-badge'>Backed by Lucien</p>
+      <p>Your personal AI assistant. Conversations, brainstorming, analysis — unlimited.</p>
+      <div class='specialist-price'>$4/mo</div>
+      <button class='try-btn' onclick="startChat('ai-chat','AI Chat')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='ai-writer'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>AI Writer Specialist</h3>
+      <p class='nano-badge'>Backed by Lucien</p>
+      <p>Blog posts, SEO copy, social content — all AI-powered.</p>
+      <div class='specialist-price'>$3.20/mo</div>
+      <button class='try-btn' onclick="startChat('ai-writer','AI Writer')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='ai-images'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>AI Images Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>Generate stunning images from text. Train custom styles.</p>
+      <div class='specialist-price'>$2.40/mo</div>
+      <button class='try-btn' onclick="startChat('ai-images','AI Images')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='code-pilot'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Code Pilot Specialist</h3>
+      <p class='nano-badge'>Backed by Rick</p>
+      <p>AI pair programmer. Code review, generation, refactoring.</p>
+      <div class='specialist-price'>$2/mo</div>
+      <button class='try-btn' onclick="startChat('code-pilot','Code Pilot')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='bot-factory'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Bot Factory Specialist</h3>
+      <p class='nano-badge'>Backed by Rick</p>
+      <p>Build chatbots for any platform. NLU, flows, deployment.</p>
+      <div class='specialist-price'>$3/mo</div>
+      <button class='try-btn' onclick="startChat('bot-factory','Bot Factory')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='cloud-dock'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Cloud Dock Specialist</h3>
+      <p class='nano-badge'>Backed by Rick</p>
+      <p>Host anything. Auto-scaling, CDN, SSL — zero config.</p>
+      <div class='specialist-price'>$4/mo</div>
+      <button class='try-btn' onclick="startChat('cloud-dock','Cloud Dock')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='mail-engine'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Mail Engine Specialist</h3>
+      <p class='nano-badge'>Backed by Bob</p>
+      <p>Email campaigns, automation, deliverability — done right.</p>
+      <div class='specialist-price'>$2.60/mo</div>
+      <button class='try-btn' onclick="startChat('mail-engine','Mail Engine')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='deal-flow'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Deal Flow Specialist</h3>
+      <p class='nano-badge'>Backed by Bob</p>
+      <p>CRM and sales pipeline. Lead scoring, automation, close deals.</p>
+      <div class='specialist-price'>$2.80/mo</div>
+      <button class='try-btn' onclick="startChat('deal-flow','Deal Flow')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='voice-lab'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Voice Lab Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>AI voices, TTS, voice cloning. Sound like anyone.</p>
+      <div class='specialist-price'>$1/mo</div>
+      <button class='try-btn' onclick="startChat('voice-lab','Voice Lab')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='design-studio'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Design Studio Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>Logos, banners, social graphics — pro design on demand.</p>
+      <div class='specialist-price'>$2.60/mo</div>
+      <button class='try-btn' onclick="startChat('design-studio','Design Studio')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='seo-radar'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>SEO Radar Specialist</h3>
+      <p class='nano-badge'>Backed by DAO</p>
+      <p>SEO audits, keyword research, rank tracking.</p>
+      <div class='specialist-price'>$5.80/mo</div>
+      <button class='try-btn' onclick="startChat('seo-radar','SEO Radar')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='site-builder'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Site Builder Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>Build websites in minutes. Templates, custom domains, Hugo.</p>
+      <div class='specialist-price'>$1/mo</div>
+      <button class='try-btn' onclick="startChat('site-builder','Site Builder')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='video-forge'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Video Forge Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>AI video generation, editing, shorts — cinema quality.</p>
+      <div class='specialist-price'>$4.80/mo</div>
+      <button class='try-btn' onclick="startChat('video-forge','Video Forge')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='task-board'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Task Board Specialist</h3>
+      <p class='nano-badge'>Backed by Bob</p>
+      <p>Project management. Sprints, tracking, team coordination.</p>
+      <div class='specialist-price'>$1.40/mo</div>
+      <button class='try-btn' onclick="startChat('task-board','Task Board')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='help-desk'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Help Desk Specialist</h3>
+      <p class='nano-badge'>Backed by Bob</p>
+      <p>AI-powered support. Tickets, knowledge base, auto-triage.</p>
+      <div class='specialist-price'>$3/mo</div>
+      <button class='try-btn' onclick="startChat('help-desk','Help Desk')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='token-bank'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Token Bank Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>Route AI calls to cheapest provider. Save hundreds per month.</p>
+      <div class='specialist-price'>$2/mo</div>
+      <button class='try-btn' onclick="startChat('token-bank','Token Bank')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='ai-garage'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>AI Garage Specialist</h3>
+      <p class='nano-badge'>Backed by Rick</p>
+      <p>Custom AI models. Fine-tune, deploy, scale.</p>
+      <div class='specialist-price'>$4/mo</div>
+      <button class='try-btn' onclick="startChat('ai-garage','AI Garage')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='data-vault'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Data Vault Specialist</h3>
+      <p class='nano-badge'>Backed by DAO</p>
+      <p>Backup, recovery, migration. Your data, always safe.</p>
+      <div class='specialist-price'>$1.40/mo</div>
+      <button class='try-btn' onclick="startChat('data-vault','Data Vault')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='form-flow'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Form Flow Specialist</h3>
+      <p class='nano-badge'>Backed by DAO</p>
+      <p>Smart forms and surveys. Collect data, integrate anywhere.</p>
+      <div class='specialist-price'>$5/mo</div>
+      <button class='try-btn' onclick="startChat('form-flow','Form Flow')">💬 Chat Now</button>
+    </div>
+    <div class='specialist-card' id='link-tree'>
+      <div class='specialist-avatar'>🤖</div>
+      <h3>Link Tree Specialist</h3>
+      <p class='nano-badge'>Backed by Captain</p>
+      <p>Bio links, portfolios, landing pages — your digital identity.</p>
+      <div class='specialist-price'>$1.80/mo</div>
+      <button class='try-btn' onclick="startChat('link-tree','Link Tree')">💬 Chat Now</button>
+    </div>
+</div>
+
+<div class="chat-modal" id="chatModal">
+  <div class="chat-box">
+    <div class="chat-header">
+      <h3 id="chatTitle">Specialist</h3>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg specialist">
+        👋 Hey! I'm your specialist. Try me out — ask me anything about what I can do for you. If you like what you see, I'm yours for less than a coffee.
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Ask your specialist..." onkeypress="if(event.key==='Enter')sendMsg()">
+      <button onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  serlf.ca — AI tools for your life. Made in Canada. · 20 specialists, all yours. 🧭
+</footer>
+
+<script>
+function startChat(slug, name) {
+  document.getElementById('chatModal').classList.add('active');
+  document.getElementById('chatTitle').textContent = name + ' Specialist';
+  document.getElementById('chatInput').focus();
+}
+function closeChat() {
+  document.getElementById('chatModal').classList.remove('active');
+}
+function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const messages = document.getElementById('chatMessages');
+  messages.innerHTML += '<div class="chat-msg user">' + msg.replace(/</g,'&lt;') + '</div>';
+  input.value = '';
+  setTimeout(() => {
+    messages.innerHTML += '<div class="chat-msg specialist">Great question! In production, I\'d be a real AI specialist backed by the SERLF engine. For now, this is a demo — but when you buy me, I\'m yours forever. Dedicated, siloed, always learning. 🧭</div>';
+    messages.scrollTop = messages.scrollHeight;
+  }, 800);
+}
+document.getElementById('chatModal').addEventListener('click', function(e) {
+  if (e.target === this) closeChat();
+});
+</script>
+</body>
+</html>

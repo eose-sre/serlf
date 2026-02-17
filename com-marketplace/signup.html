@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.com — Enterprise Sign Up</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e4ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.signup-container{max-width:440px;width:100%;padding:2rem}
+.logo{font-size:2rem;font-weight:700;color:#4a90d9;text-align:center;margin-bottom:.25rem}
+.enterprise-badge{text-align:center;margin-bottom:.5rem}
+.enterprise-badge span{background:#c9a84c22;color:#c9a84c;padding:.2rem .65rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tagline{text-align:center;color:#8892b0;margin-bottom:2.5rem;font-size:1.05rem}
+.tagline em{color:#c9a84c;font-style:normal;font-weight:600}
+.form-group{margin-bottom:1.25rem}
+label{display:block;color:#8892b0;font-size:.85rem;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+input{width:100%;padding:.85rem 1rem;background:#151b2e;border:1px solid #2a3050;border-radius:8px;color:#e0e4ef;font-size:1rem;transition:border .2s}
+input:focus{outline:none;border-color:#4a90d9}
+.price-badge{text-align:center;background:linear-gradient(135deg,#4a90d922,#c9a84c11);border:1px solid #4a90d944;border-radius:12px;padding:1.2rem;margin:1.5rem 0}
+.price-badge .amount{font-size:2.5rem;font-weight:700;color:#4a90d9}
+.price-badge .note{color:#8892b0;font-size:.9rem;margin-top:.3rem}
+#payment-container{margin:1rem 0}
+.payment-form .card-input{margin:1rem 0}
+.payment-form input{margin-bottom:.5rem}
+.payment-form .card-row{display:flex;gap:.5rem}
+.payment-form .card-row input{flex:1}
+.pay-btn{width:100%;padding:1rem;background:linear-gradient(135deg,#4a90d9,#3a70b0);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all .2s}
+.pay-btn:hover{transform:translateY(-1px)}
+.pay-btn:disabled{opacity:.6;transform:none}
+.payment-note{text-align:center;color:#8892b0;font-size:.8rem;margin-top:.75rem}
+.login-link{text-align:center;margin-top:1.5rem;color:#8892b0}
+.login-link a{color:#4a90d9;text-decoration:none}
+.success-msg{text-align:center;padding:2rem;animation:fadeIn .5s}
+.success-msg h2{color:#4a90d9;font-size:1.8rem;margin-bottom:1rem}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="signup-container" id="main">
+  <div class="logo">serlf.com</div>
+  <div class="enterprise-badge"><span>Enterprise</span></div>
+  <p class="tagline">Enterprise AI starts at $1. <em>E&Y approved.</em></p>
+
+  <div id="step-info">
+    <div class="form-group"><label>Full Name</label><input type="text" id="name" placeholder="Your name" autofocus></div>
+    <div class="form-group"><label>Business Email</label><input type="email" id="email" placeholder="you@company.com"></div>
+    <div class="price-badge">
+      <div class="amount">$1</div>
+      <div class="note">Enterprise-grade AI. Full compliance. One dollar to start.</div>
+    </div>
+    <div id="payment-container"></div>
+  </div>
+  <div class="login-link">Already enrolled? <a href="login.html">Sign in</a></div>
+</div>
+
+<script src="../shared/auth.js"></script>
+<script src="../shared/stripe-flow.js"></script>
+<script>
+StripeFlow.renderPaymentForm('payment-container', {
+  amount: 1,
+  description: 'serlf.com — Enterprise Access',
+  onSuccess(result) {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!name || !email) { alert('Please complete all fields.'); return; }
+    SerlfAuth.signup({ email, name, domain: 'com' });
+    document.getElementById('main').innerHTML = `
+      <div class="success-msg">
+        <div style="font-size:4rem;margin-bottom:1rem">🏢</div>
+        <h2>Welcome aboard, ${name}.</h2>
+        <p style="color:#8892b0;margin-bottom:1.5rem">Your enterprise dashboard is ready. Your consulting specialist awaits.</p>
+        <a href="my-marketplace.html" style="display:inline-block;padding:.85rem 2rem;background:linear-gradient(135deg,#4a90d9,#3a70b0);color:#fff;border-radius:8px;text-decoration:none;font-weight:600">Enter Dashboard →</a>
+      </div>`;
+  }
+});
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admiral Portal v2 — Hive Mind</title>
 <style>
@@ -1141,15 +1142,65 @@ pulseData.forEach(p => {
 
 // SESSION PEEK MODAL
 const sessions = {
-  admiral: '> Session: Admiral (main)\n> Model: claude-opus-4-6\n> Tokens: 61K/200K (30%)\n\n[22:26] Spawned subagent: portal-v2-hive-mind\n[22:24] Reading baseline/2026-02-15-rebaseline.md\n[22:20] Completed golden baseline audit\n[22:15] Reviewed NP registry (32 patterns)\n[22:10] Running security peek scan...',
-  bob: '> Session: Bob (CPO)\n> Model: claude-opus-4-6\n> Last active: 5m ago\n\n[22:20] Reviewed Token Swarm product spec\n[22:15] Updated go-to-market playbook\n[22:10] "OAuth Sub Pooling is our moat"\n[22:05] Analyzing SERLF v5 pricing model',
-  john: '> Session: John (OSS)\n> Model: claude-opus-4-6\n\n[22:18] Reviewing open source licensing\n[22:12] serlf.org content strategy\n[22:05] Community contribution guidelines draft',
-  mo: '> Session: Mo (CFO)\n> Model: claude-opus-4-6\n\n[22:15] Token economics report generated\n[22:10] "68% savings confirmed"\n[22:05] Monthly projection: $135 vs $200 budget',
-  dao: '> Session: Dao (CDO)\n> Model: claude-opus-4-6\n\n[22:12] Fleet telemetry review\n[22:08] Data pipeline health check\n[22:03] Cross-master metrics alignment',
-  officer: '> Session: Officer (CISO)\n> Model: gpt-5.2-codex\n\n[22:23] Security audit: 5 critical findings\n[22:18] Reviewing auth-profiles.json perms\n[22:12] "allowInsecureAuth must go"',
-  bosun: '> Session: Bosun (Ops)\n> Model: gpt-5.2-codex\n\n[22:19] Fleet health check: 3/3 masters reachable\n[22:14] DNS zone validation: 28/28 resolving\n[22:08] SSL cert check: all valid',
-  helmsman: '> Session: Helmsman (Navigator)\n> Model: gpt-5.2-codex\n> Last active: 45m ago\n\n[21:40] Route optimization complete\n[21:35] Model lane performance review',
-  botwright: '> Session: Botwright (Builder)\n> Model: gpt-5.2-codex\n\n[22:24] Building portal-v2.html components\n[22:18] CSS theme system updated\n[22:12] Responsive grid system deployed',
+  admiral: '> Session: Admiral (main)
+> Model: claude-opus-4-6
+> Tokens: 61K/200K (30%)
+
+[22:26] Spawned subagent: portal-v2-hive-mind
+[22:24] Reading baseline/2026-02-15-rebaseline.md
+[22:20] Completed golden baseline audit
+[22:15] Reviewed NP registry (32 patterns)
+[22:10] Running security peek scan...',
+  bob: '> Session: Bob (CPO)
+> Model: claude-opus-4-6
+> Last active: 5m ago
+
+[22:20] Reviewed Token Swarm product spec
+[22:15] Updated go-to-market playbook
+[22:10] "OAuth Sub Pooling is our moat"
+[22:05] Analyzing SERLF v5 pricing model',
+  john: '> Session: John (OSS)
+> Model: claude-opus-4-6
+
+[22:18] Reviewing open source licensing
+[22:12] serlf.org content strategy
+[22:05] Community contribution guidelines draft',
+  mo: '> Session: Mo (CFO)
+> Model: claude-opus-4-6
+
+[22:15] Token economics report generated
+[22:10] "68% savings confirmed"
+[22:05] Monthly projection: $135 vs $200 budget',
+  dao: '> Session: Dao (CDO)
+> Model: claude-opus-4-6
+
+[22:12] Fleet telemetry review
+[22:08] Data pipeline health check
+[22:03] Cross-master metrics alignment',
+  officer: '> Session: Officer (CISO)
+> Model: gpt-5.2-codex
+
+[22:23] Security audit: 5 critical findings
+[22:18] Reviewing auth-profiles.json perms
+[22:12] "allowInsecureAuth must go"',
+  bosun: '> Session: Bosun (Ops)
+> Model: gpt-5.2-codex
+
+[22:19] Fleet health check: 3/3 masters reachable
+[22:14] DNS zone validation: 28/28 resolving
+[22:08] SSL cert check: all valid',
+  helmsman: '> Session: Helmsman (Navigator)
+> Model: gpt-5.2-codex
+> Last active: 45m ago
+
+[21:40] Route optimization complete
+[21:35] Model lane performance review',
+  botwright: '> Session: Botwright (Builder)
+> Model: gpt-5.2-codex
+
+[22:24] Building portal-v2.html components
+[22:18] CSS theme system updated
+[22:12] Responsive grid system deployed',
 };
 
 function showSession(agent) {

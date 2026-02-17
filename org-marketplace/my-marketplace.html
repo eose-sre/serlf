@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.org — Open Source Hub</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e4ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+.top-bar{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:#0d1220;border-bottom:1px solid #1a2040;position:sticky;top:0;z-index:100}
+.top-left{display:flex;align-items:center;gap:1rem}
+.logo{font-size:1.3rem;font-weight:700;color:#2dd4a8}
+.oss-badge{background:#2dd4a822;color:#2dd4a8;padding:.15rem .5rem;border-radius:4px;font-size:.65rem;font-weight:700;text-transform:uppercase}
+.greeting{color:#8892b0;font-size:.9rem}
+.top-right{display:flex;align-items:center;gap:1rem}
+.product-count{background:#2dd4a822;color:#2dd4a8;padding:.3rem .75rem;border-radius:20px;font-size:.8rem;font-weight:600}
+.nav-link{color:#8892b0;text-decoration:none;font-size:.85rem}.nav-link:hover{color:#2dd4a8}
+.logout-btn{background:none;border:1px solid #2a3050;color:#8892b0;padding:.35rem .75rem;border-radius:6px;cursor:pointer;font-size:.8rem}.logout-btn:hover{border-color:#2dd4a8;color:#2dd4a8}
+.main-layout{display:flex;height:calc(100vh - 52px)}
+.content-area{flex:1;overflow-y:auto;padding:1.5rem}
+/* DAO stats */
+.dao-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem}
+.dao-stat{background:#151b2e;border:1px solid #2a3050;border-radius:10px;padding:1rem;text-align:center}
+.dao-stat .value{font-size:1.5rem;font-weight:700;color:#2dd4a8}
+.dao-stat .label{font-size:.75rem;color:#8892b0;text-transform:uppercase;margin-top:.25rem}
+.category-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.cat-btn{background:#151b2e;border:1px solid #2a3050;color:#8892b0;padding:.4rem .85rem;border-radius:20px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.cat-btn:hover,.cat-btn.active{background:#2dd4a822;border-color:#2dd4a8;color:#2dd4a8}
+.section-title{font-size:1.1rem;color:#8892b0;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.product-card{background:#151b2e;border:1px solid #2a3050;border-radius:12px;padding:1.2rem;transition:all .2s}
+.product-card:hover{border-color:#2dd4a844;transform:translateY(-2px)}
+.product-card.owned{border-color:#2dd4a833}
+.product-icon{font-size:2rem;margin-bottom:.5rem}
+.product-card h3{font-size:1rem;margin-bottom:.3rem}
+.product-card p{font-size:.8rem;color:#8892b0;margin-bottom:.75rem}
+.buy-btn{background:#2dd4a8;color:#0a0e1a;border:none;padding:.4rem .85rem;border-radius:6px;font-size:.8rem;font-weight:600;cursor:pointer}.buy-btn:hover{background:#25b892}
+.badge{padding:.35rem .75rem;border-radius:6px;font-size:.75rem;font-weight:600}
+.badge.owned{background:#2dd4a822;color:#2dd4a8}
+.silos-section{margin-top:1rem}
+.silo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem}
+.silo-card{background:#151b2e;border:1px solid #2dd4a833;border-radius:10px;padding:1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;transition:all .2s}.silo-card:hover{background:#1a2040}
+.silo-emoji{font-size:1.5rem}.silo-name{font-weight:600;font-size:.9rem}.silo-status{font-size:.75rem;color:#8892b0}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:.3rem}
+.status-dot.sleeping{background:#4a5080}
+.status-dot.awake{background:#2dd4a8;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* Transparency log */
+.transparency-log{margin-top:2rem;background:#151b2e;border:1px solid #2a3050;border-radius:10px;padding:1.2rem}
+.transparency-log h3{font-size:.9rem;color:#2dd4a8;margin-bottom:.75rem}
+.log-entry{padding:.4rem 0;border-bottom:1px solid #1a2040;font-size:.8rem;color:#8892b0;display:flex;justify-content:space-between}
+.log-entry:last-child{border-bottom:none}
+.log-entry .action{color:#e0e4ef}
+/* Chat panel */
+.chat-panel{width:360px;background:#0d1220;border-left:1px solid #1a2040;display:flex;flex-direction:column;transition:width .3s}
+.chat-panel.collapsed{width:48px}
+.chat-panel.collapsed .chat-body,.chat-panel.collapsed .chat-input-area,.chat-panel.collapsed .chat-title-text{display:none}
+.chat-header{padding:.75rem 1rem;border-bottom:1px solid #1a2040;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.chat-title-text{font-weight:600;font-size:.9rem}
+.chat-toggle{background:none;border:none;color:#8892b0;font-size:1.2rem;cursor:pointer}
+.chat-body{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.chat-msg{max-width:85%;padding:.65rem .85rem;border-radius:12px;font-size:.9rem;line-height:1.4;animation:msgIn .3s}
+.chat-msg.specialist{background:#151b2e;align-self:flex-start;border:1px solid #2a3050}
+.chat-msg.user{background:#2dd4a822;align-self:flex-end;border:1px solid #2dd4a833}
+.chat-msg .sender{font-size:.7rem;color:#8892b0;margin-bottom:.2rem}
+.typing-indicator{align-self:flex-start;color:#8892b0;font-size:.8rem;font-style:italic;display:none}
+.typing-indicator.show{display:block}
+.typing-dots span{animation:blink 1.4s infinite;opacity:.2}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{20%{opacity:1}100%{opacity:.2}}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.chat-input-area{padding:.75rem;border-top:1px solid #1a2040;display:flex;gap:.5rem}
+.chat-input-area input{flex:1;padding:.6rem .85rem;background:#151b2e;border:1px solid #2a3050;border-radius:8px;color:#e0e4ef;font-size:.9rem}
+.chat-input-area input:focus{outline:none;border-color:#2dd4a8}
+.chat-send{background:#2dd4a8;color:#0a0e1a;border:none;padding:.6rem .85rem;border-radius:8px;cursor:pointer;font-weight:600}
+@media(max-width:768px){.chat-panel{position:fixed;right:0;top:52px;bottom:0;z-index:50;width:100%}.chat-panel.collapsed{width:48px}.product-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-left">
+    <span class="logo">serlf.org</span><span class="oss-badge">Open Source</span>
+    <span class="greeting" id="greeting"></span>
+  </div>
+  <div class="top-right">
+    <span class="product-count" id="pcount"></span>
+    <a href="my-specialist.html" class="nav-link">💬 DAO Specialist</a>
+    <button onclick="SerlfAuth.logout()" class="logout-btn">Logout</button>
+  </div>
+</div>
+<div class="main-layout">
+  <div class="content-area">
+    <div class="dao-stats">
+      <div class="dao-stat"><div class="value">1,247</div><div class="label">Contributors</div></div>
+      <div class="dao-stat"><div class="value" id="m-tools">0</div><div class="label">Active Tools</div></div>
+      <div class="dao-stat"><div class="value">$12.4k</div><div class="label">DAO Treasury</div></div>
+      <div class="dao-stat"><div class="value">89</div><div class="label">Proposals</div></div>
+    </div>
+    <div class="category-filters" id="filters"></div>
+    <div class="section-title">🌱 Open Source Tools</div>
+    <div class="product-grid" id="product-grid"></div>
+    <div class="silos-section">
+      <div class="section-title">🧠 Your Governance Specialists</div>
+      <div class="silo-grid" id="silo-grid"></div>
+    </div>
+    <div class="transparency-log">
+      <h3>🔍 Transparency Log</h3>
+      <div class="log-entry"><span class="action">DAO proposal #89 passed</span><span>2h ago</span></div>
+      <div class="log-entry"><span class="action">Infrastructure fund: +$420</span><span>5h ago</span></div>
+      <div class="log-entry"><span class="action">New contributor: anon_dev_42</span><span>8h ago</span></div>
+      <div class="log-entry"><span class="action">Git Flow v2.1 released</span><span>1d ago</span></div>
+      <div class="log-entry"><span class="action">License audit completed</span><span>2d ago</span></div>
+    </div>
+  </div>
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header" onclick="toggleChat()">
+      <span class="chat-title-text">🧭 DAO Governance Specialist</span>
+      <button class="chat-toggle" id="chat-toggle">◀</button>
+    </div>
+    <div class="chat-body" id="chat-body">
+      <div class="typing-indicator" id="typing"><span class="typing-dots"><span>●</span><span>●</span><span>●</span></span> consulting the DAO...</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Talk to your DAO specialist..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" onclick="sendChat()">→</button>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/auth.js"></script>
+<script src="../shared/specialist-engine.js"></script>
+<script src="../shared/marketplace-ui.js"></script>
+<script src="../shared/stripe-flow.js"></script>
+<script>
+if(!SerlfAuth.requireAuth())throw'auth';
+const user=SerlfAuth.getUser(),DOMAIN='org';
+document.getElementById('greeting').textContent='Welcome, '+user.name;
+let activeFilter='all';
+const categories=['all','core','data','security','creative','ops','oss','support','research'];
+
+function renderFilters(){document.getElementById('filters').innerHTML=categories.map(c=>`<button class="cat-btn ${c===activeFilter?'active':''}" onclick="filterCategory('${c}')">${c}</button>`).join('');}
+function filterCategory(c){activeFilter=c;renderFilters();refreshGrid();}
+
+function refreshGrid(){
+  const owned=user.ownedProducts||[];
+  const products=MarketplaceUI.getProductsForDomain(DOMAIN);
+  const filtered=activeFilter==='all'?products:products.filter(([,p])=>p.category===activeFilter);
+  document.getElementById('product-grid').innerHTML=filtered.map(([id,p])=>MarketplaceUI.renderProductCard(id,p,owned.includes(id))).join('');
+  const u=SerlfAuth.getUser();
+  document.getElementById('pcount').textContent=(u.ownedProducts||[]).length+' tools';
+  document.getElementById('m-tools').textContent=(u.ownedProducts||[]).length;
+  renderSilos();
+}
+
+function renderSilos(){
+  const owned=SerlfAuth.getUser()?.ownedProducts||[];
+  const specMap={core:'user-specialist',data:'data-specialist',security:'security-specialist',creative:'creative-specialist',ops:'ops-specialist',oss:'code-specialist',support:'support-specialist',research:'research-specialist'};
+  const specs=new Set();
+  owned.forEach(pid=>{const p=MarketplaceUI.products[pid];if(p)specs.add(specMap[p.category]||'user-specialist');});
+  document.getElementById('silo-grid').innerHTML=[...specs].map(sid=>{
+    const s=SpecialistEngine.specialists[sid];if(!s)return'';
+    return`<div class="silo-card" onclick="location.href='my-specialist.html?s=${sid}'"><span class="silo-emoji">${s.emoji}</span><div><div class="silo-name">${s.name}</div><div class="silo-status"><span class="status-dot ${SpecialistEngine.getState(sid)}"></span>${SpecialistEngine.getState(sid)}</div></div></div>`;
+  }).join('')||'<p style="color:#4a5080;font-size:.85rem">Activate tools to unlock governance specialists</p>';
+}
+
+function toggleChat(){const p=document.getElementById('chat-panel');p.classList.toggle('collapsed');document.getElementById('chat-toggle').textContent=p.classList.contains('collapsed')?'▶':'◀';}
+function addChatMsg(text,role,sender){const b=document.getElementById('chat-body'),t=document.getElementById('typing'),d=document.createElement('div');d.className='chat-msg '+role;d.innerHTML=(sender?`<div class="sender">${sender}</div>`:'')+text;b.insertBefore(d,t);b.scrollTop=b.scrollHeight;}
+function showSpecialistMessage(text,specId){const s=SpecialistEngine.specialists[specId];addChatMsg(text,'specialist',s?`${s.emoji} ${s.name}`:'🧭 DAO Specialist');}
+async function sendChat(){const i=document.getElementById('chat-input'),m=i.value.trim();if(!m)return;i.value='';addChatMsg(m,'user');document.getElementById('typing').classList.add('show');const r=await SpecialistEngine.chat('user-specialist',m,user);document.getElementById('typing').classList.remove('show');showSpecialistMessage(r.text,'user-specialist');}
+
+renderFilters();refreshGrid();
+setTimeout(()=>{SpecialistEngine.wake('user-specialist');showSpecialistMessage(SpecialistEngine.getFirstMeetGreeting('user-specialist',user),'user-specialist');},500);
+</script>
+</body>
+</html>

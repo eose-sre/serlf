@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>Contribute — serlf.org</title>
+<meta name="description" content="Join the serlf.org open source community. Contribute code, docs, design, or ideas. Earn bounties and recognition.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a1628;--bg2:#0f1f3a;--bg3:#162a4a;--fg:#e8edf5;--fg2:#8899b3;--teal:#10b981;--teal2:#14b8a6;--teal-glow:rgba(16,185,129,.25);--maple:#e63946;--gold:#f4a261;--cyan:#06b6d4;--purple:#8b5cf6;--border:rgba(255,255,255,.08);--radius:8px;--max:1100px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--teal2);text-decoration:none}a:hover{text-decoration:underline}
+.site-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-size:1.4rem;font-weight:800;color:#fff}.logo .oss{color:var(--teal);font-size:.7em;margin-left:.4rem;border:1px solid var(--teal);padding:.1rem .4rem;border-radius:4px;vertical-align:middle}
+nav{display:flex;gap:.2rem;flex-wrap:wrap}
+nav a{padding:.35rem .6rem;border-radius:var(--radius);font-size:.78rem;color:var(--fg2);transition:background .2s}
+nav a:hover{background:var(--bg3);color:#fff;text-decoration:none}nav a.active{background:var(--teal);color:#fff}
+section{padding:4rem 1.5rem}.container{max-width:var(--max);margin:0 auto}
+.section-title{font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:.5rem}
+.section-sub{text-align:center;color:var(--fg2);margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+.btn{display:inline-block;padding:.8rem 2rem;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 20px var(--teal-glow)}
+.btn-secondary{background:var(--bg3);color:#fff;border:1px solid rgba(255,255,255,.1)}
+.flex-center{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem}
+
+.grid{display:grid;gap:1.5rem}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--teal)}
+.card .icon{font-size:2rem;margin-bottom:1rem;display:block}
+.card h3{font-size:1.15rem;margin-bottom:.5rem}
+.card p{color:var(--fg2);font-size:.9rem}
+
+.steps{counter-reset:step;max-width:700px;margin:0 auto}
+.step{counter-increment:step;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem 2rem 2rem 5rem;margin-bottom:1.5rem;position:relative;transition:border-color .2s}
+.step:hover{border-color:var(--teal)}
+.step::before{content:counter(step);position:absolute;left:1.5rem;top:2rem;width:2.5rem;height:2.5rem;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.step h3{font-size:1.2rem;margin-bottom:.5rem}
+.step p{color:var(--fg2);font-size:.95rem}
+.step code{background:var(--bg3);padding:.2rem .5rem;border-radius:4px;font-size:.85rem;color:var(--teal2)}
+
+.bounty-table{width:100%;border-collapse:collapse;margin-top:1rem}
+.bounty-table th{text-align:left;padding:.75rem 1rem;background:var(--bg3);color:var(--fg2);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+.bounty-table td{padding:.75rem 1rem;border-bottom:1px solid var(--border);font-size:.9rem}
+.bounty-table tr:hover{background:var(--bg3)}
+.bounty-amount{color:var(--gold);font-weight:700}
+.bounty-priority{display:inline-block;padding:.15rem .5rem;border-radius:99px;font-size:.7rem;font-weight:700}
+.bp-high{background:rgba(230,57,70,.2);color:var(--maple)}
+.bp-med{background:rgba(244,162,97,.2);color:var(--gold)}
+.bp-low{background:rgba(16,185,129,.2);color:var(--teal)}
+
+.recognition{background:var(--bg2);border:2px solid var(--teal);border-radius:12px;padding:3rem;margin:3rem 0}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1.5rem}
+.badge{background:var(--bg);border-radius:8px;padding:1.25rem;text-align:center}
+.badge .emoji{font-size:2.5rem;margin-bottom:.5rem}
+.badge .badge-name{font-weight:700;font-size:.9rem;margin-bottom:.25rem}
+.badge .badge-req{font-size:.75rem;color:var(--fg2)}
+
+.site-footer{margin-top:auto;background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 1.5rem 1.5rem;font-size:.82rem;color:var(--fg2)}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-bottom:1.5rem;justify-content:center}
+.footer-links a{color:var(--fg2)}.footer-links a:hover{color:#fff}
+.footer-bottom{text-align:center}
+
+@media(max-width:600px){
+  .header-inner{flex-direction:column;gap:.5rem}nav{justify-content:center}
+  .step{padding:2rem 1.5rem 2rem 4.5rem}
+  .step::before{left:1rem}
+  .bounty-table{font-size:.8rem}
+  .bounty-table th,.bounty-table td{padding:.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header"><div class="header-inner">
+<div class="logo">🤝 serlf<span class="oss">OSS</span></div>
+<nav>
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="crew.html">Crew</a>
+<a href="specialists.html">Specialists</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="contribute.html" class="active" style="background:var(--teal);color:#fff;padding:.35rem .8rem;border-radius:4px">Contribute</a>
+</nav>
+</div></header>
+
+<section style="text-align:center;padding:5rem 1.5rem 3rem;position:relative">
+<div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,var(--teal-glow),transparent 70%);pointer-events:none"></div>
+<div style="position:relative">
+<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:800">🤝 Join the Movement</h1>
+<p style="color:var(--fg2);max-width:650px;margin:1rem auto 0;font-size:1.15rem">Open source AI doesn't build itself. Every contribution — code, docs, design, ideas — makes these tools better for everyone. Here's how to get started.</p>
+</div>
+</section>
+
+<section style="padding-top:0">
+<div class="container">
+<h2 class="section-title">🚀 Getting Started</h2>
+<p class="section-sub">From zero to first PR in 4 steps. We've made it as easy as possible.</p>
+
+<div class="steps">
+<div class="step">
+<h3>Pick a Repository</h3>
+<p>Browse our <a href="dashboard.html">8 repositories</a> and find one that interests you. Each repo has a <code>CONTRIBUTING.md</code> with setup instructions. Code Pilot and Bot Factory are great for first-timers.</p>
+</div>
+<div class="step">
+<h3>Find an Issue</h3>
+<p>Look for issues labeled <code>good-first-issue</code> or <code>help-wanted</code>. These are curated specifically for new contributors. Comment "I'll take this" to claim it.</p>
+</div>
+<div class="step">
+<h3>Fork, Branch, Build</h3>
+<p>Fork the repo, create a feature branch, and start building. Every repo has <code>docker-compose up</code> for instant dev environments. Run tests with <code>npm test</code> or <code>make test</code>.</p>
+</div>
+<div class="step">
+<h3>Submit a PR</h3>
+<p>Open a pull request with a clear description. A crew member will review within 48 hours. First-time PRs get extra attention and constructive feedback. 🎉</p>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2 class="section-title">🎯 Ways to Contribute</h2>
+<p class="section-sub">Not a coder? No problem. We need all kinds of help.</p>
+<div class="grid grid-3">
+<div class="card"><div class="icon">💻</div><h3>Code</h3><p>Features, bug fixes, performance improvements. TypeScript, Python, Rust, Go — we use them all. Every repo has a tech stack guide.</p></div>
+<div class="card"><div class="icon">📖</div><h3>Documentation</h3><p>Tutorials, API docs, README improvements, translations. Clear docs = usable tools. This is high-impact work.</p></div>
+<div class="card"><div class="icon">🎨</div><h3>Design & UX</h3><p>UI mockups, accessibility audits, user research. Make our tools beautiful and inclusive. Figma files in each repo.</p></div>
+<div class="card"><div class="icon">🧪</div><h3>Testing & QA</h3><p>Write tests, find edge cases, stress test under load. Break things before users do. Test coverage reports are public.</p></div>
+<div class="card"><div class="icon">🌍</div><h3>Translations</h3><p>Help us speak the world's languages. i18n framework is built in. Currently: EN, FR, ES, DE, ZH, JA. More welcome!</p></div>
+<div class="card"><div class="icon">💡</div><h3>Ideas & Feedback</h3><p>Open a discussion, propose a SIP, vote on features. Your perspective shapes the roadmap. Every voice counts.</p></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2 class="section-title">💰 Active Bounties</h2>
+<p class="section-sub">High-priority work with real rewards. Claim a bounty, ship the fix, get paid.</p>
+
+<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+<table class="bounty-table">
+<thead>
+<tr><th>Bounty</th><th>Repo</th><th>Priority</th><th>Reward</th></tr>
+</thead>
+<tbody>
+<tr><td>Streaming response support for Claude 3.5</td><td>AI Chat</td><td><span class="bounty-priority bp-high">High</span></td><td class="bounty-amount">$500</td></tr>
+<tr><td>Kubernetes Helm chart improvements</td><td>Cloud Dock</td><td><span class="bounty-priority bp-high">High</span></td><td class="bounty-amount">$400</td></tr>
+<tr><td>Visual flow builder drag-and-drop rework</td><td>Bot Factory</td><td><span class="bounty-priority bp-med">Medium</span></td><td class="bounty-amount">$350</td></tr>
+<tr><td>Multi-language autocomplete (Rust, Go)</td><td>Code Pilot</td><td><span class="bounty-priority bp-med">Medium</span></td><td class="bounty-amount">$300</td></tr>
+<tr><td>End-to-end encryption audit</td><td>Data Vault</td><td><span class="bounty-priority bp-high">High</span></td><td class="bounty-amount">$500</td></tr>
+<tr><td>SEO scoring algorithm improvements</td><td>AI Writer</td><td><span class="bounty-priority bp-low">Low</span></td><td class="bounty-amount">$150</td></tr>
+<tr><td>Fine-tune progress websocket API</td><td>AI Garage</td><td><span class="bounty-priority bp-med">Medium</span></td><td class="bounty-amount">$250</td></tr>
+<tr><td>Cost anomaly detection alerts</td><td>Token Bank</td><td><span class="bounty-priority bp-low">Low</span></td><td class="bounty-amount">$200</td></tr>
+</tbody>
+</table>
+</div>
+<p style="text-align:center;color:var(--fg2);font-size:.85rem;margin-top:1rem">Bounties funded from community treasury (10% of revenue). <a href="dashboard.html">See financial transparency →</a></p>
+</div>
+</section>
+
+<section>
+<div class="container">
+<div class="recognition">
+<h2 style="color:var(--teal);text-align:center">🏅 Recognition & Badges</h2>
+<p style="text-align:center;color:var(--fg2);margin-bottom:.5rem">Contributions earn badges displayed on your profile and the community dashboard.</p>
+<div class="badge-grid">
+<div class="badge"><div class="emoji">🌱</div><div class="badge-name">First Sprout</div><div class="badge-req">First merged PR</div></div>
+<div class="badge"><div class="emoji">🔧</div><div class="badge-name">Wrench Turner</div><div class="badge-req">10 merged PRs</div></div>
+<div class="badge"><div class="emoji">🏗️</div><div class="badge-name">Builder</div><div class="badge-req">25 merged PRs</div></div>
+<div class="badge"><div class="emoji">⭐</div><div class="badge-name">All-Star</div><div class="badge-req">50 merged PRs</div></div>
+<div class="badge"><div class="emoji">📖</div><div class="badge-name">Librarian</div><div class="badge-req">10 doc contributions</div></div>
+<div class="badge"><div class="emoji">🐛</div><div class="badge-name">Bug Hunter</div><div class="badge-req">Report 10 valid bugs</div></div>
+<div class="badge"><div class="emoji">🗳️</div><div class="badge-name">Citizen</div><div class="badge-req">Vote on 5 SIPs</div></div>
+<div class="badge"><div class="emoji">🏆</div><div class="badge-name">Bounty Hunter</div><div class="badge-req">Complete 3 bounties</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2 class="section-title">📋 DAO Charter (Summary)</h2>
+<p class="section-sub">The rules we live by. Full charter on GitHub.</p>
+<div class="grid grid-2">
+<div class="card">
+<h3>🗳️ Voting Rights</h3>
+<p>Any contributor with 3+ merged PRs can vote on SIPs. One person, one vote. Voting is asynchronous (7-day window). Results are binding.</p>
+</div>
+<div class="card">
+<h3>💰 Treasury Rules</h3>
+<p>Multi-sig wallet. Spending over $500 requires community vote. 10% → feedles.ca is charter-locked (requires 3/4 supermajority to change).</p>
+</div>
+<div class="card">
+<h3>🔄 Crew Elections</h3>
+<p>Crew leads (DAO, Lucien, Rick) are confirmed annually. Any contributor can run. Simple majority wins. No term limits, but accountability is constant.</p>
+</div>
+<div class="card">
+<h3>⚖️ Conflict Resolution</h3>
+<p>Disputes go to a 5-person arbitration panel elected quarterly. Decisions are final but appealable to full community vote. Transparency over speed.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section style="text-align:center;padding:3rem 1.5rem 5rem;background:linear-gradient(180deg,var(--bg),var(--bg2))">
+<h2 style="font-size:1.8rem;margin-bottom:1rem">Ready to make AI open for everyone?</h2>
+<p style="color:var(--fg2);max-width:500px;margin:0 auto 2rem">Your first PR is waiting. Pick a repo, find an issue, and let's build something great together. 🇨🇦</p>
+<div class="flex-center">
+<a href="dashboard.html" class="btn btn-teal">📊 Find an Issue</a>
+<a href="specialists.html" class="btn btn-secondary">💬 Ask a Specialist</a>
+<a href="crew.html" class="btn btn-secondary">👥 Meet the Crew</a>
+</div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+<div class="footer-links">
+<a href="index.html">Home</a><a href="products.html">Products</a><a href="crew.html">Crew</a><a href="specialists.html">Specialists</a><a href="dashboard.html">Dashboard</a><a href="contribute.html">Contribute</a>
+</div>
+<div class="footer-bottom">🤝 serlf.org · Open Source AI for Everyone · 🇨🇦 Canada<br><em>"AI belongs to everyone. We're proving it."</em></div>
+</div></footer>
+
+</body>
+</html>

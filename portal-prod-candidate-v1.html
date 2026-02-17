@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Production Checklist: Configure X-Frame-Options, X-Content-Type-Options, and Permissions-Policy headers in Nginx. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' wss:; media-src 'self' data:;">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PEMOS Portal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--fg:#e6edf3;--fg2:#8b949e;--accent:#58a6ff;--green:#3fb950;--orange:#e36209;--red:#f85149;--border:#30363d}
+html.light{--bg:#ffffff;--bg2:#f6f8fa;--bg3:#e1e4e8;--fg:#24292f;--fg2:#57606a;--accent:#0969da;--green:#1f883d;--orange:#d1822c;--red:#cf222e;--border:#d0d7de}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);height:100vh;display:flex;transition:background .2s,color .2s}
+#sidebar{width:260px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:background .2s,border .2s}
+#sidebar .brand{padding:16px;border-bottom:1px solid var(--border);text-align:center}
+#sidebar .brand .icon{font-size:28px}
+#sidebar .brand .name{font-size:18px;font-weight:700;margin-top:4px}
+#sidebar .brand .sub{font-size:11px;color:var(--fg2);letter-spacing:2px}
+#agents{flex:1;overflow-y:auto;padding:8px}
+.agent-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:none;border:none;border-radius:8px;color:var(--fg);cursor:pointer;text-align:left;font-size:14px;position:relative}
+.agent-btn:hover{background:var(--bg3)}
+.agent-btn.active{background:var(--accent);color:#fff}
+.agent-btn .icon{font-size:20px;width:28px;text-align:center}
+.agent-btn .info{display:flex;flex-direction:column}
+.agent-btn .role{font-size:11px;color:var(--fg2)}
+.agent-btn.active .role{color:rgba(255,255,255,.7)}
+.agent-status{width:8px;height:8px;border-radius:50%;background:var(--fg2);position:absolute;right:12px;top:18px}
+.agent-status.online{background:var(--green)}
+.agent-status.busy{background:var(--orange)}
+#settings{padding:12px;border-top:1px solid var(--border)}
+#settings input{width:100%;padding:6px 8px;margin-top:4px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--fg);font-size:12px}
+#settings label{font-size:11px;color:var(--fg2);display:block;margin-top:8px}
+#main{flex:1;display:flex;flex-direction:column}
+#topbar{padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:background .2s,border .2s}
+#topbar .hamburger{display:none;background:none;border:none;color:var(--fg);font-size:20px;cursor:pointer;padding:4px 8px}
+#topbar-left{flex:1;display:flex;align-items:center;gap:8px;min-width:200px}
+#topbar-right{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--fg2)}
+.top-icon{cursor:pointer;font-size:16px;opacity:.8} .top-icon:hover{opacity:1}
+#search-input{background:var(--bg);border:1px solid var(--border);padding:4px 8px;border-radius:4px;color:var(--fg);width:150px}
+#status-pulse{width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0;position:relative}
+#status-pulse.connected{background:var(--green)}
+#status-pulse.connected::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(.8);opacity:1}100%{transform:scale(2.4);opacity:0}}
+#messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:80%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.5;word-wrap:break-word;position:relative}
+.msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.msg.agent{align-self:flex-start;background:var(--bg3);border-bottom-left-radius:4px}
+.msg:hover .reactions{opacity:1}
+.reactions{position:absolute;bottom:-12px;left:10px;display:flex;gap:4px;background:var(--bg2);border-radius:10px;padding:2px 4px;font-size:12px;opacity:0;transition:opacity .2s;cursor:pointer}
+.reactions span:hover{transform:scale(1.2)}
+.msg-meta{font-size:10px;color:var(--fg2);padding:0 5px;margin-top:4px;text-align:right}
+.msg h1,.msg h2,.msg h3{margin:10px 0 5px;line-height:1.2} .msg ul,.msg ol{margin:8px 0 8px 20px} .msg li{margin-bottom:4px}
+.msg pre{background:var(--bg);padding:8px;border-radius:4px;overflow-x:auto;margin:6px 0;font-size:13px}
+.msg code{background:var(--bg);padding:1px 4px;border-radius:3px;font-size:13px}
+.msg pre code{background:none;padding:0}
+.sys{color:var(--fg2);font-size:12px;text-align:center;padding:4px}
+.typing{color:var(--fg2);font-size:13px;align-self:flex-start;padding:4px 14px}
+#input-area{padding:12px 16px;border-top:1px solid var(--border);background:var(--bg2);display:flex;gap:8px;align-items:flex-end;transition:background .2s,border .2s}
+#input-area textarea{flex:1;resize:none;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--fg);font-size:14px;font-family:inherit;max-height:120px;line-height:1.4}
+#input-area textarea:focus{outline:none;border-color:var(--accent)}
+#input-area button{padding:10px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600}
+#input-area button:hover{opacity:.9}
+#input-area button:disabled{opacity:.4;cursor:default}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
+.modal.show{opacity:1;visibility:visible}
+.modal-content{background:var(--bg2);padding:20px;border-radius:8px;min-width:400px;max-width:90%;box-shadow:0 5px 15px rgba(0,0,0,.3)}
+.modal-content h2{margin-bottom:15px}
+.modal-content pre{background:var(--bg);padding:10px;border-radius:4px;white-space:pre-wrap}
+.stale-indicator{position:fixed;top:0;left:0;width:100%;background:var(--orange);color:#fff;text-align:center;padding:4px;font-size:12px;z-index:101}
+#bottom-controls{padding:4px 16px;font-size:11px;color:var(--fg2);display:flex;justify-content:space-between;border-top:1px solid var(--border)}
+@media(max-width:768px){#sidebar{position:fixed;left:-280px;z-index:10;height:100%;transition:left .2s}#sidebar.open{left:0}#topbar .hamburger{display:block}#topbar-right{display:none}}
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <div class="brand"><div class="icon" id="brand-icon">🧭</div><div class="name" id="brand-name">PEMOS</div><div class="sub" id="brand-sub">PERSONAL ENGAGEMENT MODEL</div></div>
+  <div id="agents"></div>
+  <div id="settings">
+    <label>Gateway Hosts (comma-separated)</label>
+    <input id="gw-hosts" placeholder="ws://host1, ws://host2">
+    <label>Token</label>
+    <input id="gw-token" type="password" placeholder="token">
+    <label style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+      <input type="checkbox" id="sound-toggle"> Enable Notification Sounds
+    </label>
+  </div>
+</div>
+<div id="main">
+  <div id="topbar">
+    <button class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Toggle navigation">☰</button>
+    <div id="topbar-left">
+      <div id="status-pulse" title="Disconnected"></div>
+      <span id="current-agent">Select an agent</span>
+    </div>
+    <div id="topbar-right">
+      <span><input type="text" id="search-input" placeholder="Search..."></span>
+      <span id="silo-indicator" title="Silo Name"></span>
+      <span id="gear-indicator" title="Current Gear"></span>
+      <span class="top-icon" onclick="exportChat()" title="Export Chat">💾</span>
+      <span class="top-icon" onclick="toggleTheme()" title="Toggle Theme">🌗</span>
+      <span class="top-icon" onclick="showShortcuts()" title="Keyboard Shortcuts">?</span>
+    </div>
+  </div>
+  <div id="messages"></div>
+  <div id="bottom-controls">
+    <span id="pulse-details"></span>
+    <span id="active-endpoint"></span>
+  </div>
+  <div id="input-area">
+    <textarea id="msg-input" placeholder="Type a message..." rows="1" disabled></textarea>
+    <button id="send-btn" onclick="sendMessage()" disabled>Send</button>
+  </div>
+</div>
+
+<div class="modal" id="shortcuts-modal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2>Keyboard Shortcuts</h2>
+    <pre>
+<b>Enter</b>        - Send message
+<b>Shift+Enter</b> - New line
+<b>?</b>           - Show this help
+<b>Esc</b>         - Close this help
+    </pre>
+  </div>
+</div>
+
+<script>
+'use strict';
+let config={},agents=[],activeAgent=null,connected=false;
+let ws=null,connectReqId=null,reconnectTimer=null,sentKeys=new Set();
+let agentRunning=false,reconnectDelay=3000,keepaliveTimer=null,keepaliveReqIds=new Set();
+let gatewayUrls=[],currentGatewayIndex=0;
+let lastMsgTime=0,latency=0,staleTimer=null;
+let notificationSound=new Audio('data:audio/mp3;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGliZU sopa...');
+const UIElements={
+  msgEl:document.getElementById('messages'),inputEl:document.getElementById('msg-input'),
+  sendBtn:document.getElementById('send-btn'),pulse:document.getElementById('status-pulse'),
+  searchInput:document.getElementById('search-input'),soundToggle:document.getElementById('sound-toggle'),
+  pulseDetails:document.getElementById('pulse-details'),activeEndpoint:document.getElementById('active-endpoint'),
+  siloIndicator:document.getElementById('silo-indicator'),gearIndicator:document.getElementById('gear-indicator')
+};
+
+function toStr(v){
+  if(v===null||v===undefined)return'';if(typeof v==='string')return v;
+  if(Array.isArray(v))return v.map(p=>typeof p==='string'?p:(p&&(p.text||p.content))||'').join('');
+  if(typeof v==='object')return v.text||v.content||'';
+  return String(v);
+}
+
+function sanitize(s) {
+  return toStr(s).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function md(s){
+  s=sanitize(toStr(s));if(!s)return'';
+  s=s.replace(/```(\w*)\n([\s\S]*?)```/g,'<pre><code>$2</code></pre>');
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  s=s.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
+  s=s.replace(/^# (.*$)/gim,'<h1>$1</h1>').replace(/^## (.*$)/gim,'<h2>$1</h2>').replace(/^### (.*$)/gim,'<h3>$1</h3>');
+  s=s.replace(/^\s*([*+-]) (.*)/gim,'<ul><li>$2</li></ul>').replace(/<\/ul>\n<ul>/gim,'');
+  s=s.replace(/^\s*(\d+\.) (.*)/gim,'<ol><li>$2</li></ol>').replace(/<\/ol>\n<ol>/gim,'');
+  s=s.replace(/\n/g,'<br>');
+  return s;
+}
+
+(async()=>{
+  try{const r=await fetch('/config.json');config=await r.json();}catch(e){config={};}
+  document.getElementById('brand-icon').textContent=config.brand?.icon||'🧭';
+  document.getElementById('brand-name').textContent=config.brand?.name||'PEMOS';
+  document.getElementById('brand-sub').textContent=config.brand?.subtitle||'';
+  document.title=(config.brand?.name||'PEMOS')+' Portal';
+  agents=config.agents||[{id:'main',name:'Main',icon:'🏠',role:'Agent',status:'online'}];
+  const el=document.getElementById('agents');
+  el.innerHTML=agents.map(a=>`<button class="agent-btn" data-id="${a.id}" onclick="selectAgent('${a.id}')"><span class="icon">${a.icon||'🤖'}</span><span class="info"><span>${a.name}</span><span class="role">${a.role||''}</span></span><span class="agent-status ${a.status||'online'}"></span></button>`).join('');
+  
+  const savedHosts=localStorage.getItem('pemos-gw-hosts') || config.gateway?.agentWs || 'ws://localhost:18789';
+  const savedToken=localStorage.getItem('pemos-gw-token') || config.gateway?.token || '';
+  document.getElementById('gw-hosts').value=savedHosts;
+  document.getElementById('gw-token').value=savedToken;
+  document.getElementById('gw-hosts').onchange=()=>localStorage.setItem('pemos-gw-hosts',document.getElementById('gw-hosts').value);
+  document.getElementById('gw-token').onchange=()=>localStorage.setItem('pemos-gw-token',document.getElementById('gw-token').value);
+  
+  UIElements.soundToggle.checked=localStorage.getItem('pemos-sound-enabled')==='true';
+  UIElements.soundToggle.onchange=()=>localStorage.setItem('pemos-sound-enabled',UIElements.soundToggle.checked);
+  
+  if(localStorage.getItem('pemos-theme')==='light')document.documentElement.classList.add('light');
+  selectAgent(agents[0]?.id||'main');
+})();
+
+function getGwUrls(){
+  const h=document.getElementById('gw-hosts').value.trim();
+  return h.split(',').map(s=>s.trim()).filter(Boolean);
+}
+
+function selectAgent(id){
+  const a=agents.find(x=>x.id===id);if(!a)return;
+  if(activeAgent?.id===a.id&&connected)return;
+  activeAgent=a;
+  document.getElementById('current-agent').textContent=`${a.icon||''} ${a.name}`;
+  document.querySelectorAll('.agent-btn').forEach(b=>b.classList.toggle('active',b.dataset.id===a.id));
+  document.getElementById('sidebar').classList.remove('open');
+  UIElements.msgEl.innerHTML='';addSys('Connecting to '+a.name+'...');
+  gatewayUrls=getGwUrls();currentGatewayIndex=0;
+  connect();
+}
+
+function connect(){
+  if(reconnectTimer){clearTimeout(reconnectTimer);reconnectTimer=null;}
+  if(keepaliveTimer){clearInterval(keepaliveTimer);keepaliveTimer=null;}
+  if(ws){ws.onclose=null;ws.onerror=null;ws.close();ws=null;}
+  connected=false;connectReqId=null;agentRunning=false;
+  updatePulse(false);
+  UIElements.inputEl.disabled=true;UIElements.sendBtn.disabled=true;
+  
+  if(gatewayUrls.length===0){addSys('Error: No gateway hosts configured.');return;}
+  const url=gatewayUrls[currentGatewayIndex];
+  UIElements.activeEndpoint.textContent=`Trying: ${url}`;
+  
+  try{ws=new WebSocket(url);}catch(e){addSys(`Connection to ${url} failed: ${e.message}`);scheduleReconnect();return;}
+
+  const connectStartTime=Date.now();
+  ws.onopen=()=>{latency=Date.now()-connectStartTime;};
+  ws.onmessage=ev=>{
+    lastMsgTime=Date.now();updatePulse(true);
+    let d;try{d=JSON.parse(ev.data);}catch{return;}
+    try{handleFrame(d);}catch(err){console.error('Frame error:',err,'Frame:',d);}
+  };
+  ws.onclose=ev=>{
+    if(connected){
+      connected=false;updatePulse(false);
+      UIElements.inputEl.disabled=true;UIElements.sendBtn.disabled=true;
+      if(!agentRunning)addSys('Disconnected.');
+    }
+    scheduleReconnect();
+  };
+  ws.onerror=()=>{addSys(`Error connecting to ${gatewayUrls[currentGatewayIndex]}.`);};
+}
+
+function handleFrame(d){
+  if(d.type==='event'&&d.event==='connect.challenge'){
+    const token=document.getElementById('gw-token').value.trim();
+    connectReqId=crypto.randomUUID();
+    ws.send(JSON.stringify({type:'req',id:connectReqId,method:'connect',params:{
+      minProtocol:3,maxProtocol:3,
+      client:{id:'pemos-portal-beta',displayName:'PEMOS Portal',version:'2.0.0',platform:'browser',mode:'webchat'},
+      caps:[],auth:token?{token}:undefined,role:'operator',scopes:['operator.admin']
+    }}));
+    return;
+  }
+  if(d.type==='res'&&d.id===connectReqId){
+    connectReqId=null;
+    if(d.ok){
+      connected=true;reconnectDelay=3000;agentRunning=false;
+      updatePulse(true,d.payload?.instance);
+      UIElements.inputEl.disabled=false;UIElements.sendBtn.disabled=false;UIElements.inputEl.focus();
+      addSys('Connected to '+activeAgent.name);
+      UIElements.activeEndpoint.textContent=`Active: ${gatewayUrls[currentGatewayIndex]}`;
+      UIElements.siloIndicator.textContent=`🛡️ ${d.payload?.instance?.silo || 'N/A'} (${d.payload?.instance?.isolation || '0/0'})`;
+      if(keepaliveTimer)clearInterval(keepaliveTimer);
+      keepaliveTimer=setInterval(()=>{
+        if(ws&&ws.readyState===WebSocket.OPEN&&connected){
+          const kid=crypto.randomUUID();keepaliveReqIds.add(kid);
+          ws.send(JSON.stringify({type:'req',id:kid,method:'chat.history',params:{sessionKey:`agent:${activeAgent.id}:main`,limit:0}}));
+        }
+      },30000);
+      ws.send(JSON.stringify({type:'req',id:crypto.randomUUID(),method:'chat.history',params:{sessionKey:`agent:${activeAgent.id}:main`,limit:50}}));
+    }else{addSys('Error: '+toStr(d.error?.message||'connection failed'));scheduleReconnect();}
+    return;
+  }
+  if(d.type==='res'){
+    if(d.id&&keepaliveReqIds.has(d.id)){keepaliveReqIds.delete(d.id);return;}
+    if(!d.ok&&d.error)addSys('Error: '+toStr(d.error.message));
+    if(d.ok&&d.payload?.messages){d.payload.messages.forEach(m=>addMessage(m));}
+    return;
+  }
+  if(d.type==='event'){
+    if(d.event==='chat'||d.event==='agent'||d.event==='agent.typing'){addMessage(d.params);return;}
+  }
+}
+
+function scheduleReconnect(){
+  currentGatewayIndex=(currentGatewayIndex+1)%gatewayUrls.length;
+  if(reconnectTimer)return;
+  reconnectTimer=setTimeout(()=>{
+    reconnectTimer=null;
+    reconnectDelay=Math.min(reconnectDelay*1.5,30000);
+    if(activeAgent)connect();
+  },reconnectDelay);
+}
+
+let streamEl=null,streamBuf='',streamMeta={};
+function appendChunk(text,meta){
+  removeTyping();
+  if(!streamEl){
+    streamEl=document.createElement('div');streamEl.className='msg agent';
+    UIElements.msgEl.appendChild(streamEl);streamBuf='';
+  }
+  streamBuf+=text;
+  streamEl.innerHTML=md(streamBuf);
+  if(meta?.gear)UIElements.gearIndicator.textContent=`⚙️ ${meta.gear}`;
+  streamMeta={...streamMeta, ...meta};
+  UIElements.msgEl.scrollTop=UIElements.msgEl.scrollHeight;
+}
+function finalizeStream(){
+  if(streamEl){
+    const metaEl=document.createElement('div');metaEl.className='msg-meta';
+    metaEl.textContent=`Tokens: ${streamMeta.tokens||'N/A'} | Cost: $${(streamMeta.cost||0).toFixed(5)}`;
+    streamEl.appendChild(metaEl);
+    const reactionsEl=document.createElement('div');reactionsEl.className='reactions';
+    reactionsEl.innerHTML='<span>👍</span><span>❤️</span><span>😂</span><span>🤔</span>';
+    streamEl.appendChild(reactionsEl);
+    streamEl=null;streamBuf='';streamMeta={};
+  }
+}
+
+function addMessage(p){
+  if(p.idempotencyKey&&sentKeys.has(p.idempotencyKey))return;
+  const role=p.role||'assistant';
+  if(role==='assistant' && (p.thinking||p.status==='thinking')){showTyping();return;}
+  if(role==='assistant' && (p.chunk||p.delta)){appendChunk(toStr(p.chunk||p.delta),p.meta);return;}
+  
+  finalizeStream();
+  const text=toStr(p.text||p.message||p.content);
+  if(!text||text.trim()==='NO_REPLY')return;
+  
+  const ts = p.timestamp ? new Date(p.timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
+
+  if(role==='user'){addMsgDOM('user',text, null, ts);}
+  else if(role==='assistant'){
+    agentRunning=false;removeTyping();addMsgDOM('agent',text,p.meta, ts);
+    if(document.hidden&&UIElements.soundToggle.checked)notificationSound.play();
+  }
+}
+
+function addMsgDOM(who,text,meta,ts){
+  const el=document.createElement('div');el.className='msg '+who;
+  const contentEl = document.createElement('div');
+  contentEl.innerHTML = who==='agent' ? md(text) : sanitize(text);
+  el.appendChild(contentEl);
+
+  const metaRow = document.createElement('div');
+  metaRow.style.display = 'flex';
+  metaRow.style.justifyContent = 'space-between';
+  metaRow.style.alignItems = 'center';
+
+  const tsEl = document.createElement('div');
+  tsEl.className = 'msg-meta';
+  tsEl.textContent = ts;
+  tsEl.style.textAlign = 'left';
+  metaRow.appendChild(tsEl);
+
+  if(meta){
+    const metaEl=document.createElement('div');metaEl.className='msg-meta';
+    metaEl.textContent=`Tokens: ${meta.tokens||'N/A'} | Cost: $${(meta.cost||0).toFixed(5)}`;
+    metaRow.appendChild(metaEl);
+    if(meta.gear)UIElements.gearIndicator.textContent=`⚙️ ${meta.gear}`;
+  }
+  el.appendChild(metaRow);
+
+  if(who==='agent'){
+    const reactionsEl=document.createElement('div');reactionsEl.className='reactions';
+    reactionsEl.innerHTML='<span>👍</span><span>❤️</span><span>😂</span><span>🤔</span>';
+    el.appendChild(reactionsEl);
+  }
+  UIElements.msgEl.appendChild(el);UIElements.msgEl.scrollTop=UIElements.msgEl.scrollHeight;
+}
+function addSys(t){const el=document.createElement('div');el.className='sys';el.textContent=t;UIElements.msgEl.appendChild(el);UIElements.msgEl.scrollTop=UIElements.msgEl.scrollHeight;}
+function showTyping(){if(!document.querySelector('.typing')){const el=document.createElement('div');el.className='typing';el.textContent='Thinking...';UIElements.msgEl.appendChild(el);UIElements.msgEl.scrollTop=UIElements.msgEl.scrollHeight;}}
+function removeTyping(){document.querySelectorAll('.typing').forEach(e=>e.remove());}
+
+function sendMessage(){
+  const text=UIElements.inputEl.value.trim();
+  if(!text||!ws||!connected)return;
+  const sessionKey=`agent:${activeAgent.id}:main`;
+  const idempotencyKey=crypto.randomUUID();
+  sentKeys.add(idempotencyKey);
+  if(sentKeys.size>200){const it=sentKeys.values();for(let i=0;i<100;i++)sentKeys.delete(it.next().value);}
+  ws.send(JSON.stringify({type:'req',id:crypto.randomUUID(),method:'chat.send',params:{sessionKey,idempotencyKey,message:text}}));
+  addMsgDOM('user',text, null, new Date().toLocaleTimeString());
+  UIElements.inputEl.value='';UIElements.inputEl.style.height='auto';
+  agentRunning=true;
+  showTyping();
+}
+
+function updatePulse(state,instanceInfo){
+  UIElements.pulse.classList.toggle('connected',state);
+  UIElements.pulse.title=state?'Connected':'Disconnected';
+  if(state){
+    const timeSince=lastMsgTime?((Date.now()-lastMsgTime)/1000).toFixed(1)+'s ago':'N/A';
+    UIElements.pulseDetails.textContent=`Latency: ${latency}ms | Last Msg: ${timeSince}`;
+    if(staleTimer)clearTimeout(staleTimer);
+    staleTimer=setTimeout(()=>document.querySelector('.stale-indicator')?.remove(),1000);
+    staleTimer=setTimeout(showStaleIndicator,60000);
+  }else{
+    UIElements.pulseDetails.textContent='Attempting to reconnect...';
+  }
+}
+function showStaleIndicator(){if(connected)document.body.insertAdjacentHTML('afterbegin','<div class="stale-indicator">Connection may be stale. Last message received over a minute ago.</div>');}
+
+function toggleTheme(){document.documentElement.classList.toggle('light');localStorage.setItem('pemos-theme',document.documentElement.classList.contains('light')?'light':'dark');}
+function showShortcuts(){document.getElementById('shortcuts-modal').classList.add('show');}
+function hideShortcuts(){document.getElementById('shortcuts-modal').classList.remove('show');}
+function exportChat(){
+  const history=Array.from(UIElements.msgEl.children).map(el=>{
+    if(el.classList.contains('sys'))return{type:'system',text:el.textContent};
+    const who=el.classList.contains('user')?'user':'agent';
+    const text=el.childNodes[0].textContent;
+    return{type:who,text};
+  }).filter(m=>m.type!=='system');
+  const blob=new Blob([JSON.stringify(history,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`pemos-chat-${activeAgent.id}-${new Date().toISOString()}.json`;
+  a.click();
+}
+UIElements.searchInput.addEventListener('input',e=>{
+  const query=e.target.value.toLowerCase();
+  document.querySelectorAll('.msg').forEach(msg=>{
+    msg.style.display=msg.textContent.toLowerCase().includes(query)?'':'none';
+  });
+});
+UIElements.inputEl.addEventListener('input',()=>{UIElements.inputEl.style.height='auto';UIElements.inputEl.style.height=Math.min(UIElements.inputEl.scrollHeight,120)+'px';});
+UIElements.inputEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+document.addEventListener('keydown',e=>{if(e.key==='?')showShortcuts();if(e.key==='Escape')hideShortcuts();});
+document.getElementById('shortcuts-modal').addEventListener('click',hideShortcuts);
+</script>
+</body>
+</html>

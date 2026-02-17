@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Create & Sell — serlf.store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--navy3:#1a2235;--orange:#f59e0b;--amber:#d97706;--gold:#fbbf24;--text:#e5e7eb;--muted:#9ca3af;--white:#fff;--green:#10b981}
+body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{color:var(--gold)}
+nav{background:var(--navy2);border-bottom:1px solid #1f2937;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;font-weight:800;color:var(--white)}.logo span{color:var(--orange)}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul a{color:var(--muted);font-size:.9rem;font-weight:500}nav ul a:hover{color:var(--orange)}
+.hero{text-align:center;padding:4rem 2rem 3rem;background:linear-gradient(180deg,var(--navy2),var(--navy))}
+.hero h1{font-size:2.5rem;font-weight:800;color:var(--white);margin-bottom:.75rem}
+.hero h1 span{color:var(--orange)}
+.hero p{color:var(--muted);max-width:550px;margin:0 auto 2rem;font-size:1.1rem}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto 3rem;padding:0 2rem}
+.step{text-align:center;padding:2rem 1.5rem;background:var(--navy2);border:1px solid #1f2937;border-radius:12px}
+.step-num{width:40px;height:40px;border-radius:50%;background:var(--orange);color:var(--navy);font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.1rem}
+.step h3{color:var(--white);font-size:1rem;margin-bottom:.5rem}
+.step p{color:var(--muted);font-size:.85rem}
+.content{max-width:900px;margin:0 auto;padding:0 2rem 4rem}
+.upload-form{background:var(--navy2);border:1px solid #1f2937;border-radius:16px;padding:2.5rem;margin-bottom:2rem}
+.upload-form h2{font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:1.5rem}
+.form-group{margin-bottom:1.5rem}
+.form-group label{display:block;font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+.form-group .hint{font-size:.75rem;color:var(--muted);margin-top:.25rem}
+input[type=text],input[type=number],textarea,select{width:100%;padding:.75rem 1rem;background:var(--navy3);border:1px solid #374151;border-radius:8px;color:var(--text);font-size:.95rem;font-family:inherit;transition:border-color .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange)}
+textarea{resize:vertical;min-height:100px}
+select{cursor:pointer}
+.dropzone{border:2px dashed #374151;border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s}
+.dropzone:hover{border-color:var(--orange);background:rgba(245,158,11,.03)}
+.dropzone-icon{font-size:2.5rem;margin-bottom:.75rem}
+.dropzone-text{color:var(--muted);font-size:.9rem}
+.dropzone-text strong{color:var(--orange)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.tag-input{display:flex;flex-wrap:wrap;gap:.5rem;padding:.5rem;background:var(--navy3);border:1px solid #374151;border-radius:8px;min-height:44px}
+.tag{background:var(--orange);color:var(--navy);font-size:.8rem;font-weight:600;padding:.25rem .75rem;border-radius:6px;display:flex;align-items:center;gap:.35rem}
+.tag .x{cursor:pointer;font-weight:800}
+.btn{display:inline-block;padding:.85rem 2.5rem;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--orange);color:var(--navy)}.btn-primary:hover{background:var(--gold)}
+.btn-outline{border:2px solid #374151;color:var(--muted);background:transparent}.btn-outline:hover{border-color:var(--orange);color:var(--orange)}
+.btn-row{display:flex;gap:1rem;justify-content:flex-end;margin-top:2rem}
+.earnings{background:var(--navy2);border:1px solid #1f2937;border-radius:16px;padding:2.5rem}
+.earnings h2{font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:1.5rem}
+.earn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem}
+.earn-card{background:var(--navy3);border-radius:10px;padding:1.5rem;text-align:center}
+.earn-card .pct{font-size:2rem;font-weight:800;color:var(--green)}
+.earn-card .desc{font-size:.85rem;color:var(--muted);margin-top:.25rem}
+.guidelines{margin-top:2rem}
+.guidelines h3{color:var(--white);margin-bottom:1rem}
+.guidelines ul{list-style:none}
+.guidelines li{padding:.4rem 0;font-size:.9rem;color:var(--muted)}.guidelines li::before{content:'✓ ';color:var(--green);font-weight:700}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid #1f2937}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.steps{grid-template-columns:1fr}nav{flex-wrap:wrap;gap:.5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><a href="index.html" style="color:var(--white)">serlf<span>.store</span></a></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="templates.html">Templates</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="create.html" style="color:var(--orange)">Create</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1>Build. Upload. <span>Earn.</span></h1>
+  <p>Turn your AI templates, datasets, and digital tools into revenue. Join the serlf creator economy.</p>
+</section>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-num">1</div>
+    <h3>Create</h3>
+    <p>Build AI templates, datasets, bots, or design assets using your expertise.</p>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <h3>Upload</h3>
+    <p>Package your work, set a price, and submit for community review.</p>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <h3>Review</h3>
+    <p>DAO reviews for quality. Approved assets go live instantly.</p>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <h3>Earn</h3>
+    <p>Earn on every download. Transparent payouts via Token Bank.</p>
+  </div>
+</div>
+
+<div class="content">
+  <div class="upload-form">
+    <h2>📤 Upload Your Asset</h2>
+    <div class="form-group">
+      <label>Product Name</label>
+      <input type="text" placeholder="e.g., GPT-4 Prompt Engineering Kit">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select>
+          <option value="">Select category...</option>
+          <option>AI Model Templates</option>
+          <option>Bot Templates</option>
+          <option>Site Templates</option>
+          <option>Form Templates</option>
+          <option>Design Assets</option>
+          <option>Datasets</option>
+          <option>Tools & Scripts</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Price (USD)</label>
+        <input type="number" placeholder="0.00" min="0" step="0.01">
+        <div class="hint">Minimum $0.50. Community-reviewed pricing guidelines apply.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea placeholder="Describe your asset — what it does, who it's for, what's included..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Tags</label>
+      <div class="tag-input">
+        <span class="tag">AI <span class="x">×</span></span>
+        <span class="tag">template <span class="x">×</span></span>
+        <span class="tag">GPT <span class="x">×</span></span>
+      </div>
+      <div class="hint">Add up to 8 tags to help buyers find your asset.</div>
+    </div>
+    <div class="form-group">
+      <label>Upload Files</label>
+      <div class="dropzone">
+        <div class="dropzone-icon">📁</div>
+        <div class="dropzone-text">Drag & drop files here, or <strong>click to browse</strong></div>
+        <div class="dropzone-text" style="margin-top:.5rem;font-size:.8rem">ZIP, JSON, HTML, CSV, MD — max 50MB</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Preview / Screenshots (optional)</label>
+      <div class="dropzone" style="padding:2rem">
+        <div class="dropzone-icon">🖼️</div>
+        <div class="dropzone-text">Upload preview images — <strong>PNG, JPG, GIF</strong></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-outline">Save Draft</button>
+      <button class="btn btn-primary">Submit for Review</button>
+    </div>
+  </div>
+
+  <div class="earnings">
+    <h2>💰 Creator Revenue Share</h2>
+    <div class="earn-grid">
+      <div class="earn-card">
+        <div class="pct">85%</div>
+        <div class="desc">Creator's share per sale</div>
+      </div>
+      <div class="earn-card">
+        <div class="pct">10%</div>
+        <div class="desc">Platform fee (infrastructure)</div>
+      </div>
+      <div class="earn-card">
+        <div class="pct">5%</div>
+        <div class="desc">Community treasury (governance)</div>
+      </div>
+      <div class="earn-card">
+        <div class="pct">$0</div>
+        <div class="desc">Listing fee — always free</div>
+      </div>
+    </div>
+    <div class="guidelines">
+      <h3>📋 Submission Guidelines</h3>
+      <ul>
+        <li>Assets must be original work or properly licensed</li>
+        <li>Include clear documentation or README</li>
+        <li>Test your templates before submission</li>
+        <li>Provide at least one preview screenshot</li>
+        <li>Price fairly — community votes on pricing disputes</li>
+        <li>No malicious code, trackers, or hidden dependencies</li>
+        <li>Respond to buyer questions within 48 hours</li>
+        <li>Update your assets when issues are reported</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 serlf.store — Community-governed digital marketplace. Part of the <a href="https://serlf.ca">serlf ecosystem</a>.</p>
+</footer>
+</body>
+</html>

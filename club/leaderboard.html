@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard — serlf.club</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--purple:#a855f7;--magenta:#ec4899;--grad:linear-gradient(135deg,#a855f7,#ec4899);--text:#e2e8f0;--muted:#94a3b8;--card:#1e293b;--border:#334155;--gold:#fbbf24;--silver:#94a3b8;--bronze:#f97316}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);line-height:1.6}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:99}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.9rem}nav ul a:hover{color:#fff;text-decoration:none}
+.page-header{text-align:center;padding:60px 20px 40px}
+.page-header h1{font-size:2.4rem;font-weight:800;margin-bottom:10px}
+.page-header p{color:var(--muted);max-width:550px;margin:0 auto}
+h2{font-size:1.6rem;font-weight:800;margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:24px}
+section{padding:40px 0}
+.tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--muted);transition:all .2s}
+.tab.active{background:var(--grad);color:#fff;border-color:transparent}
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:40px;text-align:center}
+.podium-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 16px}
+.podium-card.gold{border-color:var(--gold);order:2;transform:translateY(-12px)}
+.podium-card.silver{order:1}
+.podium-card.bronze{order:3}
+.podium-medal{font-size:2.4rem;margin-bottom:8px}
+.podium-name{font-weight:700;font-size:1.1rem}
+.podium-xp{color:var(--purple);font-weight:700;font-size:.9rem;margin-top:4px}
+.podium-detail{color:var(--muted);font-size:.8rem;margin-top:4px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{padding:14px 18px;text-align:left;font-size:.9rem}
+th{background:var(--navy2);color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+tr{border-bottom:1px solid var(--border)}
+tr:last-child{border-bottom:none}
+tr:hover{background:rgba(168,85,247,.04)}
+.rank{font-weight:700;width:40px}
+.xp-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;width:100px;display:inline-block;vertical-align:middle;margin-left:8px}
+.xp-fill{height:100%;background:var(--grad);border-radius:3px}
+.badge-icon{font-size:1.2rem;margin-right:4px}
+.achievements{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:40px 0}
+.ach{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;transition:border-color .2s}
+.ach:hover{border-color:var(--purple)}
+.ach-icon{font-size:2rem;margin-bottom:8px}
+.ach h4{font-size:.9rem;margin-bottom:4px}
+.ach p{color:var(--muted);font-size:.75rem}
+.ach .ach-rarity{color:var(--magenta);font-size:.7rem;font-weight:600;margin-top:6px}
+.np-section{background:var(--navy2);border-radius:14px;padding:32px;margin:20px 0}
+.np-list{display:flex;flex-direction:column;gap:12px}
+.np-item{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px}
+.np-item code{color:var(--magenta);font-size:.9rem}
+.np-discoverer{color:var(--muted);font-size:.85rem}
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+@media(max-width:600px){.podium{grid-template-columns:1fr;gap:12px}.podium-card.gold{transform:none;order:0}.podium-card.silver{order:1}.podium-card.bronze{order:2}table{font-size:.8rem}th,td{padding:10px}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">serlf<span>.club</span></a>
+<ul>
+<li><a href="products.html">Products</a></li>
+<li><a href="crew.html">Crew</a></li>
+<li><a href="leaderboard.html" style="color:#fff">Leaderboard</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="events.html">Events</a></li>
+</ul>
+</div></nav>
+
+<div class="page-header">
+<h1>🏆 Leaderboard</h1>
+<p>The meek rise by building, sharing, and helping. Here's who's leading the charge.</p>
+</div>
+
+<section class="container">
+<div class="tabs">
+<div class="tab active">All Time</div>
+<div class="tab">This Month</div>
+<div class="tab">This Week</div>
+<div class="tab">NP Hunters</div>
+</div>
+
+<div class="podium">
+<div class="podium-card silver">
+<div class="podium-medal">🥈</div>
+<div class="podium-name">quietstorm</div>
+<div class="podium-xp">8,420 XP</div>
+<div class="podium-detail">NP Hunter · 47 contributions</div>
+</div>
+<div class="podium-card gold">
+<div class="podium-medal">🥇</div>
+<div class="podium-name">mira.eth</div>
+<div class="podium-xp">12,850 XP</div>
+<div class="podium-detail">Bot Queen · 89 contributions</div>
+</div>
+<div class="podium-card bronze">
+<div class="podium-medal">🥉</div>
+<div class="podium-name">buildoor_sam</div>
+<div class="podium-xp">7,210 XP</div>
+<div class="podium-detail">Link Wizard · 62 contributions</div>
+</div>
+</div>
+
+<table>
+<thead><tr><th>#</th><th>Member</th><th>XP</th><th>Level</th><th>Badges</th></tr></thead>
+<tbody>
+<tr><td class="rank">4</td><td>jade_ai</td><td>6,100 <div class="xp-bar"><div class="xp-fill" style="width:70%"></div></div></td><td>Voice Architect</td><td><span class="badge-icon">🎙️</span><span class="badge-icon">⭐</span></td></tr>
+<tr><td class="rank">5</td><td>neo_flux</td><td>5,840 <div class="xp-bar"><div class="xp-fill" style="width:65%"></div></div></td><td>Designer</td><td><span class="badge-icon">🎨</span><span class="badge-icon">🔥</span></td></tr>
+<tr><td class="rank">6</td><td>seraphina</td><td>5,200 <div class="xp-bar"><div class="xp-fill" style="width:60%"></div></div></td><td>Builder</td><td><span class="badge-icon">🤖</span></td></tr>
+<tr><td class="rank">7</td><td>drift_king</td><td>4,780 <div class="xp-bar"><div class="xp-fill" style="width:55%"></div></div></td><td>Contributor</td><td><span class="badge-icon">🏅</span><span class="badge-icon">💬</span></td></tr>
+<tr><td class="rank">8</td><td>pixel_witch</td><td>4,350 <div class="xp-bar"><div class="xp-fill" style="width:50%"></div></div></td><td>Creator</td><td><span class="badge-icon">✨</span></td></tr>
+<tr><td class="rank">9</td><td>nova_mind</td><td>3,920 <div class="xp-bar"><div class="xp-fill" style="width:45%"></div></div></td><td>Explorer</td><td><span class="badge-icon">🔍</span></td></tr>
+<tr><td class="rank">10</td><td>zen_coder</td><td>3,510 <div class="xp-bar"><div class="xp-fill" style="width:40%"></div></div></td><td>Explorer</td><td><span class="badge-icon">💻</span></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="container">
+<h2>🔮 NP Discoveries</h2>
+<p class="section-sub">Hidden products discovered by the community. Find one, get fame forever.</p>
+<div class="np-section">
+<div class="np-list">
+<div class="np-item"><div><code>#serlf-echo</code> <span style="color:var(--muted);font-size:.8rem;margin-left:8px">Audio feedback tool</span></div><div class="np-discoverer">Found by <strong>quietstorm</strong> · Feb 12</div></div>
+<div class="np-item"><div><code>#serlf-mirror</code> <span style="color:var(--muted);font-size:.8rem;margin-left:8px">Profile analytics</span></div><div class="np-discoverer">Found by <strong>mira.eth</strong> · Feb 8</div></div>
+<div class="np-item"><div><code>#serlf-drift</code> <span style="color:var(--muted);font-size:.8rem;margin-left:8px">???</span></div><div class="np-discoverer">Found by <strong>drift_king</strong> · Feb 3</div></div>
+<div class="np-item"><div><code>#serlf-???</code> <span style="color:var(--magenta);font-size:.8rem;margin-left:8px">4 more hidden. Keep hunting. 👀</span></div><div class="np-discoverer">???</div></div>
+</div>
+</div>
+</section>
+
+<section class="container">
+<h2>🎖️ Achievements</h2>
+<p class="section-sub">Unlock these by being active, creative, and meek.</p>
+<div class="achievements">
+<div class="ach"><div class="ach-icon">🤖</div><h4>Bot Builder</h4><p>Create your first bot</p><div class="ach-rarity">42% of members</div></div>
+<div class="ach"><div class="ach-icon">🎙️</div><h4>Voice Architect</h4><p>Create 5 voice packs</p><div class="ach-rarity">12% of members</div></div>
+<div class="ach"><div class="ach-icon">🔍</div><h4>NP Hunter</h4><p>Discover a hidden product</p><div class="ach-rarity">3% of members</div></div>
+<div class="ach"><div class="ach-icon">🏴‍☠️</div><h4>Crew Ready</h4><p>??? (Coming soon)</p><div class="ach-rarity">0% — Locked</div></div>
+<div class="ach"><div class="ach-icon">🔥</div><h4>7-Day Streak</h4><p>Active 7 days straight</p><div class="ach-rarity">28% of members</div></div>
+<div class="ach"><div class="ach-icon">💜</div><h4>Community Hero</h4><p>Help 10 members</p><div class="ach-rarity">8% of members</div></div>
+<div class="ach"><div class="ach-icon">🎨</div><h4>Template Maker</h4><p>Share 3 design templates</p><div class="ach-rarity">15% of members</div></div>
+<div class="ach"><div class="ach-icon">⭐</div><h4>First of the Meek</h4><p>Join in the first month</p><div class="ach-rarity">6% of members</div></div>
+</div>
+</section>
+
+<footer>
+<p>&copy; 2026 serlf.club — The Meek Community · Part of the <a href="https://serlf.ca">serlf</a> ecosystem</p>
+</footer>
+</body>
+</html>

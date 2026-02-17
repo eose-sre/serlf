@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>Open Source Products — serlf.org</title>
+<meta name="description" content="8 open source AI tools. Free tiers for all. Paid plans from $1.40/mo. Fully auditable, self-hostable, community-governed.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a1628;--bg2:#0f1f3a;--bg3:#162a4a;--fg:#e8edf5;--fg2:#8899b3;--teal:#10b981;--teal2:#14b8a6;--teal-glow:rgba(16,185,129,.25);--maple:#e63946;--gold:#f4a261;--border:rgba(255,255,255,.08);--radius:8px;--max:1100px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--teal2);text-decoration:none}a:hover{text-decoration:underline}
+.site-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-size:1.4rem;font-weight:800;color:#fff}.logo .oss{color:var(--teal);font-size:.7em;margin-left:.4rem;border:1px solid var(--teal);padding:.1rem .4rem;border-radius:4px;vertical-align:middle}
+nav{display:flex;gap:.2rem;flex-wrap:wrap}
+nav a{padding:.35rem .6rem;border-radius:var(--radius);font-size:.78rem;color:var(--fg2);transition:background .2s}
+nav a:hover{background:var(--bg3);color:#fff;text-decoration:none}nav a.active{background:var(--teal);color:#fff}
+section{padding:4rem 1.5rem}.container{max-width:var(--max);margin:0 auto}
+.section-title{font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:.5rem}
+.section-sub{text-align:center;color:var(--fg2);margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+.btn{display:inline-block;padding:.8rem 2rem;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 20px var(--teal-glow)}
+.btn-secondary{background:var(--bg3);color:#fff;border:1px solid rgba(255,255,255,.1)}
+
+.product{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2.5rem;margin-bottom:2rem;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:start;transition:border-color .2s}
+.product:hover{border-color:var(--teal)}
+.product .icon{font-size:3rem}
+.product h3{font-size:1.4rem;margin-bottom:.5rem}
+.product p{color:var(--fg2);font-size:.95rem;margin-bottom:.75rem}
+.product .meta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.tag{display:inline-block;font-size:.75rem;padding:.2rem .6rem;border-radius:99px;background:var(--bg3);color:var(--fg2)}
+.tag-free{background:rgba(16,185,129,.15);color:var(--teal)}
+.tag-price{background:rgba(244,162,97,.15);color:var(--gold);font-weight:700}
+.product .price-col{text-align:center;min-width:100px}
+.product .price-col .amount{font-size:2rem;font-weight:900;color:var(--teal)}
+.product .price-col .period{font-size:.8rem;color:var(--fg2)}
+.product .features{list-style:none;margin-top:.75rem}
+.product .features li{font-size:.85rem;color:var(--fg2);padding:.2rem 0}
+.product .features li::before{content:"✓ ";color:var(--teal);font-weight:700}
+
+.transparency{background:var(--bg2);border:2px solid var(--teal);border-radius:12px;padding:3rem;margin:3rem 0}
+.transparency h2{color:var(--teal);text-align:center;margin-bottom:1.5rem}
+.t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+.t-item{background:var(--bg);padding:1.5rem;border-radius:8px}
+.t-item h4{color:var(--teal2);margin-bottom:.5rem}
+.t-item p{color:var(--fg2);font-size:.9rem}
+
+.site-footer{margin-top:auto;background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 1.5rem 1.5rem;font-size:.82rem;color:var(--fg2)}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-bottom:1.5rem;justify-content:center}
+.footer-links a{color:var(--fg2)}.footer-links a:hover{color:#fff}
+.footer-bottom{text-align:center}
+
+@media(max-width:700px){
+  .product{grid-template-columns:1fr;text-align:center}
+  .product .price-col{margin-top:1rem}
+  .header-inner{flex-direction:column;gap:.5rem}nav{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header"><div class="header-inner">
+<div class="logo">🤝 serlf<span class="oss">OSS</span></div>
+<nav>
+<a href="index.html">Home</a>
+<a href="products.html" class="active">Products</a>
+<a href="crew.html">Crew</a>
+<a href="specialists.html">Specialists</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="contribute.html" style="background:var(--teal);color:#fff;padding:.35rem .8rem;border-radius:4px">Contribute</a>
+</nav>
+</div></header>
+
+<section class="hero" style="text-align:center;padding:4rem 1.5rem 2rem">
+<h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800">🔓 Open Source AI Tools</h1>
+<p style="color:var(--fg2);max-width:650px;margin:1rem auto 0;font-size:1.1rem">8 tools. All open source. Free tier for everything. Paid plans from <strong style="color:var(--gold)">$1.40/mo</strong>. Fork it, self-host it, or let us run it for you.</p>
+</section>
+
+<section style="padding-top:0">
+<div class="container">
+
+<div class="product" id="data-vault">
+<div class="icon">🗄️</div>
+<div>
+<h3>Data Vault</h3>
+<p>Encrypted data storage with AI-powered search. Store documents, images, and structured data with end-to-end encryption. Your keys, your data, your rules.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 100MB</span>
+<span class="tag">MIT License</span>
+<span class="tag">Self-hostable</span>
+</div>
+<ul class="features">
+<li>End-to-end encryption with client-side keys</li>
+<li>AI semantic search across all your data</li>
+<li>REST API for programmatic access</li>
+<li>Export everything, anytime, any format</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$1.40</div>
+<div class="period">/month</div>
+<div style="margin-top:.5rem;font-size:.75rem;color:var(--gold)">💰 Cheapest</div>
+</div>
+</div>
+
+<div class="product" id="code-pilot">
+<div class="icon">🧑‍✈️</div>
+<div>
+<h3>Code Pilot</h3>
+<p>AI pair programming assistant. Autocomplete, refactor, explain, and generate code across 40+ languages. Works in VS Code, Neovim, JetBrains, and the browser.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 50 completions/day</span>
+<span class="tag">MIT License</span>
+<span class="tag">⭐ Most Forked</span>
+</div>
+<ul class="features">
+<li>Multi-model: GPT-4, Claude, Llama, CodeGemma</li>
+<li>Context-aware completions using your codebase</li>
+<li>Inline explanations and refactoring suggestions</li>
+<li>Privacy mode: code never leaves your machine</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$2</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+<div class="product" id="token-bank">
+<div class="icon">🏦</div>
+<div>
+<h3>Token Bank</h3>
+<p>API key management and cost optimization. Smart routing across AI providers to minimize cost while maximizing quality. Your AI budget's best friend.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 1 key, basic routing</span>
+<span class="tag">MIT License</span>
+</div>
+<ul class="features">
+<li>Smart model routing — cheapest provider per task</li>
+<li>Usage dashboards and cost alerts</li>
+<li>Team key management with granular permissions</li>
+<li>87% cost reduction vs direct API calls</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$2</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+<div class="product" id="bot-factory">
+<div class="icon">🤖</div>
+<div>
+<h3>Bot Factory</h3>
+<p>Build chatbots, Discord bots, Slack bots, and automation agents with a visual builder. Templates for common use cases. Deploy to any platform.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 1 bot, 100 msgs/day</span>
+<span class="tag">MIT License</span>
+<span class="tag">⭐ Community Favorite</span>
+</div>
+<ul class="features">
+<li>Visual flow builder — no code required</li>
+<li>Pre-built templates: support bot, FAQ, onboarding</li>
+<li>Deploy to Discord, Slack, Telegram, web</li>
+<li>Custom personality and knowledge base</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$3</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+<div class="product" id="ai-writer">
+<div class="icon">✍️</div>
+<div>
+<h3>AI Writer</h3>
+<p>Blog posts, documentation, marketing copy, emails. Tone control, brand voice training, and templates. Export to Markdown, HTML, PDF, or any CMS.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 5 docs/day</span>
+<span class="tag">MIT License</span>
+</div>
+<ul class="features">
+<li>Train on your brand voice and style</li>
+<li>SEO optimization and readability scoring</li>
+<li>30+ templates: blog, landing page, email, social</li>
+<li>Collaborative editing with AI suggestions</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$3.20</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+<div class="product" id="ai-chat">
+<div class="icon">💬</div>
+<div>
+<h3>AI Chat</h3>
+<p>Multi-model chat interface. Talk to GPT-4, Claude, Llama, Mistral — all in one UI. Compare responses, save conversations, share threads.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 20 msgs/day</span>
+<span class="tag">MIT License</span>
+</div>
+<ul class="features">
+<li>One UI, every major AI model</li>
+<li>Side-by-side model comparison</li>
+<li>Conversation branching and history</li>
+<li>Plugin system for custom tools</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$4</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+<div class="product" id="cloud-dock">
+<div class="icon">☁️</div>
+<div>
+<h3>Cloud Dock</h3>
+<p>One-click deploy to any cloud. Docker, Kubernetes, serverless — described in natural language. Infrastructure as conversation.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 1 deployment</span>
+<span class="tag">MIT License</span>
+</div>
+<ul class="features">
+<li>Deploy via natural language or YAML</li>
+<li>Multi-cloud: AWS, Azure, GCP, DigitalOcean</li>
+<li>Auto-scaling and cost monitoring</li>
+<li>Rollback, blue-green, and canary deploys</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$4</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+<div class="product" id="ai-garage">
+<div class="icon">🚗</div>
+<div>
+<h3>AI Garage</h3>
+<p>Custom AI models, fine-tuning, and training pipelines. Upload your data, pick a base model, and train. Your personal AI mechanic shop.</p>
+<div class="meta">
+<span class="tag tag-free">✨ Free: 1 fine-tune/mo</span>
+<span class="tag">MIT License</span>
+</div>
+<ul class="features">
+<li>Fine-tune any open model: Llama, Mistral, Phi</li>
+<li>Visual training dashboard with loss curves</li>
+<li>Dataset management and preprocessing</li>
+<li>One-click deploy trained models to API</li>
+</ul>
+</div>
+<div class="price-col">
+<div class="amount">$4</div>
+<div class="period">/month</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+<div class="transparency">
+<h2>📊 Transparency Report</h2>
+<p style="text-align:center;color:var(--fg2);margin-bottom:2rem">We publish everything. Here's where your money goes.</p>
+<div class="t-grid">
+<div class="t-item">
+<h4>💸 Revenue Split</h4>
+<p>60% → Infrastructure & API costs<br>20% → Developer contributors<br>10% → feedles.ca (food insecurity)<br>10% → Community bounties & reserves</p>
+</div>
+<div class="t-item">
+<h4>🔍 Code Audits</h4>
+<p>All repositories are public on GitHub. Community security audits run quarterly. Vulnerability reports earn bounties up to $500.</p>
+</div>
+<div class="t-item">
+<h4>📈 Usage Stats</h4>
+<p>Monthly active users, API calls, uptime — all published on our <a href="dashboard.html">community dashboard</a>. No vanity metrics, just real numbers.</p>
+</div>
+<div class="t-item">
+<h4>🗳️ Governance</h4>
+<p>Major decisions go to community vote. Pricing changes require 2/3 majority. DAO charter is <a href="contribute.html">publicly documented</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="text-align:center;padding:3rem 1.5rem">
+<h2 style="font-size:1.6rem;margin-bottom:1rem">Ready to build with open source AI?</h2>
+<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+<a href="contribute.html" class="btn btn-teal">🤝 Start Contributing</a>
+<a href="specialists.html" class="btn btn-secondary">💬 Talk to a Specialist</a>
+</div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+<div class="footer-links">
+<a href="index.html">Home</a><a href="products.html">Products</a><a href="crew.html">Crew</a><a href="specialists.html">Specialists</a><a href="dashboard.html">Dashboard</a><a href="contribute.html">Contribute</a>
+</div>
+<div class="footer-bottom">🤝 serlf.org · Open Source AI for Everyone · 🇨🇦 Canada<br><em>"AI belongs to everyone. We're proving it."</em></div>
+</div></footer>
+
+</body>
+</html>

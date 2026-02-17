@@ -1,122 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf.club — The Crew Club | Community + NPs + Specialists</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.club — Where the Meek Inherit the Internet</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a;--purple:#a371f7}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
-.container{max-width:900px;margin:0 auto;padding:40px 20px}
-.hero{text-align:center;padding:60px 0 40px}
-.hero .icon{font-size:4rem;margin-bottom:16px}
-h1{font-size:3rem;font-weight:900}
-h1 .purple{color:var(--purple)}
-.sub{color:var(--fg2);font-size:1.2rem;margin:12px auto 0;max-width:600px}
-.section{margin:40px 0}
-.section h2{font-size:1.8rem;margin-bottom:16px;text-align:center}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px}
-.card .icon{font-size:28px;margin-bottom:8px}
-.card h3{margin-bottom:6px}
-.card p{color:var(--fg2);font-size:0.9rem;line-height:1.6}
-.np-ticker{background:var(--bg2);border:1px solid var(--purple);border-radius:10px;padding:20px;margin:32px 0;text-align:center}
-.np-ticker .count{font-size:4rem;font-weight:900;color:var(--purple)}
-.np-ticker .label{color:var(--fg2)}
-.leaderboard{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:24px 0}
-.lb-row{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border)}
-.lb-row:last-child{border:none}
-.lb-rank{width:30px;font-weight:900;color:var(--gold)}
-.lb-name{flex:1;font-weight:600}
-.lb-nps{color:var(--purple);font-weight:700}
-.lb-badge{font-size:0.7rem;background:var(--bg3);padding:2px 8px;border-radius:4px;margin-left:8px;color:var(--fg2)}
-.cta{display:inline-block;padding:14px 32px;background:var(--purple);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;margin:20px 0}
-footer{text-align:center;margin-top:60px;color:var(--fg2);font-size:0.85rem}
-footer a{color:var(--accent)}
+:root{--navy:#0a0e1a;--navy2:#111827;--purple:#a855f7;--magenta:#ec4899;--grad:linear-gradient(135deg,#a855f7,#ec4899);--text:#e2e8f0;--muted:#94a3b8;--card:#1e293b;--border:#334155}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:99}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.9rem;transition:color .2s}nav ul a:hover{color:#fff;text-decoration:none}
+.hero{text-align:center;padding:80px 20px 60px}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;margin-bottom:16px}
+.hero h1 .accent{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:600px;margin:0 auto 32px}
+.btn{display:inline-block;padding:12px 28px;border-radius:8px;font-weight:700;font-size:1rem;transition:transform .2s,box-shadow .2s;cursor:pointer;border:none}
+.btn-primary{background:var(--grad);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(168,85,247,.35);text-decoration:none}
+.btn-outline{border:2px solid var(--purple);color:var(--purple);background:transparent;margin-left:12px}.btn-outline:hover{background:rgba(168,85,247,.1);text-decoration:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;padding:40px 0;text-align:center}
+.stat-num{font-size:2.2rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{color:var(--muted);font-size:.85rem;margin-top:4px}
+section{padding:60px 0}
+h2{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:32px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--purple);transform:translateY(-3px)}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.9rem}
+.badge{display:inline-block;background:rgba(168,85,247,.15);color:var(--purple);padding:2px 10px;border-radius:99px;font-size:.75rem;font-weight:600;margin-bottom:12px}
+.feed{display:flex;flex-direction:column;gap:16px}
+.feed-item{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;color:#fff}
+.feed-item .meta{color:var(--muted);font-size:.8rem;margin-top:4px}
+.cta-box{text-align:center;padding:60px 20px;background:var(--navy2);border-radius:16px;margin:40px 0}
+.cta-box h2{margin-bottom:12px}
+.cta-box p{color:var(--muted);margin-bottom:24px}
+.luffy-quote{border-left:3px solid var(--magenta);padding:16px 20px;background:rgba(236,72,153,.06);border-radius:0 8px 8px 0;margin:32px 0;font-style:italic;color:var(--muted)}
+.luffy-quote strong{color:var(--magenta);font-style:normal}
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+@media(max-width:600px){nav ul{gap:12px}.hero{padding:50px 16px 40px}.stats{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
+<nav><div class="container">
+<a href="index.html" class="logo">serlf<span>.club</span></a>
+<ul>
+<li><a href="products.html">Products</a></li>
+<li><a href="crew.html">Crew</a></li>
+<li><a href="leaderboard.html">Leaderboard</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="events.html">Events</a></li>
+</ul>
+</div></nav>
+
+<section class="hero">
+<h1>Where the <span class="accent">Meek</span> Inherit the Internet</h1>
+<p>serlf.club is a community of creators, builders, and dreamers using AI tools that actually cost less than your coffee.</p>
+<a href="dashboard.html" class="btn btn-primary">Join the Meek</a>
+<a href="products.html" class="btn btn-outline">Explore Tools</a>
+</section>
+
 <div class="container">
-
-<div class="hero">
-  <div class="icon">🏴‍☠️</div>
-  <h1>The <span class="purple">Crew Club</span></h1>
-  <p class="sub">Where specialists meet their captains. Community-driven, NP-powered, meek to the bone.</p>
+<div class="stats">
+<div><div class="stat-num">2,847</div><div class="stat-label">Members</div></div>
+<div><div class="stat-num">14,291</div><div class="stat-label">Creations</div></div>
+<div><div class="stat-num">483</div><div class="stat-label">Bots Built</div></div>
+<div><div class="stat-num">$1.40</div><div class="stat-label">Avg. Tool Cost</div></div>
+</div>
 </div>
 
-<div class="np-ticker">
-  <div class="count">127</div>
-  <div class="label">Novel Patterns Discovered</div>
-  <p style="color:var(--fg2);margin-top:8px;font-size:0.9rem">Every conversation, every interaction, every challenge = new patterns. The more we learn, the better everyone gets.</p>
+<div class="container">
+<div class="luffy-quote">
+<strong>Luffy says:</strong> "You've heard of crews, right? Good. Keep watching this space. Something's brewing for the bold and the meek alike… 👀"
+</div>
 </div>
 
-<div class="section">
-  <h2>What's a Crew?</h2>
-  <div class="cards">
-    <div class="card">
-      <div class="icon">🫡</div>
-      <h3>You're the Captain</h3>
-      <p>Your specialists work for YOU. Pick your crew, assign missions, watch them collaborate. You steer, they execute.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🤝</div>
-      <h3>Specialists Team Up</h3>
-      <p>Your Writer + SEO + Designer = Content Crew. Your Code Pilot + Hosting + Bot = Dev Crew. They share context and build on each other's work.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🧬</div>
-      <h3>NPs Make Everyone Better</h3>
-      <p>Novel Patterns flow from every interaction. The community discovers patterns, specialists learn them. Rising tide lifts all meek.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🏴‍☠️</div>
-      <h3>Fleet Formation</h3>
-      <p>Coming soon: multiple captains, shared missions, fleet-wide operations. Crews of crews. The meek fleet.</p>
-    </div>
-  </div>
+<section class="container">
+<h2>🔥 Top Creators This Week</h2>
+<p class="section-sub">The meek are building. Here's who's leading.</p>
+<div class="grid3">
+<div class="card">
+<span class="badge">🥇 #1 Creator</span>
+<h3>mira.eth</h3>
+<p>Shipped 3 bots, 12 voice packs, and a design template — all in one week. Absolute unit.</p>
 </div>
-
-<div class="section">
-  <h2>🏆 NP Leaderboard</h2>
-  <div class="leaderboard">
-    <div class="lb-row"><span class="lb-rank">1</span><span class="lb-name">🎩 E&Y</span><span class="lb-nps">42 NPs</span><span class="lb-badge">consulting god</span></div>
-    <div class="lb-row"><span class="lb-rank">2</span><span class="lb-name">💻 Rick (Code Specialist)</span><span class="lb-nps">28 NPs</span><span class="lb-badge">ship machine</span></div>
-    <div class="lb-row"><span class="lb-rank">3</span><span class="lb-name">🎯 Bob (Product)</span><span class="lb-nps">23 NPs</span><span class="lb-badge">revenue brain</span></div>
-    <div class="lb-row"><span class="lb-rank">4</span><span class="lb-name">💬 Lucien (Chat/Write)</span><span class="lb-nps">19 NPs</span><span class="lb-badge">deep thinker</span></div>
-    <div class="lb-row"><span class="lb-rank">5</span><span class="lb-name">📊 DAO (Data)</span><span class="lb-nps">15 NPs</span><span class="lb-badge">data sovereign</span></div>
-  </div>
-  <p style="text-align:center;color:var(--fg2);font-size:0.85rem;margin-top:8px">NPs are discovered through real customer interactions. More conversations = more patterns = better specialists for everyone.</p>
+<div class="card">
+<span class="badge">🥈 #2 Creator</span>
+<h3>quietstorm</h3>
+<p>Discovered 2 new NPs and built a task board workflow that 140 members adopted.</p>
 </div>
-
-<div class="section">
-  <h2>Join the Crew</h2>
-  <div class="cards">
-    <div class="card">
-      <div class="icon">🆓</div>
-      <h3>Free: Test Any Specialist</h3>
-      <p>Chat with any specialist for free. No sign-up. See what they can do.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🎫</div>
-      <h3>$1/mo: Mall Entry</h3>
-      <p>Access the marketplace + 1 free specialist. Start your crew.</p>
-    </div>
-    <div class="card">
-      <div class="icon">👑</div>
-      <h3>$25/mo: All-In Captain</h3>
-      <p>All 20+ specialists. Full crew formation. Captain status. NP contributor.</p>
-    </div>
-  </div>
+<div class="card">
+<span class="badge">🥉 #3 Creator</span>
+<h3>buildoor_sam</h3>
+<p>Link Tree wizard — created 8 custom pages, helped 50+ members set theirs up.</p>
 </div>
+</div>
+</section>
 
-<div style="text-align:center;margin:40px 0">
-  <a href="https://serlf.ca/specialists.html" class="cta">🏴‍☠️ Meet the Specialists →</a>
+<section class="container">
+<h2>📡 Activity Feed</h2>
+<p class="section-sub">What's happening in the community right now.</p>
+<div class="feed">
+<div class="feed-item"><div class="avatar">M</div><div><strong>mira.eth</strong> launched <strong>"Pixel Pal"</strong> bot in Bot Factory<div class="meta">12 min ago · Bot Factory</div></div></div>
+<div class="feed-item"><div class="avatar">Q</div><div><strong>quietstorm</strong> discovered NP <code>#serlf-echo</code> — new product hint?<div class="meta">38 min ago · Leaderboard</div></div></div>
+<div class="feed-item"><div class="avatar">J</div><div><strong>jade_ai</strong> completed the "Voice Architect" achievement 🎖️<div class="meta">1 hr ago · Voice Lab</div></div></div>
+<div class="feed-item"><div class="avatar">B</div><div><strong>buildoor_sam</strong> shared a Design Studio template — 23 saves<div class="meta">2 hrs ago · Design Studio</div></div></div>
+<div class="feed-item"><div class="avatar">L</div><div><strong>Luffy</strong> posted a cryptic message: "The crews are almost ready. Are you?"<div class="meta">3 hrs ago · Announcements</div></div></div>
+</div>
+</section>
+
+<div class="container">
+<div class="cta-box">
+<h2>The Meek Don't Wait. <span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">They Build.</span></h2>
+<p>Join 2,847 creators who chose powerful AI tools without the powerful price tag.</p>
+<a href="dashboard.html" class="btn btn-primary">Claim Your Spot</a>
+</div>
 </div>
 
 <footer>
-  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> — The Mall | <a href="https://serlf.ca/mall.html">All Products</a> | No meek is immune 🧭</p>
+<p>&copy; 2026 serlf.club — The Meek Community · Part of the <a href="https://serlf.ca">serlf</a> ecosystem</p>
 </footer>
-
-</div>
 </body>
 </html>

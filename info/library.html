@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library — serlf.info</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121829;--navy-mid:#1a2035;--amber:#d4a017;--amber-light:#f0c040;--text:#e0ddd5;--text-dim:#8a8a9a;--radius:12px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none}a:hover{color:var(--amber-light)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:var(--navy-light);border-bottom:1px solid #1e2540;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700}.logo span{color:var(--amber)}
+nav ul{list-style:none;display:flex;gap:1.6rem}nav ul a{color:var(--text-dim);font-size:.95rem}nav ul a:hover,nav ul a.active{color:var(--amber)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.hero-sm{text-align:center;padding:3.5rem 2rem 2rem;background:linear-gradient(180deg,var(--navy-light),var(--navy))}
+.hero-sm h1{font-size:2.2rem;color:#fff;margin-bottom:.4rem}.hero-sm h1 span{color:var(--amber)}
+.hero-sm p{color:var(--text-dim);max-width:580px;margin:0 auto 1.5rem}
+.search-box{max-width:500px;margin:0 auto;position:relative}
+.search-box input{width:100%;padding:.8rem 1.2rem .8rem 2.8rem;border:1px solid #1e2540;background:var(--navy-light);color:var(--text);border-radius:var(--radius);font-size:1rem;font-family:inherit;outline:none;transition:border-color .2s}
+.search-box input:focus{border-color:var(--amber)}
+.search-box::before{content:'🔍';position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:.9rem}
+section{max-width:1100px;margin:0 auto;padding:2rem}
+.filters{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2rem}
+.filter{padding:.4rem 1rem;border:1px solid #1e2540;border-radius:20px;color:var(--text-dim);font-size:.85rem;cursor:pointer;transition:all .2s;background:transparent;font-family:inherit}
+.filter:hover,.filter.active{border-color:var(--amber);color:var(--amber);background:rgba(212,160,23,.08)}
+.category{margin-bottom:2.5rem}
+.category h2{color:#fff;font-size:1.4rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.category>p{color:var(--text-dim);font-size:.9rem;margin-bottom:1rem}
+.articles{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem}
+.article{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:1.5rem;transition:border-color .2s;cursor:pointer}
+.article:hover{border-color:var(--amber)}
+.article .tag{display:inline-block;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;padding:.15rem .5rem;border-radius:4px;margin-bottom:.6rem;font-weight:700}
+.tag-beginner{color:#3ecf8e;background:rgba(62,207,142,.1)}
+.tag-intermediate{color:var(--amber);background:rgba(212,160,23,.1)}
+.tag-advanced{color:#5b8def;background:rgba(91,141,239,.1)}
+.tag-expert{color:#c084fc;background:rgba(192,132,252,.1)}
+.tag-reference{color:var(--text-dim);background:rgba(138,138,154,.1)}
+.article h3{color:#fff;font-size:1.05rem;margin-bottom:.4rem}
+.article p{color:var(--text-dim);font-size:.88rem;margin-bottom:.5rem}
+.article .meta{color:var(--text-dim);font-size:.78rem}
+.glossary{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:2rem;margin-top:1rem}
+.glossary h2{color:#fff;font-size:1.4rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:.8rem}
+.term{padding:.8rem 1rem;border-left:3px solid var(--amber);background:var(--navy-mid);border-radius:0 8px 8px 0}
+.term strong{color:#fff;font-size:.95rem}
+.term p{color:var(--text-dim);font-size:.85rem;margin-top:.2rem}
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid #1e2540;margin-top:2rem}
+@media(max-width:768px){
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy-light);flex-direction:column;padding:1rem 2rem;gap:.8rem;border-bottom:1px solid #1e2540}
+  nav ul.open{display:flex}.hamburger{display:block}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">serlf<span>.info</span></div>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="academy.html">Academy</a></li>
+    <li><a href="library.html" class="active">Library</a></li>
+    <li><a href="products.html">Tools</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+</nav>
+
+<div class="hero-sm">
+  <h1>The <span>Library</span></h1>
+  <p>Every guide is free. Every tutorial is practical. Search, browse, or just wander — good knowledge rewards curiosity.</p>
+  <div class="search-box">
+    <input type="text" placeholder="Search guides, tutorials, glossary terms…">
+  </div>
+</div>
+
+<section>
+  <div class="filters">
+    <button class="filter active">All</button>
+    <button class="filter">Beginner</button>
+    <button class="filter">Intermediate</button>
+    <button class="filter">Advanced</button>
+    <button class="filter">Expert</button>
+    <button class="filter">Tutorials</button>
+    <button class="filter">Guides</button>
+    <button class="filter">Reference</button>
+  </div>
+
+  <!-- Guides -->
+  <div class="category">
+    <h2>📘 Guides</h2>
+    <p>Deep explorations of important topics. Read at your own pace.</p>
+    <div class="articles">
+      <div class="article"><span class="tag tag-beginner">Beginner</span><h3>What Is a Large Language Model, Really?</h3><p>Strip away the hype. Understand what's actually happening when you talk to an AI — in plain language, with honest nuance.</p><div class="meta">15 min read · By Lucien</div></div>
+      <div class="article"><span class="tag tag-beginner">Beginner</span><h3>AI Won't Take Your Job (But This Might)</h3><p>The real threat isn't AI replacing humans — it's humans who use AI replacing those who don't. Here's how to be on the right side.</p><div class="meta">10 min read · By E&Y</div></div>
+      <div class="article"><span class="tag tag-intermediate">Intermediate</span><h3>The Prompt Engineering Playbook</h3><p>17 techniques that actually work, tested across GPT-4, Claude, and open-source models. With real examples and templates.</p><div class="meta">25 min read · By Lucien</div></div>
+      <div class="article"><span class="tag tag-intermediate">Intermediate</span><h3>How Search Engines See AI Content</h3><p>SEO in the age of AI. What works, what doesn't, and why quality still wins.</p><div class="meta">12 min read · By DAO</div></div>
+      <div class="article"><span class="tag tag-advanced">Advanced</span><h3>Building Your First RAG Pipeline</h3><p>From document ingestion to semantic search to generation — a complete walkthrough with code you can ship today.</p><div class="meta">35 min read · By Lucien</div></div>
+      <div class="article"><span class="tag tag-expert">Expert</span><h3>Multi-Agent Architecture Patterns</h3><p>Orchestrator, pipeline, debate, and swarm patterns. When to use each, with real-world case studies.</p><div class="meta">40 min read · By Lucien</div></div>
+    </div>
+  </div>
+
+  <!-- Tutorials -->
+  <div class="category">
+    <h2>🛠️ Tutorials</h2>
+    <p>Step-by-step walkthroughs. Follow along, build something real.</p>
+    <div class="articles">
+      <div class="article"><span class="tag tag-beginner">Beginner</span><h3>Your First AI Conversation: A Guided Walkthrough</h3><p>Open AI Chat, type your first prompt, and understand exactly what happens next. 10 minutes to your first "aha" moment.</p><div class="meta">10 min · Hands-on</div></div>
+      <div class="article"><span class="tag tag-intermediate">Intermediate</span><h3>Building a Personal Knowledge Base with Data Vault</h3><p>Organize your research, notes, and bookmarks into a searchable system. Never lose an insight again.</p><div class="meta">20 min · Hands-on</div></div>
+      <div class="article"><span class="tag tag-intermediate">Intermediate</span><h3>Writing a Technical Blog Post with AI Writer</h3><p>From outline to polished draft in 30 minutes. Learn Lucien's writing workflow step by step.</p><div class="meta">30 min · Hands-on</div></div>
+      <div class="article"><span class="tag tag-advanced">Advanced</span><h3>Fine-Tuning a Small Model in AI Garage</h3><p>Upload your data, configure training, evaluate results. A complete fine-tuning walkthrough for your first custom model.</p><div class="meta">45 min · Hands-on</div></div>
+    </div>
+  </div>
+
+  <!-- Glossary -->
+  <div class="glossary">
+    <h2>📖 AI Glossary</h2>
+    <p style="color:var(--text-dim);margin-bottom:1.2rem">Essential terms, explained simply. Bookmark this page — you'll come back to it.</p>
+    <div class="terms">
+      <div class="term"><strong>LLM (Large Language Model)</strong><p>An AI trained on vast text data that can generate, summarize, and reason about language. GPT-4, Claude, and Llama are examples.</p></div>
+      <div class="term"><strong>Token</strong><p>A chunk of text (roughly ¾ of a word). LLMs process text as tokens, and pricing is usually per-token.</p></div>
+      <div class="term"><strong>Prompt</strong><p>The input you give an AI. The quality of your prompt directly shapes the quality of the output.</p></div>
+      <div class="term"><strong>Hallucination</strong><p>When an AI generates plausible-sounding but factually incorrect information. Always verify critical claims.</p></div>
+      <div class="term"><strong>RAG (Retrieval-Augmented Generation)</strong><p>A technique that feeds relevant documents to an AI before generating, dramatically improving accuracy and relevance.</p></div>
+      <div class="term"><strong>Fine-Tuning</strong><p>Training a pre-existing model on your specific data to specialize its behavior for your use case.</p></div>
+      <div class="term"><strong>Embedding</strong><p>A numerical representation of text that captures its meaning. Used for search, similarity, and clustering.</p></div>
+      <div class="term"><strong>Temperature</strong><p>A parameter controlling randomness. Low temperature = focused and predictable. High = creative and varied.</p></div>
+      <div class="term"><strong>Context Window</strong><p>The maximum amount of text an AI can "see" at once. Larger windows allow longer conversations and documents.</p></div>
+      <div class="term"><strong>Agent</strong><p>An AI system that can take actions, use tools, and make decisions — not just generate text.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 serlf.info — Part of the <a href="https://serlf.ca">serlf ecosystem</a>. Knowledge led by Lucien.</p>
+</footer>
+</body>
+</html>

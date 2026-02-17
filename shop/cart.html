@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — serlf.shop</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#131833;--navy-mid:#1a2040;--gold:#f0c040;--gold-dim:#c49a2a;--green:#2ecc71;--green-dim:#27ae60;--red:#e74c3c;--white:#f0f0f0;--gray:#8892a4;--radius:10px}
+body{background:var(--navy);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy-light);border-bottom:2px solid var(--gold-dim);padding:15px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:1200px}
+.logo{font-size:1.6rem;font-weight:800;color:var(--gold)}.logo span{color:var(--green)}.logo small{font-size:.7rem;color:var(--gray);display:block;margin-top:-4px}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--white);font-weight:600;font-size:.95rem}nav ul a:hover{color:var(--gold)}
+.cart-btn{background:var(--green);color:#000;padding:8px 18px;border-radius:var(--radius);font-weight:700}
+
+section{padding:60px 0}
+h1{font-size:2.4rem;color:var(--gold);text-align:center;margin-bottom:30px}
+
+.cart-empty{text-align:center;padding:60px 20px;color:var(--gray)}
+.cart-empty .emoji{font-size:4rem;margin-bottom:16px}
+.cart-empty a{display:inline-block;margin-top:20px;background:var(--gold);color:#000;padding:12px 28px;border-radius:var(--radius);font-weight:700}
+
+.cart-items{margin-bottom:30px}
+.cart-item{background:var(--navy-light);border:1px solid var(--navy-mid);border-radius:var(--radius);padding:20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:12px}
+.cart-item .info h3{color:var(--white);font-size:1.1rem}
+.cart-item .info .price{color:var(--gold);font-weight:700;font-size:1.1rem}
+.cart-item .remove{background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:.85rem}
+.cart-item .remove:hover{opacity:.8}
+
+.cart-summary{background:var(--navy-light);border:2px solid var(--gold-dim);border-radius:var(--radius);padding:30px}
+.cart-summary h2{color:var(--gold);margin-bottom:16px}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--navy-mid);color:var(--gray)}
+.summary-row.total{border-bottom:none;color:var(--gold);font-size:1.4rem;font-weight:800;padding-top:16px}
+.checkout-btn{display:block;width:100%;background:var(--gold);color:#000;padding:16px;border:none;border-radius:var(--radius);font-size:1.2rem;font-weight:800;cursor:pointer;margin-top:20px;text-align:center}
+.checkout-btn:hover{background:var(--gold-dim);text-decoration:none}
+
+/* BUNDLE BUILDER */
+.bundle-builder{background:var(--navy-light);border:2px solid var(--green);border-radius:var(--radius);padding:30px;margin-top:40px}
+.bundle-builder h2{color:var(--green);margin-bottom:8px}
+.bundle-builder p{color:var(--gray);margin-bottom:20px}
+.bundle-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.bundle-opt{background:var(--navy);border:2px solid var(--navy-mid);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:all .2s}
+.bundle-opt:hover{border-color:var(--gold)}
+.bundle-opt h3{color:var(--gold);font-size:1rem;margin-bottom:4px}
+.bundle-opt .bp{font-size:1.6rem;font-weight:800;color:var(--green)}
+.bundle-opt .bd{color:var(--gray);font-size:.8rem;margin-top:4px}
+
+footer{background:var(--navy-light);border-top:2px solid var(--navy-mid);padding:40px 0;text-align:center;color:var(--gray);font-size:.9rem;margin-top:60px}
+footer a{color:var(--gold)}
+@media(max-width:600px){h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<nav><div class="container" style="max-width:1200px">
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none">serlf<span>.shop</span></a><small>Instant AI Marketplace</small></div>
+  <ul><li><a href="index.html">Home</a></li><li><a href="products.html">Products</a></li><li><a href="deals.html">Deals</a></li><li><a href="crew.html">Crew</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+  <a href="cart.html" class="cart-btn">🛒 Cart</a>
+</div></nav>
+
+<section>
+<div class="container">
+<h1>🛒 Your Cart</h1>
+
+<div id="cart-content">
+  <!-- Populated by JS -->
+</div>
+
+<div class="bundle-builder">
+  <h2>⚡ Quick Bundle Builder</h2>
+  <p>Skip the individual picks — grab a bundle and save even more. Captain's recommendation: Mall Pass.</p>
+  <div class="bundle-options">
+    <div class="bundle-opt" onclick="addBundle('Starter Bundle',5)">
+      <h3>🎯 Starter</h3>
+      <div class="bp">$5</div>
+      <div class="bd">Any 3 tools · 30 days</div>
+    </div>
+    <div class="bundle-opt" onclick="addBundle('Growth Bundle',15)">
+      <h3>📈 Growth</h3>
+      <div class="bp">$15</div>
+      <div class="bd">Any 10 tools · 90 days</div>
+    </div>
+    <div class="bundle-opt" onclick="addBundle('Mall Pass',25)" style="border-color:var(--gold)">
+      <h3>🏬 Mall Pass</h3>
+      <div class="bp">$25</div>
+      <div class="bd">All tools · 6 months</div>
+    </div>
+    <div class="bundle-opt" onclick="addBundle('Everything Bundle',35)">
+      <h3>👑 Everything</h3>
+      <div class="bp">$35</div>
+      <div class="bd">All tools · Lifetime</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<footer>
+<div class="container">
+  <p><strong style="color:var(--gold)">serlf.shop</strong> — Instant AI Marketplace</p>
+  <p style="margin-top:8px"><a href="index.html">Home</a> · <a href="products.html">Products</a> · <a href="deals.html">Deals</a> · <a href="crew.html">Crew</a> · <a href="cart.html">Cart</a> · <a href="dashboard.html">Dashboard</a></p>
+  <p style="margin-top:8px">© 2026 serlf. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+function getCart() { return JSON.parse(localStorage.getItem('serlf-cart') || '[]'); }
+function saveCart(cart) { localStorage.setItem('serlf-cart', JSON.stringify(cart)); }
+
+function renderCart() {
+  const cart = getCart();
+  const el = document.getElementById('cart-content');
+  if (cart.length === 0) {
+    el.innerHTML = '<div class="cart-empty"><div class="emoji">🛒</div><h2>Your cart is empty</h2><p>Captain says: "Go pick some tools. I\'ll wait."</p><a href="products.html">Browse Products</a></div>';
+    return;
+  }
+  const total = cart.reduce((s, i) => s + i.price, 0);
+  let html = '<div class="cart-items">';
+  cart.forEach((item, idx) => {
+    html += '<div class="cart-item"><div class="info"><h3>' + item.name + '</h3><div class="price">$' + item.price + '/mo</div></div><button class="remove" onclick="removeItem(' + idx + ')">✕ Remove</button></div>';
+  });
+  html += '</div>';
+  html += '<div class="cart-summary"><h2>Order Summary</h2>';
+  html += '<div class="summary-row"><span>Items (' + cart.length + ')</span><span>$' + total + '/mo</span></div>';
+  html += '<div class="summary-row"><span>Flash Sale Discount</span><span style="color:var(--green)">Already applied ✓</span></div>';
+  html += '<div class="summary-row total"><span>Total</span><span>$' + total + '/mo</span></div>';
+  html += '<a href="https://buy.stripe.com/serlf-checkout" class="checkout-btn">⚡ Checkout with Stripe — $' + total + '/mo</a>';
+  html += '<p style="text-align:center;color:var(--gray);margin-top:12px;font-size:.85rem">Secure payment via Stripe · Cancel anytime · 30-day guarantee</p>';
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function removeItem(idx) {
+  const cart = getCart();
+  cart.splice(idx, 1);
+  saveCart(cart);
+  renderCart();
+}
+
+function addBundle(name, price) {
+  const cart = getCart();
+  cart.push({name, price, id: Date.now()});
+  saveCart(cart);
+  renderCart();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+renderCart();
+</script>
+</body>
+</html>

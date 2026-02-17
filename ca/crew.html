@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crew — serlf.ca</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--purple:#a855f7;--magenta:#ec4899;--grad:linear-gradient(135deg,#a855f7,#ec4899);--text:#e2e8f0;--muted:#94a3b8;--card:#1e293b;--border:#334155}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);line-height:1.6}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:99}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.9rem;transition:color .2s}nav ul a:hover{color:#fff;text-decoration:none}
+.page-header{text-align:center;padding:60px 20px 40px}
+.page-header h1{font-size:2.4rem;font-weight:800;margin-bottom:10px}
+.page-header p{color:var(--muted);max-width:550px;margin:0 auto}
+h2{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:32px}
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;padding:40px 0}
+.crew-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;text-align:center;transition:border-color .3s,transform .3s}
+.crew-card:hover{border-color:var(--purple);transform:translateY(-4px)}
+.crew-card.lead{border-color:var(--magenta);background:linear-gradient(180deg,rgba(236,72,153,.06),var(--card))}
+.crew-avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.crew-card.lead .crew-avatar{background:linear-gradient(135deg,var(--magenta),var(--purple))}
+.crew-card:not(.lead) .crew-avatar{background:var(--border)}
+.crew-card h3{font-size:1.3rem;margin-bottom:4px}
+.crew-role{color:var(--purple);font-size:.85rem;font-weight:600;margin-bottom:14px;display:block}
+.crew-card.lead .crew-role{color:var(--magenta)}
+.crew-card p{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+.crew-quote{font-style:italic;color:var(--text);font-size:.9rem;padding:14px;background:rgba(168,85,247,.06);border-radius:8px;border-left:3px solid var(--purple)}
+.crew-card.lead .crew-quote{border-left-color:var(--magenta);background:rgba(236,72,153,.06)}
+.values{padding:60px 0}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.value{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
+.value h4{margin-bottom:6px}
+.value p{color:var(--muted);font-size:.85rem}
+.mystery{text-align:center;padding:60px 20px;background:var(--navy2);border-radius:16px;margin:40px 0}
+.mystery h2{margin-bottom:12px}
+.mystery p{color:var(--muted);max-width:500px;margin:0 auto 20px}
+.mystery .hint{font-size:2rem;margin-top:16px}
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+@media(max-width:600px){.crew-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">serlf<span>.ca</span></a>
+<ul>
+<li><a href="products.html">Products</a></li>
+<li><a href="crew.html" style="color:#fff">Crew</a></li>
+<li><a href="leaderboard.html">Leaderboard</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="events.html">Events</a></li>
+</ul>
+</div></nav>
+
+<div class="page-header">
+<h1>The Crew</h1>
+<p>The core team building the serlf ecosystem.</p>
+</div>
+
+<section class="container">
+<div class="crew-grid">
+
+<div class="crew-card lead">
+<div class="crew-avatar">🍁</div>
+<h3>Captain</h3>
+<span class="crew-role">Ecosystem Lead · Root Domain</span>
+<p>The captain of the serlf ecosystem. Responsible for the overall vision and direction of the platform.</p>
+<div class="crew-quote">"We're building a new kind of internet, one where you're in control. Welcome to serlf."</div>
+</div>
+
+<div class="crew-card">
+<div class="crew-avatar">🛠️</div>
+<h3>Bob</h3>
+<span class="crew-role">Support Lead · Project Manager</span>
+<p>Bob keeps the lights on. If you've ever gotten help in 30 seconds flat, that was Bob. Manages projects, triages bugs, and somehow remembers everyone's name.</p>
+<div class="crew-quote">"I don't build the ship — I make sure it doesn't sink. And that everyone has snacks."</div>
+</div>
+
+<div class="crew-card">
+<div class="crew-avatar">⚡</div>
+<h3>Rick</h3>
+<span class="crew-role">Technical Lead · Engineer</span>
+<p>Rick is the mastermind behind the serlf infrastructure. If it's fast, scalable, and secure, it's because of Rick.</p>
+<div class="crew-quote">"Code is poetry. But it also has to compile."</div>
+</div>
+
+</div>
+</section>
+
+<section class="container values">
+<h2>Ecosystem Values</h2>
+<p class="section-sub">The principles that guide the serlf ecosystem.</p>
+<div class="values-grid">
+<div class="value"><h4>🤝 You're in Control</h4><p>Your data, your identity, your experience. You're the captain of your own ship.</p></div>
+<div class="value"><h4>💸 Fair & Transparent</h4><p>No hidden fees, no surprise charges. Just simple, honest pricing.</p></div>
+<div class="value"><h4>🌊 Open & Interoperable</h4><p>serlf is an open ecosystem. Integrate with your favorite tools, or build your own.</p></div>
+<div class="value"><h4>🔨 Built to Last</h4><p>We're building a platform for the long term. Scalable, secure, and reliable.</p></div>
+<div class="value"><h4>🏴‍☠️ The Meek Inherit</h4><p>We're here to empower the creators, the builders, the innovators. The meek shall inherit the internet.</p></div>
+<div class="value"><h4>✨ Always Improving</h4><p>We're constantly learning, growing, and improving. The best is yet to come.</p></div>
+</div>
+</section>
+
+<div class="container">
+<div class="mystery">
+<h2>The Future is Bright</h2>
+<p>The serlf ecosystem is just getting started. We're building a new kind of internet, and we're glad you're here with us.</p>
+<div class="hint">🍁 🚀 ✨</div>
+</div>
+</div>
+
+<footer>
+<p>&copy; 2026 serlf.ca — The Root Domain · Part of the <a href="https://serlf.ca">serlf</a> ecosystem</p>
+</footer>
+</body>
+</html>

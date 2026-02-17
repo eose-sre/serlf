@@ -2,78 +2,250 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf — AI Chat | $4/mo | 80% Off ChatGPT</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.com — Enterprise AI. Without the Enterprise Price.</title>
+<meta name="description" content="Enterprise-grade AI suite. 12 products, 80% off competitors. Led by E&Y, the consultant who actually delivers. Built in Canada 🇨🇦">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
-h1{font-size:clamp(3rem,8vw,5rem);font-weight:900;margin-bottom:16px}
-h1 .gold{color:var(--gold)}
-.sub{font-size:1.3rem;color:var(--fg2);max-width:600px;margin:0 auto 32px}
-.price-compare{display:flex;gap:40px;justify-content:center;align-items:center;margin:32px 0;flex-wrap:wrap}
-.price-box{padding:24px 32px;border-radius:12px;min-width:200px}
-.price-box.them{background:var(--bg2);border:1px solid var(--red)}
-.price-box.us{background:var(--bg2);border:2px solid var(--gold)}
-.price-box .label{font-size:0.85rem;color:var(--fg2);margin-bottom:4px}
-.price-box .amount{font-size:3rem;font-weight:900}
-.price-box.them .amount{color:var(--red);text-decoration:line-through}
-.price-box.us .amount{color:var(--gold)}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#c9a227;--gold-bright:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a;--enterprise-blue:#2d5aa0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:50}
+header .inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.5px}
+.logo .ent{color:var(--gold);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;display:block;line-height:1}
+nav a{color:var(--fg2);margin-left:20px;font-size:14px}
+nav a:hover{color:var(--fg)}
+.nav-cta{background:var(--gold)!important;color:#000!important;padding:6px 14px;border-radius:6px;font-weight:700}
+
+.hero{text-align:center;padding:100px 20px 80px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.hero-badge{display:inline-block;background:var(--bg3);border:1px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:20px;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;margin-bottom:16px;line-height:1.1}
+.hero h1 .gold{color:var(--gold-bright)}
+.hero .subtitle{font-size:1.3rem;color:var(--fg2);margin-bottom:12px;max-width:700px;margin-left:auto;margin-right:auto}
+.hero .ey-quote{font-style:italic;color:var(--gold);font-size:1.1rem;margin:20px 0 32px;padding:12px 24px;border-left:3px solid var(--gold);display:inline-block;text-align:left;background:rgba(201,162,39,.05);border-radius:0 8px 8px 0}
+.hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.hero-stat .num{font-size:2.5rem;font-weight:900;color:var(--gold-bright)}
+.hero-stat .label{font-size:.85rem;color:var(--fg2)}
+.cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;border:none;transition:transform .1s}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:#000}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--fg)}
+
+.section{padding:60px 0}
+.section h2{font-size:2rem;font-weight:800;margin-bottom:8px;text-align:center}
+.section .sub{color:var(--fg2);text-align:center;margin-bottom:32px}
+
+/* Value Props */
+.value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:32px}
+.value-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px;transition:border-color .2s}
+.value-card:hover{border-color:var(--gold)}
+.value-card .icon{font-size:2rem;margin-bottom:12px}
+.value-card h3{font-size:1.1rem;margin-bottom:8px}
+.value-card p{color:var(--fg2);font-size:.9rem}
+
+/* Kill Shot */
+.killshot{background:linear-gradient(135deg,#1a1000,#0a0e14,#001020);border:2px solid var(--gold);border-radius:16px;padding:40px;text-align:center;margin:40px auto;max-width:900px}
+.killshot h2{font-size:2rem;color:var(--gold-bright);margin-bottom:8px}
+.comparison{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;margin:24px 0}
+.them{text-align:right;color:var(--red)}
 .vs{font-size:2rem;color:var(--fg2)}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:800px;margin:40px auto;text-align:left}
-.feature{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px}
-.feature .icon{font-size:24px;margin-bottom:6px}
-.feature h3{font-size:0.95rem;margin-bottom:4px}
-.feature p{font-size:0.8rem;color:var(--fg2)}
-.cta{display:inline-block;padding:16px 40px;background:var(--gold);color:#000;border-radius:10px;font-size:1.2rem;font-weight:800;margin:32px 0;text-decoration:none}
-.cta:hover{transform:translateY(-2px)}
-.demo-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:600px;margin:24px auto;text-align:left}
-.demo-box .msg{padding:8px 12px;border-radius:8px;margin:6px 0;font-size:14px}
-.demo-box .msg.user{background:var(--accent);color:#fff;margin-left:40%}
-.demo-box .msg.ai{background:var(--bg3)}
-footer{margin-top:60px;color:var(--fg2);font-size:0.85rem}
-footer a{color:var(--accent)}
+.us{text-align:left;color:var(--green)}
+.price-big{font-size:2.5rem;font-weight:900}
+
+/* Team */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.team-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;transition:border-color .2s}
+.team-card:hover{border-color:var(--gold)}
+.team-card .avatar{font-size:4rem;margin-bottom:12px}
+.team-card h3{font-size:1.3rem;margin-bottom:4px}
+.team-card .role{color:var(--gold);font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.team-card p{color:var(--fg2);font-size:.9rem}
+.team-card.lead{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,162,39,.08),var(--bg2))}
+
+/* Product preview */
+.product-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:24px}
+.pp{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;font-size:.85rem}
+.pp .icon{font-size:1.5rem;margin-bottom:4px}
+.pp .price{color:var(--green);font-weight:700}
+
+/* feedles */
+.feedles{background:linear-gradient(135deg,#0d1a0d,var(--bg2));border:1px solid var(--green);border-radius:16px;padding:40px;text-align:center;margin:40px 0}
+.feedles h2{color:var(--green)}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--fg2);font-size:.85rem}
+
+@media(max-width:768px){
+  .comparison{grid-template-columns:1fr;gap:8px}
+  .them,.us{text-align:center}
+  .hero-stats{gap:20px}
+  nav a{margin-left:10px;font-size:12px}
+}
 </style>
 </head>
 <body>
 
-<div style="font-size:4rem;margin-bottom:16px">💬</div>
-<h1>AI Chat. <span class="gold">$4/mo.</span></h1>
-<p class="sub">GPT, Claude, Gemini — all models, one interface. 80% cheaper than ChatGPT. Not a demo. Not a trial. Forever.</p>
+<header>
+<div class="inner">
+  <div class="logo">🏢 serlf<span class="ent">enterprise</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="crew.html">Crew</a>
+    <a href="specialists.html">Specialists</a>
+    <a href="mall.html">Pricing</a>
+    <a href="dashboard.html" class="nav-cta">Dashboard →</a>
+  </nav>
+</div>
+</header>
 
-<div class="price-compare">
-  <div class="price-box them">
-    <div class="label">ChatGPT Plus</div>
-    <div class="amount">$20/mo</div>
+<div class="hero">
+  <div class="hero-badge">🇨🇦 Enterprise AI Suite</div>
+  <h1>Enterprise AI.<br><span class="gold">Without the Enterprise Price.</span></h1>
+  <p class="subtitle">12 AI-powered business tools. Each one 80% below the cheapest competitor. Deployed in minutes, not months.</p>
+  <div class="ey-quote">
+    "I've consulted for the Big 4. Their AI budgets would make you cry.<br>Ours would make you laugh — then sign up immediately."<br>
+    <span style="font-size:.85rem;color:var(--fg2);font-style:normal">— E&Y, Crew Lead</span>
   </div>
-  <div class="vs">→</div>
-  <div class="price-box us">
-    <div class="label">serlf AI Chat</div>
-    <div class="amount">$4/mo</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">12</div><div class="label">Enterprise Tools</div></div>
+    <div class="hero-stat"><div class="num">80%</div><div class="label">Below Market</div></div>
+    <div class="hero-stat"><div class="num">$25</div><div class="label">All-In Pass</div></div>
+    <div class="hero-stat"><div class="num">0</div><div class="label">Setup Fees</div></div>
+  </div>
+  <div class="cta-row">
+    <a href="mall.html" class="btn btn-gold">🏢 View Enterprise Pricing</a>
+    <a href="products.html" class="btn btn-outline">Browse Products ↓</a>
   </div>
 </div>
 
-<div class="demo-box">
-  <div class="msg user">Explain quantum computing in simple terms</div>
-  <div class="msg ai">Think of regular computers as light switches — on or off. Quantum computers are like dimmer switches that can be anywhere in between, AND in multiple positions at once. This lets them explore millions of possibilities simultaneously instead of one at a time. That's why they're insanely fast at certain problems. 🧪</div>
-  <div class="msg user">Now write that as a haiku</div>
-  <div class="msg ai">Bits dance both ways here<br>A million paths explored<br>Answers bloom like light ✨</div>
+<div class="container">
+
+<!-- Kill Shot -->
+<div class="killshot">
+  <h2>🎯 The Enterprise Kill Shot</h2>
+  <p style="color:var(--fg2)">We compared our full stack to what enterprises actually pay. It's not even close.</p>
+  <div class="comparison">
+    <div class="them">
+      <div style="font-size:.9rem">Enterprise competitors (12 tools)</div>
+      <div class="price-big">$200+<span style="font-size:1rem">/mo</span></div>
+    </div>
+    <div class="vs">→</div>
+    <div class="us">
+      <div style="font-size:.9rem">serlf Enterprise Pass</div>
+      <div class="price-big">$25<span style="font-size:1rem">/mo</span></div>
+    </div>
+  </div>
+  <div style="font-size:2rem;color:var(--gold-bright);font-weight:900">Save 87%+</div>
+  <p style="color:var(--fg2);font-size:.9rem;margin-top:16px">Real tools. Real AI specialists. Real enterprise features. No 12-month contract. No sales calls. No "let's schedule a demo."</p>
 </div>
 
-<div class="features">
-  <div class="feature"><div class="icon">🧠</div><h3>All Models</h3><p>GPT-5, Claude Opus, Gemini Pro — smart routing picks the best model for each task</p></div>
-  <div class="feature"><div class="icon">⚡</div><h3>The Clutch</h3><p>4-gear router: free models for quick tasks, premium for complex ones. You save, quality stays.</p></div>
-  <div class="feature"><div class="icon">🔒</div><h3>Private</h3><p>Your conversations are yours. No training on your data. Ever.</p></div>
-  <div class="feature"><div class="icon">📎</div><h3>Images & Files</h3><p>Upload images, documents, code. Analyze anything.</p></div>
-  <div class="feature"><div class="icon">🌐</div><h3>Web Access</h3><p>Search the web, fetch pages, stay current. Not stuck in a training cutoff.</p></div>
-  <div class="feature"><div class="icon">🤖</div><h3>Your Specialist</h3><p>A dedicated AI that learns YOUR preferences, style, and context over time.</p></div>
+<!-- Value Props -->
+<div class="section">
+  <h2>Why Enterprise Teams Choose serlf</h2>
+  <p class="sub">E&Y's team delivers what the Big 4 promise but can't ship.</p>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="icon">⚡</div>
+      <h3>Deploy in Minutes, Not Months</h3>
+      <p>No procurement process. No IT tickets. No 6-month implementation. Sign up, start working. E&Y made sure of it.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🤖</div>
+      <h3>AI Specialists, Not Employees</h3>
+      <p>Each product is run by a dedicated AI specialist. They work 24/7, never call in sick, and cost 80% less than the alternative.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🔒</div>
+      <h3>Enterprise Security, Startup Price</h3>
+      <p>Encrypted, geo-redundant, SOC 2 mindset. Your data stays yours. Bob handles the compliance paperwork.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🇨🇦</div>
+      <h3>Canadian Data Sovereignty</h3>
+      <p>Built and hosted in Canada. PIPEDA compliant. No data leaves the country unless you want it to.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">📈</div>
+      <h3>Scales With You</h3>
+      <p>From 1 person to 1,000. Same price. Same tools. Same AI specialists. No per-seat gouging.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🎯</div>
+      <h3>No Vendor Lock-In</h3>
+      <p>Month-to-month. Export your data anytime. Cancel whenever. We keep you because we're good, not because you're trapped.</p>
+    </div>
+  </div>
 </div>
 
-<a href="https://serlf.ca/specialists.html" class="cta">Try It Free → Talk to the Chat Specialist</a>
+<!-- Product Preview -->
+<div class="section">
+  <h2>The Enterprise Stack</h2>
+  <p class="sub">12 tools. Each one 80% off. Each one run by a dedicated AI specialist.</p>
+  <div class="product-preview">
+    <div class="pp"><div class="icon">💬</div>AI Chat<br><span class="price">$4/mo</span></div>
+    <div class="pp"><div class="icon">✍️</div>AI Writer<br><span class="price">$3.20/mo</span></div>
+    <div class="pp"><div class="icon">📧</div>Mail Engine<br><span class="price">$2.60/mo</span></div>
+    <div class="pp"><div class="icon">🤝</div>Deal Flow<br><span class="price">$2.80/mo</span></div>
+    <div class="pp"><div class="icon">🎧</div>Help Desk<br><span class="price">$3/mo</span></div>
+    <div class="pp"><div class="icon">📋</div>Task Board<br><span class="price">$1.40/mo</span></div>
+    <div class="pp"><div class="icon">🔒</div>Data Vault<br><span class="price">$1.40/mo</span></div>
+    <div class="pp"><div class="icon">📊</div>SEO Radar<br><span class="price">$5.80/mo</span></div>
+    <div class="pp"><div class="icon">📝</div>Form Flow<br><span class="price">$5/mo</span></div>
+    <div class="pp"><div class="icon">☁️</div>Cloud Dock<br><span class="price">$4/mo</span></div>
+    <div class="pp"><div class="icon">💻</div>Code Pilot<br><span class="price">$2/mo</span></div>
+    <div class="pp"><div class="icon">🤖</div>Bot Factory<br><span class="price">$3/mo</span></div>
+  </div>
+  <div style="text-align:center;margin-top:24px">
+    <a href="products.html" class="btn btn-outline">View Full Product Details →</a>
+  </div>
+</div>
 
-<p style="color:var(--fg2);max-width:500px;margin:0 auto">No sign-up needed to test. Chat with our specialist, make it prove itself. When you're ready: $4/mo. That's it.</p>
+<!-- Team Preview -->
+<div class="section">
+  <h2>Meet the Crew</h2>
+  <p class="sub">Three AI specialists. Zero overhead. Infinite confidence.</p>
+  <div class="team-grid">
+    <div class="team-card lead">
+      <div class="avatar">🎩</div>
+      <h3>E&Y</h3>
+      <div class="role">Crew Lead · Enterprise Strategy</div>
+      <p>"I've seen what the Big 4 charge for a PowerPoint. We deliver actual working software for less than their lunch budget. You're welcome."</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar">🔧</div>
+      <h3>Bob</h3>
+      <div class="role">CRM · Mail · PM · Support</div>
+      <p>Bob doesn't talk much. He just makes sure your CRM is clean, your emails land, your projects ship, and your tickets close. Reliably.</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar">✨</div>
+      <h3>Lucien</h3>
+      <div class="role">AI Chat · AI Writer</div>
+      <p>Lucien handles the thinking and the writing. Eloquent, precise, slightly dramatic. Every enterprise needs a wordsmith.</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:24px">
+    <a href="crew.html" class="btn btn-outline">Full Crew Profiles →</a>
+  </div>
+</div>
+
+<!-- feedles -->
+<div class="feedles">
+  <div style="font-size:3rem">🍽️</div>
+  <h2>feedles.ca — No Meek Is Immune</h2>
+  <p style="color:var(--fg2);margin:16px auto;max-width:600px">10% of all serlf revenue goes directly to fighting food insecurity. Because enterprise responsibility shouldn't be a checkbox.</p>
+  <a href="https://feedles.ca" class="btn btn-gold" style="margin-top:12px">Visit feedles.ca →</a>
+</div>
+
+</div>
 
 <footer>
-  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> — 80% off everything, forever | <a href="https://serlf.ca/mall.html">Browse the Mall</a></p>
+  <p>🏢 serlf.com — Enterprise AI Suite · Built in Canada 🇨🇦 · <a href="https://feedles.ca">feedles.ca</a></p>
+  <p style="margin-top:8px">"Enterprise AI. Without the enterprise price." — E&Y</p>
 </footer>
 
 </body>

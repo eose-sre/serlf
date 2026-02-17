@@ -1,0 +1,114 @@
+<!--
+  serlf Universal Navigation Bar
+  Include in any domain page. Self-contained CSS.
+  Expects ../shared/auth.js to provide window.serlfAuth = { user, isLoggedIn }
+-->
+<style>
+.serlf-nav{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0e1a;border-bottom:1px solid rgba(255,255,255,.06);padding:0 24px;display:flex;align-items:center;height:56px;position:relative;z-index:1000}
+.serlf-nav *{margin:0;padding:0;box-sizing:border-box}
+.serlf-nav-logo{font-size:20px;font-weight:700;color:#fff;text-decoration:none;margin-right:24px;flex-shrink:0}
+.serlf-nav-logo span{color:#6366f1}
+.serlf-nav-domain{position:relative}
+.serlf-nav-domain-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 14px;color:#e0e0e0;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit}
+.serlf-nav-domain-btn:hover{border-color:rgba(255,255,255,.2)}
+.serlf-nav-domain-btn .arrow{font-size:10px;opacity:.5}
+.serlf-nav-dropdown{display:none;position:absolute;top:calc(100% + 6px);left:0;background:#121828;border:1px solid rgba(255,255,255,.1);border-radius:10px;min-width:260px;padding:6px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:1001}
+.serlf-nav-dropdown.open{display:block}
+.serlf-nav-dd-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:7px;text-decoration:none;color:#e0e0e0;font-size:13px;transition:.15s}
+.serlf-nav-dd-item:hover{background:rgba(255,255,255,.06)}
+.serlf-nav-dd-item.active{background:rgba(99,102,241,.15);color:#a5b4fc}
+.serlf-nav-dd-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.serlf-nav-dd-label{font-weight:500}
+.serlf-nav-dd-ext{margin-left:auto;color:#8890a0;font-size:11px}
+.serlf-nav-spacer{flex:1}
+.serlf-nav-auth{display:flex;align-items:center;gap:12px}
+.serlf-nav-signin{color:#e0e0e0;text-decoration:none;font-size:13px;padding:7px 16px;border:1px solid rgba(255,255,255,.15);border-radius:8px;transition:.15s}
+.serlf-nav-signin:hover{border-color:rgba(255,255,255,.3);color:#fff}
+.serlf-nav-user{display:flex;align-items:center;gap:8px;font-size:13px;color:#e0e0e0}
+.serlf-nav-avatar{width:28px;height:28px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
+.serlf-nav-hamburger{display:none;background:none;border:none;color:#e0e0e0;font-size:22px;cursor:pointer;padding:4px 8px}
+@media(max-width:640px){
+  .serlf-nav-domain,.serlf-nav-auth{display:none}
+  .serlf-nav-hamburger{display:block}
+  .serlf-nav.mobile-open .serlf-nav-mobile{display:flex}
+}
+.serlf-nav-mobile{display:none;position:fixed;inset:0;top:56px;background:#0a0e1a;flex-direction:column;padding:16px;gap:4px;z-index:999;overflow-y:auto}
+.serlf-nav-mobile .serlf-nav-dd-item{padding:12px 14px;font-size:15px}
+.serlf-nav-mobile .serlf-nav-signin{display:inline-block;text-align:center;margin-top:12px}
+</style>
+
+<nav class="serlf-nav" id="serlfNav">
+  <a class="serlf-nav-logo" href="/">serlf<span>.</span></a>
+  <div class="serlf-nav-domain">
+    <button class="serlf-nav-domain-btn" onclick="toggleSerlfDomainDD()">
+      <span id="serlfCurrentDomain">Select Domain</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="serlf-nav-dropdown" id="serlfDomainDD"></div>
+  </div>
+  <div class="serlf-nav-spacer"></div>
+  <div class="serlf-nav-auth" id="serlfAuthArea"></div>
+  <button class="serlf-nav-hamburger" onclick="toggleSerlfMobileNav()">☰</button>
+  <div class="serlf-nav-mobile" id="serlfMobileNav"></div>
+</nav>
+
+<script>
+(function(){
+  const domains = [
+    { ext:'.ca',   label:'Home',          color:'#6366f1', url:'https://serlf.ca' },
+    { ext:'.com',  label:'Enterprise',    color:'#3b82f6', url:'https://serlf.com' },
+    { ext:'.org',  label:'Open Source',    color:'#22c55e', url:'https://serlf.org' },
+    { ext:'.net',  label:'Dev Portal',    color:'#a855f7', url:'https://serlf.net' },
+    { ext:'.info', label:'Knowledge',     color:'#06b6d4', url:'https://serlf.info' },
+    { ext:'.club', label:'Community',     color:'#ec4899', url:'https://serlf.club' },
+    { ext:'.shop', label:'Shop',          color:'#f43f5e', url:'https://serlf.shop' },
+    { ext:'.store',label:'Digital Store', color:'#e8922a', url:'https://serlf.store' },
+  ];
+
+  // Detect current domain
+  const host = window.location.hostname;
+  let current = domains.find(d => host.includes('serlf' + d.ext.replace('.', '.')));
+  if (!current) current = domains[7]; // default to .store for local dev
+
+  // Set current label
+  document.getElementById('serlfCurrentDomain').textContent = current.label + ' (serlf' + current.ext + ')';
+
+  // Build dropdown
+  const dd = document.getElementById('serlfDomainDD');
+  const mobile = document.getElementById('serlfMobileNav');
+  domains.forEach(d => {
+    const active = d.ext === current.ext ? ' active' : '';
+    const html = `<a class="serlf-nav-dd-item${active}" href="${d.url}">
+      <span class="serlf-nav-dd-dot" style="background:${d.color}"></span>
+      <span class="serlf-nav-dd-label">${d.label}</span>
+      <span class="serlf-nav-dd-ext">serlf${d.ext}</span>
+    </a>`;
+    dd.innerHTML += html;
+    mobile.innerHTML += html;
+  });
+
+  // Auth area
+  const auth = document.getElementById('serlfAuthArea');
+  const user = window.serlfAuth && window.serlfAuth.isLoggedIn ? window.serlfAuth.user : null;
+  if (user) {
+    auth.innerHTML = `<div class="serlf-nav-user"><div class="serlf-nav-avatar">${(user.name||'U')[0].toUpperCase()}</div>${user.name}</div>`;
+    mobile.innerHTML += `<div style="padding:14px;color:#e0e0e0;font-size:14px">Signed in as <strong>${user.name}</strong></div>`;
+  } else {
+    auth.innerHTML = `<a class="serlf-nav-signin" href="signup.html">Sign In</a>`;
+    mobile.innerHTML += `<a class="serlf-nav-signin" href="signup.html">Sign In</a>`;
+  }
+
+  // Logo color matches current domain
+  document.querySelector('.serlf-nav-logo span').style.color = current.color;
+
+  window.toggleSerlfDomainDD = function() {
+    dd.classList.toggle('open');
+  };
+  window.toggleSerlfMobileNav = function() {
+    document.getElementById('serlfNav').classList.toggle('mobile-open');
+  };
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.serlf-nav-domain')) dd.classList.remove('open');
+  });
+})();
+</script>

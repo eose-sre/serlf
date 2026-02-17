@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.com — Enterprise Sign In</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e4ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-container{max-width:420px;width:100%;padding:2rem}
+.logo{font-size:2rem;font-weight:700;color:#4a90d9;text-align:center;margin-bottom:.25rem}
+.enterprise-badge{text-align:center;margin-bottom:.5rem}
+.enterprise-badge span{background:#c9a84c22;color:#c9a84c;padding:.2rem .65rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tagline{text-align:center;color:#8892b0;margin-bottom:2.5rem;font-size:1.2rem}
+.form-group{margin-bottom:1.25rem}
+label{display:block;color:#8892b0;font-size:.85rem;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+input{width:100%;padding:.85rem 1rem;background:#151b2e;border:1px solid #2a3050;border-radius:8px;color:#e0e4ef;font-size:1rem}
+input:focus{outline:none;border-color:#4a90d9}
+.submit-btn{width:100%;padding:1rem;background:linear-gradient(135deg,#4a90d9,#3a70b0);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;margin-top:.5rem}
+.submit-btn:hover{transform:translateY(-1px)}
+.signup-link{text-align:center;margin-top:1.5rem;color:#8892b0}
+.signup-link a{color:#4a90d9;text-decoration:none}
+.error{color:#ff4444;text-align:center;margin-top:1rem;display:none}
+.specialist-bubble{background:#151b2e;border:1px solid #2a3050;border-radius:12px;padding:1rem;margin-top:2rem;text-align:center}
+.specialist-bubble .avatar{font-size:2rem;margin-bottom:.5rem}
+.specialist-bubble .msg{color:#8892b0;font-size:.9rem;font-style:italic}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <div class="logo">serlf.com</div>
+  <div class="enterprise-badge"><span>Enterprise</span></div>
+  <p class="tagline">Welcome back, meek.</p>
+  <div class="form-group"><label>Business Email</label><input type="email" id="email" placeholder="you@company.com" autofocus></div>
+  <button class="submit-btn" onclick="doLogin()">Enter Dashboard</button>
+  <div class="error" id="error">Account not found. <a href="signup.html" style="color:#4a90d9">Enroll now?</a></div>
+  <div class="signup-link">New to enterprise? <a href="signup.html">Enroll for $1</a></div>
+  <div class="specialist-bubble">
+    <div class="avatar">🧭</div>
+    <div class="msg">Your enterprise consultant is standing by...</div>
+  </div>
+</div>
+<script src="../shared/auth.js"></script>
+<script>
+if(SerlfAuth.isLoggedIn())window.location.href='my-marketplace.html';
+function doLogin(){const e=document.getElementById('email').value.trim();if(!e)return;const u=SerlfAuth.login(e);if(u)window.location.href='my-marketplace.html';else document.getElementById('error').style.display='block';}
+document.getElementById('email').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>

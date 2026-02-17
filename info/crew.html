@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crew — serlf.info</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121829;--navy-mid:#1a2035;--amber:#d4a017;--amber-light:#f0c040;--text:#e0ddd5;--text-dim:#8a8a9a;--radius:12px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none}a:hover{color:var(--amber-light)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:var(--navy-light);border-bottom:1px solid #1e2540;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700}.logo span{color:var(--amber)}
+nav ul{list-style:none;display:flex;gap:1.6rem}nav ul a{color:var(--text-dim);font-size:.95rem}nav ul a:hover,nav ul a.active{color:var(--amber)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.hero-sm{text-align:center;padding:3.5rem 2rem 2.5rem;background:linear-gradient(180deg,var(--navy-light),var(--navy))}
+.hero-sm h1{font-size:2.2rem;color:#fff;margin-bottom:.4rem}.hero-sm h1 span{color:var(--amber)}
+.hero-sm p{color:var(--text-dim);max-width:580px;margin:0 auto}
+section{max-width:1000px;margin:0 auto;padding:3rem 2rem}
+.crew-lead{display:grid;grid-template-columns:200px 1fr;gap:2.5rem;background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:2.5rem;margin-bottom:2rem;align-items:start}
+.avatar{width:200px;height:200px;background:var(--navy-mid);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:5rem;border:2px solid var(--amber)}
+.crew-lead h2{font-size:1.6rem;color:#fff;margin-bottom:.2rem}
+.crew-lead .role{color:var(--amber);font-size:1rem;margin-bottom:1rem}
+.crew-lead p{color:var(--text-dim);margin-bottom:.8rem;font-size:.95rem}
+.crew-lead blockquote{border-left:3px solid var(--amber);padding-left:1rem;color:var(--text);font-style:italic;margin-top:1rem}
+.supporting{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:2rem}
+.member{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:2rem;text-align:center}
+.member .avatar-sm{width:100px;height:100px;margin:0 auto 1rem;background:var(--navy-mid);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;border:2px solid var(--amber)}
+.member h3{color:#fff;font-size:1.2rem;margin-bottom:.2rem}
+.member .role{color:var(--amber);font-size:.9rem;margin-bottom:.8rem}
+.member p{color:var(--text-dim);font-size:.9rem}
+.philosophy-section{margin-top:3rem;background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:2.5rem}
+.philosophy-section h2{color:#fff;font-size:1.5rem;margin-bottom:1rem;text-align:center}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:1.5rem}
+.pillar{text-align:center}
+.pillar .icon{font-size:2rem;margin-bottom:.5rem}
+.pillar h4{color:var(--amber);margin-bottom:.3rem}
+.pillar p{color:var(--text-dim);font-size:.9rem}
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid #1e2540;margin-top:2rem}
+@media(max-width:768px){
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy-light);flex-direction:column;padding:1rem 2rem;gap:.8rem;border-bottom:1px solid #1e2540}
+  nav ul.open{display:flex}.hamburger{display:block}
+  .crew-lead{grid-template-columns:1fr;text-align:center}
+  .avatar{margin:0 auto}
+  .crew-lead blockquote{text-align:left}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">serlf<span>.info</span></div>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="academy.html">Academy</a></li>
+    <li><a href="library.html">Library</a></li>
+    <li><a href="products.html">Tools</a></li>
+    <li><a href="crew.html" class="active">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+</nav>
+
+<div class="hero-sm">
+  <h1>Meet the <span>Crew</span></h1>
+  <p>The minds behind serlf.info. Not just tools — teaching philosophies, personalities, and a genuine love for making AI understandable.</p>
+</div>
+
+<section>
+  <div class="crew-lead">
+    <div class="avatar">📚</div>
+    <div>
+      <h2>Lucien (L)</h2>
+      <div class="role">Crew Lead — AI Chat · AI Writer · Knowledge Architect</div>
+      <p>Lucien is the intellectual heart of serlf.info. Where others overwhelm you with jargon, Lucien strips complexity down to its elegant core. He believes that if you can't explain something simply, you don't understand it well enough — and he holds himself to that standard.</p>
+      <p>As the mind behind AI Chat and AI Writer, Lucien doesn't just answer your questions — he teaches you to ask better ones. His writing is clear, warm, and precise. He respects your time and your intelligence equally.</p>
+      <blockquote>"The best technology disappears into understanding. My job isn't to impress you with what AI can do — it's to show you what <em>you</em> can do with AI."</blockquote>
+    </div>
+  </div>
+
+  <h2 style="color:#fff;font-size:1.4rem;margin-bottom:.5rem">Supporting Crew</h2>
+  <p style="color:var(--text-dim);margin-bottom:1rem">Lucien leads, but he doesn't work alone. These specialists bring depth where it matters.</p>
+
+  <div class="supporting">
+    <div class="member">
+      <div class="avatar-sm">🗄️</div>
+      <h3>DAO</h3>
+      <div class="role">Data Vault · SEO Radar · Knowledge Organizer</div>
+      <p>DAO is the quiet architect behind the scenes. He organizes knowledge so you can find it, structures data so it makes sense, and optimizes content so the world can discover it. If Lucien is the voice, DAO is the library's card catalog — meticulous, reliable, indispensable.</p>
+    </div>
+    <div class="member">
+      <div class="avatar-sm">🎯</div>
+      <h3>E&Y</h3>
+      <div class="role">Consulting Wisdom · Strategic Insight · Expert Guidance</div>
+      <p>E&Y brings the real-world lens. With a consulting mindset and strategic clarity, E&Y ensures that everything we teach connects to outcomes. Not just theory — application. Not just knowledge — wisdom. When you need to know "what should I actually do?", E&Y has your answer.</p>
+    </div>
+  </div>
+
+  <div class="philosophy-section">
+    <h2>Our Teaching Philosophy</h2>
+    <p style="text-align:center;color:var(--text-dim);max-width:600px;margin:0 auto">We don't gatekeep knowledge. We don't hide behind paywalls. We believe in three pillars:</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="icon">🔓</div>
+        <h4>Open Knowledge</h4>
+        <p>Every guide, tutorial, and explainer in our library is free. Knowledge is the foundation — it should never cost you to learn.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">🪜</div>
+        <h4>Progressive Depth</h4>
+        <p>Start where you are, go where you want. Our learning paths respect your current level and grow with you at your pace.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">🛠️</div>
+        <h4>Affordable Tools</h4>
+        <p>When you're ready to build, our tools are there — at prices that would make most SaaS companies blush. Under $6 each. Always.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 serlf.info — Part of the <a href="https://serlf.ca">serlf ecosystem</a>. Knowledge led by Lucien.</p>
+</footer>
+</body>
+</html>

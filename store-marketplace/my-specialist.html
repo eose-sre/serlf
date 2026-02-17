@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.store — My Specialist</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121828;--navy-mid:#1a2138;--orange:#e8922a;--orange-light:#f5a623;--amber:#ffbf47;--green:#34d399;--text:#e0e0e0;--text-dim:#8890a0;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--navy-light);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:20px;color:#fff;font-weight:700}
+.topbar h1 span{color:var(--orange)}
+.topbar-right{display:flex;gap:16px;align-items:center}
+.topbar-right a{color:var(--text-dim);text-decoration:none;font-size:14px}
+.topbar-right a:hover{color:var(--orange)}
+.specialist-layout{flex:1;display:grid;grid-template-columns:280px 1fr;min-height:0}
+@media(max-width:768px){.specialist-layout{grid-template-columns:1fr}.panel{display:none}.panel.mobile-show{display:block;position:fixed;inset:0;z-index:10;background:var(--navy-light)}}
+/* Side panel */
+.panel{background:var(--navy-light);border-right:1px solid rgba(255,255,255,.06);overflow-y:auto}
+.panel-section{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+.panel-section h4{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:12px}
+.panel-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:.15s;font-size:14px;color:var(--text)}
+.panel-item:hover{background:rgba(232,146,42,.1);color:#fff}
+.panel-item .icon{font-size:18px;width:28px;text-align:center}
+.panel-item .count{margin-left:auto;font-size:11px;color:var(--text-dim);background:var(--navy);padding:2px 8px;border-radius:10px}
+/* Upload area */
+.upload-zone{border:2px dashed rgba(232,146,42,.3);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:.2s;margin-top:8px}
+.upload-zone:hover{border-color:var(--orange);background:rgba(232,146,42,.05)}
+.upload-zone p{font-size:13px;color:var(--text-dim)}
+.upload-zone .up-icon{font-size:24px;margin-bottom:4px}
+/* Chat area */
+.chat-area{display:flex;flex-direction:column;min-height:0}
+.chat-header{padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px}
+.specialist-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--amber));display:flex;align-items:center;justify-content:center;font-size:18px}
+.specialist-info h3{font-size:16px;color:#fff;font-weight:600}
+.specialist-info p{font-size:12px;color:var(--green);display:flex;align-items:center;gap:4px}
+.specialist-info p::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)}
+.chat-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:75%;padding:12px 16px;border-radius:14px;font-size:14px;line-height:1.6}
+.msg.bot{background:var(--navy-mid);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.user{background:var(--orange);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg .sender{font-size:11px;color:var(--text-dim);margin-bottom:4px;font-weight:600}
+.msg .timestamp{font-size:10px;color:var(--text-dim);margin-top:6px;opacity:.7}
+/* Quick actions */
+.quick-actions{padding:10px 24px;display:flex;gap:8px;flex-wrap:wrap}
+.quick-btn{padding:6px 14px;background:var(--navy-mid);border:1px solid rgba(255,255,255,.08);border-radius:20px;color:var(--text-dim);font-size:12px;cursor:pointer;transition:.15s}
+.quick-btn:hover{border-color:var(--orange);color:var(--orange)}
+/* Input */
+.chat-input{padding:16px 24px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:10px}
+.chat-input input{flex:1;padding:12px 16px;background:var(--navy-light);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:14px;outline:none}
+.chat-input input:focus{border-color:var(--orange)}
+.chat-input button{padding:12px 20px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>serlf<span>.store</span></h1>
+  <div class="topbar-right">
+    <a href="my-marketplace.html">← Marketplace</a>
+    <a href="#">Settings</a>
+  </div>
+</div>
+<div class="specialist-layout">
+  <!-- Side Panel -->
+  <div class="panel">
+    <div class="panel-section">
+      <h4>Browse Templates</h4>
+      <div class="panel-item" onclick="browseCategory('AI')"><span class="icon">🤖</span> AI Templates <span class="count">48</span></div>
+      <div class="panel-item" onclick="browseCategory('Design')"><span class="icon">🎨</span> Design Kits <span class="count">35</span></div>
+      <div class="panel-item" onclick="browseCategory('Bots')"><span class="icon">🏭</span> Bot Scripts <span class="count">27</span></div>
+      <div class="panel-item" onclick="browseCategory('Sites')"><span class="icon">🌐</span> Site Templates <span class="count">52</span></div>
+      <div class="panel-item" onclick="browseCategory('Data')"><span class="icon">🔒</span> Data Tools <span class="count">19</span></div>
+      <div class="panel-item" onclick="browseCategory('Forms')"><span class="icon">📋</span> Form Flows <span class="count">31</span></div>
+    </div>
+    <div class="panel-section">
+      <h4>My Listings</h4>
+      <div class="panel-item"><span class="icon">📦</span> Active <span class="count">12</span></div>
+      <div class="panel-item"><span class="icon">📝</span> Drafts <span class="count">3</span></div>
+      <div class="panel-item"><span class="icon">📊</span> Analytics</div>
+    </div>
+    <div class="panel-section">
+      <h4>Upload Asset</h4>
+      <div class="upload-zone" onclick="document.getElementById('fileUpload').click()">
+        <div class="up-icon">☁️</div>
+        <p>Drop files here or click to upload</p>
+        <input type="file" id="fileUpload" hidden multiple>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area">
+    <div class="chat-header">
+      <div class="specialist-avatar">🏛️</div>
+      <div class="specialist-info">
+        <h3>DAO Specialist</h3>
+        <p>Online — Creator Economy Expert</p>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">
+        <div class="sender">DAO Specialist</div>
+        Welcome to your personal specialist chat. I'm here to help you manage your digital storefront — browse templates, upload assets, optimize listings, and grow your creator business.
+        <div class="timestamp">Today, 9:00 AM</div>
+      </div>
+      <div class="msg bot">
+        <div class="sender">DAO Specialist</div>
+        You started with your Captain, and now I'm part of your crew. The marketplace is measured and fair — every creator gets the tools they need. What would you like to work on today?
+        <div class="timestamp">Today, 9:01 AM</div>
+      </div>
+    </div>
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="quickAction('Browse trending templates')">📈 Trending</button>
+      <button class="quick-btn" onclick="quickAction('Show my earnings breakdown')">💰 Earnings</button>
+      <button class="quick-btn" onclick="quickAction('Help me create a new listing')">➕ New Listing</button>
+      <button class="quick-btn" onclick="quickAction('Optimize my existing listings')">⚡ Optimize</button>
+      <button class="quick-btn" onclick="quickAction('Upload a new asset')">☁️ Upload</button>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Ask about templates, listings, earnings...">
+      <button onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const responses = {
+  'AI': 'Here are the top AI templates: Prompt Engineering Pack ($9), GPT Workflow Kit ($14), ML Starter Bundle (Free). Want me to list them in your store?',
+  'Design': 'Popular design kits: Minimal UI Kit ($12), Icon Pack Pro ($8), Brand Identity Template ($15). All fully editable.',
+  'Bots': 'Bot scripts trending: Discord Moderation Bot (Free), Trading Signal Bot ($14), Customer Service Bot ($10).',
+  'Sites': 'Hot site templates: SaaS Landing Page ($19), Portfolio Pro ($12), E-commerce Starter ($25). Mobile-responsive.',
+  'Data': 'Data tools available: Encryption Toolkit ($10), Backup Automation ($8), ETL Pipeline Config (Free).',
+  'Forms': 'Form flows: Survey Builder Pro ($8), Multi-step Checkout (Free), Application Form Kit ($5).',
+  'earnings': 'This month: $247 revenue across 142 downloads. Your top earner is "AI Prompt Pack" at $89. Conversion rate is 4.2% — above marketplace average.',
+  'listing': 'Let\'s create a new listing! I\'ll need: 1) Asset file(s), 2) Title & description, 3) Pricing (free or paid), 4) Category. Upload your files in the sidebar to get started.',
+  'optimize': 'I can help optimize your listings. Quick wins: Add preview images to 3 listings missing them, update descriptions for SEO, and consider bundling your AI templates — bundles sell 2.3x better.',
+  'upload': 'Use the upload panel on the left to drop your files. I\'ll help you set up the listing — title, description, pricing, and preview images. The marketplace handles delivery automatically.',
+  'default': 'I understand. As your DAO Specialist, I\'m here to keep things measured and fair. Let me look into that and get back to you with the best approach for your storefront.'
+};
+
+function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg(text, 'user');
+  input.value = '';
+  setTimeout(() => {
+    const key = Object.keys(responses).find(k => text.toLowerCase().includes(k.toLowerCase()));
+    addMsg(responses[key] || responses.default, 'bot', 'DAO Specialist');
+  }, 600);
+}
+
+function quickAction(text) {
+  document.getElementById('chatInput').value = text;
+  sendMsg();
+}
+
+function browseCategory(cat) {
+  addMsg(`Show me ${cat} templates`, 'user');
+  setTimeout(() => addMsg(responses[cat] || responses.default, 'bot', 'DAO Specialist'), 600);
+}
+
+function addMsg(text, type, sender) {
+  const el = document.createElement('div');
+  el.className = `msg ${type}`;
+  const now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  el.innerHTML = (sender ? `<div class="sender">${sender}</div>` : '') + text + `<div class="timestamp">${now}</div>`;
+  const container = document.getElementById('chatMessages');
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+}
+
+document.getElementById('chatInput').addEventListener('keydown', e => { if(e.key==='Enter') sendMsg(); });
+document.getElementById('fileUpload').addEventListener('change', function() {
+  if(this.files.length) {
+    addMsg(`Uploading ${this.files.length} file(s)...`, 'user');
+    setTimeout(() => addMsg('Files received! Let\'s set up your listing. What title and price would you like?', 'bot', 'DAO Specialist'), 800);
+  }
+});
+</script>
+<script src="../shared/auth.js" defer></script>
+</body>
+</html>

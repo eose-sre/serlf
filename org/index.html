@@ -2,119 +2,235 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>feedles — No Meek Is Immune | Fighting Food Insecurity</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.org — Open Source AI for Everyone 🇨🇦</title>
+<meta name="description" content="AI belongs to everyone. We're proving it. Open source AI tools, transparent governance, community-driven development. Built in Canada.">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a1a0a;--bg2:#0d200d;--bg3:#143014;--fg:#e8f5e8;--fg2:#7aaa7a;--accent:#3fb950;--gold:#ffd700;--border:#1a3a1a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
-.container{max-width:800px;margin:0 auto;padding:40px 20px}
-.hero{text-align:center;padding:60px 0}
-.hero .icon{font-size:5rem;margin-bottom:20px}
-h1{font-size:3.5rem;font-weight:900;color:var(--accent)}
-.sub{font-size:1.3rem;color:var(--fg2);margin:16px 0 40px;max-width:600px;margin-left:auto;margin-right:auto}
-.mission{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;margin:32px 0}
-.mission h2{color:var(--accent);margin-bottom:12px;font-size:1.5rem}
-.mission p{color:var(--fg2);line-height:1.8}
-.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:32px 0}
-.pillar{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center}
-.pillar .icon{font-size:2.5rem;margin-bottom:8px}
-.pillar h3{margin-bottom:4px}
-.pillar p{font-size:0.85rem;color:var(--fg2)}
-.stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin:40px 0}
-.stat{text-align:center}
-.stat .num{font-size:2.5rem;font-weight:900;color:var(--accent)}
-.stat .label{font-size:0.85rem;color:var(--fg2)}
-.how{background:var(--bg3);border-radius:12px;padding:32px;margin:32px 0;text-align:center}
-.how h2{color:var(--gold);margin-bottom:16px}
-.flow{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center}
-.flow-step{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;min-width:140px}
-.flow-step .icon{font-size:1.5rem}
-.flow-step .text{font-size:0.85rem;color:var(--fg2);margin-top:4px}
-.flow-arrow{font-size:1.5rem;color:var(--fg2)}
-.cta{display:inline-block;padding:16px 40px;background:var(--accent);color:#000;border-radius:10px;font-size:1.2rem;font-weight:800;margin:32px 0;text-decoration:none}
-.quote{font-style:italic;color:var(--fg2);font-size:1.2rem;text-align:center;margin:40px 0;padding:20px;border-left:3px solid var(--accent)}
-footer{text-align:center;margin-top:60px;color:var(--fg2);font-size:0.85rem;padding-bottom:40px}
-footer a{color:var(--accent)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a1628;--bg2:#0f1f3a;--bg3:#162a4a;
+  --fg:#e8edf5;--fg2:#8899b3;--muted:#5a6f8a;
+  --teal:#10b981;--teal2:#14b8a6;--teal-glow:rgba(16,185,129,.25);
+  --green:#059669;--cyan:#06b6d4;
+  --maple:#e63946;--gold:#f4a261;
+  --surface:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);
+  --radius:8px;--max:1100px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--teal2);text-decoration:none}a:hover{text-decoration:underline}
+
+.site-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-size:1.4rem;font-weight:800;color:#fff}
+.logo .oss{color:var(--teal);font-size:.7em;margin-left:.4rem;border:1px solid var(--teal);padding:.1rem .4rem;border-radius:4px;vertical-align:middle}
+nav{display:flex;gap:.2rem;flex-wrap:wrap}
+nav a{padding:.35rem .6rem;border-radius:var(--radius);font-size:.78rem;color:var(--fg2);transition:background .2s}
+nav a:hover{background:var(--bg3);color:#fff;text-decoration:none}
+nav a.active{background:var(--teal);color:#fff}
+
+.hero{text-align:center;padding:5rem 1.5rem 4rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,var(--teal-glow),transparent 70%);pointer-events:none;z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;margin-bottom:1rem}
+.hero .highlight{color:var(--teal)}
+.hero .tagline{font-size:1.25rem;color:var(--fg2);max-width:650px;margin:0 auto 2rem}
+.hero .quote{color:var(--teal2);font-style:italic;font-size:1.1rem;margin:1rem 0}
+
+.btn{display:inline-block;padding:.8rem 2rem;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 20px var(--teal-glow)}
+.btn-secondary{background:var(--bg3);color:#fff;border:1px solid rgba(255,255,255,.1)}
+.flex-center{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem}
+
+section{padding:4rem 1.5rem}
+.container{max-width:var(--max);margin:0 auto}
+.section-title{font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:.5rem}
+.section-sub{text-align:center;color:var(--fg2);margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+
+.grid{display:grid;gap:1.5rem}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--teal)}
+.card .icon{font-size:2rem;margin-bottom:1rem;display:block}
+.card h3{font-size:1.15rem;margin-bottom:.5rem}
+.card p{color:var(--fg2);font-size:.9rem}
+
+.stats-bar{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem;margin:3rem 0}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;text-align:center}
+.stat-number{font-size:2rem;color:var(--teal);font-weight:800}
+.stat-label{font-size:.8rem;color:var(--fg2)}
+
+.mission-box{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:2px solid var(--teal);border-radius:12px;padding:3rem;text-align:center;margin:3rem 0}
+.mission-box h2{color:var(--teal);margin-bottom:1rem}
+
+.feedles{background:var(--bg2);border-left:4px solid var(--maple);border-radius:0 var(--radius) var(--radius) 0;padding:1.5rem 2rem;margin:3rem 0;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.feedles .icon{font-size:2.5rem}
+
+.site-footer{margin-top:auto;background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 1.5rem 1.5rem;font-size:.82rem;color:var(--fg2)}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-bottom:1.5rem;justify-content:center}
+.footer-links a{color:var(--fg2)}
+.footer-links a:hover{color:#fff}
+.footer-bottom{text-align:center}
+
+@media(max-width:600px){
+  .header-inner{flex-direction:column;gap:.5rem}
+  nav{justify-content:center}
+  .hero{padding:3rem 1rem 2.5rem}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .feedles{flex-direction:column;text-align:center}
+}
 </style>
 </head>
 <body>
+
+<header class="site-header"><div class="header-inner">
+<div class="logo">🤝 serlf<span class="oss">OSS</span></div>
+<nav>
+<a href="index.html" class="active">Home</a>
+<a href="products.html">Products</a>
+<a href="crew.html">Crew</a>
+<a href="specialists.html">Specialists</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="contribute.html" style="background:var(--teal);color:#fff;padding:.35rem .8rem;border-radius:4px">Contribute</a>
+</nav>
+</div></header>
+
+<div style="text-align:center;padding:.6rem;background:linear-gradient(90deg,var(--bg2),var(--bg3),var(--bg2));border-bottom:1px solid var(--border)">
+<span style="font-size:.85rem;color:var(--teal);letter-spacing:.05em">🌐 100% Open Source · 🍁 Built in Canada · 🤝 Community Governed</span>
+</div>
+
+<section class="hero">
+<p style="font-size:.9rem;color:var(--fg2);margin-bottom:.5rem">Open Source AI for Everyone</p>
+<h1>AI belongs to everyone.<br><span class="highlight">We're proving it.</span></h1>
+<p class="quote">"Transparent code. Community governance. AI tools that cost less than your coffee."</p>
+<p class="tagline">8 open source AI tools, most under $4/mo. Free tier for everything. Fork it, audit it, own it. This is the community edition of the serlf AI mall.</p>
+<div class="flex-center">
+<a href="products.html" class="btn btn-teal">🔓 Explore Open Source Tools</a>
+<a href="contribute.html" class="btn btn-secondary">🤝 Start Contributing</a>
+<a href="dashboard.html" class="btn btn-secondary">📊 Community Dashboard</a>
+</div>
+</section>
+
 <div class="container">
-
-<div class="hero">
-  <div class="icon">🍽️</div>
-  <h1>feedles</h1>
-  <p class="sub">No meek is immune. Fighting food insecurity with technology, community, and dignity.</p>
+<div class="stats-bar">
+<div class="stats-row">
+<div><div class="stat-number">8</div><div class="stat-label">OSS Tools</div></div>
+<div><div class="stat-number">$1.40</div><div class="stat-label">Cheapest Tool</div></div>
+<div><div class="stat-number">100%</div><div class="stat-label">Open Source</div></div>
+<div><div class="stat-number">∞</div><div class="stat-label">Free Tier</div></div>
+<div><div class="stat-number">10%</div><div class="stat-label">→ feedles.ca</div></div>
+<div><div class="stat-number">🇨🇦</div><div class="stat-label">Made in Canada</div></div>
+</div>
+</div>
 </div>
 
-<div class="mission">
-  <h2>🌱 The Mission</h2>
-  <p>Food insecurity doesn't discriminate. It touches families, students, seniors, workers — anyone can be one bad month away from not knowing where their next meal comes from. feedles exists to bridge the gap between surplus and need, using AI to match food resources with the people who need them most.</p>
+<section>
+<div class="container">
+<div class="mission-box">
+<h2>🌱 Our Mission</h2>
+<p style="font-size:1.1rem;max-width:700px;margin:0 auto 1.5rem">We believe AI should be a public good — not a walled garden. Every tool we build is open source, auditable, and community-governed. No black boxes. No vendor lock-in. No surprises on your bill.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:2rem;text-align:left">
+<div style="padding:1rem;background:var(--bg);border-radius:8px"><strong style="color:var(--teal)">🔓 Open by Default</strong><p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">Every line of code on GitHub. MIT licensed. Fork it, fix it, ship it.</p></div>
+<div style="padding:1rem;background:var(--bg);border-radius:8px"><strong style="color:var(--teal)">🏛️ DAO Governed</strong><p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">Community votes on roadmap, pricing, and features. Your voice shapes our tools.</p></div>
+<div style="padding:1rem;background:var(--bg);border-radius:8px"><strong style="color:var(--teal)">💰 Radically Affordable</strong><p style="color:var(--fg2);font-size:.85rem;margin-top:.5rem">$1.40–$4/mo. Free tiers for everything. We optimized AI costs by 87%.</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2 class="section-title">🧰 Featured Open Source Tools</h2>
+<p class="section-sub">Every tool has a free tier. Paid plans start at $1.40/mo. All source code is public.</p>
+<div class="grid grid-3">
+<div class="card"><div class="icon">🧑‍✈️</div><h3>Code Pilot — $2/mo</h3><p>AI pair programming. Autocomplete, refactor, explain. Your copilot, open source.</p><span style="color:var(--teal);font-size:.8rem">⭐ Most Forked</span></div>
+<div class="card"><div class="icon">🤖</div><h3>Bot Factory — $3/mo</h3><p>Build chatbots, Discord bots, automation agents. Templates included. Deploy anywhere.</p><span style="color:var(--teal);font-size:.8rem">⭐ Community Favorite</span></div>
+<div class="card"><div class="icon">✍️</div><h3>AI Writer — $3.20/mo</h3><p>Blog posts, docs, marketing copy. Tone control, templates, and export to anywhere.</p></div>
+<div class="card"><div class="icon">💬</div><h3>AI Chat — $4/mo</h3><p>Multi-model chat interface. GPT, Claude, Llama — one UI, your choice of brain.</p></div>
+<div class="card"><div class="icon">🗄️</div><h3>Data Vault — $1.40/mo</h3><p>Encrypted data storage with AI search. Your data, your keys, your rules.</p><span style="color:var(--gold);font-size:.8rem">💰 Cheapest Tool</span></div>
+<div class="card"><div class="icon">☁️</div><h3>Cloud Dock — $4/mo</h3><p>One-click deploy to any cloud. Docker, K8s, serverless. Infrastructure as conversation.</p></div>
+</div>
+<div class="flex-center" style="margin-top:2rem">
+<a href="products.html" class="btn btn-teal">View All 8 Tools →</a>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2 class="section-title">🤝 How We're Different</h2>
+<div class="grid grid-2" style="margin-top:2rem">
+<div class="card" style="border-color:var(--teal)">
+<h3 style="color:var(--teal)">Typical AI SaaS</h3>
+<ul style="color:var(--fg2);font-size:.9rem;list-style:none;line-height:2">
+<li>❌ Closed source — trust us, bro</li>
+<li>❌ $20–$50/mo minimum</li>
+<li>❌ Your data trains their models</li>
+<li>❌ Vendor lock-in by design</li>
+<li>❌ Roadmap decided in a boardroom</li>
+</ul>
+</div>
+<div class="card" style="border-color:var(--teal);background:rgba(16,185,129,.05)">
+<h3 style="color:var(--teal)">serlf.org (Us)</h3>
+<ul style="color:var(--fg2);font-size:.9rem;list-style:none;line-height:2">
+<li>✅ 100% open source — audit everything</li>
+<li>✅ $1.40–$4/mo, free tier always</li>
+<li>✅ Your data stays yours. Period.</li>
+<li>✅ Self-host anytime, export everything</li>
+<li>✅ Roadmap decided by community vote</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+<h2 class="section-title">🏗️ Contribution Model</h2>
+<p class="section-sub">We run on community energy. Here's how you can shape the future of open source AI.</p>
+<div class="grid grid-3">
+<div class="card"><div class="icon">🐛</div><h3>Report & Fix</h3><p>Found a bug? File an issue or submit a PR. Every fix makes the tools better for everyone.</p></div>
+<div class="card"><div class="icon">💡</div><h3>Propose Features</h3><p>Got an idea? Open an RFC. The community votes, and popular features get built.</p></div>
+<div class="card"><div class="icon">📖</div><h3>Write Docs</h3><p>Help others learn. Documentation contributions are just as valued as code.</p></div>
+<div class="card"><div class="icon">🎨</div><h3>Design & UX</h3><p>Make our tools beautiful and usable. Design reviews are always welcome.</p></div>
+<div class="card"><div class="icon">🧪</div><h3>Test & QA</h3><p>Break things intentionally. Stress tests and edge cases make us stronger.</p></div>
+<div class="card"><div class="icon">🏆</div><h3>Earn Bounties</h3><p>High-priority issues carry bounties. Real $ for real contributions.</p></div>
+</div>
+<div class="flex-center" style="margin-top:2rem">
+<a href="contribute.html" class="btn btn-teal">Start Contributing →</a>
+</div>
+</div>
+</section>
+
+<div class="container">
+<div class="feedles">
+<div class="icon">🍽️</div>
+<div>
+<strong style="color:var(--maple)">10% of all revenue goes to feedles.ca</strong>
+<p style="color:var(--fg2);font-size:.9rem;margin-top:.3rem">Fighting food insecurity across Canada. Every dollar you spend helps feed someone. That's not marketing — it's in our DAO charter, voted on by the community, and publicly auditable.</p>
+</div>
+</div>
 </div>
 
-<div class="pillars">
-  <div class="pillar">
-    <div class="icon">📍</div>
-    <h3>Food Bank Finder</h3>
-    <p>Locate the nearest food assistance — banks, pantries, community fridges, hot meals. Real-time availability.</p>
-  </div>
-  <div class="pillar">
-    <div class="icon">🔄</div>
-    <h3>Surplus Matching</h3>
-    <p>Restaurants and groceries with excess food → shelters and families who need it. AI-optimized logistics.</p>
-  </div>
-  <div class="pillar">
-    <div class="icon">🌿</div>
-    <h3>Community Gardens</h3>
-    <p>Map of community gardens, shared plots, seed libraries. Grow your own, share the surplus.</p>
-  </div>
-  <div class="pillar">
-    <div class="icon">🍳</div>
-    <h3>Budget Meals</h3>
-    <p>AI-powered meal planning for tight budgets. Nutrition-aware, allergen-safe, culturally diverse recipes.</p>
-  </div>
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="crew.html">Crew</a>
+<a href="specialists.html">Specialists</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="contribute.html">Contribute</a>
 </div>
-
-<div class="how">
-  <h2>How It's Funded</h2>
-  <div class="flow">
-    <div class="flow-step"><div class="icon">🏬</div><div class="text">serlf Mall<br>revenue</div></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step"><div class="icon">💰</div><div class="text">10% auto<br>allocated</div></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step"><div class="icon">🍽️</div><div class="text">feedles.ca<br>operations</div></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step"><div class="icon">❤️</div><div class="text">Food on<br>tables</div></div>
-  </div>
-  <p style="color:var(--fg2);margin-top:16px;font-size:0.9rem">Not charity. Not an afterthought. Baked into the business model from day one.</p>
+<div class="footer-bottom">
+🤝 serlf.org · Open Source AI for Everyone · 🇨🇦 Canada<br>
+<em>"AI belongs to everyone. We're proving it."</em>
 </div>
-
-<div class="quote">
-  "The meek feed the meek. That's the whole point."
 </div>
-
-<div class="stats">
-  <div class="stat"><div class="num">10%</div><div class="label">of all serlf revenue</div></div>
-  <div class="stat"><div class="num">$0</div><div class="label">cost to users in need</div></div>
-  <div class="stat"><div class="num">🇨🇦</div><div class="label">starting in Canada</div></div>
-  <div class="stat"><div class="num">∞</div><div class="label">meek to feed</div></div>
-</div>
-
-<div style="text-align:center">
-  <a href="https://feedles.ca" class="cta">Visit feedles.ca →</a>
-  <br>
-  <a href="https://serlf.ca/mall.html" style="color:var(--fg2)">Every purchase at serlf.ca helps fund feedles</a>
-</div>
-
-<div class="mission" style="margin-top:40px">
-  <h2>🤝 Open Source</h2>
-  <p>feedles is fully open source. The food bank finder, the surplus matching algorithm, the community garden map — all of it. Because solving food insecurity shouldn't be proprietary. Fork it. Improve it. Deploy it in your city. The more instances, the more people fed.</p>
-  <p style="margin-top:12px"><a href="https://github.com/eose-sre" style="color:var(--accent)">github.com/eose-sre</a></p>
-</div>
-
-<footer>
-  <p>🍽️ feedles — a <a href="https://serlf.ca">serlf</a> initiative | <a href="https://github.com/eose-sre">Open Source</a> | No meek is immune 🧭</p>
 </footer>
 
-</div>
 </body>
 </html>

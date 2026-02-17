@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deals — serlf.shop</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#131833;--navy-mid:#1a2040;--gold:#f0c040;--gold-dim:#c49a2a;--green:#2ecc71;--green-dim:#27ae60;--red:#e74c3c;--white:#f0f0f0;--gray:#8892a4;--radius:10px}
+body{background:var(--navy);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy-light);border-bottom:2px solid var(--gold-dim);padding:15px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:1200px}
+.logo{font-size:1.6rem;font-weight:800;color:var(--gold)}.logo span{color:var(--green)}.logo small{font-size:.7rem;color:var(--gray);display:block;margin-top:-4px}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--white);font-weight:600;font-size:.95rem}nav ul a:hover{color:var(--gold)}
+.cart-btn{background:var(--green);color:#000;padding:8px 18px;border-radius:var(--radius);font-weight:700}
+.cart-btn:hover{background:var(--green-dim);text-decoration:none}
+.flash-banner{background:var(--red);color:#fff;text-align:center;padding:10px;font-weight:700;font-size:.95rem;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.8}}
+
+section{padding:60px 0}
+h1{font-size:2.4rem;color:var(--gold);text-align:center;margin-bottom:8px}
+h2{font-size:1.8rem;color:var(--gold);margin-bottom:20px}
+.subtitle{text-align:center;color:var(--gray);margin-bottom:40px}
+
+/* BUNDLES */
+.bundles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px;margin-bottom:50px}
+.bundle{background:var(--navy-light);border:2px solid var(--navy-mid);border-radius:var(--radius);padding:28px;text-align:center;position:relative;transition:border-color .2s}
+.bundle:hover{border-color:var(--gold)}
+.bundle.popular{border-color:var(--gold)}
+.bundle.popular::before{content:'⭐ BEST VALUE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:3px 14px;border-radius:20px;font-size:.75rem;font-weight:800}
+.bundle h3{color:var(--gold);margin-bottom:6px}
+.bundle .bp{font-size:2.4rem;font-weight:800;color:var(--green);margin:10px 0}
+.bundle .old-bp{text-decoration:line-through;color:var(--red);font-size:1rem}
+.bundle p{color:var(--gray);font-size:.85rem;margin-bottom:14px}
+.bundle ul{list-style:none;text-align:left;margin:16px 0}
+.bundle ul li{padding:4px 0;color:var(--gray);font-size:.9rem}
+.bundle ul li::before{content:'✓ ';color:var(--green)}
+.btn{display:inline-block;background:var(--green);color:#000;padding:10px 22px;border-radius:var(--radius);font-weight:700;font-size:.9rem;width:100%;text-align:center}
+.btn:hover{background:var(--green-dim);text-decoration:none}
+.btn-gold{background:var(--gold)}.btn-gold:hover{background:var(--gold-dim)}
+
+/* COMPARISON TABLE */
+.compare{overflow-x:auto;margin-bottom:50px}
+.compare table{width:100%;border-collapse:collapse;min-width:600px}
+.compare th{background:var(--navy-light);color:var(--gold);padding:14px 16px;text-align:left;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid var(--navy-mid)}
+.compare th.serlf{background:var(--gold);color:#000}
+.compare td{padding:12px 16px;border-bottom:1px solid var(--navy-mid);color:var(--gray)}
+.compare td.serlf{background:rgba(240,192,64,.05);color:var(--gold);font-weight:700}
+.compare .check{color:var(--green);font-weight:700}
+.compare .x{color:var(--red)}
+
+/* FLASH DEALS */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-bottom:40px}
+.flash-card{background:var(--navy-light);border:2px solid var(--red);border-radius:var(--radius);padding:24px;position:relative}
+.flash-card::before{content:'⚡ FLASH';position:absolute;top:12px;right:12px;background:var(--red);color:#fff;padding:3px 10px;border-radius:4px;font-size:.75rem;font-weight:700}
+.flash-card .emoji{font-size:2rem;margin-bottom:8px}
+.flash-card h3{color:var(--white);margin-bottom:6px}
+.flash-card .desc{color:var(--gray);font-size:.85rem;margin-bottom:12px}
+.flash-card .price{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.flash-card .price .old{text-decoration:line-through;color:var(--red);font-size:1rem}
+.flash-card .price .now{color:var(--gold);font-size:1.5rem;font-weight:800}
+
+footer{background:var(--navy-light);border-top:2px solid var(--navy-mid);padding:40px 0;text-align:center;color:var(--gray);font-size:.9rem;margin-top:60px}
+footer a{color:var(--gold)}
+@media(max-width:600px){h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="flash-banner">🔥 FEBRUARY FLASH SALE — Extra 10% off everything. Code: FLASH10. Ends Feb 28.</div>
+
+<nav><div class="container" style="max-width:1200px">
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none">serlf<span>.shop</span></a><small>Instant AI Marketplace</small></div>
+  <ul><li><a href="index.html">Home</a></li><li><a href="products.html">Products</a></li><li><a href="deals.html">Deals</a></li><li><a href="crew.html">Crew</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+  <a href="cart.html" class="cart-btn">🛒 Cart</a>
+</div></nav>
+
+<section>
+<div class="container">
+<h1>💰 Deals & Bundles</h1>
+<p class="subtitle">Captain priced these to make competitors question their life choices.</p>
+
+<h2>⚡ Flash Deals — Limited Time</h2>
+<div class="flash-grid">
+  <div class="flash-card">
+    <div class="emoji">🤖</div>
+    <h3>NanoBot + MemoryCore Combo</h3>
+    <div class="desc">Build agents that remember. The perfect starter combo.</div>
+    <div class="price"><span class="old">$88/mo</span><span class="now">$7/mo</span></div>
+    <a href="cart.html" class="btn">Grab This Deal</a>
+  </div>
+  <div class="flash-card">
+    <div class="emoji">☁️</div>
+    <h3>Cloud Stack (3-pack)</h3>
+    <div class="desc">LaunchPad + EdgeNode + ContainerDock. Full cloud power.</div>
+    <div class="price"><span class="old">$177/mo</span><span class="now">$15/mo</span></div>
+    <a href="cart.html" class="btn">Grab This Deal</a>
+  </div>
+  <div class="flash-card">
+    <div class="emoji">🛡️</div>
+    <h3>Security Suite</h3>
+    <div class="desc">VaultKey + ShieldWall + AuditTrail. Lock everything down.</div>
+    <div class="price"><span class="old">$113/mo</span><span class="now">$10/mo</span></div>
+    <a href="cart.html" class="btn">Grab This Deal</a>
+  </div>
+</div>
+
+<h2>📦 Bundle Deals</h2>
+<div class="bundles">
+  <div class="bundle">
+    <h3>🎯 Starter</h3>
+    <div class="old-bp">Competitors: $150+/mo</div>
+    <div class="bp">$5</div>
+    <p>Pick any 3 tools · 30-day access</p>
+    <ul>
+      <li>3 products of your choice</li>
+      <li>Community support</li>
+      <li>Basic integrations</li>
+      <li>Cancel anytime</li>
+    </ul>
+    <a href="cart.html" class="btn">Get Starter</a>
+  </div>
+  <div class="bundle">
+    <h3>📈 Growth</h3>
+    <div class="old-bp">Competitors: $500+/mo</div>
+    <div class="bp">$15</div>
+    <p>Pick any 10 tools · 90-day access</p>
+    <ul>
+      <li>10 products of your choice</li>
+      <li>Priority support from Bob</li>
+      <li>All integrations</li>
+      <li>API access</li>
+      <li>Cancel anytime</li>
+    </ul>
+    <a href="cart.html" class="btn">Get Growth</a>
+  </div>
+  <div class="bundle popular">
+    <h3>🏬 Mall Pass</h3>
+    <div class="old-bp">Competitors: $1000+/mo</div>
+    <div class="bp">$25</div>
+    <p>All 20+ tools · 6-month access</p>
+    <ul>
+      <li>Every product in the shop</li>
+      <li>Direct crew support</li>
+      <li>Priority API access</li>
+      <li>Early feature access</li>
+      <li>Custom integrations</li>
+    </ul>
+    <a href="cart.html" class="btn btn-gold">Get Mall Pass</a>
+  </div>
+  <div class="bundle">
+    <h3>👑 Everything</h3>
+    <div class="old-bp">Competitors: $2000+/mo</div>
+    <div class="bp">$35</div>
+    <p>All tools · Lifetime access</p>
+    <ul>
+      <li>All products forever</li>
+      <li>Lifetime updates</li>
+      <li>1-on-1 crew onboarding</li>
+      <li>White-label rights</li>
+      <li>Custom nano builds</li>
+      <li>VIP everything</li>
+    </ul>
+    <a href="cart.html" class="btn btn-gold">Get Everything</a>
+  </div>
+</div>
+
+<h2>📊 serlf vs. The Competition</h2>
+<div class="compare">
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>Zapier</th>
+    <th>Make.com</th>
+    <th>n8n</th>
+    <th class="serlf">serlf.shop</th>
+  </tr>
+  <tr>
+    <td>AI Agent Builder</td>
+    <td class="x">✕ No</td>
+    <td class="x">✕ No</td>
+    <td>Limited</td>
+    <td class="serlf check">✓ Full</td>
+  </tr>
+  <tr>
+    <td>Persistent Memory</td>
+    <td class="x">✕ No</td>
+    <td class="x">✕ No</td>
+    <td class="x">✕ No</td>
+    <td class="serlf check">✓ MemoryCore</td>
+  </tr>
+  <tr>
+    <td>Visual Automations</td>
+    <td>$49/mo</td>
+    <td>$16/mo</td>
+    <td>$24/mo</td>
+    <td class="serlf check">✓ $6/mo</td>
+  </tr>
+  <tr>
+    <td>Cloud Deployment</td>
+    <td class="x">✕ No</td>
+    <td class="x">✕ No</td>
+    <td>Self-host</td>
+    <td class="serlf check">✓ One-click</td>
+  </tr>
+  <tr>
+    <td>Analytics Dashboard</td>
+    <td>$69/mo</td>
+    <td>$29/mo</td>
+    <td>Basic</td>
+    <td class="serlf check">✓ $5/mo</td>
+  </tr>
+  <tr>
+    <td>Security Suite</td>
+    <td>Enterprise only</td>
+    <td>Enterprise only</td>
+    <td>DIY</td>
+    <td class="serlf check">✓ $3-5/mo</td>
+  </tr>
+  <tr>
+    <td>All-in-one Bundle</td>
+    <td>$200+/mo</td>
+    <td>$100+/mo</td>
+    <td>$50+/mo</td>
+    <td class="serlf check">✓ $25/mo</td>
+  </tr>
+  <tr>
+    <td>Lifetime Option</td>
+    <td class="x">✕ Never</td>
+    <td class="x">✕ Never</td>
+    <td class="x">✕ Never</td>
+    <td class="serlf check">✓ $35 once</td>
+  </tr>
+</table>
+</div>
+
+<div style="text-align:center;background:var(--navy-light);border-radius:var(--radius);padding:40px;margin-top:20px">
+  <h2 style="margin-bottom:12px">Captain's Final Word</h2>
+  <p style="color:var(--gray);max-width:600px;margin:0 auto 24px">"I've seen what they charge. I've seen what it actually costs to build. The gap is insulting. So I closed it. You're welcome."</p>
+  <a href="cart.html" class="btn btn-gold" style="display:inline-block;padding:14px 36px;font-size:1.1rem">🛒 Go to Cart</a>
+</div>
+
+</div>
+</section>
+
+<footer>
+<div class="container">
+  <p><strong style="color:var(--gold)">serlf.shop</strong> — Instant AI Marketplace</p>
+  <p style="margin-top:8px"><a href="index.html">Home</a> · <a href="products.html">Products</a> · <a href="deals.html">Deals</a> · <a href="crew.html">Crew</a> · <a href="cart.html">Cart</a> · <a href="dashboard.html">Dashboard</a></p>
+  <p style="margin-top:8px">© 2026 serlf. All rights reserved.</p>
+</div>
+</footer>
+</body>
+</html>

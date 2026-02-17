@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Tools — serlf.info</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121829;--navy-mid:#1a2035;--amber:#d4a017;--amber-light:#f0c040;--text:#e0ddd5;--text-dim:#8a8a9a;--radius:12px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none;transition:color .2s}a:hover{color:var(--amber-light)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:var(--navy-light);border-bottom:1px solid #1e2540;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700}.logo span{color:var(--amber)}
+nav ul{list-style:none;display:flex;gap:1.6rem}nav ul a{color:var(--text-dim);font-size:.95rem}nav ul a:hover,nav ul a.active{color:var(--amber)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.hero-sm{text-align:center;padding:3.5rem 2rem 2.5rem;background:linear-gradient(180deg,var(--navy-light),var(--navy))}
+.hero-sm h1{font-size:2.2rem;color:#fff;margin-bottom:.4rem}
+.hero-sm h1 span{color:var(--amber)}
+.hero-sm p{color:var(--text-dim);max-width:550px;margin:0 auto}
+section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+.product{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:2rem;transition:border-color .3s;position:relative}
+.product:hover{border-color:var(--amber)}
+.product-icon{font-size:2.4rem;margin-bottom:.8rem}
+.product h3{font-size:1.3rem;color:#fff;margin-bottom:.2rem}
+.product .price{color:var(--amber);font-size:1.1rem;font-weight:700;margin-bottom:.8rem}
+.product p{color:var(--text-dim);font-size:.95rem;margin-bottom:1rem}
+.product .use-cases{list-style:none;margin-bottom:1.2rem}
+.product .use-cases li{color:var(--text-dim);font-size:.9rem;padding:.2rem 0;padding-left:1.2rem;position:relative}
+.product .use-cases li::before{content:'→';position:absolute;left:0;color:var(--amber)}
+.btn{display:inline-block;padding:.6rem 1.5rem;background:var(--amber);color:var(--navy);font-weight:700;border-radius:var(--radius);font-size:.9rem;transition:background .2s}
+.btn:hover{background:var(--amber-light);color:var(--navy)}
+.philosophy{background:var(--navy-light);border-radius:var(--radius);padding:2.5rem;margin-top:1rem;border:1px solid #1e2540;text-align:center}
+.philosophy h2{color:#fff;font-size:1.5rem;margin-bottom:.5rem}
+.philosophy p{color:var(--text-dim);max-width:650px;margin:0 auto;font-size:1rem}
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid #1e2540;margin-top:2rem}
+@media(max-width:768px){
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy-light);flex-direction:column;padding:1rem 2rem;gap:.8rem;border-bottom:1px solid #1e2540}
+  nav ul.open{display:flex}.hamburger{display:block}
+  .hero-sm h1{font-size:1.7rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">serlf<span>.info</span></div>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="academy.html">Academy</a></li>
+    <li><a href="library.html">Library</a></li>
+    <li><a href="products.html" class="active">Tools</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+</nav>
+
+<div class="hero-sm">
+  <h1>Knowledge <span>Tools</span></h1>
+  <p>Learn first, build second. Every tool here was chosen because it helps you learn, create, or grow — and none costs more than a sandwich.</p>
+</div>
+
+<section>
+  <div class="products">
+
+    <div class="product">
+      <div class="product-icon">💬</div>
+      <h3>AI Chat</h3>
+      <div class="price">$4 /month</div>
+      <p>Your personal AI study partner. Ask anything — from "explain transformers like I'm 12" to debugging your RAG pipeline.</p>
+      <ul class="use-cases">
+        <li>Concept exploration & Q&A</li>
+        <li>Code review & debugging</li>
+        <li>Research assistance</li>
+        <li>Exam prep & self-testing</li>
+      </ul>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+    <div class="product">
+      <div class="product-icon">✍️</div>
+      <h3>AI Writer</h3>
+      <div class="price">$3.20 /month</div>
+      <p>Write with Lucien's clarity. Draft articles, study notes, documentation, and technical content that actually makes sense.</p>
+      <ul class="use-cases">
+        <li>Study notes & summaries</li>
+        <li>Blog posts & tutorials</li>
+        <li>Technical documentation</li>
+        <li>Research paper drafts</li>
+      </ul>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+    <div class="product">
+      <div class="product-icon">📡</div>
+      <h3>SEO Radar</h3>
+      <div class="price">$5.80 /month</div>
+      <p>Understand how content gets found. SEO Radar teaches you search visibility while optimizing your own work.</p>
+      <ul class="use-cases">
+        <li>Keyword research & tracking</li>
+        <li>Content optimization scoring</li>
+        <li>Competitor analysis</li>
+        <li>Search performance reports</li>
+      </ul>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+    <div class="product">
+      <div class="product-icon">🗄️</div>
+      <h3>Data Vault</h3>
+      <div class="price">$1.40 /month</div>
+      <p>Your knowledge repository. Store research, training datasets, notes, and references — organized and always searchable.</p>
+      <ul class="use-cases">
+        <li>Research data management</li>
+        <li>Training dataset storage</li>
+        <li>Knowledge base building</li>
+        <li>Cross-project references</li>
+      </ul>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+    <div class="product">
+      <div class="product-icon">📋</div>
+      <h3>Form Flow</h3>
+      <div class="price">$5 /month</div>
+      <p>Build smart surveys, quizzes, and intake forms. Perfect for self-assessment, student feedback, and research collection.</p>
+      <ul class="use-cases">
+        <li>Knowledge assessments & quizzes</li>
+        <li>Student feedback collection</li>
+        <li>Research surveys</li>
+        <li>Onboarding workflows</li>
+      </ul>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+    <div class="product">
+      <div class="product-icon">🔬</div>
+      <h3>AI Garage</h3>
+      <div class="price">$4 /month</div>
+      <p>Your AI training workshop. Fine-tune models, experiment with parameters, and understand what's happening under the hood.</p>
+      <ul class="use-cases">
+        <li>Model fine-tuning sandbox</li>
+        <li>Parameter experimentation</li>
+        <li>Custom model training</li>
+        <li>Performance benchmarking</li>
+      </ul>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+  </div>
+
+  <div class="philosophy">
+    <h2>💡 Our Pricing Philosophy</h2>
+    <p>We believe knowledge tools should be accessible. Every product above costs less than $6/month because learning shouldn't have a paywall. The knowledge in our library? That's free. Always.</p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 serlf.info — Part of the <a href="https://serlf.ca">serlf ecosystem</a>. Knowledge led by Lucien.</p>
+</footer>
+</body>
+</html>

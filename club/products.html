@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Tools — serlf.club</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--purple:#a855f7;--magenta:#ec4899;--grad:linear-gradient(135deg,#a855f7,#ec4899);--text:#e2e8f0;--muted:#94a3b8;--card:#1e293b;--border:#334155}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);line-height:1.6}
+a{color:var(--purple);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy2);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:99}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-weight:400;opacity:.7}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.9rem;transition:color .2s}nav ul a:hover{color:#fff;text-decoration:none}
+.page-header{text-align:center;padding:60px 20px 40px}
+.page-header h1{font-size:2.4rem;font-weight:800;margin-bottom:10px}
+.page-header p{color:var(--muted);max-width:550px;margin:0 auto}
+.btn{display:inline-block;padding:10px 22px;border-radius:8px;font-weight:700;font-size:.9rem;transition:transform .2s;border:none;cursor:pointer}
+.btn-primary{background:var(--grad);color:#fff}.btn-primary:hover{transform:translateY(-2px);text-decoration:none}
+.btn-sm{padding:8px 16px;font-size:.8rem}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;padding:40px 0}
+.product{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;position:relative;transition:border-color .2s,transform .2s}
+.product:hover{border-color:var(--purple);transform:translateY(-4px)}
+.product-icon{font-size:2.2rem;margin-bottom:14px}
+.product h3{font-size:1.2rem;margin-bottom:6px}
+.product p{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+.price{font-size:1.5rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.price-period{color:var(--muted);font-size:.8rem;font-weight:400}
+.tag{display:inline-block;background:rgba(168,85,247,.12);color:var(--purple);padding:3px 10px;border-radius:99px;font-size:.7rem;font-weight:600;margin-right:6px;margin-top:10px}
+.tag-hot{background:rgba(236,72,153,.12);color:var(--magenta)}
+.tag-free{background:rgba(34,197,94,.12);color:#22c55e}
+.social-section{padding:60px 0;text-align:center}
+h2{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:32px}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;text-align:left}
+.feature{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
+.feature h4{margin-bottom:6px}
+.feature p{color:var(--muted);font-size:.85rem}
+.luffy-quote{border-left:3px solid var(--magenta);padding:16px 20px;background:rgba(236,72,153,.06);border-radius:0 8px 8px 0;margin:40px 0;font-style:italic;color:var(--muted)}
+.luffy-quote strong{color:var(--magenta);font-style:normal}
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+@media(max-width:600px){.products{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">serlf<span>.club</span></a>
+<ul>
+<li><a href="products.html" style="color:#fff">Products</a></li>
+<li><a href="crew.html">Crew</a></li>
+<li><a href="leaderboard.html">Leaderboard</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="events.html">Events</a></li>
+</ul>
+</div></nav>
+
+<div class="page-header">
+<h1>Community Tools</h1>
+<p>AI-powered creator tools priced for the meek. Build bots, design assets, organize your life — all under $5.</p>
+</div>
+
+<section class="container">
+<div class="products">
+
+<div class="product">
+<div class="product-icon">💬</div>
+<h3>AI Chat</h3>
+<p>Your personal AI companion. Conversations that remember context, help you brainstorm, code, write, and think out loud.</p>
+<div class="price">$4<span class="price-period"> /mo</span></div>
+<div><span class="tag tag-hot">🔥 Most Popular</span><span class="tag">1,204 users</span></div>
+</div>
+
+<div class="product">
+<div class="product-icon">🤖</div>
+<h3>Bot Factory</h3>
+<p>Build, train, and deploy custom bots. Share them with the community or keep them private. No code needed.</p>
+<div class="price">$3<span class="price-period"> /mo</span></div>
+<div><span class="tag">483 bots built</span><span class="tag">Creator Economy</span></div>
+</div>
+
+<div class="product">
+<div class="product-icon">🎙️</div>
+<h3>Voice Lab</h3>
+<p>Clone, create, and customize AI voices. Build voice packs, narrate content, give your bots a personality.</p>
+<div class="price">$1<span class="price-period"> /mo</span></div>
+<div><span class="tag tag-hot">Best Value</span><span class="tag">Voice Packs</span></div>
+</div>
+
+<div class="product">
+<div class="product-icon">🎨</div>
+<h3>Design Studio</h3>
+<p>AI-powered design for thumbnails, banners, logos, and social content. Templates + community library.</p>
+<div class="price">$2.60<span class="price-period"> /mo</span></div>
+<div><span class="tag">Templates</span><span class="tag">Community Library</span></div>
+</div>
+
+<div class="product">
+<div class="product-icon">🌳</div>
+<h3>Link Tree</h3>
+<p>Your personal page in the serlf ecosystem. Showcase your bots, creations, and community contributions.</p>
+<div class="price">$1.80<span class="price-period"> /mo</span></div>
+<div><span class="tag">Profile Builder</span><span class="tag">Custom Themes</span></div>
+</div>
+
+<div class="product">
+<div class="product-icon">📋</div>
+<h3>Task Board</h3>
+<p>Organize projects, track community bounties, collaborate with crew members. Kanban-style, AI-assisted.</p>
+<div class="price">$1.40<span class="price-period"> /mo</span></div>
+<div><span class="tag">Bounties</span><span class="tag">Crew Collab</span></div>
+</div>
+
+<div class="product">
+<div class="product-icon">🏆</div>
+<h3>Leaderboard</h3>
+<p>Track your reputation, earn achievements, discover NPs, and climb the ranks. The meek rise together.</p>
+<div class="price" style="color:#22c55e;background:none;-webkit-text-fill-color:#22c55e">FREE</div>
+<div><span class="tag tag-free">Free Forever</span><span class="tag">Gamified</span></div>
+</div>
+
+</div>
+</section>
+
+<div class="container">
+<div class="luffy-quote">
+<strong>Luffy says:</strong> "These tools? They're just the surface. Wait till you see what happens when Crews can combine them. Soon. Very soon. 🏴‍☠️"
+</div>
+</div>
+
+<section class="container social-section">
+<h2>Built for Community</h2>
+<p class="section-sub">Every tool connects back to the community. Share, collaborate, earn.</p>
+<div class="features">
+<div class="feature"><h4>🔗 Shareable Creations</h4><p>Everything you build can be shared, forked, or sold on the community marketplace.</p></div>
+<div class="feature"><h4>🏅 Earn Reputation</h4><p>Using tools earns XP. Helping others earns more. Top the leaderboard.</p></div>
+<div class="feature"><h4>💰 Creator Economy</h4><p>Sell bot templates, voice packs, and design assets. The meek get paid.</p></div>
+<div class="feature"><h4>👥 Crew Collabs</h4><p>Team up with others to build bigger things. Crew features dropping soon…</p></div>
+</div>
+</section>
+
+<footer>
+<p>&copy; 2026 serlf.club — The Meek Community · Part of the <a href="https://serlf.ca">serlf</a> ecosystem</p>
+</footer>
+</body>
+</html>

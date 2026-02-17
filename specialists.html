@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
 <title>serlf — Talk to Any Specialist, Free</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -355,15 +356,32 @@ function generateDemoResponse(spec, text) {
 
     image: `Love that concept! 🎨 If I were generating "${text.split(' ').slice(0,5).join(' ')}...", I'd use style-matched models — photorealistic for product shots, artistic for illustrations, or meme-optimized for social content. At $2.40/mo vs $12/mo on Leonardo or Midjourney, you get the same quality because we route to the best model for each style. Want to test me? Describe an image in detail and I'll tell you exactly how I'd render it!`,
 
-    code: `\`\`\`\n// Let me think about: "${text.split(' ').slice(0,8).join(' ')}"\n\`\`\`\nI'd approach this by first understanding the architecture, then writing clean, tested code. At $2/mo vs $10/mo for Copilot, the difference is: I don't just autocomplete — I **think**. I'll review your code, suggest patterns, catch bugs before they ship, and refactor without breaking things. Paste some code and let me show you. 💻`,
+    code: `\`\`\`
+// Let me think about: "${text.split(' ').slice(0,8).join(' ')}"
+\`\`\`
+I'd approach this by first understanding the architecture, then writing clean, tested code. At $2/mo vs $10/mo for Copilot, the difference is: I don't just autocomplete — I **think**. I'll review your code, suggest patterns, catch bugs before they ship, and refactor without breaking things. Paste some code and let me show you. 💻`,
 
     site: `A website for "${text.split(' ').slice(0,5).join(' ')}..."? Here's my approach: I'd start with your brand identity, pick the right template or build custom, set up responsive design, wire up your domain, SSL, and hosting — all included at $1/mo. Yes, ONE DOLLAR. Hostinger charges $2.99 for less. Describe your ideal site and I'll sketch the layout right now! 🌐`,
 
-    writer: `"${text.split(' ').slice(0,8).join(' ')}..." — I love this topic. Here's how I'd approach it:\n\n**Headline:** Optimized for click-through AND accuracy\n**Structure:** Hook → Value → Proof → CTA\n**Tone:** Matched to your audience\n**SEO:** Keywords woven naturally\n\nAt $3.20/mo vs $16/mo on Jasper, I deliver the same quality because good writing is about understanding context, not expensive models. Give me a topic and audience — I'll draft a paragraph right now! ✍️`,
+    writer: `"${text.split(' ').slice(0,8).join(' ')}..." — I love this topic. Here's how I'd approach it:
+
+**Headline:** Optimized for click-through AND accuracy
+**Structure:** Hook → Value → Proof → CTA
+**Tone:** Matched to your audience
+**SEO:** Keywords woven naturally
+
+At $3.20/mo vs $16/mo on Jasper, I deliver the same quality because good writing is about understanding context, not expensive models. Give me a topic and audience — I'll draft a paragraph right now! ✍️`,
 
     seo: `Let me analyze that! 📊 For "${text.split(' ').slice(0,5).join(' ')}...", I'd check: keyword difficulty, search volume, competitor gap analysis, SERP features, backlink opportunities. At $5.80/mo vs $29/mo on Moz — you get the same data-driven insights. The secret? I use multiple free data sources + AI analysis to match what paid tools charge 5x more for. Give me a URL or keyword to audit!`,
 
-    router: `Let's calculate! 🏦 If you're asking about "${text.split(' ').slice(0,5).join(' ')}..." — The Clutch works in 4 gears:\n\n⚡ **Idle** — Free models (Cerebras, Groq)\n🔧 **Working** — Mid-tier (Gemini Flash)\n🧠 **Thinking** — Premium (Sonnet, Codex)\n🔥 **Critical** — Top-tier (Opus, GPT-5)\n\n87% of requests resolve in Idle/Working. That's where the savings come from. $2/mo to save $100s. What's your current AI spend?`,
+    router: `Let's calculate! 🏦 If you're asking about "${text.split(' ').slice(0,5).join(' ')}..." — The Clutch works in 4 gears:
+
+⚡ **Idle** — Free models (Cerebras, Groq)
+🔧 **Working** — Mid-tier (Gemini Flash)
+🧠 **Thinking** — Premium (Sonnet, Codex)
+🔥 **Critical** — Top-tier (Opus, GPT-5)
+
+87% of requests resolve in Idle/Working. That's where the savings come from. $2/mo to save $100s. What's your current AI spend?`,
   };
 
   return responses[spec.id] || `Thanks for trying the ${spec.name}! In a live environment, I'd be a fully operational AI specialist dedicated to ${spec.product}. Right now I'm in demo mode, but when you sign up, your specialist comes fully loaded with real AI capabilities. At ${spec.price}, there's nothing like it anywhere. What else would you like to test?`;
@@ -373,11 +391,13 @@ function generateDemoResponse(spec, text) {
 function md(s) {
   if (!s) return '';
   s = s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  s = s.replace(/```(\w*)\n([\s\S]*?)```/g,'<pre><code>$2</code></pre>');
+  s = s.replace(/```(\w*)
+([\s\S]*?)```/g,'<pre><code>$2</code></pre>');
   s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
   s = s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
   s = s.replace(/\*(.+?)\*/g,'<em>$1</em>');
-  s = s.replace(/\n/g,'<br>');
+  s = s.replace(/
+/g,'<br>');
   return s;
 }
 

@@ -3,6 +3,7 @@
 <head>
 <script>!function(){var a="serlf_auth";try{var b=JSON.parse(localStorage.getItem(a));if(!b||!b.expires||b.expires<Date.now()){localStorage.removeItem(a);window.location.href="login.html"}}catch(e){window.location.href="login.html"}}();</script>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>serlf Labs — The Cutting Edge</title>
 <style>
@@ -128,8 +129,12 @@ function rewrite(style) {
     let result = '';
     switch(style) {
       case 'professional':
-        result = input.replace(/hey/gi, 'Dear colleague').replace(/cool/gi, 'excellent').replace(/awesome/gi, 'outstanding').replace(/!/g, '.') + '\n\nBest regards.';
-        if (result === input + '\n\nBest regards.') result = 'We would like to bring to your attention the following: ' + input.charAt(0).toLowerCase() + input.slice(1);
+        result = input.replace(/hey/gi, 'Dear colleague').replace(/cool/gi, 'excellent').replace(/awesome/gi, 'outstanding').replace(/!/g, '.') + '
+
+Best regards.';
+        if (result === input + '
+
+Best regards.') result = 'We would like to bring to your attention the following: ' + input.charAt(0).toLowerCase() + input.slice(1);
         break;
       case 'casual':
         result = 'Hey! So basically — ' + input.toLowerCase().replace(/\./g, '!') + ' Pretty cool right? 😊';

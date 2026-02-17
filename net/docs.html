@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Docs — serlf.net</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--cyan:#00e5ff;--green:#39ff14;--blue:#3b82f6;--text:#e2e8f0;--muted:#64748b;--border:#1e293b;--code-bg:#0d1117;--red:#ef4444;--yellow:#eab308;--purple:#a855f7}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.3rem;font-weight:bold;color:var(--cyan)}.logo span{color:var(--green)}.logo em{font-style:normal;color:var(--muted);font-size:.8rem}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px}nav ul a:hover{color:var(--cyan);text-decoration:none}
+
+.docs-layout{display:grid;grid-template-columns:220px 1fr;gap:32px;padding:40px 0 80px}
+.sidebar{position:sticky;top:70px;align-self:start;max-height:calc(100vh - 90px);overflow-y:auto}
+.sidebar h3{color:var(--cyan);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin:20px 0 8px;padding-left:12px}
+.sidebar h3:first-child{margin-top:0}
+.sidebar a{display:block;padding:6px 12px;color:var(--muted);font-size:.85rem;border-radius:4px;border-left:2px solid transparent}
+.sidebar a:hover{color:var(--text);background:var(--surface);text-decoration:none;border-left-color:var(--cyan)}
+
+.doc-content h1{font-size:1.8rem;color:#fff;margin-bottom:8px}
+.doc-content>p{color:var(--muted);margin-bottom:32px}
+.doc-content h2{font-size:1.3rem;color:#fff;margin:40px 0 16px;padding-top:20px;border-top:1px solid var(--border)}
+.doc-content h2:first-of-type{border-top:none;margin-top:0}
+.doc-content h3{font-size:1.05rem;color:var(--cyan);margin:24px 0 12px}
+
+.base-url{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-size:1rem;color:var(--green);margin-bottom:32px}
+
+.endpoint{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:20px;overflow:hidden}
+.endpoint-header{padding:14px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border)}
+.method{font-size:.8rem;font-weight:bold;padding:3px 10px;border-radius:4px;min-width:60px;text-align:center}
+.method.get{background:#064e3b;color:#34d399}
+.method.post{background:#1e3a5f;color:#60a5fa}
+.method.put{background:#713f12;color:var(--yellow)}
+.method.delete{background:#7f1d1d;color:#f87171}
+.endpoint-path{color:var(--text);font-size:.9rem}
+.endpoint-desc{color:var(--muted);font-size:.8rem;margin-left:auto}
+.endpoint-body{padding:20px;display:none}
+.endpoint.open .endpoint-body{display:block}
+.endpoint.open .endpoint-header{background:var(--surface2)}
+
+.param-table{width:100%;border-collapse:collapse;margin:12px 0}
+.param-table th{text-align:left;color:var(--cyan);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;padding:6px 0;border-bottom:1px solid var(--border)}
+.param-table td{padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--muted)}
+.param-table td:first-child{color:var(--text);font-weight:bold}
+.param-table .required{color:var(--red);font-size:.75rem}
+.param-table .type{color:var(--purple);font-size:.8rem}
+
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.6;margin:12px 0;color:var(--text)}
+pre .cm{color:var(--muted)}
+pre .str{color:var(--green)}
+pre .kw{color:var(--blue)}
+pre .num{color:var(--yellow)}
+
+.rate-limits{margin:16px 0}
+.rate-limits table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:8px;overflow:hidden}
+.rate-limits th,.rate-limits td{padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:.85rem}
+.rate-limits th{background:var(--surface2);color:var(--cyan);font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
+.rate-limits td{color:var(--muted)}
+
+.status-codes{margin:16px 0}
+.status-code{display:flex;gap:16px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.status-code .code{color:var(--green);font-weight:bold;min-width:40px}
+.status-code .code.err{color:var(--red)}
+.status-code .msg{color:var(--muted)}
+
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--muted);font-size:.8rem}
+@media(max-width:768px){.docs-layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;flex-wrap:wrap;gap:4px}.sidebar h3{width:100%}.sidebar a{font-size:.8rem}}
+</style>
+</head>
+<body>
+
+<nav><div class="container">
+<div class="logo">serlf<span>.net</span> <em>// docs</em></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="docs.html">Docs</a></li>
+<li><a href="playground.html">Playground</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crew.html">Crew</a></li>
+</ul>
+</div></nav>
+
+<div class="container">
+<div class="docs-layout">
+
+<aside class="sidebar">
+<h3>Getting Started</h3>
+<a href="#overview">Overview</a>
+<a href="#auth">Authentication</a>
+<a href="#rate-limits">Rate Limits</a>
+<a href="#errors">Error Handling</a>
+<h3>Code Pilot</h3>
+<a href="#codepilot-generate">Generate Code</a>
+<a href="#codepilot-review">Review Code</a>
+<a href="#codepilot-refactor">Refactor Code</a>
+<h3>Bot Factory</h3>
+<a href="#bots-create">Create Bot</a>
+<a href="#bots-deploy">Deploy Bot</a>
+<a href="#bots-logs">Get Logs</a>
+<h3>Cloud Dock</h3>
+<a href="#dock-deploy">Deploy Service</a>
+<a href="#dock-list">List Services</a>
+<h3>Data Vault</h3>
+<a href="#vault-store">Store Data</a>
+<a href="#vault-get">Get Data</a>
+</aside>
+
+<main class="doc-content">
+
+<h1>API Documentation</h1>
+<p>One API. One key. Every serlf product. Rick wrote these docs himself, so they're actually accurate.</p>
+
+<div class="base-url">
+<span style="color:var(--muted)">Base URL:</span> https://api.serlf.net/v1
+</div>
+
+<h2 id="auth">Authentication</h2>
+<p style="color:var(--muted);margin-bottom:16px">All requests require a Bearer token. Get yours from the <a href="dashboard.html">dashboard</a>.</p>
+
+<pre><span class="cm"># Include in every request</span>
+Authorization: Bearer <span class="str">sk_live_your_api_key_here</span>
+
+<span class="cm"># Or use the SDK</span>
+client = serlf.Client(api_key=<span class="str">"sk_live_..."</span>)</pre>
+
+<p style="color:var(--muted);margin:16px 0;font-size:.9rem">Keys start with <code style="color:var(--cyan)">sk_live_</code> (production) or <code style="color:var(--cyan)">sk_test_</code> (sandbox). Test keys hit the same API but don't charge credits. Use them. That's why they exist.</p>
+
+<h2 id="rate-limits">Rate Limits</h2>
+<div class="rate-limits"><table>
+<tr><th>Tier</th><th>Requests/min</th><th>Requests/day</th><th>Burst</th></tr>
+<tr><td>Free</td><td>20</td><td>1,000</td><td>5/sec</td></tr>
+<tr><td>Pro ($2+)</td><td>120</td><td>10,000</td><td>20/sec</td></tr>
+<tr><td>Team ($10+)</td><td>600</td><td>100,000</td><td>50/sec</td></tr>
+</table></div>
+<p style="color:var(--muted);font-size:.85rem;margin:12px 0">Rate limit headers are included in every response: <code style="color:var(--cyan)">X-RateLimit-Remaining</code>, <code style="color:var(--cyan)">X-RateLimit-Reset</code>. Read them. Respect them.</p>
+
+<h2 id="errors">Error Handling</h2>
+<div class="status-codes">
+<div class="status-code"><span class="code">200</span><span class="msg">OK — Request succeeded</span></div>
+<div class="status-code"><span class="code">201</span><span class="msg">Created — Resource created</span></div>
+<div class="status-code"><span class="code err">400</span><span class="msg">Bad Request — Check your parameters</span></div>
+<div class="status-code"><span class="code err">401</span><span class="msg">Unauthorized — Invalid or missing API key</span></div>
+<div class="status-code"><span class="code err">403</span><span class="msg">Forbidden — Insufficient permissions for this resource</span></div>
+<div class="status-code"><span class="code err">429</span><span class="msg">Rate Limited — Slow down. Check X-RateLimit-Reset header</span></div>
+<div class="status-code"><span class="code err">500</span><span class="msg">Server Error — Our fault. We're on it. Check status.serlf.net</span></div>
+</div>
+<pre><span class="cm">// Error response format</span>
+{
+  <span class="str">"error"</span>: {
+    <span class="str">"code"</span>: <span class="str">"rate_limited"</span>,
+    <span class="str">"message"</span>: <span class="str">"Too many requests. Try again in 30s."</span>,
+    <span class="str">"retry_after"</span>: <span class="num">30</span>
+  }
+}</pre>
+
+<!-- Code Pilot -->
+<h2 id="codepilot-generate">Code Pilot — Generate Code</h2>
+
+<div class="endpoint open">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/codepilot/generate</span>
+<span class="endpoint-desc">Generate code from a prompt</span>
+</div>
+<div class="endpoint-body">
+<h3>Parameters</h3>
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>prompt</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>What you want to build</td></tr>
+<tr><td>lang</td><td><span class="type">string</span></td><td></td><td>Target language (python, javascript, go, rust, etc.)</td></tr>
+<tr><td>context</td><td><span class="type">string</span></td><td></td><td>Existing code for context</td></tr>
+<tr><td>style</td><td><span class="type">string</span></td><td></td><td>concise | verbose | documented</td></tr>
+</table>
+
+<h3>curl</h3>
+<pre>curl -X POST https://api.serlf.net/v1/codepilot/generate \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="str">"prompt"</span>: <span class="str">"FastAPI endpoint for user auth with JWT"</span>,
+    <span class="str">"lang"</span>: <span class="str">"python"</span>,
+    <span class="str">"style"</span>: <span class="str">"documented"</span>
+  }'</pre>
+
+<h3>Python</h3>
+<pre><span class="kw">import</span> serlf
+
+client = serlf.Client(api_key=<span class="str">"sk_live_..."</span>)
+result = client.codepilot.generate(
+    prompt=<span class="str">"FastAPI endpoint for user auth with JWT"</span>,
+    lang=<span class="str">"python"</span>,
+    style=<span class="str">"documented"</span>
+)
+print(result.code)</pre>
+
+<h3>JavaScript</h3>
+<pre><span class="kw">import</span> { Serlf } <span class="kw">from</span> <span class="str">'@serlf/sdk'</span>;
+
+<span class="kw">const</span> client = <span class="kw">new</span> Serlf(<span class="str">'sk_live_...'</span>);
+<span class="kw">const</span> result = <span class="kw">await</span> client.codepilot.generate({
+  prompt: <span class="str">'FastAPI endpoint for user auth with JWT'</span>,
+  lang: <span class="str">'python'</span>,
+  style: <span class="str">'documented'</span>
+});
+console.log(result.code);</pre>
+
+<h3>Response</h3>
+<pre>{
+  <span class="str">"id"</span>: <span class="str">"gen_abc123"</span>,
+  <span class="str">"code"</span>: <span class="str">"from fastapi import FastAPI, Depends..."</span>,
+  <span class="str">"lang"</span>: <span class="str">"python"</span>,
+  <span class="str">"tokens_used"</span>: <span class="num">847</span>,
+  <span class="str">"model"</span>: <span class="str">"codepilot-v3"</span>
+}</pre>
+</div>
+</div>
+
+<div class="endpoint">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/codepilot/review</span>
+<span class="endpoint-desc">AI code review</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>code</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Code to review</td></tr>
+<tr><td>focus</td><td><span class="type">string</span></td><td></td><td>security | performance | style | all</td></tr>
+</table>
+<pre>curl -X POST https://api.serlf.net/v1/codepilot/review \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span> \
+  -d '{ <span class="str">"code"</span>: <span class="str">"your code here"</span>, <span class="str">"focus"</span>: <span class="str">"security"</span> }'</pre>
+</div>
+</div>
+
+<div class="endpoint" id="codepilot-refactor">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/codepilot/refactor</span>
+<span class="endpoint-desc">Refactor existing code</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>code</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Code to refactor</td></tr>
+<tr><td>goal</td><td><span class="type">string</span></td><td></td><td>What to optimize (readability, performance, etc.)</td></tr>
+</table>
+<pre>curl -X POST https://api.serlf.net/v1/codepilot/refactor \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span> \
+  -d '{ <span class="str">"code"</span>: <span class="str">"messy code"</span>, <span class="str">"goal"</span>: <span class="str">"readability"</span> }'</pre>
+</div>
+</div>
+
+<!-- Bot Factory -->
+<h2 id="bots-create">Bot Factory — Create Bot</h2>
+<div class="endpoint">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/bots/create</span>
+<span class="endpoint-desc">Create a new AI bot</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>name</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Bot name</td></tr>
+<tr><td>platform</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>discord | slack | telegram | webhook</td></tr>
+<tr><td>personality</td><td><span class="type">string</span></td><td></td><td>System prompt / personality description</td></tr>
+<tr><td>tools</td><td><span class="type">array</span></td><td></td><td>Tool names the bot can use</td></tr>
+</table>
+<pre>curl -X POST https://api.serlf.net/v1/bots/create \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span> \
+  -d '{
+    <span class="str">"name"</span>: <span class="str">"support-bot"</span>,
+    <span class="str">"platform"</span>: <span class="str">"discord"</span>,
+    <span class="str">"personality"</span>: <span class="str">"Helpful but sarcastic tech support"</span>
+  }'</pre>
+</div>
+</div>
+
+<div class="endpoint" id="bots-deploy">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/bots/{id}/deploy</span>
+<span class="endpoint-desc">Deploy bot to platform</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>token</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Platform bot token (Discord token, Slack token, etc.)</td></tr>
+<tr><td>channels</td><td><span class="type">array</span></td><td></td><td>Channel IDs to activate in</td></tr>
+</table>
+</div>
+</div>
+
+<div class="endpoint" id="bots-logs">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method get">GET</span>
+<span class="endpoint-path">/v1/bots/{id}/logs</span>
+<span class="endpoint-desc">Get bot conversation logs</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>limit</td><td><span class="type">integer</span></td><td></td><td>Max entries (default 50)</td></tr>
+<tr><td>since</td><td><span class="type">string</span></td><td></td><td>ISO 8601 timestamp</td></tr>
+</table>
+</div>
+</div>
+
+<!-- Cloud Dock -->
+<h2 id="dock-deploy">Cloud Dock — Deploy</h2>
+<div class="endpoint">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/dock/deploy</span>
+<span class="endpoint-desc">Deploy a service</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>name</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Service name</td></tr>
+<tr><td>source</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Git URL or Docker image</td></tr>
+<tr><td>env</td><td><span class="type">object</span></td><td></td><td>Environment variables</td></tr>
+<tr><td>scale</td><td><span class="type">object</span></td><td></td><td>{ min: 1, max: 5 }</td></tr>
+</table>
+<pre>curl -X POST https://api.serlf.net/v1/dock/deploy \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span> \
+  -d '{
+    <span class="str">"name"</span>: <span class="str">"my-api"</span>,
+    <span class="str">"source"</span>: <span class="str">"github.com/you/repo"</span>,
+    <span class="str">"env"</span>: { <span class="str">"NODE_ENV"</span>: <span class="str">"production"</span> }
+  }'</pre>
+</div>
+</div>
+
+<div class="endpoint" id="dock-list">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method get">GET</span>
+<span class="endpoint-path">/v1/dock/services</span>
+<span class="endpoint-desc">List deployed services</span>
+</div>
+<div class="endpoint-body">
+<pre>curl https://api.serlf.net/v1/dock/services \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span></pre>
+</div>
+</div>
+
+<!-- Data Vault -->
+<h2 id="vault-store">Data Vault — Store</h2>
+<div class="endpoint">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method post">POST</span>
+<span class="endpoint-path">/v1/vault/store</span>
+<span class="endpoint-desc">Store encrypted data</span>
+</div>
+<div class="endpoint-body">
+<table class="param-table">
+<tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td>key</td><td><span class="type">string</span></td><td><span class="required">required</span></td><td>Storage key</td></tr>
+<tr><td>value</td><td><span class="type">any</span></td><td><span class="required">required</span></td><td>Data to store (JSON, string, binary)</td></tr>
+<tr><td>ttl</td><td><span class="type">integer</span></td><td></td><td>Time-to-live in seconds</td></tr>
+</table>
+<pre>curl -X POST https://api.serlf.net/v1/vault/store \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span> \
+  -d '{
+    <span class="str">"key"</span>: <span class="str">"user:preferences"</span>,
+    <span class="str">"value"</span>: { <span class="str">"theme"</span>: <span class="str">"dark"</span> },
+    <span class="str">"ttl"</span>: <span class="num">86400</span>
+  }'</pre>
+</div>
+</div>
+
+<div class="endpoint" id="vault-get">
+<div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+<span class="method get">GET</span>
+<span class="endpoint-path">/v1/vault/{key}</span>
+<span class="endpoint-desc">Retrieve stored data</span>
+</div>
+<div class="endpoint-body">
+<pre>curl https://api.serlf.net/v1/vault/user:preferences \
+  -H <span class="str">"Authorization: Bearer $SERLF_KEY"</span></pre>
+<h3>Response</h3>
+<pre>{
+  <span class="str">"key"</span>: <span class="str">"user:preferences"</span>,
+  <span class="str">"value"</span>: { <span class="str">"theme"</span>: <span class="str">"dark"</span> },
+  <span class="str">"version"</span>: <span class="num">3</span>,
+  <span class="str">"created_at"</span>: <span class="str">"2026-02-17T09:00:00Z"</span>,
+  <span class="str">"expires_at"</span>: <span class="str">"2026-02-18T09:00:00Z"</span>
+}</pre>
+</div>
+</div>
+
+</main>
+</div>
+</div>
+
+<footer><div class="container">
+<p>serlf.net — Developer Portal &nbsp;|&nbsp; <a href="https://serlf.ca">serlf.ca</a> &nbsp;|&nbsp; Built by Rick & the crew &nbsp;|&nbsp; © 2026</p>
+</div></footer>
+
+</body>
+</html>

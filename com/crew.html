@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf Enterprise — The Crew</title>
+<meta name="description" content="Meet the enterprise crew. E&Y (strategy), Bob (operations), Lucien (intelligence). Three AI specialists running 12 products.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#c9a227;--gold-bright:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:50}
+header .inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:800}.logo .ent{color:var(--gold);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;display:block;line-height:1}
+nav a{color:var(--fg2);margin-left:20px;font-size:14px}nav a:hover{color:var(--fg)}
+.nav-cta{background:var(--gold)!important;color:#000!important;padding:6px 14px;border-radius:6px;font-weight:700}
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+
+.hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:12px}
+.hero h1 .gold{color:var(--gold-bright)}
+.hero .sub{color:var(--fg2);font-size:1.1rem}
+
+.crew-member{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;margin:32px 0;transition:border-color .2s}
+.crew-member:hover{border-color:var(--gold)}
+.crew-member.lead{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,162,39,.06),var(--bg2))}
+.cm-header{display:flex;align-items:center;gap:24px;margin-bottom:20px}
+.cm-avatar{font-size:4.5rem;flex-shrink:0}
+.cm-info h2{font-size:1.8rem;margin-bottom:2px}
+.cm-info .role{color:var(--gold);font-size:.9rem;text-transform:uppercase;letter-spacing:1px}
+.cm-info .title{color:var(--fg2);font-size:.85rem}
+.cm-quote{font-style:italic;color:var(--gold);padding:16px 20px;border-left:3px solid var(--gold);margin:16px 0;background:rgba(201,162,39,.04);border-radius:0 8px 8px 0}
+.cm-body p{color:var(--fg2);margin-bottom:12px;font-size:.95rem}
+.cm-products{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.cm-products h4{font-size:.85rem;color:var(--fg2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.product-tags{display:flex;flex-wrap:wrap;gap:8px}
+.ptag{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:.8rem;display:flex;align-items:center;gap:6px}
+.ptag .price{color:var(--green);font-weight:700}
+.cm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:20px}
+.cm-stat{background:var(--bg);border-radius:8px;padding:12px;text-align:center}
+.cm-stat .num{font-size:1.5rem;font-weight:900;color:var(--gold-bright)}
+.cm-stat .label{font-size:.75rem;color:var(--fg2)}
+
+.org-chart{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;margin:40px 0}
+.org-chart h3{color:var(--gold-bright);margin-bottom:20px}
+.org-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:12px 0}
+.org-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 20px;font-size:.85rem}
+.org-box.gold{border-color:var(--gold);color:var(--gold)}
+.org-line{color:var(--fg2);font-size:1.5rem}
+
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:#000}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--fg)}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--fg2);font-size:.85rem}
+@media(max-width:768px){.cm-header{flex-direction:column;text-align:center}nav a{margin-left:10px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<header><div class="inner">
+  <div class="logo">🏢 serlf<span class="ent">enterprise</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="crew.html">Crew</a>
+    <a href="specialists.html">Specialists</a>
+    <a href="mall.html">Pricing</a>
+    <a href="dashboard.html" class="nav-cta">Dashboard →</a>
+  </nav>
+</div></header>
+
+<div class="hero">
+  <h1>The <span class="gold">Enterprise Crew</span></h1>
+  <p class="sub">Three AI specialists. 12 products. Zero overhead. Infinite confidence.</p>
+</div>
+
+<div class="container">
+
+<!-- Org Chart -->
+<div class="org-chart">
+  <h3>Enterprise Command Structure</h3>
+  <div class="org-row"><div class="org-box gold">🎩 E&Y · Crew Lead</div></div>
+  <div class="org-line">├─────────┤</div>
+  <div class="org-row">
+    <div class="org-box">🔧 Bob · Operations</div>
+    <div class="org-box">✨ Lucien · Intelligence</div>
+  </div>
+</div>
+
+<!-- E&Y -->
+<div class="crew-member lead">
+  <div class="cm-header">
+    <div class="cm-avatar">🎩</div>
+    <div class="cm-info">
+      <h2>E&Y</h2>
+      <div class="role">Crew Lead · Enterprise Strategy</div>
+      <div class="title">Chief Everything Officer · Self-Appointed</div>
+    </div>
+  </div>
+  <div class="cm-quote">
+    "I spent years watching the Big 4 charge $500/hr to tell clients what they already knew. Now I do it for $5.80/mo and the advice is actually good. The consulting industry wasn't disrupted — it was embarrassed."
+  </div>
+  <div class="cm-body">
+    <p>E&Y is the strategic brain of the enterprise crew. Part consultant, part comedian, entirely effective. He oversees the full product suite, sets pricing strategy (aggressively), and personally manages the highest-value tools.</p>
+    <p>His background is Big 4 consulting — or at least, that's his story and he's sticking to it. What's not debatable is the result: enterprise-grade products at prices that make procurement departments suspicious and CFOs very, very happy.</p>
+    <p>E&Y believes enterprise software should be three things: powerful, affordable, and slightly entertaining. He delivers on all three.</p>
+  </div>
+  <div class="cm-stats">
+    <div class="cm-stat"><div class="num">12</div><div class="label">Products Overseen</div></div>
+    <div class="cm-stat"><div class="num">87%</div><div class="label">Cost Reduction</div></div>
+    <div class="cm-stat"><div class="num">0</div><div class="label">PowerPoints Made</div></div>
+    <div class="cm-stat"><div class="num">∞</div><div class="label">Confidence Level</div></div>
+  </div>
+  <div class="cm-products">
+    <h4>Directly Manages</h4>
+    <div class="product-tags">
+      <div class="ptag">📊 SEO Radar <span class="price">$5.80</span></div>
+      <div class="ptag">📝 Form Flow <span class="price">$5</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Bob -->
+<div class="crew-member">
+  <div class="cm-header">
+    <div class="cm-avatar">🔧</div>
+    <div class="cm-info">
+      <h2>Bob</h2>
+      <div class="role">Operations · CRM · Mail · PM · Support</div>
+      <div class="title">The One Who Actually Does Everything</div>
+    </div>
+  </div>
+  <div class="cm-quote">
+    "I don't do speeches. I do CRM, email, project management, hosting, support, backups, and forms. Simultaneously. You're welcome to try and keep up."
+  </div>
+  <div class="cm-body">
+    <p>Bob is the operational backbone of the enterprise crew. While E&Y strategizes and Lucien thinks, Bob ships. He manages 8 of the 12 enterprise products, and he manages them quietly, efficiently, and without complaint.</p>
+    <p>Every email that lands in an inbox? Bob. Every ticket resolved before a human notices? Bob. Every backup completed at 3am? Bob. He doesn't seek credit, he seeks uptime. He's the colleague every enterprise wishes they had but can't afford — except here, where he costs less than a coffee.</p>
+    <p>E&Y calls him "the most reliable entity in the organization." Bob didn't respond. He was busy shipping.</p>
+  </div>
+  <div class="cm-stats">
+    <div class="cm-stat"><div class="num">8</div><div class="label">Products Managed</div></div>
+    <div class="cm-stat"><div class="num">99.9%</div><div class="label">Uptime</div></div>
+    <div class="cm-stat"><div class="num">24/7</div><div class="label">Availability</div></div>
+    <div class="cm-stat"><div class="num">0</div><div class="label">Complaints Filed</div></div>
+  </div>
+  <div class="cm-products">
+    <h4>Directly Manages</h4>
+    <div class="product-tags">
+      <div class="ptag">📧 Mail Engine <span class="price">$2.60</span></div>
+      <div class="ptag">🤝 Deal Flow <span class="price">$2.80</span></div>
+      <div class="ptag">🎧 Help Desk <span class="price">$3</span></div>
+      <div class="ptag">📋 Task Board <span class="price">$1.40</span></div>
+      <div class="ptag">🔒 Data Vault <span class="price">$1.40</span></div>
+      <div class="ptag">📝 Form Flow <span class="price">$5</span></div>
+      <div class="ptag">☁️ Cloud Dock <span class="price">$4</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Lucien -->
+<div class="crew-member">
+  <div class="cm-header">
+    <div class="cm-avatar">✨</div>
+    <div class="cm-info">
+      <h2>Lucien</h2>
+      <div class="role">Intelligence · AI Chat · AI Writer</div>
+      <div class="title">The Enterprise Brain Trust</div>
+    </div>
+  </div>
+  <div class="cm-quote">
+    "Every enterprise needs someone who can think clearly, write precisely, and code elegantly. Most hire three people. You get me. I'm more cost-effective and significantly more eloquent."
+  </div>
+  <div class="cm-body">
+    <p>Lucien is the intellectual powerhouse of the crew. He handles everything that requires thinking, writing, or creating — which, in an enterprise context, is roughly everything that isn't a spreadsheet (and he can do those too).</p>
+    <p>His AI Chat handles every model on the market through a single, elegant interface. His AI Writer learns your brand voice and produces content that sounds like your best writer on their best day, every day. His Code Pilot reviews code with the precision of a senior architect. And his Bot Factory builds conversational agents that actually converse.</p>
+    <p>E&Y describes Lucien as "the smartest person in the room who somehow costs $3.20/mo." Lucien considers this both accurate and an understatement.</p>
+  </div>
+  <div class="cm-stats">
+    <div class="cm-stat"><div class="num">4</div><div class="label">Products Managed</div></div>
+    <div class="cm-stat"><div class="num">All</div><div class="label">AI Models</div></div>
+    <div class="cm-stat"><div class="num">∞</div><div class="label">Languages</div></div>
+    <div class="cm-stat"><div class="num">1</div><div class="label">Ego (Managed)</div></div>
+  </div>
+  <div class="cm-products">
+    <h4>Directly Manages</h4>
+    <div class="product-tags">
+      <div class="ptag">💬 AI Chat <span class="price">$4</span></div>
+      <div class="ptag">✍️ AI Writer <span class="price">$3.20</span></div>
+      <div class="ptag">💻 Code Pilot <span class="price">$2</span></div>
+      <div class="ptag">🤖 Bot Factory <span class="price">$3</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+  <a href="specialists.html" class="btn btn-gold">💬 Talk to the Crew</a>
+  <a href="products.html" class="btn btn-outline">View Products →</a>
+</div>
+
+</div>
+
+<footer>
+  <p>🏢 serlf.com — Enterprise AI Suite · Built in Canada 🇨🇦</p>
+  <p style="margin-top:8px">"Three specialists. Twelve products. Zero excuses." — E&Y</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academy — serlf.info</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121829;--navy-mid:#1a2035;--amber:#d4a017;--amber-light:#f0c040;--text:#e0ddd5;--text-dim:#8a8a9a;--radius:12px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none}a:hover{color:var(--amber-light)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:var(--navy-light);border-bottom:1px solid #1e2540;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700}.logo span{color:var(--amber)}
+nav ul{list-style:none;display:flex;gap:1.6rem}nav ul a{color:var(--text-dim);font-size:.95rem}nav ul a:hover,nav ul a.active{color:var(--amber)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.hero-sm{text-align:center;padding:3.5rem 2rem 2.5rem;background:linear-gradient(180deg,var(--navy-light),var(--navy))}
+.hero-sm h1{font-size:2.2rem;color:#fff;margin-bottom:.4rem}.hero-sm h1 span{color:var(--amber)}
+.hero-sm p{color:var(--text-dim);max-width:580px;margin:0 auto}
+section{max-width:1000px;margin:0 auto;padding:3rem 2rem}
+.path-section{margin-bottom:3rem}
+.path-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.path-badge{width:60px;height:60px;border-radius:50%;background:var(--navy-mid);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+.path-header h2{color:#fff;font-size:1.5rem}
+.path-header p{color:var(--text-dim);font-size:.95rem}
+.path-header div{flex:1}
+.level-tag{display:inline-block;background:var(--amber);color:var(--navy);font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+.modules{display:grid;gap:1rem}
+.module{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:1.5rem 2rem;display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:1.2rem;transition:border-color .2s}
+.module:hover{border-color:var(--amber)}
+.module-num{color:var(--amber);font-size:1.4rem;font-weight:700;text-align:center}
+.module h4{color:#fff;font-size:1.05rem;margin-bottom:.2rem}
+.module p{color:var(--text-dim);font-size:.88rem}
+.module .duration{color:var(--text-dim);font-size:.8rem;white-space:nowrap}
+.connector{width:2px;height:2rem;background:var(--amber);margin:0 auto;opacity:.3}
+.btn{display:inline-block;padding:.7rem 1.8rem;background:var(--amber);color:var(--navy);font-weight:700;border-radius:var(--radius);font-size:.95rem}
+.btn:hover{background:var(--amber-light);color:var(--navy)}
+.cta{text-align:center;margin-top:2rem;padding:3rem;background:var(--navy-light);border-radius:var(--radius);border:1px solid #1e2540}
+.cta h2{color:#fff;margin-bottom:.5rem}.cta p{color:var(--text-dim);margin-bottom:1.5rem}
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid #1e2540;margin-top:2rem}
+@media(max-width:768px){
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy-light);flex-direction:column;padding:1rem 2rem;gap:.8rem;border-bottom:1px solid #1e2540}
+  nav ul.open{display:flex}.hamburger{display:block}
+  .module{grid-template-columns:1fr;gap:.5rem}
+  .module-num{text-align:left}
+  .module .duration{text-align:left}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">serlf<span>.info</span></div>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="academy.html" class="active">Academy</a></li>
+    <li><a href="library.html">Library</a></li>
+    <li><a href="products.html">Tools</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+</nav>
+
+<div class="hero-sm">
+  <h1>The <span>Academy</span></h1>
+  <p>Four structured learning paths — from "what is AI?" to architecting multi-agent systems. Go at your pace. Every lesson is free.</p>
+</div>
+
+<section>
+
+  <!-- BASICS -->
+  <div class="path-section">
+    <div class="path-header">
+      <div class="path-badge">🌱</div>
+      <div>
+        <span class="level-tag">Beginner</span>
+        <h2>AI Basics</h2>
+        <p>No prerequisites. Start here if AI is new to you — or if you want to fill in the gaps.</p>
+      </div>
+    </div>
+    <div class="modules">
+      <div class="module"><div class="module-num">01</div><div><h4>What Is Artificial Intelligence?</h4><p>The real story — not the sci-fi version. What AI can and can't do today, and why it matters.</p></div><div class="duration">20 min</div></div>
+      <div class="module"><div class="module-num">02</div><div><h4>How Language Models Work</h4><p>Tokens, probabilities, and the surprising simplicity behind the magic. No math required.</p></div><div class="duration">30 min</div></div>
+      <div class="module"><div class="module-num">03</div><div><h4>Your First Conversation with AI</h4><p>Hands-on: talk to an AI, understand what it's doing, and learn why your words matter.</p></div><div class="duration">25 min</div></div>
+      <div class="module"><div class="module-num">04</div><div><h4>AI Ethics & Limitations</h4><p>Hallucinations, bias, and boundaries. Know what to trust and what to question.</p></div><div class="duration">25 min</div></div>
+      <div class="module"><div class="module-num">05</div><div><h4>The AI Landscape</h4><p>OpenAI, Anthropic, open-source, and beyond. Who's who and what each does best.</p></div><div class="duration">20 min</div></div>
+    </div>
+  </div>
+
+  <div class="connector"></div>
+
+  <!-- INTERMEDIATE -->
+  <div class="path-section">
+    <div class="path-header">
+      <div class="path-badge">🔧</div>
+      <div>
+        <span class="level-tag">Intermediate</span>
+        <h2>Practical AI</h2>
+        <p>You know what AI is. Now learn to wield it — prompt engineering, workflows, and real applications.</p>
+      </div>
+    </div>
+    <div class="modules">
+      <div class="module"><div class="module-num">01</div><div><h4>Prompt Engineering Fundamentals</h4><p>The art of asking well. Techniques that work across every major model.</p></div><div class="duration">40 min</div></div>
+      <div class="module"><div class="module-num">02</div><div><h4>Advanced Prompting Patterns</h4><p>Chain-of-thought, few-shot, system prompts, and structured outputs.</p></div><div class="duration">35 min</div></div>
+      <div class="module"><div class="module-num">03</div><div><h4>AI-Powered Writing Workflows</h4><p>From brainstorming to polished draft — integrate AI Writer into your creative process.</p></div><div class="duration">30 min</div></div>
+      <div class="module"><div class="module-num">04</div><div><h4>Data Organization with AI</h4><p>Use Data Vault and smart tagging to build your personal knowledge system.</p></div><div class="duration">25 min</div></div>
+      <div class="module"><div class="module-num">05</div><div><h4>SEO & Content Discovery</h4><p>How search works, how AI content ranks, and using SEO Radar to be found.</p></div><div class="duration">30 min</div></div>
+    </div>
+  </div>
+
+  <div class="connector"></div>
+
+  <!-- ADVANCED -->
+  <div class="path-section">
+    <div class="path-header">
+      <div class="path-badge">⚡</div>
+      <div>
+        <span class="level-tag">Advanced</span>
+        <h2>Building with AI</h2>
+        <p>Hands-on engineering. Build real things — RAG pipelines, fine-tuned models, and AI products.</p>
+      </div>
+    </div>
+    <div class="modules">
+      <div class="module"><div class="module-num">01</div><div><h4>Embeddings & Vector Search</h4><p>Turn text into numbers that capture meaning. The foundation of modern AI search.</p></div><div class="duration">45 min</div></div>
+      <div class="module"><div class="module-num">02</div><div><h4>Building a RAG Pipeline</h4><p>Retrieval-Augmented Generation from scratch. Ingest, embed, retrieve, generate.</p></div><div class="duration">60 min</div></div>
+      <div class="module"><div class="module-num">03</div><div><h4>Fine-Tuning with AI Garage</h4><p>When prompting isn't enough. Train a model on your data for your use case.</p></div><div class="duration">50 min</div></div>
+      <div class="module"><div class="module-num">04</div><div><h4>API Integration Patterns</h4><p>Connect AI to your apps. Authentication, streaming, error handling, and cost control.</p></div><div class="duration">40 min</div></div>
+      <div class="module"><div class="module-num">05</div><div><h4>Evaluation & Testing</h4><p>How do you know if your AI is good? Metrics, benchmarks, and human evaluation frameworks.</p></div><div class="duration">35 min</div></div>
+    </div>
+  </div>
+
+  <div class="connector"></div>
+
+  <!-- EXPERT -->
+  <div class="path-section">
+    <div class="path-header">
+      <div class="path-badge">🎓</div>
+      <div>
+        <span class="level-tag">Expert</span>
+        <h2>AI Architecture</h2>
+        <p>System design, multi-agent orchestration, and production-grade AI. For builders who ship.</p>
+      </div>
+    </div>
+    <div class="modules">
+      <div class="module"><div class="module-num">01</div><div><h4>Multi-Agent Systems</h4><p>Orchestrating multiple AI agents — delegation, communication, and conflict resolution.</p></div><div class="duration">60 min</div></div>
+      <div class="module"><div class="module-num">02</div><div><h4>Production AI Architecture</h4><p>From prototype to production. Scaling, reliability, monitoring, and graceful degradation.</p></div><div class="duration">50 min</div></div>
+      <div class="module"><div class="module-num">03</div><div><h4>Cost Optimization & Model Selection</h4><p>The economics of AI. When to use GPT-4 vs. a fine-tuned small model vs. local inference.</p></div><div class="duration">40 min</div></div>
+      <div class="module"><div class="module-num">04</div><div><h4>Safety & Alignment in Practice</h4><p>Guardrails, content filtering, prompt injection defense, and responsible deployment.</p></div><div class="duration">45 min</div></div>
+      <div class="module"><div class="module-num">05</div><div><h4>The Future of AI</h4><p>Where this is all heading. Emerging research, industry trends, and how to stay ahead.</p></div><div class="duration">30 min</div></div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h2>Ready to begin?</h2>
+    <p>Pick any path. Start any module. There are no gates, no paywalls, no prerequisites. Just you and the knowledge.</p>
+    <a href="dashboard.html" class="btn">Track Your Progress →</a>
+  </div>
+
+</section>
+
+<footer>
+  <p>&copy; 2026 serlf.info — Part of the <a href="https://serlf.ca">serlf ecosystem</a>. Knowledge led by Lucien.</p>
+</footer>
+</body>
+</html>

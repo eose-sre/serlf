@@ -1,80 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf.shop — Quick Buy | Get Your Specialist in 60 Seconds</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.shop — Pick. Pay. Play. 60 Seconds.</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--border:#252d3a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
-.container{max-width:1000px;margin:0 auto;padding:40px 20px}
-.hero{text-align:center;padding:40px 0 20px}
-h1{font-size:2.5rem;font-weight:900}
-h1 .gold{color:var(--gold)}
-.sub{color:var(--fg2);margin:8px 0 32px}
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all 0.2s}
-.item:hover{border-color:var(--gold);transform:translateY(-2px)}
-.item .icon{font-size:2rem;margin-bottom:6px}
-.item h3{font-size:0.95rem;margin-bottom:4px}
-.item .price{color:var(--gold);font-weight:900;font-size:1.3rem}
-.item .old{color:var(--fg2);text-decoration:line-through;font-size:0.8rem}
-.item .tag{display:inline-block;background:var(--green);color:#000;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:3px;margin-top:6px}
-.bundles-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:32px 0}
-.bundle{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:20px;text-align:center}
-.bundle.hot{border-color:var(--gold);background:linear-gradient(180deg,rgba(255,215,0,0.05),var(--bg2))}
-.bundle h3{margin-bottom:4px}
-.bundle .price{font-size:2rem;font-weight:900;color:var(--gold)}
-.bundle .price span{font-size:0.8rem;color:var(--fg2)}
-.bundle .desc{color:var(--fg2);font-size:0.85rem;margin:8px 0}
-.bundle .btn{display:block;padding:10px;background:var(--gold);color:#000;border:none;border-radius:6px;font-weight:700;cursor:pointer;text-decoration:none;margin-top:12px}
-.bundle .btn.outline{background:none;border:1px solid var(--border);color:var(--fg)}
-footer{text-align:center;margin-top:40px;color:var(--fg2);font-size:0.85rem}
-footer a{color:var(--accent)}
+:root{--navy:#0a0e1a;--navy-light:#131833;--navy-mid:#1a2040;--gold:#f0c040;--gold-dim:#c49a2a;--green:#2ecc71;--green-dim:#27ae60;--red:#e74c3c;--white:#f0f0f0;--gray:#8892a4;--radius:10px}
+body{background:var(--navy);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* NAV */
+nav{background:var(--navy-light);border-bottom:2px solid var(--gold-dim);padding:15px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.6rem;font-weight:800;color:var(--gold)}
+.logo span{color:var(--green)}.logo small{font-size:.7rem;color:var(--gray);display:block;margin-top:-4px}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--white);font-weight:600;font-size:.95rem}
+nav ul a:hover{color:var(--gold)}
+.cart-btn{background:var(--green);color:#000;padding:8px 18px;border-radius:var(--radius);font-weight:700;display:flex;align-items:center;gap:6px}
+.cart-btn:hover{background:var(--green-dim);text-decoration:none}
+
+/* HERO */
+.hero{text-align:center;padding:80px 20px 60px;background:linear-gradient(180deg,var(--navy-light),var(--navy))}
+.hero h1{font-size:3rem;color:var(--gold);margin-bottom:10px}
+.hero .tagline{font-size:1.4rem;color:var(--green);font-weight:600;margin-bottom:8px}
+.hero p{color:var(--gray);max-width:600px;margin:0 auto 30px}
+.hero .cta{display:inline-block;background:var(--gold);color:#000;padding:14px 36px;border-radius:var(--radius);font-weight:800;font-size:1.1rem;transition:transform .2s}
+.hero .cta:hover{transform:scale(1.05);text-decoration:none}
+.flash-banner{background:var(--red);color:#fff;text-align:center;padding:10px;font-weight:700;font-size:.95rem;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.8}}
+
+/* SECTIONS */
+section{padding:60px 0}
+section h2{font-size:2rem;color:var(--gold);margin-bottom:30px;text-align:center}
+.subtitle{text-align:center;color:var(--gray);margin-top:-20px;margin-bottom:30px}
+
+/* PRODUCT GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.card{background:var(--navy-light);border:1px solid var(--navy-mid);border-radius:var(--radius);padding:24px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.card .emoji{font-size:2.5rem;margin-bottom:10px}
+.card h3{color:var(--white);margin-bottom:6px}
+.card .desc{color:var(--gray);font-size:.9rem;margin-bottom:14px}
+.price{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.price .old{text-decoration:line-through;color:var(--red);font-size:.95rem}
+.price .now{color:var(--gold);font-size:1.3rem;font-weight:800}
+.price .save{background:var(--green);color:#000;font-size:.75rem;padding:2px 8px;border-radius:4px;font-weight:700}
+.btn{display:inline-block;background:var(--green);color:#000;padding:10px 20px;border-radius:var(--radius);font-weight:700;font-size:.9rem;border:none;cursor:pointer;text-align:center;width:100%}
+.btn:hover{background:var(--green-dim);text-decoration:none}
+.btn-gold{background:var(--gold);color:#000}
+.btn-gold:hover{background:var(--gold-dim)}
+
+/* BUNDLES */
+.bundles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
+.bundle{background:var(--navy-light);border:2px solid var(--navy-mid);border-radius:var(--radius);padding:28px;text-align:center;position:relative}
+.bundle.popular{border-color:var(--gold)}
+.bundle.popular::before{content:'⭐ MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:3px 14px;border-radius:20px;font-size:.75rem;font-weight:800}
+.bundle h3{color:var(--gold);margin-bottom:6px}
+.bundle .bundle-price{font-size:2.2rem;font-weight:800;color:var(--green);margin:10px 0}
+.bundle ul{list-style:none;text-align:left;margin:16px 0}
+.bundle ul li{padding:4px 0;color:var(--gray);font-size:.9rem}
+.bundle ul li::before{content:'✓ ';color:var(--green)}
+
+/* TRUST */
+.trust{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;text-align:center;padding:40px 0}
+.trust-item{color:var(--gray)}
+.trust-item .num{font-size:2rem;color:var(--gold);font-weight:800}
+
+/* FOOTER */
+footer{background:var(--navy-light);border-top:2px solid var(--navy-mid);padding:40px 0;text-align:center;color:var(--gray);font-size:.9rem}
+footer a{color:var(--gold)}
+
+@media(max-width:600px){
+  .hero h1{font-size:2rem}
+  nav ul{gap:12px}
+  .trust{gap:20px}
+}
 </style>
 </head>
 <body>
+
+<div class="flash-banner">🔥 FLASH SALE — 80% OFF everything. Limited time. Don't sleep on this.</div>
+
+<nav>
 <div class="container">
-
-<div class="hero">
-  <h1>🛒 Quick <span class="gold">Shop</span></h1>
-  <p class="sub">Pick. Pay. Your specialist is live in 60 seconds.</p>
+  <div class="logo">serlf<span>.shop</span><small>Instant AI Marketplace</small></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="deals.html">Deals</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <a href="cart.html" class="cart-btn">🛒 Cart <span id="cart-count">(0)</span></a>
 </div>
+</nav>
 
-<div class="products">
-  <div class="item"><div class="icon">💬</div><h3>AI Chat</h3><div class="old">$20/mo</div><div class="price">$4</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🌐</div><h3>Site Builder</h3><div class="old">$2.99/mo</div><div class="price">$1</div><div class="tag">FLOOR</div></div>
-  <div class="item"><div class="icon">🎨</div><h3>AI Images</h3><div class="old">$12/mo</div><div class="price">$2.40</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">✍️</div><h3>AI Writer</h3><div class="old">$16/mo</div><div class="price">$3.20</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">💻</div><h3>Code Pilot</h3><div class="old">$10/mo</div><div class="price">$2</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">📧</div><h3>Mail Engine</h3><div class="old">$13/mo</div><div class="price">$2.60</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🤝</div><h3>Deal Flow</h3><div class="old">$14/mo</div><div class="price">$2.80</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🎙️</div><h3>Voice Lab</h3><div class="old">$5/mo</div><div class="price">$1</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🖌️</div><h3>Design Studio</h3><div class="old">$13/mo</div><div class="price">$2.60</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">📊</div><h3>SEO Radar</h3><div class="old">$29/mo</div><div class="price">$5.80</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">☁️</div><h3>Cloud Dock</h3><div class="old">$20/mo</div><div class="price">$4</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🤖</div><h3>Bot Factory</h3><div class="old">$15/mo</div><div class="price">$3</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🎬</div><h3>Video Forge</h3><div class="old">$24/mo</div><div class="price">$4.80</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">📋</div><h3>Task Board</h3><div class="old">$7/mo</div><div class="price">$1.40</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🎧</div><h3>Help Desk</h3><div class="old">$15/mo</div><div class="price">$3</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🏦</div><h3>Token Bank</h3><div class="old">N/A</div><div class="price">$2</div><div class="tag">UNIQUE</div></div>
-  <div class="item"><div class="icon">🔧</div><h3>AI Garage</h3><div class="old">$20/mo</div><div class="price">$4</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🔒</div><h3>Data Vault</h3><div class="old">$7/mo</div><div class="price">$1.40</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">📝</div><h3>Form Flow</h3><div class="old">$25/mo</div><div class="price">$5</div><div class="tag">-80%</div></div>
-  <div class="item"><div class="icon">🔗</div><h3>Link Tree</h3><div class="old">$9/mo</div><div class="price">$1.80</div><div class="tag">-80%</div></div>
-</div>
+<section class="hero">
+  <h1>AI Tools. Kill Shot Prices.</h1>
+  <div class="tagline">Pick. Pay. Play. 60 seconds.</div>
+  <p>The entire serlf AI ecosystem — agents, automations, dashboards, cloud tools — at prices that make competitors sweat. Captain's running the register. Let's go.</p>
+  <a href="products.html" class="cta">🛒 Shop All Products</a>
+</section>
 
-<div class="bundles-row">
-  <div class="bundle"><h3>🚪 Entry</h3><div class="price">$1<span>/mo</span></div><div class="desc">1 specialist</div><a href="/login.html" class="btn outline">Start</a></div>
-  <div class="bundle"><h3>⚡ Starter</h3><div class="price">$5<span>/mo</span></div><div class="desc">Any 5</div><a href="/login.html" class="btn outline">Pick 5</a></div>
-  <div class="bundle"><h3>🔨 Builder</h3><div class="price">$10<span>/mo</span></div><div class="desc">Any 10</div><a href="/login.html" class="btn outline">Pick 10</a></div>
-  <div class="bundle hot"><h3>👑 ALL-IN</h3><div class="price">$25<span>/mo</span></div><div class="desc">Everything. 90.5% off.</div><a href="/login.html" class="btn">Get Everything</a></div>
+<section>
+<div class="container">
+  <h2>🔥 Bestsellers</h2>
+  <p class="subtitle">The products flying off the shelves. Grab them before prices go back up.</p>
+  <div class="grid">
+
+    <div class="card">
+      <div class="emoji">🤖</div>
+      <h3>NanoBot Builder</h3>
+      <div class="desc">Build custom AI agents in minutes. No code. Full power.</div>
+      <div class="price"><span class="old">$49/mo</span><span class="now">$5/mo</span><span class="save">90% OFF</span></div>
+      <a href="products.html" class="btn">Add to Cart</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🧠</div>
+      <h3>MemoryCore</h3>
+      <div class="desc">Persistent AI memory across sessions. Your bots never forget.</div>
+      <div class="price"><span class="old">$39/mo</span><span class="now">$4/mo</span><span class="save">90% OFF</span></div>
+      <a href="products.html" class="btn">Add to Cart</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">⚡</div>
+      <h3>FlowEngine</h3>
+      <div class="desc">Visual automation builder. Connect any API. Trigger anything.</div>
+      <div class="price"><span class="old">$59/mo</span><span class="now">$6/mo</span><span class="save">90% OFF</span></div>
+      <a href="products.html" class="btn">Add to Cart</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">📊</div>
+      <h3>InsightDash</h3>
+      <div class="desc">Real-time AI analytics dashboard. See everything, miss nothing.</div>
+      <div class="price"><span class="old">$45/mo</span><span class="now">$5/mo</span><span class="save">89% OFF</span></div>
+      <a href="products.html" class="btn">Add to Cart</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🔐</div>
+      <h3>VaultKey</h3>
+      <div class="desc">Encrypted credential manager for all your AI services.</div>
+      <div class="price"><span class="old">$29/mo</span><span class="now">$3/mo</span><span class="save">90% OFF</span></div>
+      <a href="products.html" class="btn">Add to Cart</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🚀</div>
+      <h3>LaunchPad</h3>
+      <div class="desc">One-click deploy for AI apps. From idea to production in minutes.</div>
+      <div class="price"><span class="old">$69/mo</span><span class="now">$7/mo</span><span class="save">90% OFF</span></div>
+      <a href="products.html" class="btn">Add to Cart</a>
+    </div>
+
+  </div>
 </div>
+</section>
+
+<section style="background:var(--navy-light)">
+<div class="container">
+  <h2>💰 Bundle Deals</h2>
+  <p class="subtitle">Why buy one when you can grab the whole stack?</p>
+  <div class="bundles">
+
+    <div class="bundle">
+      <h3>🎯 Starter</h3>
+      <div class="bundle-price">$5</div>
+      <p style="color:var(--gray);font-size:.85rem">Pick any 3 tools</p>
+      <ul>
+        <li>3 products of your choice</li>
+        <li>30-day access</li>
+        <li>Community support</li>
+        <li>Basic integrations</li>
+      </ul>
+      <a href="cart.html" class="btn">Get Starter</a>
+    </div>
+
+    <div class="bundle">
+      <h3>📈 Growth</h3>
+      <div class="bundle-price">$15</div>
+      <p style="color:var(--gray);font-size:.85rem">Pick any 10 tools</p>
+      <ul>
+        <li>10 products of your choice</li>
+        <li>90-day access</li>
+        <li>Priority support from Bob</li>
+        <li>All integrations</li>
+        <li>API access</li>
+      </ul>
+      <a href="cart.html" class="btn">Get Growth</a>
+    </div>
+
+    <div class="bundle popular">
+      <h3>🏬 Mall Pass</h3>
+      <div class="bundle-price">$25</div>
+      <p style="color:var(--gray);font-size:.85rem">Full catalog access</p>
+      <ul>
+        <li>All 20+ products</li>
+        <li>6-month access</li>
+        <li>Direct crew support</li>
+        <li>Priority API access</li>
+        <li>Early feature access</li>
+        <li>Custom integrations</li>
+      </ul>
+      <a href="cart.html" class="btn btn-gold">Get Mall Pass</a>
+    </div>
+
+    <div class="bundle">
+      <h3>👑 Everything</h3>
+      <div class="bundle-price">$35</div>
+      <p style="color:var(--gray);font-size:.85rem">Lifetime. All of it.</p>
+      <ul>
+        <li>All products forever</li>
+        <li>Lifetime updates</li>
+        <li>1-on-1 crew onboarding</li>
+        <li>White-label rights</li>
+        <li>Custom nano builds</li>
+        <li>VIP everything</li>
+      </ul>
+      <a href="cart.html" class="btn btn-gold">Get Everything</a>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <div class="trust">
+    <div class="trust-item"><div class="num">50+</div>AI Products</div>
+    <div class="trust-item"><div class="num">80%</div>Below Competitors</div>
+    <div class="trust-item"><div class="num">60s</div>To Get Started</div>
+    <div class="trust-item"><div class="num">24/7</div>Crew Support</div>
+  </div>
+</div>
+</section>
+
+<section style="background:var(--navy-light);text-align:center;padding:60px 20px">
+<div class="container">
+  <h2>Captain Says: Stop Overpaying.</h2>
+  <p style="color:var(--gray);max-width:600px;margin:0 auto 24px">Every tool you need. Every integration you want. At prices that actually make sense. The register's open — let's get you set up.</p>
+  <a href="products.html" class="cta" style="display:inline-block;background:var(--gold);color:#000;padding:14px 36px;border-radius:var(--radius);font-weight:800;font-size:1.1rem">Browse All Products →</a>
+</div>
+</section>
 
 <footer>
-  <p>⚓ <a href="https://serlf.ca">serlf.ca</a> | <a href="https://serlf.ca/specialists.html">Try before you buy</a> | <a href="https://serlf.ca/mall.html">Browse the Mall</a> 🧭</p>
+<div class="container">
+  <p><strong style="color:var(--gold)">serlf.shop</strong> — Instant AI Marketplace</p>
+  <p style="margin-top:8px"><a href="index.html">Home</a> · <a href="products.html">Products</a> · <a href="deals.html">Deals</a> · <a href="crew.html">Crew</a> · <a href="cart.html">Cart</a> · <a href="dashboard.html">Dashboard</a></p>
+  <p style="margin-top:12px">Part of the <a href="https://serlf.ca">serlf.ca</a> ecosystem · Built by the nanos, for the humans.</p>
+  <p style="margin-top:8px">© 2026 serlf. All rights reserved.</p>
+</div>
 </footer>
 
-</div>
 </body>
 </html>

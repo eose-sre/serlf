@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — serlf.info</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121829;--navy-mid:#1a2035;--amber:#d4a017;--amber-light:#f0c040;--text:#e0ddd5;--text-dim:#8a8a9a;--radius:12px;--green:#3ecf8e;--blue:#5b8def}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none}a:hover{color:var(--amber-light)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:var(--navy-light);border-bottom:1px solid #1e2540;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700}.logo span{color:var(--amber)}
+nav ul{list-style:none;display:flex;gap:1.6rem}nav ul a{color:var(--text-dim);font-size:.95rem}nav ul a:hover,nav ul a.active{color:var(--amber)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+section{max-width:1100px;margin:0 auto;padding:2rem}
+.welcome{padding:2rem 0 1rem}
+.welcome h1{font-size:1.8rem;color:#fff}.welcome h1 span{color:var(--amber)}
+.welcome p{color:var(--text-dim)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
+.stat{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:1.5rem;text-align:center}
+.stat .num{font-size:2rem;font-weight:700;color:var(--amber)}
+.stat .label{color:var(--text-dim);font-size:.85rem;margin-top:.2rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem}
+.panel{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:1.8rem}
+.panel h3{color:#fff;font-size:1.15rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.course{display:flex;align-items:center;gap:1rem;padding:.8rem 0;border-bottom:1px solid #1a2035}
+.course:last-child{border:none}
+.course-icon{font-size:1.3rem;flex-shrink:0}
+.course-info{flex:1}
+.course-info h4{color:#fff;font-size:.95rem;margin-bottom:.15rem}
+.course-info .meta{color:var(--text-dim);font-size:.8rem}
+.progress-bar{width:100%;height:6px;background:var(--navy-mid);border-radius:3px;margin-top:.4rem;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:var(--amber)}
+.cert{display:flex;align-items:center;gap:1rem;padding:.8rem 0;border-bottom:1px solid #1a2035}
+.cert:last-child{border:none}
+.cert-badge{width:40px;height:40px;border-radius:50%;background:var(--navy-mid);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.cert h4{color:#fff;font-size:.95rem}.cert p{color:var(--text-dim);font-size:.8rem}
+.bookmark{display:flex;align-items:center;gap:.8rem;padding:.6rem 0;border-bottom:1px solid #1a2035}
+.bookmark:last-child{border:none}
+.bookmark .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.bookmark a{color:var(--text);font-size:.9rem}
+.bookmark a:hover{color:var(--amber)}
+.bookmark .tag{color:var(--text-dim);font-size:.75rem;margin-left:auto;white-space:nowrap}
+.tools-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:1.5rem}
+.tool-card{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:1.2rem;text-align:center;transition:border-color .2s}
+.tool-card:hover{border-color:var(--amber)}
+.tool-card .icon{font-size:1.8rem;margin-bottom:.4rem}
+.tool-card h4{color:#fff;font-size:.9rem;margin-bottom:.15rem}
+.tool-card p{color:var(--text-dim);font-size:.75rem}
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid #1e2540;margin-top:2rem}
+@media(max-width:768px){
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy-light);flex-direction:column;padding:1rem 2rem;gap:.8rem;border-bottom:1px solid #1e2540}
+  nav ul.open{display:flex}.hamburger{display:block}
+  .grid2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">serlf<span>.info</span></div>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="academy.html">Academy</a></li>
+    <li><a href="library.html">Library</a></li>
+    <li><a href="products.html">Tools</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+  </ul>
+</nav>
+
+<section>
+  <div class="welcome">
+    <h1>Welcome back, <span>Learner</span></h1>
+    <p>Here's where you left off. Keep going — Lucien's got your next lesson ready.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">7</div><div class="label">Modules Completed</div></div>
+    <div class="stat"><div class="num">3.5h</div><div class="label">Total Study Time</div></div>
+    <div class="stat"><div class="num">1</div><div class="label">Certificates Earned</div></div>
+    <div class="stat"><div class="num">4</div><div class="label">Bookmarks Saved</div></div>
+  </div>
+
+  <div class="grid2">
+    <!-- Active Courses -->
+    <div class="panel">
+      <h3>📖 Active Courses</h3>
+      <div class="course">
+        <div class="course-icon">🌱</div>
+        <div class="course-info">
+          <h4>AI Basics</h4>
+          <div class="meta">Module 4 of 5 · AI Ethics & Limitations</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+        </div>
+      </div>
+      <div class="course">
+        <div class="course-icon">🔧</div>
+        <div class="course-info">
+          <h4>Practical AI</h4>
+          <div class="meta">Module 2 of 5 · Advanced Prompting Patterns</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+        </div>
+      </div>
+      <div class="course">
+        <div class="course-icon">⚡</div>
+        <div class="course-info">
+          <h4>Building with AI</h4>
+          <div class="meta">Not started yet</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certificates -->
+    <div class="panel">
+      <h3>🏆 Certificates</h3>
+      <div class="cert">
+        <div class="cert-badge">✓</div>
+        <div>
+          <h4>AI Basics — Completed</h4>
+          <p>Earned Feb 10, 2026 · Verified by Lucien</p>
+        </div>
+      </div>
+      <div class="cert">
+        <div class="cert-badge" style="border-color:var(--text-dim);opacity:.5">⏳</div>
+        <div>
+          <h4>Practical AI — In Progress</h4>
+          <p>40% complete · 3 modules remaining</p>
+        </div>
+      </div>
+      <div class="cert">
+        <div class="cert-badge" style="border-color:var(--text-dim);opacity:.5">🔒</div>
+        <div>
+          <h4>Building with AI — Locked</h4>
+          <p>Complete Practical AI to unlock</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bookmarks -->
+    <div class="panel">
+      <h3>🔖 Bookmarks</h3>
+      <div class="bookmark"><div class="dot"></div><a href="library.html">What Is a Large Language Model, Really?</a><span class="tag">Beginner</span></div>
+      <div class="bookmark"><div class="dot"></div><a href="library.html">The Prompt Engineering Playbook</a><span class="tag">Intermediate</span></div>
+      <div class="bookmark"><div class="dot"></div><a href="library.html">Embeddings Explained Visually</a><span class="tag">Advanced</span></div>
+      <div class="bookmark"><div class="dot"></div><a href="library.html">AI Glossary: 100 Terms You Should Know</a><span class="tag">Reference</span></div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="panel">
+      <h3>📊 Recent Activity</h3>
+      <div class="course">
+        <div class="course-icon">📝</div>
+        <div class="course-info">
+          <h4>Completed: How Language Models Work</h4>
+          <div class="meta">AI Basics · Module 2 · Yesterday</div>
+        </div>
+      </div>
+      <div class="course">
+        <div class="course-icon">📝</div>
+        <div class="course-info">
+          <h4>Completed: Prompt Engineering Fundamentals</h4>
+          <div class="meta">Practical AI · Module 1 · 2 days ago</div>
+        </div>
+      </div>
+      <div class="course">
+        <div class="course-icon">🔖</div>
+        <div class="course-info">
+          <h4>Bookmarked: AI Glossary</h4>
+          <div class="meta">Library · 3 days ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color:#fff;margin-top:2rem;margin-bottom:.5rem">🛠️ Your Tools</h3>
+  <div class="tools-row">
+    <div class="tool-card"><div class="icon">💬</div><h4>AI Chat</h4><p>Active</p></div>
+    <div class="tool-card"><div class="icon">✍️</div><h4>AI Writer</h4><p>Active</p></div>
+    <div class="tool-card"><div class="icon">🗄️</div><h4>Data Vault</h4><p>Active</p></div>
+    <div class="tool-card"><div class="icon">📡</div><h4>SEO Radar</h4><p>Not subscribed</p></div>
+    <div class="tool-card"><div class="icon">📋</div><h4>Form Flow</h4><p>Not subscribed</p></div>
+    <div class="tool-card"><div class="icon">🔬</div><h4>AI Garage</h4><p>Not subscribed</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 serlf.info — Part of the <a href="https://serlf.ca">serlf ecosystem</a>. Knowledge led by Lucien.</p>
+</footer>
+</body>
+</html>

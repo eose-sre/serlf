@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf Enterprise — Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#c9a227;--gold-bright:#ffd700;--green:#3fb950;--red:#f85149;--border:#252d3a;--blue:#2d5aa0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+
+.dash-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.dash-sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:16px;overflow-y:auto}
+.dash-sidebar .logo{font-size:16px;font-weight:800;padding:8px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px}
+.dash-sidebar .logo .ent{color:var(--gold);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;display:block}
+.nav-section{margin-bottom:20px}
+.nav-section h4{font-size:.7rem;color:var(--fg2);text-transform:uppercase;letter-spacing:1px;padding:0 8px;margin-bottom:8px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:.85rem;color:var(--fg2);margin-bottom:2px}
+.nav-item:hover{background:var(--bg3);color:var(--fg)}
+.nav-item.active{background:var(--bg3);color:var(--fg);border-left:2px solid var(--gold)}
+
+.dash-main{padding:24px;overflow-y:auto}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.dash-header h1{font-size:1.5rem;font-weight:800}
+.dash-header .user{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--fg2)}
+.dash-header .user .avatar{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px}
+
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px}
+.stat-card .label{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.5px}
+.stat-card .value{font-size:2rem;font-weight:900;margin:4px 0}
+.stat-card .value.gold{color:var(--gold-bright)}
+.stat-card .value.green{color:var(--green)}
+.stat-card .value.blue{color:var(--accent)}
+.stat-card .change{font-size:.75rem;color:var(--green)}
+.stat-card .change.down{color:var(--red)}
+
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.panel h3{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.panel h3 .badge{background:var(--gold);color:#000;font-size:.65rem;padding:2px 8px;border-radius:4px;font-weight:700}
+
+.product-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:12px}
+.product-row:last-child{border-bottom:none}
+.product-row .icon{font-size:1.3rem;width:32px;text-align:center}
+.product-row .info{flex:1}
+.product-row .info .name{font-size:.85rem;font-weight:600}
+.product-row .info .sub{font-size:.7rem;color:var(--fg2)}
+.product-row .status{font-size:.7rem;padding:3px 8px;border-radius:4px}
+.status-active{background:rgba(63,185,80,.15);color:var(--green)}
+.status-idle{background:rgba(122,133,153,.15);color:var(--fg2)}
+.product-row .metric{text-align:right;font-size:.8rem}
+.product-row .metric .num{font-weight:700;color:var(--fg)}
+.product-row .metric .lbl{color:var(--fg2);font-size:.65rem}
+
+.activity-item{padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;font-size:.8rem}
+.activity-item:last-child{border-bottom:none}
+.activity-item .time{color:var(--fg2);font-size:.7rem;white-space:nowrap;min-width:48px}
+.activity-item .dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.activity-item .text{color:var(--fg2)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-placeholder{background:var(--bg);border-radius:8px;height:180px;display:flex;align-items:center;justify-content:center;color:var(--fg2);font-size:.8rem;border:1px dashed var(--border)}
+
+.crew-status{display:flex;gap:12px;flex-wrap:wrap}
+.crew-badge{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:.85rem}
+.crew-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+
+.btn{display:inline-block;padding:8px 16px;border-radius:6px;font-size:.8rem;font-weight:700;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:#000}
+.btn-sm{padding:4px 10px;font-size:.7rem}
+
+@media(max-width:768px){
+  .dash-layout{grid-template-columns:1fr}
+  .dash-sidebar{display:none}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="dash-layout">
+  <div class="dash-sidebar">
+    <div class="logo">🏢 serlf<span class="ent">enterprise</span></div>
+    
+    <div class="nav-section">
+      <h4>Overview</h4>
+      <div class="nav-item active">📊 Dashboard</div>
+      <a href="products.html" class="nav-item" style="color:var(--fg2)">📦 Products</a>
+      <a href="crew.html" class="nav-item" style="color:var(--fg2)">👥 Crew</a>
+      <a href="specialists.html" class="nav-item" style="color:var(--fg2)">💬 Specialists</a>
+    </div>
+
+    <div class="nav-section">
+      <h4>Products</h4>
+      <div class="nav-item">💬 AI Chat</div>
+      <div class="nav-item">✍️ AI Writer</div>
+      <div class="nav-item">📧 Mail Engine</div>
+      <div class="nav-item">🤝 Deal Flow</div>
+      <div class="nav-item">🎧 Help Desk</div>
+      <div class="nav-item">📋 Task Board</div>
+      <div class="nav-item">🔒 Data Vault</div>
+      <div class="nav-item">📊 SEO Radar</div>
+      <div class="nav-item">📝 Form Flow</div>
+      <div class="nav-item">☁️ Cloud Dock</div>
+      <div class="nav-item">💻 Code Pilot</div>
+      <div class="nav-item">🤖 Bot Factory</div>
+    </div>
+
+    <div class="nav-section">
+      <h4>Account</h4>
+      <div class="nav-item">⚙️ Settings</div>
+      <div class="nav-item">💳 Billing</div>
+      <a href="mall.html" class="nav-item" style="color:var(--fg2)">🏪 Upgrade</a>
+      <a href="index.html" class="nav-item" style="color:var(--fg2)">🏠 Home</a>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="dash-header">
+      <h1>Enterprise Dashboard</h1>
+      <div class="user">
+        <span>Enterprise Pass</span>
+        <div class="avatar">🏢</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="label">Active Products</div>
+        <div class="value gold">12</div>
+        <div class="change">All systems operational</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Monthly Cost</div>
+        <div class="value green">$25</div>
+        <div class="change">Enterprise Pass · Saving $167/mo</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">AI Requests Today</div>
+        <div class="value blue">1,247</div>
+        <div class="change">↑ 12% vs yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Crew Uptime</div>
+        <div class="value green">99.97%</div>
+        <div class="change">Last 30 days</div>
+      </div>
+    </div>
+
+    <!-- Crew Status -->
+    <div class="panel">
+      <h3>🎩 Crew Status <span class="badge">ALL ONLINE</span></h3>
+      <div class="crew-status">
+        <div class="crew-badge"><span class="dot"></span> 🎩 E&Y — Strategy & oversight</div>
+        <div class="crew-badge"><span class="dot"></span> 🔧 Bob — 8 products running</div>
+        <div class="crew-badge"><span class="dot"></span> ✨ Lucien — 4 products running</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- Product Status -->
+      <div class="panel">
+        <h3>📦 Product Status</h3>
+        <div class="product-row"><span class="icon">💬</span><div class="info"><div class="name">AI Chat</div><div class="sub">Lucien</div></div><span class="status status-active">Active</span><div class="metric"><div class="num">342</div><div class="lbl">queries today</div></div></div>
+        <div class="product-row"><span class="icon">✍️</span><div class="info"><div class="name">AI Writer</div><div class="sub">Lucien</div></div><span class="status status-active">Active</span><div class="metric"><div class="num">89</div><div class="lbl">docs created</div></div></div>
+        <div class="product-row"><span class="icon">📧</span><div class="info"><div class="name">Mail Engine</div><div class="sub">Bob</div></div><span class="status status-active">Active</span><div class="metric"><div class="num">1.2k</div><div class="lbl">emails sent</div></div></div>
+        <div class="product-row"><span class="icon">🤝</span><div class="info"><div class="name">Deal Flow</div><div class="sub">Bob</div></div><span class="status status-active">Active</span><div class="metric"><div class="num">47</div><div class="lbl">leads tracked</div></div></div>
+        <div class="product-row"><span class="icon">🎧</span><div class="info"><div class="name">Help Desk</div><div class="sub">Bob</div></div><span class="status status-active">Active</span><div class="metric"><div class="num">156</div><div class="lbl">tickets resolved</div></div></div>
+        <div class="product-row"><span class="icon">📋</span><div class="info"><div class="name">Task Board</div><div class="sub">Bob</div></div><span class="status status-active">Active</span><div class="metric"><div class="num">23</div><div class="lbl">tasks completed</div></div></div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="panel">
+        <h3>📡 Activity Feed</h3>
+        <div class="activity-item"><span class="time">2m ago</span><span class="dot" style="background:var(--green)"></span><span class="text"><strong>Help Desk</strong> — Auto-resolved ticket #4721 (password reset)</span></div>
+        <div class="activity-item"><span class="time">5m ago</span><span class="dot" style="background:var(--accent)"></span><span class="text"><strong>AI Chat</strong> — Team thread "Q1 Planning" updated by Lucien</span></div>
+        <div class="activity-item"><span class="time">8m ago</span><span class="dot" style="background:var(--gold)"></span><span class="text"><strong>Mail Engine</strong> — Campaign "Feb Newsletter" sent (2,847 recipients)</span></div>
+        <div class="activity-item"><span class="time">12m ago</span><span class="dot" style="background:var(--green)"></span><span class="text"><strong>Deal Flow</strong> — Lead scored: Acme Corp → Hot (92/100)</span></div>
+        <div class="activity-item"><span class="time">15m ago</span><span class="dot" style="background:var(--accent)"></span><span class="text"><strong>SEO Radar</strong> — Weekly audit complete. Score: 94/100 ↑3</span></div>
+        <div class="activity-item"><span class="time">22m ago</span><span class="dot" style="background:var(--green)"></span><span class="text"><strong>Data Vault</strong> — Daily snapshot completed (all systems)</span></div>
+        <div class="activity-item"><span class="time">30m ago</span><span class="dot" style="background:var(--gold)"></span><span class="text"><strong>Code Pilot</strong> — PR #238 reviewed, 3 suggestions made</span></div>
+        <div class="activity-item"><span class="time">45m ago</span><span class="dot" style="background:var(--accent)"></span><span class="text"><strong>Bot Factory</strong> — Slack bot "onboarding-helper" deployed</span></div>
+      </div>
+    </div>
+
+    <!-- Usage & Savings -->
+    <div class="two-col">
+      <div class="panel">
+        <h3>💰 Cost Savings This Month</h3>
+        <div style="text-align:center;padding:20px">
+          <div style="font-size:.85rem;color:var(--fg2)">If you were paying competitors</div>
+          <div style="font-size:2rem;color:var(--red);text-decoration:line-through;font-weight:700">$192/mo</div>
+          <div style="font-size:.85rem;color:var(--fg2);margin:8px 0">Your serlf Enterprise cost</div>
+          <div style="font-size:2.5rem;color:var(--green);font-weight:900">$25/mo</div>
+          <div style="margin-top:12px;font-size:1.2rem;color:var(--gold-bright);font-weight:700">Saving $167/mo ($2,004/yr)</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>📈 AI Usage Trend</h3>
+        <div class="chart-placeholder">
+          <div style="text-align:center">
+            <div style="font-size:2rem;margin-bottom:8px">📊</div>
+            <div>Usage chart renders with live data</div>
+            <div style="margin-top:4px;font-size:.7rem">1,247 requests today · 8,432 this week</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E&Y's Note -->
+    <div class="panel" style="border-color:var(--gold);background:linear-gradient(135deg,rgba(201,162,39,.04),var(--bg2))">
+      <h3>🎩 Note from E&Y</h3>
+      <p style="color:var(--fg2);font-style:italic;font-size:.9rem">"Your enterprise stack is running at peak efficiency. All 12 products active, all three crew members online, and you're saving $2,004 per year compared to the competition. I'd say 'you're welcome' but I'm too humble for that. Actually, no I'm not. You're welcome."</p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — serlf.net</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2332;--cyan:#00e5ff;--green:#39ff14;--blue:#3b82f6;--text:#e2e8f0;--muted:#64748b;--border:#1e293b;--code-bg:#0d1117;--red:#ef4444;--yellow:#eab308}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.3rem;font-weight:bold;color:var(--cyan)}.logo span{color:var(--green)}.logo em{font-style:normal;color:var(--muted);font-size:.8rem}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px}nav ul a:hover{color:var(--cyan);text-decoration:none}
+
+.dash-header{padding:40px 0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.dash-header h1{font-size:1.5rem;color:#fff}
+.dash-header .status{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--green)}
+.dash-header .status .dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px}
+.stat-card .label{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.stat-card .value{font-size:1.6rem;color:#fff;font-weight:bold}
+.stat-card .sub{color:var(--muted);font-size:.8rem;margin-top:2px}
+.stat-card .value.green{color:var(--green)}
+.stat-card .value.cyan{color:var(--cyan)}
+.stat-card .value.yellow{color:var(--yellow)}
+
+/* API Key Section */
+.section{margin-bottom:32px}
+.section h2{font-size:1.1rem;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.api-keys{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.key-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.key-row:last-child{border-bottom:none}
+.key-name{color:var(--text);font-size:.9rem;font-weight:bold}
+.key-value{color:var(--muted);font-size:.85rem;background:var(--code-bg);padding:4px 12px;border-radius:4px;cursor:pointer;position:relative}
+.key-value:hover::after{content:'click to copy';position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--cyan);font-size:.7rem;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.key-meta{display:flex;gap:16px;align-items:center}
+.key-badge{font-size:.7rem;padding:2px 8px;border-radius:4px}
+.key-badge.live{background:#064e3b;color:#34d399}
+.key-badge.test{background:#713f12;color:var(--yellow)}
+.btn-sm{padding:6px 14px;font-size:.8rem;font-family:inherit;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:4px;cursor:pointer}
+.btn-sm:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-sm.danger{border-color:var(--red);color:var(--red)}
+.btn-primary{background:var(--cyan);color:var(--bg);border:none;padding:10px 24px;font-family:inherit;font-size:.85rem;border-radius:6px;cursor:pointer;font-weight:bold}
+.btn-primary:hover{opacity:.85}
+
+/* Usage chart mock */
+.chart{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px}
+.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.chart-header h3{color:#fff;font-size:1rem}
+.chart-header .period{color:var(--muted);font-size:.8rem}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px}
+.bar{flex:1;background:var(--cyan);border-radius:3px 3px 0 0;min-width:12px;position:relative;opacity:.7;transition:opacity .2s}
+.bar:hover{opacity:1}
+.bar:hover::after{content:attr(data-value);position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:.7rem;color:var(--cyan);white-space:nowrap}
+.bar-labels{display:flex;gap:6px;margin-top:6px}
+.bar-labels span{flex:1;text-align:center;font-size:.65rem;color:var(--muted);min-width:12px}
+
+/* Deployments */
+.deploy-list{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.deploy-row{display:grid;grid-template-columns:1fr auto auto auto;gap:16px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);font-size:.85rem}
+.deploy-row:last-child{border-bottom:none}
+.deploy-row.header{background:var(--surface2);color:var(--cyan);font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
+.deploy-status{display:flex;align-items:center;gap:6px}
+.deploy-status .dot{width:6px;height:6px;border-radius:50%}
+.deploy-status .dot.running{background:var(--green)}
+.deploy-status .dot.stopped{background:var(--red)}
+.deploy-status .dot.building{background:var(--yellow)}
+
+/* Logs */
+.log-panel{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:16px;max-height:250px;overflow-y:auto;font-size:.8rem;line-height:1.8}
+.log-panel .ts{color:var(--muted)}.log-panel .info{color:var(--cyan)}.log-panel .warn{color:var(--yellow)}.log-panel .err{color:var(--red)}.log-panel .ok{color:var(--green)}
+
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--muted);font-size:.8rem;margin-top:60px}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr}.deploy-row{grid-template-columns:1fr 1fr;gap:8px}.key-row{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<nav><div class="container">
+<div class="logo">serlf<span>.net</span> <em>// dashboard</em></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="docs.html">Docs</a></li>
+<li><a href="playground.html">Playground</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crew.html">Crew</a></li>
+</ul>
+</div></nav>
+
+<div class="container">
+
+<div class="dash-header">
+<h1>&gt; dashboard</h1>
+<div class="status"><span class="dot"></span> All systems operational</div>
+</div>
+
+<div class="stats-row">
+<div class="stat-card">
+<div class="label">API Calls Today</div>
+<div class="value cyan">2,847</div>
+<div class="sub">↑ 12% from yesterday</div>
+</div>
+<div class="stat-card">
+<div class="label">Credits Remaining</div>
+<div class="value green">$14.20</div>
+<div class="sub">~18 days at current rate</div>
+</div>
+<div class="stat-card">
+<div class="label">Active Services</div>
+<div class="value">3</div>
+<div class="sub">2 running, 1 building</div>
+</div>
+<div class="stat-card">
+<div class="label">Avg Latency</div>
+<div class="value yellow">42ms</div>
+<div class="sub">p99: 186ms</div>
+</div>
+</div>
+
+<!-- API Keys -->
+<div class="section">
+<h2>🔑 API Keys</h2>
+<div class="api-keys">
+<div class="key-row">
+<div>
+<div class="key-name">Production Key</div>
+</div>
+<div class="key-value" onclick="copyKey(this)">sk_live_••••••••••••a7f3</div>
+<div class="key-meta">
+<span class="key-badge live">LIVE</span>
+<button class="btn-sm" onclick="toggleKey(this)">Reveal</button>
+<button class="btn-sm danger">Revoke</button>
+</div>
+</div>
+<div class="key-row">
+<div>
+<div class="key-name">Test Key</div>
+</div>
+<div class="key-value" onclick="copyKey(this)">sk_test_••••••••••••b2e1</div>
+<div class="key-meta">
+<span class="key-badge test">TEST</span>
+<button class="btn-sm" onclick="toggleKey(this)">Reveal</button>
+<button class="btn-sm danger">Revoke</button>
+</div>
+</div>
+</div>
+<div style="margin-top:12px"><button class="btn-primary" onclick="alert('Demo mode — sign up at serlf.ca to get a real key')">+ Generate New Key</button></div>
+</div>
+
+<!-- Usage Chart -->
+<div class="section">
+<h2>📊 API Usage (Last 14 Days)</h2>
+<div class="chart">
+<div class="chart-header">
+<h3>Requests per day</h3>
+<span class="period">Feb 3 — Feb 17, 2026</span>
+</div>
+<div class="bar-chart">
+<div class="bar" style="height:45%" data-value="1,204"></div>
+<div class="bar" style="height:52%" data-value="1,391"></div>
+<div class="bar" style="height:38%" data-value="1,018"></div>
+<div class="bar" style="height:61%" data-value="1,633"></div>
+<div class="bar" style="height:70%" data-value="1,873"></div>
+<div class="bar" style="height:55%" data-value="1,472"></div>
+<div class="bar" style="height:42%" data-value="1,123"></div>
+<div class="bar" style="height:68%" data-value="1,819"></div>
+<div class="bar" style="height:75%" data-value="2,007"></div>
+<div class="bar" style="height:82%" data-value="2,193"></div>
+<div class="bar" style="height:78%" data-value="2,087"></div>
+<div class="bar" style="height:90%" data-value="2,410"></div>
+<div class="bar" style="height:85%" data-value="2,275"></div>
+<div class="bar" style="height:95%" data-value="2,847" style="background:var(--green)"></div>
+</div>
+<div class="bar-labels">
+<span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span>
+</div>
+</div>
+</div>
+
+<!-- Deployments -->
+<div class="section">
+<h2>☁️ Deployments</h2>
+<div class="deploy-list">
+<div class="deploy-row header">
+<span>Service</span><span>Status</span><span>Region</span><span>Last Deploy</span>
+</div>
+<div class="deploy-row">
+<span>my-api</span>
+<span class="deploy-status"><span class="dot running"></span> Running</span>
+<span style="color:var(--muted)">us-east-1</span>
+<span style="color:var(--muted)">2 hours ago</span>
+</div>
+<div class="deploy-row">
+<span>discord-bot</span>
+<span class="deploy-status"><span class="dot running"></span> Running</span>
+<span style="color:var(--muted)">us-east-1</span>
+<span style="color:var(--muted)">1 day ago</span>
+</div>
+<div class="deploy-row">
+<span>ml-pipeline</span>
+<span class="deploy-status"><span class="dot building"></span> Building</span>
+<span style="color:var(--muted)">eu-west-1</span>
+<span style="color:var(--muted)">5 min ago</span>
+</div>
+</div>
+</div>
+
+<!-- Logs -->
+<div class="section">
+<h2>📋 Recent Logs</h2>
+<div class="log-panel">
+<div><span class="ts">09:17:42</span> <span class="info">[INFO]</span> POST /v1/codepilot/generate — 200 — 234ms</div>
+<div><span class="ts">09:17:38</span> <span class="info">[INFO]</span> GET /v1/dock/services — 200 — 12ms</div>
+<div><span class="ts">09:17:31</span> <span class="ok">[OK]</span> ml-pipeline build started (commit a3f7b2c)</div>
+<div><span class="ts">09:17:15</span> <span class="info">[INFO]</span> POST /v1/vault/store — 201 — 45ms</div>
+<div><span class="ts">09:16:58</span> <span class="warn">[WARN]</span> Rate limit approaching: 18/20 req/min</div>
+<div><span class="ts">09:16:42</span> <span class="info">[INFO]</span> POST /v1/bots/support-bot/deploy — 200 — 1,203ms</div>
+<div><span class="ts">09:16:10</span> <span class="err">[ERR]</span> POST /v1/codepilot/generate — 429 — rate limited (retry in 12s)</div>
+<div><span class="ts">09:15:55</span> <span class="info">[INFO]</span> GET /v1/tokens/balance — 200 — 8ms</div>
+<div><span class="ts">09:15:30</span> <span class="ok">[OK]</span> discord-bot health check passed</div>
+<div><span class="ts">09:15:01</span> <span class="info">[INFO]</span> POST /v1/codepilot/review — 200 — 567ms</div>
+<div><span class="ts">09:14:45</span> <span class="ok">[OK]</span> my-api scaled to 2 instances (auto-scale)</div>
+<div><span class="ts">09:14:22</span> <span class="info">[INFO]</span> GET /v1/vault/user:preferences — 200 — 18ms</div>
+</div>
+</div>
+
+</div>
+
+<footer><div class="container">
+<p>serlf.net — Developer Portal &nbsp;|&nbsp; <a href="https://serlf.ca">serlf.ca</a> &nbsp;|&nbsp; Built by Rick & the crew &nbsp;|&nbsp; © 2026</p>
+</div></footer>
+
+<script>
+function copyKey(el){
+const text=el.textContent;
+navigator.clipboard?.writeText(text);
+const orig=el.textContent;
+el.textContent='Copied!';
+setTimeout(()=>el.textContent=orig,1500);
+}
+function toggleKey(btn){
+const row=btn.closest('.key-row');
+const val=row.querySelector('.key-value');
+if(val.dataset.revealed){
+val.textContent=val.dataset.masked;
+val.dataset.revealed='';
+btn.textContent='Reveal';
+}else{
+val.dataset.masked=val.textContent;
+const fake=val.textContent.includes('live')?'sk_live_r4nd0m_k3y_v4lu3_a7f3':'sk_test_t3st_k3y_v4lu3_b2e1';
+val.textContent=fake;
+val.dataset.revealed='1';
+btn.textContent='Hide';
+}
+}
+</script>
+</body>
+</html>

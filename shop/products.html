@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Products — serlf.shop</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#131833;--navy-mid:#1a2040;--gold:#f0c040;--gold-dim:#c49a2a;--green:#2ecc71;--green-dim:#27ae60;--red:#e74c3c;--white:#f0f0f0;--gray:#8892a4;--radius:10px}
+body{background:var(--navy);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+nav{background:var(--navy-light);border-bottom:2px solid var(--gold-dim);padding:15px 0;position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:1.6rem;font-weight:800;color:var(--gold)}.logo span{color:var(--green)}.logo small{font-size:.7rem;color:var(--gray);display:block;margin-top:-4px}
+nav ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+nav ul a{color:var(--white);font-weight:600;font-size:.95rem}nav ul a:hover{color:var(--gold)}
+.cart-btn{background:var(--green);color:#000;padding:8px 18px;border-radius:var(--radius);font-weight:700;display:flex;align-items:center;gap:6px}
+.cart-btn:hover{background:var(--green-dim);text-decoration:none}
+section{padding:60px 0}
+h1{font-size:2.4rem;color:var(--gold);text-align:center;margin-bottom:8px}
+.subtitle{text-align:center;color:var(--gray);margin-bottom:30px}
+
+/* FILTERS */
+.filters{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+.filters button{background:var(--navy-mid);color:var(--white);border:1px solid var(--navy-mid);padding:8px 18px;border-radius:20px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .2s}
+.filters button:hover,.filters button.active{background:var(--gold);color:#000;border-color:var(--gold)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.card{background:var(--navy-light);border:1px solid var(--navy-mid);border-radius:var(--radius);padding:24px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.card .emoji{font-size:2.5rem;margin-bottom:10px}
+.card .cat{font-size:.75rem;color:var(--green);text-transform:uppercase;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.card h3{color:var(--white);margin-bottom:6px}
+.card .desc{color:var(--gray);font-size:.9rem;margin-bottom:14px;min-height:40px}
+.price{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.price .old{text-decoration:line-through;color:var(--red);font-size:.95rem}
+.price .now{color:var(--gold);font-size:1.3rem;font-weight:800}
+.price .save{background:var(--green);color:#000;font-size:.75rem;padding:2px 8px;border-radius:4px;font-weight:700}
+.btn{display:inline-block;background:var(--green);color:#000;padding:10px 20px;border-radius:var(--radius);font-weight:700;font-size:.9rem;border:none;cursor:pointer;text-align:center;width:100%}
+.btn:hover{background:var(--green-dim);text-decoration:none}
+footer{background:var(--navy-light);border-top:2px solid var(--navy-mid);padding:40px 0;text-align:center;color:var(--gray);font-size:.9rem}
+footer a{color:var(--gold)}
+@media(max-width:600px){h1{font-size:1.8rem}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="container">
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none">serlf<span>.shop</span></a><small>Instant AI Marketplace</small></div>
+  <ul><li><a href="index.html">Home</a></li><li><a href="products.html">Products</a></li><li><a href="deals.html">Deals</a></li><li><a href="crew.html">Crew</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+  <a href="cart.html" class="cart-btn">🛒 Cart</a>
+</div></nav>
+
+<section>
+<div class="container">
+<h1>All Products</h1>
+<p class="subtitle">20+ AI tools. Kill shot pricing. Pick what you need — or grab a bundle.</p>
+
+<div class="filters">
+  <button class="active" onclick="filterAll()">All</button>
+  <button onclick="filterCat('agents')">🤖 Agents</button>
+  <button onclick="filterCat('automation')">⚡ Automation</button>
+  <button onclick="filterCat('data')">📊 Data</button>
+  <button onclick="filterCat('security')">🔐 Security</button>
+  <button onclick="filterCat('cloud')">☁️ Cloud</button>
+  <button onclick="filterCat('comms')">💬 Comms</button>
+  <button onclick="filterCat('dev')">🛠️ Dev Tools</button>
+</div>
+
+<div class="grid" id="product-grid">
+
+  <div class="card" data-cat="agents">
+    <div class="emoji">🤖</div><div class="cat">Agents</div>
+    <h3>NanoBot Builder</h3>
+    <div class="desc">Build custom AI agents in minutes. No code required.</div>
+    <div class="price"><span class="old">$49/mo</span><span class="now">$5/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('NanoBot Builder',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="agents">
+    <div class="emoji">🧠</div><div class="cat">Agents</div>
+    <h3>MemoryCore</h3>
+    <div class="desc">Persistent AI memory across sessions. Your bots never forget.</div>
+    <div class="price"><span class="old">$39/mo</span><span class="now">$4/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('MemoryCore',4)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="agents">
+    <div class="emoji">🎭</div><div class="cat">Agents</div>
+    <h3>PersonaForge</h3>
+    <div class="desc">Design unique AI personalities with custom voices and behaviors.</div>
+    <div class="price"><span class="old">$35/mo</span><span class="now">$4/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('PersonaForge',4)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="agents">
+    <div class="emoji">🐝</div><div class="cat">Agents</div>
+    <h3>SwarmNet</h3>
+    <div class="desc">Multi-agent orchestration. Run agent teams that collaborate.</div>
+    <div class="price"><span class="old">$79/mo</span><span class="now">$8/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('SwarmNet',8)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="automation">
+    <div class="emoji">⚡</div><div class="cat">Automation</div>
+    <h3>FlowEngine</h3>
+    <div class="desc">Visual automation builder. Connect any API. Trigger anything.</div>
+    <div class="price"><span class="old">$59/mo</span><span class="now">$6/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('FlowEngine',6)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="automation">
+    <div class="emoji">🔄</div><div class="cat">Automation</div>
+    <h3>SyncBridge</h3>
+    <div class="desc">Real-time data sync between any platforms. Zero lag.</div>
+    <div class="price"><span class="old">$45/mo</span><span class="now">$5/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('SyncBridge',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="automation">
+    <div class="emoji">📋</div><div class="cat">Automation</div>
+    <h3>TaskPilot</h3>
+    <div class="desc">AI task manager that prioritizes, schedules, and executes.</div>
+    <div class="price"><span class="old">$29/mo</span><span class="now">$3/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('TaskPilot',3)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="data">
+    <div class="emoji">📊</div><div class="cat">Data</div>
+    <h3>InsightDash</h3>
+    <div class="desc">Real-time AI analytics dashboard. See everything, miss nothing.</div>
+    <div class="price"><span class="old">$45/mo</span><span class="now">$5/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('InsightDash',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="data">
+    <div class="emoji">🗄️</div><div class="cat">Data</div>
+    <h3>DataVault</h3>
+    <div class="desc">Structured AI data storage with instant vector search.</div>
+    <div class="price"><span class="old">$55/mo</span><span class="now">$6/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('DataVault',6)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="data">
+    <div class="emoji">📈</div><div class="cat">Data</div>
+    <h3>TrendRadar</h3>
+    <div class="desc">AI-powered trend detection and market intelligence.</div>
+    <div class="price"><span class="old">$65/mo</span><span class="now">$7/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('TrendRadar',7)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="security">
+    <div class="emoji">🔐</div><div class="cat">Security</div>
+    <h3>VaultKey</h3>
+    <div class="desc">Encrypted credential manager for all your AI services.</div>
+    <div class="price"><span class="old">$29/mo</span><span class="now">$3/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('VaultKey',3)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="security">
+    <div class="emoji">🛡️</div><div class="cat">Security</div>
+    <h3>ShieldWall</h3>
+    <div class="desc">AI firewall. Detect threats, block attacks, log everything.</div>
+    <div class="price"><span class="old">$49/mo</span><span class="now">$5/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('ShieldWall',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="security">
+    <div class="emoji">👁️</div><div class="cat">Security</div>
+    <h3>AuditTrail</h3>
+    <div class="desc">Complete audit logging for every AI action and decision.</div>
+    <div class="price"><span class="old">$35/mo</span><span class="now">$4/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('AuditTrail',4)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="cloud">
+    <div class="emoji">☁️</div><div class="cat">Cloud</div>
+    <h3>LaunchPad</h3>
+    <div class="desc">One-click deploy for AI apps. Idea to production in minutes.</div>
+    <div class="price"><span class="old">$69/mo</span><span class="now">$7/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('LaunchPad',7)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="cloud">
+    <div class="emoji">🌐</div><div class="cat">Cloud</div>
+    <h3>EdgeNode</h3>
+    <div class="desc">Global edge computing for AI. Low latency everywhere.</div>
+    <div class="price"><span class="old">$59/mo</span><span class="now">$6/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('EdgeNode',6)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="cloud">
+    <div class="emoji">📦</div><div class="cat">Cloud</div>
+    <h3>ContainerDock</h3>
+    <div class="desc">Managed containers for AI workloads. Scale to zero. Scale to moon.</div>
+    <div class="price"><span class="old">$49/mo</span><span class="now">$5/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('ContainerDock',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="comms">
+    <div class="emoji">💬</div><div class="cat">Comms</div>
+    <h3>ChatRelay</h3>
+    <div class="desc">Omnichannel messaging hub. Discord, Slack, WhatsApp, SMS — unified.</div>
+    <div class="price"><span class="old">$39/mo</span><span class="now">$4/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('ChatRelay',4)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="comms">
+    <div class="emoji">📧</div><div class="cat">Comms</div>
+    <h3>MailForge</h3>
+    <div class="desc">AI email automation. Write, send, track — on autopilot.</div>
+    <div class="price"><span class="old">$35/mo</span><span class="now">$4/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('MailForge',4)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="comms">
+    <div class="emoji">🎙️</div><div class="cat">Comms</div>
+    <h3>VoiceBox</h3>
+    <div class="desc">AI voice synthesis and recognition. Natural conversations.</div>
+    <div class="price"><span class="old">$49/mo</span><span class="now">$5/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('VoiceBox',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="dev">
+    <div class="emoji">🛠️</div><div class="cat">Dev Tools</div>
+    <h3>CodeSmith</h3>
+    <div class="desc">AI pair programmer. Writes, reviews, and deploys code.</div>
+    <div class="price"><span class="old">$59/mo</span><span class="now">$6/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('CodeSmith',6)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="dev">
+    <div class="emoji">🧪</div><div class="cat">Dev Tools</div>
+    <h3>TestLab</h3>
+    <div class="desc">Automated AI testing suite. Unit, integration, chaos — covered.</div>
+    <div class="price"><span class="old">$39/mo</span><span class="now">$4/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('TestLab',4)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="dev">
+    <div class="emoji">📝</div><div class="cat">Dev Tools</div>
+    <h3>DocWriter</h3>
+    <div class="desc">Auto-generate docs from code. API refs, guides, changelogs.</div>
+    <div class="price"><span class="old">$25/mo</span><span class="now">$3/mo</span><span class="save">88% OFF</span></div>
+    <button class="btn" onclick="addToCart('DocWriter',3)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="data">
+    <div class="emoji">🔍</div><div class="cat">Data</div>
+    <h3>SearchCore</h3>
+    <div class="desc">AI-powered search engine for your data. Semantic, fast, accurate.</div>
+    <div class="price"><span class="old">$45/mo</span><span class="now">$5/mo</span><span class="save">89% OFF</span></div>
+    <button class="btn" onclick="addToCart('SearchCore',5)">Add to Cart</button>
+  </div>
+
+  <div class="card" data-cat="agents">
+    <div class="emoji">🎯</div><div class="cat">Agents</div>
+    <h3>GoalTracker</h3>
+    <div class="desc">AI goal setting and achievement tracking. Hit every target.</div>
+    <div class="price"><span class="old">$29/mo</span><span class="now">$3/mo</span><span class="save">90% OFF</span></div>
+    <button class="btn" onclick="addToCart('GoalTracker',3)">Add to Cart</button>
+  </div>
+
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+  <p><strong style="color:var(--gold)">serlf.shop</strong> — Instant AI Marketplace</p>
+  <p style="margin-top:8px"><a href="index.html">Home</a> · <a href="products.html">Products</a> · <a href="deals.html">Deals</a> · <a href="crew.html">Crew</a> · <a href="cart.html">Cart</a> · <a href="dashboard.html">Dashboard</a></p>
+  <p style="margin-top:8px">© 2026 serlf. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+// Simple cart using localStorage
+function addToCart(name, price) {
+  let cart = JSON.parse(localStorage.getItem('serlf-cart') || '[]');
+  cart.push({name, price, id: Date.now()});
+  localStorage.setItem('serlf-cart', JSON.stringify(cart));
+  alert('✅ ' + name + ' added to cart! ($' + price + '/mo)');
+}
+
+// Filter
+function filterCat(cat) {
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.style.display = c.dataset.cat === cat ? '' : 'none';
+  });
+}
+function filterAll() {
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => c.style.display = '');
+}
+</script>
+</body>
+</html>

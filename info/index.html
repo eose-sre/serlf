@@ -1,105 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>serlf.info — Knowledge Base | Learn AI | Tutorials & Guides</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.info — AI Knowledge Base & Academy</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--bg2:#131820;--bg3:#1a2030;--fg:#e8ecf1;--fg2:#7a8599;--accent:#58a6ff;--gold:#ffd700;--green:#3fb950;--border:#252d3a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh}
-.container{max-width:800px;margin:0 auto;padding:40px 20px}
-.hero{text-align:center;padding:40px 0}
-h1{font-size:2.5rem;font-weight:900}
-h1 .accent{color:var(--accent)}
-.sub{color:var(--fg2);font-size:1.1rem;margin:12px 0 40px}
-.topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.topic{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:border-color 0.2s}
-.topic:hover{border-color:var(--accent)}
-.topic .icon{font-size:28px;margin-bottom:8px}
-.topic h3{margin-bottom:6px}
-.topic p{color:var(--fg2);font-size:0.85rem}
-.topic .count{color:var(--accent);font-size:0.8rem;margin-top:8px}
-.np-section{background:var(--bg2);border:1px solid var(--gold);border-radius:12px;padding:24px;margin:40px 0;text-align:center}
-.np-section h2{color:var(--gold);margin-bottom:8px}
-footer{text-align:center;margin-top:60px;color:var(--fg2);font-size:0.85rem}
-footer a{color:var(--accent)}
+:root{--navy:#0a0e1a;--navy-light:#121829;--navy-mid:#1a2035;--amber:#d4a017;--amber-light:#f0c040;--gold:#c5952a;--text:#e0ddd5;--text-dim:#8a8a9a;--radius:12px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--amber);text-decoration:none;transition:color .2s}
+a:hover{color:var(--amber-light)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:var(--navy-light);border-bottom:1px solid #1e2540;position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700;letter-spacing:.5px}
+.logo span{color:var(--amber)}
+nav ul{list-style:none;display:flex;gap:1.6rem}
+nav ul a{color:var(--text-dim);font-size:.95rem}
+nav ul a:hover,nav ul a.active{color:var(--amber)}
+.hero{text-align:center;padding:5rem 2rem 4rem;background:linear-gradient(180deg,var(--navy-light) 0%,var(--navy) 100%)}
+.hero h1{font-size:2.8rem;margin-bottom:.6rem;color:#fff}
+.hero h1 span{color:var(--amber)}
+.hero p{font-size:1.15rem;color:var(--text-dim);max-width:600px;margin:0 auto 2rem}
+.btn{display:inline-block;padding:.75rem 2rem;background:var(--amber);color:var(--navy);font-weight:700;border-radius:var(--radius);font-size:1rem;transition:background .2s}
+.btn:hover{background:var(--amber-light);color:var(--navy)}
+.btn-outline{background:transparent;border:2px solid var(--amber);color:var(--amber)}
+.btn-outline:hover{background:var(--amber);color:var(--navy)}
+section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+.section-title{font-size:1.8rem;margin-bottom:.4rem;color:#fff}
+.section-sub{color:var(--text-dim);margin-bottom:2rem;font-size:1.05rem}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.card{background:var(--navy-light);border:1px solid #1e2540;border-radius:var(--radius);padding:2rem;transition:border-color .2s}
+.card:hover{border-color:var(--amber)}
+.card-icon{font-size:2rem;margin-bottom:.8rem}
+.card h3{font-size:1.2rem;color:#fff;margin-bottom:.5rem}
+.card p{color:var(--text-dim);font-size:.95rem}
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
+.path{background:var(--navy-mid);border-left:3px solid var(--amber);padding:1.5rem;border-radius:0 var(--radius) var(--radius) 0}
+.path h4{color:var(--amber);margin-bottom:.3rem}
+.path p{color:var(--text-dim);font-size:.9rem}
+.featured{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.article{background:var(--navy-light);border-radius:var(--radius);padding:1.8rem;border:1px solid #1e2540}
+.article .tag{font-size:.75rem;text-transform:uppercase;color:var(--amber);letter-spacing:1px;margin-bottom:.5rem}
+.article h3{color:#fff;margin-bottom:.4rem;font-size:1.1rem}
+.article p{color:var(--text-dim);font-size:.9rem}
+.cta-banner{text-align:center;padding:4rem 2rem;background:var(--navy-light);margin-top:2rem;border-top:1px solid #1e2540}
+.cta-banner h2{font-size:1.8rem;color:#fff;margin-bottom:.5rem}
+.cta-banner p{color:var(--text-dim);margin-bottom:1.5rem}
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid #1e2540}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+@media(max-width:768px){
+  .hero h1{font-size:2rem}
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy-light);flex-direction:column;padding:1rem 2rem;gap:.8rem;border-bottom:1px solid #1e2540}
+  nav ul.open{display:flex}
+  .hamburger{display:block}
+}
 </style>
 </head>
 <body>
-<div class="container">
+<nav>
+  <div class="logo">serlf<span>.info</span></div>
+  <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">☰</button>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="academy.html">Academy</a></li>
+    <li><a href="library.html">Library</a></li>
+    <li><a href="products.html">Tools</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+</nav>
 
 <div class="hero">
-  <div style="font-size:3rem">📚</div>
-  <h1>serlf<span class="accent">.info</span></h1>
-  <p class="sub">Everything you need to know. Tutorials, guides, patterns, and the knowledge that powers the meek.</p>
+  <h1>Learn AI. Use AI. <span>Master AI.</span></h1>
+  <p>The serlf Knowledge Base — free guides, structured learning paths, and tools that cost less than your coffee. Led by Lucien, your AI mentor.</p>
+  <a href="academy.html" class="btn">Start Learning</a>
+  <a href="library.html" class="btn btn-outline" style="margin-left:.8rem">Browse Library</a>
 </div>
 
-<div class="topics">
-  <div class="topic">
-    <div class="icon">🚀</div>
-    <h3>Getting Started</h3>
-    <p>Your first specialist, your first crew, your first mall pass. Zero to productive in 5 minutes.</p>
-    <div class="count">8 guides</div>
+<section>
+  <h2 class="section-title">Learning Paths</h2>
+  <p class="section-sub">Structured journeys from curious beginner to confident practitioner.</p>
+  <div class="paths">
+    <div class="path">
+      <h4>🌱 AI Basics</h4>
+      <p>What AI actually is, how it thinks, and why it matters to you. No jargon, no prerequisites.</p>
+    </div>
+    <div class="path">
+      <h4>🔧 Intermediate</h4>
+      <p>Prompt engineering, workflow automation, choosing the right model for the job.</p>
+    </div>
+    <div class="path">
+      <h4>⚡ Advanced</h4>
+      <p>Fine-tuning, RAG pipelines, embeddings, and building AI-powered products.</p>
+    </div>
+    <div class="path">
+      <h4>🎓 Expert</h4>
+      <p>Architecture patterns, multi-agent systems, evaluation frameworks, and deployment at scale.</p>
+    </div>
   </div>
-  <div class="topic">
-    <div class="icon">💬</div>
-    <h3>AI Chat Mastery</h3>
-    <p>Prompt engineering, context management, model selection. Get 10x more from your Chat Specialist.</p>
-    <div class="count">12 guides</div>
-  </div>
-  <div class="topic">
-    <div class="icon">💻</div>
-    <h3>Dev Tools</h3>
-    <p>Code Pilot workflows, Bot Factory blueprints, Cloud Dock deployment patterns.</p>
-    <div class="count">15 guides</div>
-  </div>
-  <div class="topic">
-    <div class="icon">🎨</div>
-    <h3>Creative Suite</h3>
-    <p>Image generation prompts, Design Studio templates, Video Forge workflows, Voice Lab setup.</p>
-    <div class="count">10 guides</div>
-  </div>
-  <div class="topic">
-    <div class="icon">📈</div>
-    <h3>Business Tools</h3>
-    <p>CRM pipelines, email sequences, SEO audits, project management. Grow your business with AI.</p>
-    <div class="count">14 guides</div>
-  </div>
-  <div class="topic">
-    <div class="icon">🏦</div>
-    <h3>The Clutch & Token Bank</h3>
-    <p>How the 4-gear router works, cost optimization strategies, model selection deep-dive.</p>
-    <div class="count">6 guides</div>
-  </div>
-  <div class="topic">
-    <div class="icon">🏴‍☠️</div>
-    <h3>Crew Formation</h3>
-    <p>How to build specialist crews, assign missions, enable cross-specialist workflows.</p>
-    <div class="count">Coming soon</div>
-  </div>
-  <div class="topic">
-    <div class="icon">🔧</div>
-    <h3>API & Integration</h3>
-    <p>REST APIs, webhooks, embed widgets. Connect serlf specialists to your existing tools.</p>
-    <div class="count">9 guides</div>
-  </div>
-</div>
+</section>
 
-<div class="np-section">
-  <h2>📖 Novel Patterns Library</h2>
-  <p style="color:var(--fg2)">127 patterns discovered and growing. Every interaction teaches us something new.</p>
-  <p style="margin-top:12px"><a href="https://serlf.ca/club" style="color:var(--gold);font-weight:700">Browse the NP Library →</a></p>
-</div>
+<section>
+  <h2 class="section-title">Featured Guides</h2>
+  <p class="section-sub">Lucien's picks — the articles our learners keep coming back to.</p>
+  <div class="featured">
+    <div class="article">
+      <div class="tag">Beginner</div>
+      <h3>What Is a Large Language Model, Really?</h3>
+      <p>Strip away the hype. Understand what's actually happening when you talk to an AI — in plain language, with honest nuance.</p>
+    </div>
+    <div class="article">
+      <div class="tag">Intermediate</div>
+      <h3>The Prompt Engineering Playbook</h3>
+      <p>17 techniques that actually work, tested across GPT-4, Claude, and open-source models. With real examples.</p>
+    </div>
+    <div class="article">
+      <div class="tag">Advanced</div>
+      <h3>Building Your First RAG Pipeline</h3>
+      <p>From document ingestion to semantic search to generation — a complete walkthrough with code you can ship today.</p>
+    </div>
+  </div>
+</section>
 
-<div style="text-align:center;margin:40px 0">
-  <p style="color:var(--fg2)">Can't find what you need? Ask any specialist — they'll help you learn.</p>
-  <a href="https://serlf.ca/specialists.html" style="display:inline-block;padding:12px 28px;background:var(--accent);color:#fff;border-radius:8px;font-weight:700;text-decoration:none;margin-top:12px">Talk to a Specialist →</a>
+<section>
+  <h2 class="section-title">Knowledge Tools</h2>
+  <p class="section-sub">Learn first. Then build — with tools that respect your wallet.</p>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-icon">✍️</div>
+      <h3>AI Writer — $3.20/mo</h3>
+      <p>Draft, edit, and refine. From study notes to blog posts, Lucien helps you write with clarity.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>AI Chat — $4/mo</h3>
+      <p>Your study partner. Ask questions, explore concepts, get explanations tailored to your level.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗄️</div>
+      <h3>Data Vault — $1.40/mo</h3>
+      <p>Store your research, notes, and training data. Organized, searchable, always available.</p>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:1.5rem"><a href="products.html" class="btn btn-outline">View All Tools →</a></p>
+</section>
+
+<div class="cta-banner">
+  <h2>Knowledge should be free. Tools should be cheap.</h2>
+  <p>Every guide in our library is free. Every tool starts under $6. That's the serlf way.</p>
+  <a href="academy.html" class="btn">Begin Your Journey</a>
 </div>
 
 <footer>
-  <p>📚 serlf.info — part of the <a href="https://serlf.ca">serlf</a> ecosystem | <a href="https://github.com/eose-sre">Open Source</a> 🧭</p>
+  <p>&copy; 2026 serlf.info — Part of the <a href="https://serlf.ca">serlf ecosystem</a>. Knowledge led by Lucien.</p>
 </footer>
-
-</div>
 </body>
 </html>

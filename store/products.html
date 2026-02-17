@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Products — serlf.store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--navy3:#1a2235;--orange:#f59e0b;--amber:#d97706;--gold:#fbbf24;--text:#e5e7eb;--muted:#9ca3af;--white:#fff;--green:#10b981;--blue:#3b82f6}
+body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{color:var(--gold)}
+nav{background:var(--navy2);border-bottom:1px solid #1f2937;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;font-weight:800;color:var(--white)}.logo span{color:var(--orange)}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul a{color:var(--muted);font-size:.9rem;font-weight:500}nav ul a:hover{color:var(--orange)}
+.page-header{padding:3rem 2rem 2rem;max-width:1200px;margin:0 auto}
+.page-header h1{font-size:2.2rem;font-weight:800;color:var(--white)}
+.page-header p{color:var(--muted);margin-top:.5rem}
+.filters{display:flex;gap:.75rem;flex-wrap:wrap;padding:0 2rem 2rem;max-width:1200px;margin:0 auto}
+.filter-btn{padding:.5rem 1.25rem;border-radius:20px;border:1px solid #374151;background:transparent;color:var(--muted);font-size:.85rem;cursor:pointer;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--orange);color:var(--navy);border-color:var(--orange);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;padding:0 2rem 4rem;max-width:1200px;margin:0 auto}
+.card{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;overflow:hidden;transition:all .2s}
+.card:hover{border-color:var(--orange);transform:translateY(-3px)}
+.card-banner{height:140px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative}
+.card-banner.finance{background:linear-gradient(135deg,#1e3a5f,#0f172a)}
+.card-banner.ai{background:linear-gradient(135deg,#312e81,#0f172a)}
+.card-banner.data{background:linear-gradient(135deg,#064e3b,#0f172a)}
+.card-banner.design{background:linear-gradient(135deg,#7c2d12,#0f172a)}
+.card-banner.bot{background:linear-gradient(135deg,#4a1d96,#0f172a)}
+.card-banner.web{background:linear-gradient(135deg,#1e40af,#0f172a)}
+.card-banner.form{background:linear-gradient(135deg,#92400e,#0f172a)}
+.badge{position:absolute;top:.75rem;right:.75rem;background:var(--green);color:var(--navy);font-size:.7rem;font-weight:700;padding:.25rem .6rem;border-radius:12px;text-transform:uppercase}
+.card-body{padding:1.5rem}
+.card-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--orange);font-weight:700;margin-bottom:.5rem}
+.card-title{font-weight:700;color:var(--white);font-size:1.2rem;margin-bottom:.5rem}
+.card-desc{font-size:.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.5}
+.card-features{list-style:none;margin-bottom:1.25rem}
+.card-features li{font-size:.8rem;color:var(--muted);padding:.2rem 0}.card-features li::before{content:'✓ ';color:var(--green)}
+.card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid #1f2937}
+.card-price{font-weight:800;color:var(--gold);font-size:1.3rem}
+.btn-sm{padding:.5rem 1.25rem;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;background:var(--orange);color:var(--navy);transition:all .2s}
+.btn-sm:hover{background:var(--gold)}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid #1f2937}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.page-header h1{font-size:1.6rem}nav{flex-wrap:wrap;gap:.5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><a href="index.html" style="color:var(--white)">serlf<span>.store</span></a></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html" style="color:var(--orange)">Products</a></li>
+    <li><a href="templates.html">Templates</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="create.html">Create</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <h1>Digital Products Catalog</h1>
+  <p>AI-powered tools, datasets, and templates — download instantly, use forever.</p>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active">All Products</button>
+  <button class="filter-btn">Finance</button>
+  <button class="filter-btn">AI Models</button>
+  <button class="filter-btn">Datasets</button>
+  <button class="filter-btn">Design</button>
+  <button class="filter-btn">Bots</button>
+  <button class="filter-btn">Web</button>
+  <button class="filter-btn">Forms</button>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-banner finance">🏦<span class="badge">Popular</span></div>
+    <div class="card-body">
+      <div class="card-tag">Finance · Token Management</div>
+      <div class="card-title">Token Bank</div>
+      <div class="card-desc">Complete token management system with minting, governance tools, analytics dashboards, and audit trails.</div>
+      <ul class="card-features">
+        <li>Token minting & burning controls</li>
+        <li>Governance voting dashboard</li>
+        <li>Real-time analytics & charts</li>
+        <li>Export-ready audit logs</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$2.00</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-banner ai">🧠<span class="badge">Top Rated</span></div>
+    <div class="card-body">
+      <div class="card-tag">AI · Model Templates</div>
+      <div class="card-title">AI Garage</div>
+      <div class="card-desc">Pre-configured AI model templates — fine-tuning configs, prompt libraries, inference pipelines ready to deploy.</div>
+      <ul class="card-features">
+        <li>12 model configuration templates</li>
+        <li>Prompt engineering library</li>
+        <li>Fine-tuning starter scripts</li>
+        <li>Inference pipeline blueprints</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$4.00</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-banner data">📊</div>
+    <div class="card-body">
+      <div class="card-tag">Data · Datasets</div>
+      <div class="card-title">Data Vault</div>
+      <div class="card-desc">Curated datasets for AI training and analytics — cleaned, labeled, and ready for ingestion.</div>
+      <ul class="card-features">
+        <li>Pre-cleaned training datasets</li>
+        <li>Multiple format exports (CSV, JSON, Parquet)</li>
+        <li>Data quality scoring</li>
+        <li>Version-controlled updates</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$1.40</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-banner design">🎨</div>
+    <div class="card-body">
+      <div class="card-tag">Design · Templates</div>
+      <div class="card-title">Design Studio</div>
+      <div class="card-desc">Professional design templates — UI kits, brand assets, social media packs, presentation decks.</div>
+      <ul class="card-features">
+        <li>UI component library</li>
+        <li>Brand identity starter kit</li>
+        <li>Social media template pack</li>
+        <li>Pitch deck templates</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$2.60</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-banner bot">🤖<span class="badge">New</span></div>
+    <div class="card-body">
+      <div class="card-tag">Bots · Automation</div>
+      <div class="card-title">Bot Factory</div>
+      <div class="card-desc">Deploy-ready bot templates — chatbots, automation agents, Discord/Slack integrations, workflow bots.</div>
+      <ul class="card-features">
+        <li>8 chatbot personality templates</li>
+        <li>Discord & Slack integrations</li>
+        <li>Workflow automation scripts</li>
+        <li>Custom command builder</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$3.00</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-banner web">🌐<span class="badge">Best Value</span></div>
+    <div class="card-body">
+      <div class="card-tag">Web · Site Templates</div>
+      <div class="card-title">Site Builder</div>
+      <div class="card-desc">Zero-dependency site templates — landing pages, portfolios, e-commerce storefronts, dashboards.</div>
+      <ul class="card-features">
+        <li>6 responsive landing pages</li>
+        <li>Portfolio & showcase layouts</li>
+        <li>E-commerce storefront template</li>
+        <li>Admin dashboard UI</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$1.00</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-banner form">📝</div>
+    <div class="card-body">
+      <div class="card-tag">Forms · Workflows</div>
+      <div class="card-title">Form Flow</div>
+      <div class="card-desc">Smart form templates with conditional logic, multi-step flows, validation, and data export.</div>
+      <ul class="card-features">
+        <li>Multi-step form builder</li>
+        <li>Conditional logic engine</li>
+        <li>Real-time validation</li>
+        <li>CSV/JSON data export</li>
+      </ul>
+      <div class="card-footer">
+        <span class="card-price">$5.00</span>
+        <button class="btn-sm">Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 serlf.store — Community-governed digital marketplace. Part of the <a href="https://serlf.ca">serlf ecosystem</a>.</p>
+</footer>
+</body>
+</html>

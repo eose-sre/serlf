@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.info — Sign Up</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.signup-container{max-width:440px;width:90%;padding:48px 36px;background:#111827;border-radius:16px;border:1px solid #1e293b;box-shadow:0 0 60px rgba(255,179,0,.08)}
+.logo{font-size:2rem;font-weight:800;color:#ffb300;text-align:center;margin-bottom:8px}.logo .domain{color:#fff}
+.tagline{text-align:center;color:#94a3b8;margin-bottom:32px;font-size:.95rem}
+.hero{text-align:center;font-size:1.3rem;font-weight:600;margin-bottom:24px;color:#fff}.hero span{color:#ffb300}
+label{display:block;font-size:.85rem;color:#94a3b8;margin-bottom:6px;margin-top:16px}
+input{width:100%;padding:12px 16px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#fff;font-size:1rem;outline:none;transition:border .2s}input:focus{border-color:#ffb300}
+.pay-section{margin-top:24px;padding:20px;background:#0f172a;border-radius:12px;border:1px solid #1e293b;text-align:center}
+.pay-amount{font-size:2.5rem;font-weight:800;color:#ffb300}.pay-label{color:#94a3b8;font-size:.85rem;margin-top:4px}
+.btn{width:100%;padding:14px;background:#ffb300;color:#0a0e1a;font-size:1.1rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-top:24px;transition:all .2s}.btn:hover{background:#ffa000;transform:translateY(-1px)}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.login-link{text-align:center;margin-top:20px;color:#94a3b8;font-size:.9rem}.login-link a{color:#ffb300;text-decoration:none}
+.status{text-align:center;margin-top:16px;font-size:.9rem;min-height:24px}.status.error{color:#ef4444}.status.ok{color:#ffb300}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px;margin-bottom:8px}
+.feat{font-size:.8rem;color:#64748b;padding:6px 10px;background:#0f172a;border-radius:6px;text-align:center}
+</style>
+</head>
+<body>
+<div class="signup-container">
+  <div class="logo">serlf<span class="domain">.info</span></div>
+  <div class="tagline">Knowledge Base</div>
+  <div class="hero">Learn AI. Master AI. <span>$1.</span></div>
+  <form id="signupForm">
+    <label>Name</label><input type="text" id="name" placeholder="Your name" required>
+    <label>Email</label><input type="email" id="email" placeholder="learner@example.com" required>
+    <div class="pay-section"><div class="pay-amount">$1</div><div class="pay-label">One-time activation • Full access</div></div>
+    <div class="features">
+      <div class="feat">✍️ AI Writer</div><div class="feat">💬 AI Chat</div>
+      <div class="feat">📡 SEO Radar</div><div class="feat">🔧 AI Garage</div>
+    </div>
+    <button type="submit" class="btn" id="submitBtn">Pay $1 & Start Learning →</button>
+    <div class="status" id="status"></div>
+  </form>
+  <div class="login-link">Already have an account? <a href="login.html">Log in</a></div>
+</div>
+<script src="../shared/auth.js"></script><script src="../shared/stripe-flow.js"></script>
+<script>
+document.getElementById('signupForm').addEventListener('submit',async(e)=>{e.preventDefault();const btn=document.getElementById('submitBtn'),status=document.getElementById('status');btn.disabled=true;btn.textContent='Processing...';try{const name=document.getElementById('name').value,email=document.getElementById('email').value;await StripeFlow.processPayment({amount:1,email,name,domain:'info'});status.className='status ok';status.textContent='Payment confirmed!';await SerlfAuth.signup({email,name,domain:'info'});btn.textContent='Entering your marketplace...';setTimeout(()=>window.location.href='my-marketplace.html',1000);}catch(err){status.className='status error';status.textContent=err.message;btn.disabled=false;btn.textContent='Pay $1 & Start Learning →';}});
+</script>
+</body></html>

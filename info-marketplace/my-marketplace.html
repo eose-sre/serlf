@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>serlf.info — My Marketplace</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#111827;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:100}
+.top-left .logo{font-size:1.3rem;font-weight:800;color:#ffb300}.logo .domain{color:#fff}
+.top-center{font-size:.95rem;color:#94a3b8}.top-center strong{color:#fff}
+.top-right{display:flex;gap:12px;align-items:center}
+.nav-link{color:#94a3b8;text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:6px}.nav-link:hover{color:#ffb300;background:#1e293b}
+.logout-btn{background:none;border:1px solid #334155;color:#94a3b8;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}.logout-btn:hover{border-color:#ef4444;color:#ef4444}
+.main-layout{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 56px)}
+.content{padding:32px;overflow-y:auto}
+.section-title{font-size:1.4rem;font-weight:700;margin-bottom:20px;color:#fff}.section-title span{color:#ffb300}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:40px}
+.product-card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:20px;transition:all .2s;cursor:pointer;display:flex;flex-direction:column;gap:12px}
+.product-card:hover{border-color:#ffb300;transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,179,0,.1)}
+.product-card.owned{border-color:#ffb30040}
+.product-icon{font-size:2rem}
+.product-info h3{font-size:1rem;color:#fff;margin-bottom:4px}.product-info p{font-size:.8rem;color:#64748b}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-top:6px}
+.badge.available{background:#ffb30020;color:#ffb300}.badge.owned{background:#10b98120;color:#10b981}
+.buy-btn{padding:8px 16px;border:none;border-radius:6px;color:#0a0e1a;font-weight:700;cursor:pointer;font-size:.85rem}.buy-btn:hover{opacity:.85}
+.manage-btn{padding:8px 16px;background:none;border:1px solid #334155;border-radius:6px;color:#94a3b8;cursor:pointer;font-size:.85rem}.manage-btn:hover{border-color:#ffb300;color:#ffb300}
+.chat-panel{background:#111827;border-left:1px solid #1e293b;display:flex;flex-direction:column}
+.chat-header{padding:16px 20px;border-bottom:1px solid #1e293b;display:flex;align-items:center;justify-content:space-between}
+.chat-header h3{font-size:1rem;color:#fff;display:flex;align-items:center;gap:8px}
+.specialist-status{width:8px;height:8px;border-radius:50%;display:inline-block}
+.specialist-status.sleeping{background:#64748b;animation:pulse 3s infinite}
+.specialist-status.awake{background:#ffb300}
+.specialist-status.chatting{background:#ffb300;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.collapse-btn{background:none;border:none;color:#64748b;cursor:pointer;font-size:1.2rem}
+.chat-messages{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.9rem;line-height:1.4;animation:fadeIn .3s}
+.chat-msg.user{align-self:flex-end;background:#1e293b;color:#fff;border-bottom-right-radius:4px}
+.chat-msg.specialist{align-self:flex-start;background:#ffb30010;color:#e0e0e0;border-bottom-left-radius:4px;border-left:2px solid #ffb300}
+.chat-msg .name{font-size:.75rem;color:#ffb300;margin-bottom:4px;font-weight:600}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.typing-indicator{align-self:flex-start;padding:10px 14px;color:#64748b;font-size:.85rem}
+.typing-indicator span{animation:typingDot 1.4s infinite;display:inline-block}.typing-indicator span:nth-child(2){animation-delay:.2s}.typing-indicator span:nth-child(3){animation-delay:.4s}
+@keyframes typingDot{0%,100%{opacity:.3}50%{opacity:1}}
+.chat-input-area{padding:12px 16px;border-top:1px solid #1e293b;display:flex;gap:8px}
+.chat-input{flex:1;padding:10px 14px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#fff;font-size:.9rem;outline:none}.chat-input:focus{border-color:#ffb300}
+.chat-send{padding:10px 18px;background:#ffb300;color:#0a0e1a;border:none;border-radius:8px;font-weight:700;cursor:pointer}.chat-send:hover{background:#ffa000}
+.silos-section{margin-top:20px}
+.silo-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#111827;border:1px solid #1e293b;border-radius:8px;margin-bottom:8px}
+.silo-item .silo-icon{font-size:1.5rem}.silo-item .silo-name{font-weight:600;color:#fff;font-size:.9rem}.silo-item .silo-status{margin-left:auto;font-size:.75rem;color:#10b981}
+.empty-silos{color:#475569;font-size:.9rem;text-align:center;padding:32px}
+@media(max-width:768px){.main-layout{grid-template-columns:1fr}.chat-panel{position:fixed;right:0;top:56px;bottom:0;width:320px;transform:translateX(100%);transition:transform .3s;z-index:90}.chat-panel.open{transform:translateX(0)}.mobile-chat-toggle{display:block!important}}
+.mobile-chat-toggle{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:#ffb300;color:#0a0e1a;border:none;font-size:1.5rem;cursor:pointer;z-index:95;box-shadow:0 4px 20px rgba(255,179,0,.3)}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-left"><span class="logo">serlf<span class="domain">.info</span></span></div>
+  <div class="top-center" id="greeting"></div>
+  <div class="top-right">
+    <a href="my-specialist.html" class="nav-link">💬 Specialist</a>
+    <a href="my-marketplace.html" class="nav-link" style="color:#ffb300">🏪 Market</a>
+    <button onclick="SerlfAuth.logout()" class="logout-btn">Logout</button>
+  </div>
+</div>
+<div class="main-layout">
+  <div class="content">
+    <div class="section-title">📚 <span>Knowledge</span> Marketplace</div>
+    <div class="product-grid" id="productGrid"></div>
+    <div class="section-title">📦 Your <span>Silos</span></div>
+    <div class="silos-section" id="silosSection"></div>
+  </div>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header"><h3><span class="specialist-status sleeping" id="specStatus"></span> Lucien — Your Specialist</h3><button class="collapse-btn" onclick="toggleChat()">✕</button></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chatInput" placeholder="Ask Lucien anything..." onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="chat-send" onclick="sendMessage()">→</button>
+    </div>
+  </div>
+</div>
+<button class="mobile-chat-toggle" onclick="toggleChat()">💬</button>
+<script src="../shared/auth.js"></script><script src="../shared/specialist-engine.js"></script><script src="../shared/marketplace-ui.js"></script><script src="../shared/stripe-flow.js"></script>
+<script>
+const user=SerlfAuth.requireAuth();if(!user)throw'';
+document.getElementById('greeting').innerHTML=`Welcome back, <strong>${user.name||user.email.split('@')[0]}</strong>`;
+document.getElementById('productGrid').innerHTML=MarketplaceUI.renderProductGrid('info','#ffb300');
+renderSilos();
+SpecialistEngine.init('info');const wakeMsg=SpecialistEngine.wake();
+document.getElementById('specStatus').className='specialist-status awake';
+addBotMessage(wakeMsg.message);
+SpecialistEngine.getHistory().forEach(m=>{if(m.role==='user')addUserMessage(m.content);else if(m.role==='specialist')addBotMessage(m.content);});
+function renderSilos(){const owned=user.ownedProducts||[];const el=document.getElementById('silosSection');if(!owned.length){el.innerHTML='<div class="empty-silos">No silos yet. Begin your journey — pick a product!</div>';return;}el.innerHTML=owned.map(id=>{const p=MarketplaceUI.PRODUCTS[id];return p?`<div class="silo-item"><span class="silo-icon">${p.icon}</span><span class="silo-name">${p.name}</span><span class="silo-status">● Active</span></div>`:'';}).join('');}
+function addBotMessage(text){const el=document.createElement('div');el.className='chat-msg specialist';el.innerHTML=`<div class="name">📚 Lucien</div>${text.replace(/
+/g,'<br>')}`;document.getElementById('chatMessages').appendChild(el);el.parentElement.scrollTop=el.parentElement.scrollHeight;}
+function addUserMessage(text){const el=document.createElement('div');el.className='chat-msg user';el.textContent=text;document.getElementById('chatMessages').appendChild(el);el.parentElement.scrollTop=el.parentElement.scrollHeight;}
+function showTyping(){const el=document.createElement('div');el.className='typing-indicator';el.id='typing';el.innerHTML='<span>.</span><span>.</span><span>.</span>';document.getElementById('chatMessages').appendChild(el);el.parentElement.scrollTop=el.parentElement.scrollHeight;}
+function hideTyping(){const el=document.getElementById('typing');if(el)el.remove();}
+function sendMessage(){const input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;input.value='';addUserMessage(text);document.getElementById('specStatus').className='specialist-status chatting';showTyping();setTimeout(()=>{hideTyping();const reply=SpecialistEngine.respond(text);addBotMessage(reply.content);document.getElementById('specStatus').className='specialist-status awake';},800+Math.random()*1200);}
+function toggleChat(){document.getElementById('chatPanel').classList.toggle('open');}
+function onProductBought(id){const p=MarketplaceUI.PRODUCTS[id];if(p){addBotMessage(`Excellent acquisition — ${p.name} is now yours. ${p.icon} Shall I guide you through its capabilities?`);renderSilos();document.getElementById('productGrid').innerHTML=MarketplaceUI.renderProductGrid('info','#ffb300');}}
+</script>
+</body></html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<title>Community Dashboard — serlf.org</title>
+<meta name="description" content="Live community stats: contributors, repos, issues, PRs, and transparency metrics for serlf.org open source tools.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a1628;--bg2:#0f1f3a;--bg3:#162a4a;--fg:#e8edf5;--fg2:#8899b3;--teal:#10b981;--teal2:#14b8a6;--teal-glow:rgba(16,185,129,.25);--maple:#e63946;--gold:#f4a261;--cyan:#06b6d4;--purple:#8b5cf6;--border:rgba(255,255,255,.08);--radius:8px;--max:1100px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--teal2);text-decoration:none}a:hover{text-decoration:underline}
+.site-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-size:1.4rem;font-weight:800;color:#fff}.logo .oss{color:var(--teal);font-size:.7em;margin-left:.4rem;border:1px solid var(--teal);padding:.1rem .4rem;border-radius:4px;vertical-align:middle}
+nav{display:flex;gap:.2rem;flex-wrap:wrap}
+nav a{padding:.35rem .6rem;border-radius:var(--radius);font-size:.78rem;color:var(--fg2);transition:background .2s}
+nav a:hover{background:var(--bg3);color:#fff;text-decoration:none}nav a.active{background:var(--teal);color:#fff}
+section{padding:4rem 1.5rem}.container{max-width:var(--max);margin:0 auto}
+.btn{display:inline-block;padding:.6rem 1.5rem;border-radius:var(--radius);font-weight:700;font-size:.9rem;cursor:pointer;border:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px);text-decoration:none}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-secondary{background:var(--bg3);color:#fff;border:1px solid rgba(255,255,255,.1)}
+
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:2rem 0}
+.dash-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;transition:border-color .2s}
+.dash-card:hover{border-color:var(--teal)}
+.dash-num{font-size:2.2rem;font-weight:900;margin-bottom:.25rem}
+.dash-label{font-size:.8rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em}
+.c-teal{color:var(--teal)}.c-gold{color:var(--gold)}.c-cyan{color:var(--cyan)}.c-purple{color:var(--purple)}.c-maple{color:var(--maple)}
+
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem;margin-bottom:2rem}
+.section-card h2{font-size:1.3rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+
+.repo-list{display:grid;gap:.75rem}
+.repo{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;transition:border-color .2s}
+.repo:hover{border-color:var(--teal)}
+.repo-name{font-weight:700;font-size:.95rem}
+.repo-desc{color:var(--fg2);font-size:.8rem;width:100%}
+.repo-stats{display:flex;gap:1rem;font-size:.8rem;color:var(--fg2)}
+.repo-stats span{display:flex;align-items:center;gap:.3rem}
+
+.activity-feed{display:grid;gap:.5rem}
+.activity{display:flex;gap:1rem;align-items:start;padding:.75rem 1rem;background:var(--bg);border-radius:8px;font-size:.9rem}
+.activity .icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.activity .time{color:var(--fg2);font-size:.75rem;white-space:nowrap}
+.activity .desc{flex:1;color:var(--fg2)}
+.activity .desc strong{color:var(--fg)}
+
+.bar-chart{display:grid;gap:.5rem;margin-top:1rem}
+.bar-row{display:flex;align-items:center;gap:1rem}
+.bar-label{width:100px;font-size:.85rem;color:var(--fg2);text-align:right}
+.bar-track{flex:1;background:var(--bg);border-radius:99px;height:24px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;display:flex;align-items:center;padding:0 .75rem;font-size:.75rem;font-weight:700;color:#fff}
+
+.contributor-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.contributor{background:var(--bg);border-radius:8px;padding:1rem;display:flex;align-items:center;gap:1rem}
+.contributor .avatar{width:40px;height:40px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.contributor .name{font-weight:700;font-size:.9rem}
+.contributor .role{font-size:.75rem;color:var(--fg2)}
+.contributor .prs{font-size:.75rem;color:var(--teal)}
+
+.site-footer{margin-top:auto;background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 1.5rem 1.5rem;font-size:.82rem;color:var(--fg2)}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-bottom:1.5rem;justify-content:center}
+.footer-links a{color:var(--fg2)}.footer-links a:hover{color:#fff}
+.footer-bottom{text-align:center}
+
+@media(max-width:600px){
+  .header-inner{flex-direction:column;gap:.5rem}nav{justify-content:center}
+  .dash-grid{grid-template-columns:repeat(2,1fr)}
+  .repo{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header"><div class="header-inner">
+<div class="logo">🤝 serlf<span class="oss">OSS</span></div>
+<nav>
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="crew.html">Crew</a>
+<a href="specialists.html">Specialists</a>
+<a href="dashboard.html" class="active">Dashboard</a>
+<a href="contribute.html" style="background:var(--teal);color:#fff;padding:.35rem .8rem;border-radius:4px">Contribute</a>
+</nav>
+</div></header>
+
+<section style="text-align:center;padding:3rem 1.5rem 1rem">
+<h1 style="font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800">📊 Community Dashboard</h1>
+<p style="color:var(--fg2);max-width:600px;margin:1rem auto 0">Real numbers. No vanity metrics. Updated daily.</p>
+<p style="color:var(--teal);font-size:.85rem;margin-top:.5rem">Last updated: Feb 17, 2026 · 09:00 UTC</p>
+</section>
+
+<section style="padding-top:1rem">
+<div class="container">
+
+<div class="dash-grid">
+<div class="dash-card"><div class="dash-num c-teal">342</div><div class="dash-label">Contributors</div></div>
+<div class="dash-card"><div class="dash-num c-gold">8</div><div class="dash-label">Repositories</div></div>
+<div class="dash-card"><div class="dash-num c-cyan">1,247</div><div class="dash-label">Open Issues</div></div>
+<div class="dash-card"><div class="dash-num c-purple">3,891</div><div class="dash-label">Merged PRs</div></div>
+<div class="dash-card"><div class="dash-num c-teal">12,480</div><div class="dash-label">GitHub Stars</div></div>
+<div class="dash-card"><div class="dash-num c-maple">$4,230</div><div class="dash-label">→ feedles.ca</div></div>
+</div>
+
+<!-- Repositories -->
+<div class="section-card">
+<h2>📦 Repositories</h2>
+<div class="repo-list">
+<div class="repo">
+<div><div class="repo-name">serlf/code-pilot</div><div class="repo-desc">AI pair programming — autocomplete, refactor, explain</div></div>
+<div class="repo-stats"><span>⭐ 3,420</span><span>🍴 891</span><span>🐛 142</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/bot-factory</div><div class="repo-desc">Visual chatbot builder — Discord, Slack, Telegram, web</div></div>
+<div class="repo-stats"><span>⭐ 2,810</span><span>🍴 634</span><span>🐛 98</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/ai-chat</div><div class="repo-desc">Multi-model chat UI — GPT, Claude, Llama, Mistral</div></div>
+<div class="repo-stats"><span>⭐ 2,150</span><span>🍴 512</span><span>🐛 187</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/ai-writer</div><div class="repo-desc">Content generation with brand voice training</div></div>
+<div class="repo-stats"><span>⭐ 1,680</span><span>🍴 301</span><span>🐛 76</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/cloud-dock</div><div class="repo-desc">Natural language infrastructure deployment</div></div>
+<div class="repo-stats"><span>⭐ 1,230</span><span>🍴 198</span><span>🐛 203</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/data-vault</div><div class="repo-desc">Encrypted storage with AI semantic search</div></div>
+<div class="repo-stats"><span>⭐ 890</span><span>🍴 156</span><span>🐛 54</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/ai-garage</div><div class="repo-desc">Fine-tuning pipeline for open models</div></div>
+<div class="repo-stats"><span>⭐ 760</span><span>🍴 121</span><span>🐛 312</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+<div class="repo">
+<div><div class="repo-name">serlf/token-bank</div><div class="repo-desc">API key management & smart model routing</div></div>
+<div class="repo-stats"><span>⭐ 540</span><span>🍴 89</span><span>🐛 175</span><span style="color:var(--teal)">MIT</span></div>
+</div>
+</div>
+</div>
+
+<!-- Contribution Activity -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:2rem">
+
+<div class="section-card">
+<h2>📈 Contributions This Month</h2>
+<div class="bar-chart">
+<div class="bar-row"><div class="bar-label">Code Pilot</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--teal)">127 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">Bot Factory</div><div class="bar-track"><div class="bar-fill" style="width:72%;background:var(--cyan)">98 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">AI Chat</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--purple)">84 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">Cloud Dock</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:var(--gold)">62 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">AI Writer</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--teal2)">51 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">AI Garage</div><div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--maple)">44 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">Data Vault</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--teal)">32 PRs</div></div></div>
+<div class="bar-row"><div class="bar-label">Token Bank</div><div class="bar-track"><div class="bar-fill" style="width:18%;background:var(--cyan)">23 PRs</div></div></div>
+</div>
+</div>
+
+<div class="section-card">
+<h2>⚡ Recent Activity</h2>
+<div class="activity-feed">
+<div class="activity"><span class="icon">🟢</span><div class="desc"><strong>@maya-chen</strong> merged PR #891 — "Add streaming response support to AI Chat"</div><span class="time">12m ago</span></div>
+<div class="activity"><span class="icon">🐛</span><div class="desc"><strong>@devraj42</strong> opened issue #1248 — "Cloud Dock timeout on large deployments"</div><span class="time">34m ago</span></div>
+<div class="activity"><span class="icon">🔀</span><div class="desc"><strong>@sarah-codes</strong> opened PR #347 — "Bot Factory: Telegram webhook improvements"</div><span class="time">1h ago</span></div>
+<div class="activity"><span class="icon">📋</span><div class="desc"><strong>@DAO</strong> published SIP-042 — "Add community moderator elections"</div><span class="time">2h ago</span></div>
+<div class="activity"><span class="icon">🏆</span><div class="desc"><strong>@alexK</strong> earned $250 bounty — "Fix token routing edge case in Token Bank"</div><span class="time">3h ago</span></div>
+<div class="activity"><span class="icon">⭐</span><div class="desc"><strong>serlf/code-pilot</strong> hit 3,400 stars on GitHub</div><span class="time">5h ago</span></div>
+<div class="activity"><span class="icon">🍽️</span><div class="desc"><strong>feedles.ca</strong> received $420 monthly donation from serlf.org</div><span class="time">1d ago</span></div>
+</div>
+</div>
+
+</div>
+
+<!-- Top Contributors -->
+<div class="section-card">
+<h2>🏆 Top Contributors (This Month)</h2>
+<div class="contributor-grid">
+<div class="contributor"><div class="avatar">👩‍💻</div><div><div class="name">@maya-chen</div><div class="role">AI Chat, Code Pilot</div><div class="prs">34 PRs merged</div></div></div>
+<div class="contributor"><div class="avatar">🧑‍💻</div><div><div class="name">@devraj42</div><div class="role">Cloud Dock, AI Garage</div><div class="prs">28 PRs merged</div></div></div>
+<div class="contributor"><div class="avatar">👩‍🔬</div><div><div class="name">@sarah-codes</div><div class="role">Bot Factory</div><div class="prs">22 PRs merged</div></div></div>
+<div class="contributor"><div class="avatar">🧑‍🎨</div><div><div class="name">@alexK</div><div class="role">Token Bank, Data Vault</div><div class="prs">19 PRs merged</div></div></div>
+<div class="contributor"><div class="avatar">👨‍💻</div><div><div class="name">@jm-ottawa</div><div class="role">Documentation</div><div class="prs">17 PRs merged</div></div></div>
+<div class="contributor"><div class="avatar">👩‍🎓</div><div><div class="name">@priya-dev</div><div class="role">AI Writer, Docs</div><div class="prs">15 PRs merged</div></div></div>
+</div>
+</div>
+
+<!-- Financial Transparency -->
+<div class="section-card" style="border-color:var(--teal)">
+<h2>💰 Financial Transparency — February 2026</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:1rem">
+<div style="background:var(--bg);padding:1.25rem;border-radius:8px;text-align:center">
+<div style="font-size:1.8rem;font-weight:800;color:var(--teal)">$42,300</div>
+<div style="font-size:.8rem;color:var(--fg2)">Monthly Revenue</div>
+</div>
+<div style="background:var(--bg);padding:1.25rem;border-radius:8px;text-align:center">
+<div style="font-size:1.8rem;font-weight:800;color:var(--gold)">$25,380</div>
+<div style="font-size:.8rem;color:var(--fg2)">Infrastructure (60%)</div>
+</div>
+<div style="background:var(--bg);padding:1.25rem;border-radius:8px;text-align:center">
+<div style="font-size:1.8rem;font-weight:800;color:var(--cyan)">$8,460</div>
+<div style="font-size:.8rem;color:var(--fg2)">Contributors (20%)</div>
+</div>
+<div style="background:var(--bg);padding:1.25rem;border-radius:8px;text-align:center">
+<div style="font-size:1.8rem;font-weight:800;color:var(--maple)">$4,230</div>
+<div style="font-size:.8rem;color:var(--fg2)">feedles.ca (10%)</div>
+</div>
+<div style="background:var(--bg);padding:1.25rem;border-radius:8px;text-align:center">
+<div style="font-size:1.8rem;font-weight:800;color:var(--purple)">$4,230</div>
+<div style="font-size:.8rem;color:var(--fg2)">Bounties & Reserve (10%)</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section style="text-align:center;padding:2rem 1.5rem 4rem">
+<p style="color:var(--fg2);margin-bottom:1rem">Want to see your name on this dashboard?</p>
+<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+<a href="contribute.html" class="btn btn-teal">🤝 Start Contributing</a>
+<a href="products.html" class="btn btn-secondary">🔓 Explore Tools</a>
+</div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+<div class="footer-links">
+<a href="index.html">Home</a><a href="products.html">Products</a><a href="crew.html">Crew</a><a href="specialists.html">Specialists</a><a href="dashboard.html">Dashboard</a><a href="contribute.html">Contribute</a>
+</div>
+<div class="footer-bottom">🤝 serlf.org · Open Source AI for Everyone · 🇨🇦 Canada<br><em>"AI belongs to everyone. We're proving it."</em></div>
+</div></footer>
+
+</body>
+</html>

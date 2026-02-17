@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self' shared/marketplace-cap.js;">
+    <title>Your Marketplace Cap</title>
+    <style>
+        body {
+            background-color: #0a0a2e;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        #userName {
+            font-weight: bold;
+        }
+        .chat-container {
+            flex-grow: 1;
+            width: 100%;
+            border: 1px solid #333;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: #1a1a3e;
+        }
+        .chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .cap-message {
+            background-color: #3a3a5e;
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #333;
+        }
+        #chatInput {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background-color: #2a2a4e;
+            color: white;
+            font-size: 1rem;
+        }
+        #chatInput:focus {
+            outline: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .stores-list {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #1a1a3e;
+            border-radius: 8px;
+        }
+        .stores-list h3 {
+            margin-top: 0;
+        }
+        #purchasedStores {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #purchasedStores li {
+            background-color: #3a3a5e;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        .free-indicator {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+        }
+         footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #aaa;
+        }
+        a {
+            color: #61dafb;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Marketplace Cap 🧢, <span id="userName">Friend</span></h1>
+            <p>Your Cap knows all the specials for your stores. Ask anything!</p>
+        </header>
+        
+        <div class="chat-container">
+            <div class="chat-box" id="chatBox">
+                <!-- Chat messages will be appended here -->
+            </div>
+            <div class="input-area">
+                <input type="text" id="chatInput" placeholder="Ask your Cap a question...">
+                <button id="sendButton">Send</button>
+            </div>
+        </div>
+
+        <div class="stores-list">
+            <h3>Your Joined Stores:</h3>
+            <ul id="purchasedStores">
+                <!-- Purchased stores will be listed here -->
+            </ul>
+        </div>
+
+        <div class="free-indicator">
+            <p>💬 Free — Your Cap is always here for you</p>
+        </div>
+
+        <footer>
+            <p>Want deeper, more authoritative answers? <a href="ask-captain.html">Ask the Captain of Industry ⚓</a></p>
+            <p>🇨🇦</p>
+        </footer>
+    </div>
+
+    <script src="shared/marketplace-cap.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName') || 'Friend';
+            document.getElementById('userName').textContent = userName;
+            // More JS to handle chat and loading stores will go here
+        });
+    </script>
+</body>
+</html>

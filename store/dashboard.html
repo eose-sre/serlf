@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard — serlf.store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--navy3:#1a2235;--orange:#f59e0b;--amber:#d97706;--gold:#fbbf24;--text:#e5e7eb;--muted:#9ca3af;--white:#fff;--green:#10b981;--red:#ef4444;--blue:#3b82f6}
+body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{color:var(--gold)}
+nav{background:var(--navy2);border-bottom:1px solid #1f2937;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;font-weight:800;color:var(--white)}.logo span{color:var(--orange)}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul a{color:var(--muted);font-size:.9rem;font-weight:500}nav ul a:hover{color:var(--orange)}
+.dash{max-width:1200px;margin:0 auto;padding:2rem}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.dash-header h1{font-size:1.8rem;font-weight:800;color:var(--white)}
+.dash-header .user-badge{background:var(--navy2);border:1px solid #374151;border-radius:10px;padding:.5rem 1.25rem;display:flex;align-items:center;gap:.75rem}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:.9rem}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;padding:1.5rem}
+.stat-card .label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+.stat-card .value{font-size:1.8rem;font-weight:800;color:var(--white)}
+.stat-card .change{font-size:.8rem;margin-top:.25rem}
+.stat-card .change.up{color:var(--green)}
+.stat-card .change.down{color:var(--red)}
+.panel{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;margin-bottom:1.5rem;overflow:hidden}
+.panel-header{padding:1.25rem 1.5rem;border-bottom:1px solid #1f2937;display:flex;justify-content:space-between;align-items:center}
+.panel-header h2{font-size:1.1rem;font-weight:700;color:var(--white)}
+.panel-header a{font-size:.85rem}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:.75rem 1.5rem;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);border-bottom:1px solid #1f2937}
+td{padding:.75rem 1.5rem;font-size:.9rem;border-bottom:1px solid #1f2937}
+tr:last-child td{border-bottom:none}
+.status{font-size:.75rem;padding:.2rem .6rem;border-radius:8px;font-weight:600}
+.status.complete{background:rgba(16,185,129,.15);color:var(--green)}
+.status.pending{background:rgba(245,158,11,.15);color:var(--orange)}
+.status.active{background:rgba(59,130,246,.15);color:var(--blue)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.dl-item{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid #1f2937}
+.dl-item:last-child{border-bottom:none}
+.dl-info{display:flex;align-items:center;gap:.75rem}
+.dl-icon{font-size:1.5rem}
+.dl-name{font-weight:600;color:var(--white);font-size:.9rem}
+.dl-date{font-size:.75rem;color:var(--muted)}
+.btn-sm{padding:.4rem 1rem;border-radius:6px;font-weight:600;font-size:.8rem;cursor:pointer;border:none;background:var(--navy3);color:var(--muted);transition:all .2s}
+.btn-sm:hover{background:var(--orange);color:var(--navy)}
+.chart-placeholder{height:180px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding:1.5rem}
+.bar{width:32px;border-radius:4px 4px 0 0;background:var(--orange);opacity:.7;transition:all .2s}
+.bar:hover{opacity:1}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid #1f2937}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}nav{flex-wrap:wrap;gap:.5rem}}
+@media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><a href="index.html" style="color:var(--white)">serlf<span>.store</span></a></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="templates.html">Templates</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html" style="color:var(--orange)">Dashboard</a></li>
+    <li><a href="create.html">Create</a></li>
+  </ul>
+</nav>
+
+<div class="dash">
+  <div class="dash-header">
+    <h1>Your Dashboard</h1>
+    <div class="user-badge">
+      <div class="avatar">A</div>
+      <div><div style="font-weight:600;color:var(--white);font-size:.9rem">Alex Creator</div><div style="font-size:.75rem;color:var(--muted)">Creator & Buyer</div></div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="label">Total Earnings</div>
+      <div class="value" style="color:var(--green)">$247.80</div>
+      <div class="change up">↑ 18% this month</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Downloads Sold</div>
+      <div class="value">142</div>
+      <div class="change up">↑ 24 this week</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Products Listed</div>
+      <div class="value">5</div>
+      <div class="change">2 active, 3 in review</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Purchases</div>
+      <div class="value">12</div>
+      <div class="change">3 new this month</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header">
+        <h2>📈 Sales This Month</h2>
+      </div>
+      <div class="chart-placeholder">
+        <div class="bar" style="height:40%"></div>
+        <div class="bar" style="height:55%"></div>
+        <div class="bar" style="height:35%"></div>
+        <div class="bar" style="height:70%"></div>
+        <div class="bar" style="height:90%"></div>
+        <div class="bar" style="height:60%"></div>
+        <div class="bar" style="height:80%"></div>
+        <div class="bar" style="height:45%"></div>
+        <div class="bar" style="height:65%"></div>
+        <div class="bar" style="height:95%"></div>
+        <div class="bar" style="height:75%"></div>
+        <div class="bar" style="height:50%"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h2>📥 Recent Downloads</h2>
+        <a href="products.html">Browse more →</a>
+      </div>
+      <div class="dl-item">
+        <div class="dl-info"><span class="dl-icon">🤖</span><div><div class="dl-name">Bot Factory</div><div class="dl-date">Feb 16, 2026</div></div></div>
+        <button class="btn-sm">Re-download</button>
+      </div>
+      <div class="dl-item">
+        <div class="dl-info"><span class="dl-icon">🧠</span><div><div class="dl-name">AI Garage</div><div class="dl-date">Feb 14, 2026</div></div></div>
+        <button class="btn-sm">Re-download</button>
+      </div>
+      <div class="dl-item">
+        <div class="dl-info"><span class="dl-icon">🌐</span><div><div class="dl-name">Site Builder</div><div class="dl-date">Feb 10, 2026</div></div></div>
+        <button class="btn-sm">Re-download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h2>🛒 Your Listings</h2>
+      <a href="create.html">+ New Upload</a>
+    </div>
+    <table>
+      <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Sales</th><th>Revenue</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:var(--white)">Custom GPT Prompt Pack</td><td>AI Templates</td><td>$3.50</td><td>68</td><td style="color:var(--green)">$238.00</td><td><span class="status active">Active</span></td></tr>
+        <tr><td style="font-weight:600;color:var(--white)">React Dashboard Kit</td><td>Site Templates</td><td>$2.00</td><td>4</td><td style="color:var(--green)">$8.00</td><td><span class="status active">Active</span></td></tr>
+        <tr><td style="font-weight:600;color:var(--white)">E-commerce Form Pack</td><td>Form Templates</td><td>$1.80</td><td>—</td><td>—</td><td><span class="status pending">In Review</span></td></tr>
+        <tr><td style="font-weight:600;color:var(--white)">Brand Color Generator</td><td>Design Tools</td><td>$1.50</td><td>—</td><td>—</td><td><span class="status pending">In Review</span></td></tr>
+        <tr><td style="font-weight:600;color:var(--white)">Slack Bot Starter</td><td>Bot Templates</td><td>$2.50</td><td>—</td><td>—</td><td><span class="status pending">In Review</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h2>💰 Recent Transactions</h2>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Type</th><th>Item</th><th>Amount</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Feb 16</td><td style="color:var(--green)">Sale</td><td>Custom GPT Prompt Pack</td><td style="color:var(--green)">+$3.50</td><td><span class="status complete">Complete</span></td></tr>
+        <tr><td>Feb 16</td><td style="color:var(--green)">Sale</td><td>Custom GPT Prompt Pack</td><td style="color:var(--green)">+$3.50</td><td><span class="status complete">Complete</span></td></tr>
+        <tr><td>Feb 15</td><td style="color:var(--red)">Purchase</td><td>Bot Factory</td><td style="color:var(--red)">-$3.00</td><td><span class="status complete">Complete</span></td></tr>
+        <tr><td>Feb 14</td><td style="color:var(--green)">Sale</td><td>React Dashboard Kit</td><td style="color:var(--green)">+$2.00</td><td><span class="status complete">Complete</span></td></tr>
+        <tr><td>Feb 14</td><td style="color:var(--red)">Purchase</td><td>AI Garage</td><td style="color:var(--red)">-$4.00</td><td><span class="status complete">Complete</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 serlf.store — Community-governed digital marketplace. Part of the <a href="https://serlf.ca">serlf ecosystem</a>.</p>
+</footer>
+</body>
+</html>

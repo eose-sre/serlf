@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>serlf.store — My Marketplace</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy-light:#121828;--navy-mid:#1a2138;--orange:#e8922a;--orange-light:#f5a623;--amber:#ffbf47;--green:#34d399;--text:#e0e0e0;--text-dim:#8890a0;--radius:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);min-height:100vh}
+/* Top bar */
+.topbar{background:var(--navy-light);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:20px;color:#fff;font-weight:700}
+.topbar h1 span{color:var(--orange)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-right a{color:var(--text-dim);text-decoration:none;font-size:14px;transition:.2s}
+.topbar-right a:hover{color:var(--orange)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff}
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr 340px;gap:0;min-height:calc(100vh - 60px)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{border-top:1px solid rgba(255,255,255,.06);border-left:none}}
+/* Main */
+.main{padding:28px}
+.section-title{font-size:18px;font-weight:600;color:#fff;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.section-title .badge{background:var(--orange);color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+/* Products grid */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:32px}
+.product-card{background:var(--navy-light);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:20px;transition:.2s;cursor:pointer;position:relative}
+.product-card:hover{border-color:var(--orange);transform:translateY(-2px)}
+.product-icon{font-size:28px;margin-bottom:10px}
+.product-name{font-size:15px;font-weight:600;color:#fff;margin-bottom:4px}
+.product-desc{font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:12px}
+.product-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.product-dl{color:var(--text-dim)}
+.product-price{color:var(--amber);font-weight:600}
+.download-btn{position:absolute;top:14px;right:14px;background:rgba(232,146,42,.15);color:var(--orange);border:none;width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+/* Earnings */
+.earnings{background:var(--navy-light);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+.earnings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.earn-stat{text-align:center}
+.earn-stat .val{font-size:24px;font-weight:700;color:#fff}
+.earn-stat .val.orange{color:var(--orange)}
+.earn-stat .val.green{color:var(--green)}
+.earn-stat .lbl{font-size:12px;color:var(--text-dim);margin-top:4px}
+/* Sidebar */
+.sidebar{background:var(--navy-light);border-left:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column}
+.sidebar-header{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar-header h3{font-size:15px;color:#fff;font-weight:600;display:flex;align-items:center;gap:8px}
+.sidebar-header h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.chat-body{flex:1;padding:16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.5}
+.msg.bot{background:var(--navy-mid);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.user{background:var(--orange);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg .sender{font-size:11px;color:var(--text-dim);margin-bottom:4px;font-weight:600}
+.chat-input{padding:14px 16px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:10px}
+.chat-input input{flex:1;padding:10px 14px;background:var(--navy);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-size:14px;outline:none}
+.chat-input input:focus{border-color:var(--orange)}
+.chat-input button{padding:10px 16px;background:var(--orange);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
+.expand-link{text-align:center;padding:8px;font-size:12px}
+.expand-link a{color:var(--orange);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>serlf<span>.store</span></h1>
+  <div class="topbar-right">
+    <a href="my-specialist.html">My Specialist</a>
+    <a href="#">Settings</a>
+    <div class="avatar">U</div>
+  </div>
+</div>
+<div class="layout">
+  <div class="main">
+    <!-- Earnings Panel -->
+    <div class="earnings">
+      <div class="section-title">Creator Earnings</div>
+      <div class="earnings-grid">
+        <div class="earn-stat"><div class="val orange">$247</div><div class="lbl">This Month</div></div>
+        <div class="earn-stat"><div class="val green">142</div><div class="lbl">Downloads</div></div>
+        <div class="earn-stat"><div class="val">12</div><div class="lbl">Active Listings</div></div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="section-title">Marketplace Products <span class="badge">7</span></div>
+    <div class="products" id="productsGrid"></div>
+  </div>
+
+  <!-- Sidebar Chat -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3><span class="dot"></span> User Specialist</h3>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="msg bot">
+        <div class="sender">DAO Specialist</div>
+        Welcome back! Your listings are performing well — 12 downloads today. Need help with anything?
+      </div>
+    </div>
+    <div class="expand-link"><a href="my-specialist.html">Open full chat →</a></div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Ask your specialist...">
+      <button onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { icon: '🏦', name: 'Token Bank', desc: 'Token management templates & smart contract starters', dl: '2.4k', price: 'Free–$9' },
+  { icon: '🤖', name: 'AI Garage', desc: 'Pre-trained models, prompt packs, AI workflow templates', dl: '3.1k', price: 'Free–$19' },
+  { icon: '🔒', name: 'Data Vault', desc: 'Encryption tools, backup scripts, data pipeline configs', dl: '1.8k', price: 'Free–$12' },
+  { icon: '🎨', name: 'Design Studio', desc: 'UI kits, icon sets, brand templates, Figma files', dl: '4.2k', price: 'Free–$15' },
+  { icon: '🏭', name: 'Bot Factory', desc: 'Bot templates, automation scripts, integration packs', dl: '2.7k', price: 'Free–$14' },
+  { icon: '🌐', name: 'Site Builder', desc: 'Landing pages, component libraries, full site templates', dl: '5.1k', price: 'Free–$25' },
+  { icon: '📋', name: 'Form Flow', desc: 'Form templates, survey builders, data collection kits', dl: '1.5k', price: 'Free–$8' },
+];
+
+const grid = document.getElementById('productsGrid');
+products.forEach(p => {
+  grid.innerHTML += `
+    <div class="product-card">
+      <button class="download-btn">↓</button>
+      <div class="product-icon">${p.icon}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-desc">${p.desc}</div>
+      <div class="product-meta">
+        <span class="product-dl">${p.dl} downloads</span>
+        <span class="product-price">${p.price}</span>
+      </div>
+    </div>`;
+});
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const body = document.getElementById('chatBody');
+  body.innerHTML += `<div class="msg user">${msg}</div>`;
+  input.value = '';
+  setTimeout(() => {
+    body.innerHTML += `<div class="msg bot"><div class="sender">DAO Specialist</div>I'll look into that for you. The marketplace is measured and fair — every creator gets a voice.</div>`;
+    body.scrollTop = body.scrollHeight;
+  }, 800);
+}
+document.getElementById('chatInput').addEventListener('keydown', e => { if(e.key==='Enter') sendChat(); });
+</script>
+<script src="../shared/auth.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://buy.stripe.com https://billing.stripe.com; frame-src https://buy.stripe.com">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Templates — serlf.store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a0e1a;--navy2:#111827;--navy3:#1a2235;--orange:#f59e0b;--amber:#d97706;--gold:#fbbf24;--text:#e5e7eb;--muted:#9ca3af;--white:#fff;--green:#10b981;--purple:#8b5cf6}
+body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{color:var(--gold)}
+nav{background:var(--navy2);border-bottom:1px solid #1f2937;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:1.5rem;font-weight:800;color:var(--white)}.logo span{color:var(--orange)}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul a{color:var(--muted);font-size:.9rem;font-weight:500}nav ul a:hover{color:var(--orange)}
+.page-header{padding:3rem 2rem 1rem;max-width:1200px;margin:0 auto}
+.page-header h1{font-size:2.2rem;font-weight:800;color:var(--white)}
+.page-header p{color:var(--muted);margin-top:.5rem}
+.tabs{display:flex;gap:0;padding:1.5rem 2rem;max-width:1200px;margin:0 auto;border-bottom:1px solid #1f2937}
+.tab{padding:.75rem 1.5rem;font-size:.9rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--orange);border-bottom-color:var(--orange)}
+.section{padding:2rem 2rem 1rem;max-width:1200px;margin:0 auto}
+.section h2{font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:.25rem;display:flex;align-items:center;gap:.5rem}
+.section p{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;padding-bottom:2rem}
+.tpl{background:var(--navy2);border:1px solid #1f2937;border-radius:12px;padding:1.5rem;transition:all .2s;cursor:pointer}
+.tpl:hover{border-color:var(--orange);transform:translateY(-2px)}
+.tpl-icon{font-size:2rem;margin-bottom:.75rem}
+.tpl-name{font-weight:700;color:var(--white);font-size:1rem;margin-bottom:.35rem}
+.tpl-desc{font-size:.8rem;color:var(--muted);margin-bottom:1rem;line-height:1.5}
+.tpl-meta{display:flex;justify-content:space-between;align-items:center}
+.tpl-price{font-weight:800;color:var(--gold)}
+.tpl-badge{font-size:.7rem;padding:.2rem .6rem;border-radius:10px;font-weight:600}
+.tpl-badge.bot{background:rgba(139,92,246,.15);color:var(--purple)}
+.tpl-badge.site{background:rgba(59,130,246,.15);color:#60a5fa}
+.tpl-badge.form{background:rgba(245,158,11,.15);color:var(--orange)}
+.tpl-badge.design{background:rgba(244,63,94,.15);color:#fb7185}
+.tpl-downloads{font-size:.75rem;color:var(--muted)}
+.bundle{background:linear-gradient(135deg,var(--navy2),var(--navy3));border:2px solid var(--amber);border-radius:16px;padding:2.5rem;max-width:1200px;margin:2rem auto;text-align:center}
+.bundle h3{font-size:1.5rem;color:var(--white);margin-bottom:.5rem}
+.bundle p{color:var(--muted);margin-bottom:1.5rem}
+.bundle-price{font-size:2rem;font-weight:800;color:var(--gold)}
+.bundle-price s{color:var(--muted);font-size:1.2rem;font-weight:400}
+.btn{display:inline-block;padding:.75rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;border:none;background:var(--orange);color:var(--navy);margin-top:1rem;transition:all .2s}
+.btn:hover{background:var(--gold)}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid #1f2937;margin-top:2rem}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.tabs{overflow-x:auto}.page-header h1{font-size:1.6rem}nav{flex-wrap:wrap;gap:.5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><a href="index.html" style="color:var(--white)">serlf<span>.store</span></a></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="templates.html" style="color:var(--orange)">Templates</a></li>
+    <li><a href="crew.html">Crew</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="create.html">Create</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <h1>Template Marketplace</h1>
+  <p>Production-ready templates for bots, sites, forms, and designs. Download, customize, deploy.</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active">All Templates</div>
+  <div class="tab">🤖 Bots</div>
+  <div class="tab">🌐 Sites</div>
+  <div class="tab">📝 Forms</div>
+  <div class="tab">🎨 Designs</div>
+</div>
+
+<div class="section">
+  <h2>🤖 Bot Templates</h2>
+  <p>From Bot Factory — deploy-ready chatbots and automation agents.</p>
+  <div class="grid">
+    <div class="tpl">
+      <div class="tpl-icon">💬</div>
+      <div class="tpl-name">Customer Support Bot</div>
+      <div class="tpl-desc">FAQ-trained chatbot with escalation logic, sentiment detection, and ticket creation.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge bot">Bot</span>
+        <span class="tpl-downloads">⬇ 420</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">📋</div>
+      <div class="tpl-name">Task Automation Agent</div>
+      <div class="tpl-desc">Workflow bot that monitors triggers, executes actions, and reports results via webhook.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge bot">Bot</span>
+        <span class="tpl-downloads">⬇ 310</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">🎮</div>
+      <div class="tpl-name">Discord Community Bot</div>
+      <div class="tpl-desc">Moderation, welcome messages, role assignment, polls, and mini-games for Discord servers.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge bot">Bot</span>
+        <span class="tpl-downloads">⬇ 580</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🌐 Site Templates</h2>
+  <p>From Site Builder — zero-dependency, responsive, ready to ship.</p>
+  <div class="grid">
+    <div class="tpl">
+      <div class="tpl-icon">🚀</div>
+      <div class="tpl-name">SaaS Landing Page</div>
+      <div class="tpl-desc">Hero, features, pricing, testimonials, CTA. Dark/light mode. Single HTML file.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge site">Site</span>
+        <span class="tpl-downloads">⬇ 890</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">🖼️</div>
+      <div class="tpl-name">Portfolio Showcase</div>
+      <div class="tpl-desc">Masonry grid portfolio with filtering, lightbox, and contact form. Great for creatives.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge site">Site</span>
+        <span class="tpl-downloads">⬇ 650</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">🛒</div>
+      <div class="tpl-name">Digital Storefront</div>
+      <div class="tpl-desc">Product grid, cart, checkout flow. Built for digital goods. Stripe-ready integration hooks.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge site">Site</span>
+        <span class="tpl-downloads">⬇ 720</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>📝 Form Templates</h2>
+  <p>From Form Flow — smart forms with logic, validation, and export.</p>
+  <div class="grid">
+    <div class="tpl">
+      <div class="tpl-icon">📊</div>
+      <div class="tpl-name">Survey Builder</div>
+      <div class="tpl-desc">Multi-step survey with branching logic, progress bar, and real-time analytics dashboard.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge form">Form</span>
+        <span class="tpl-downloads">⬇ 340</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">📝</div>
+      <div class="tpl-name">Application Form</div>
+      <div class="tpl-desc">Job/grant application with file upload, conditional sections, and reviewer dashboard.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge form">Form</span>
+        <span class="tpl-downloads">⬇ 280</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">🎟️</div>
+      <div class="tpl-name">Event Registration</div>
+      <div class="tpl-desc">RSVP form with ticket tiers, payment hooks, confirmation emails, and attendee list export.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge form">Form</span>
+        <span class="tpl-downloads">⬇ 190</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🎨 Design Templates</h2>
+  <p>From Design Studio — professional assets for brands and products.</p>
+  <div class="grid">
+    <div class="tpl">
+      <div class="tpl-icon">🎯</div>
+      <div class="tpl-name">Brand Identity Kit</div>
+      <div class="tpl-desc">Logo variations, color palette, typography guide, business card, and letterhead templates.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge design">Design</span>
+        <span class="tpl-downloads">⬇ 510</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">📱</div>
+      <div class="tpl-name">UI Component Library</div>
+      <div class="tpl-desc">Buttons, cards, modals, navbars, tables — dark and light variants. Copy-paste ready.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge design">Design</span>
+        <span class="tpl-downloads">⬇ 670</span>
+      </div>
+    </div>
+    <div class="tpl">
+      <div class="tpl-icon">📢</div>
+      <div class="tpl-name">Social Media Pack</div>
+      <div class="tpl-desc">Post templates, story layouts, banner sizes for Twitter, Instagram, LinkedIn, and YouTube.</div>
+      <div class="tpl-meta">
+        <span class="tpl-badge design">Design</span>
+        <span class="tpl-downloads">⬇ 430</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bundle" style="margin-left:2rem;margin-right:2rem">
+  <h3>🔥 Complete Template Bundle</h3>
+  <p>Get all templates from Bot Factory + Site Builder + Form Flow + Design Studio</p>
+  <div class="bundle-price"><s>$11.60</s> $8.99</div>
+  <br>
+  <button class="btn">Get the Bundle</button>
+</div>
+
+<footer>
+  <p>© 2026 serlf.store — Community-governed digital marketplace. Part of the <a href="https://serlf.ca">serlf ecosystem</a>.</p>
+</footer>
+</body>
+</html>
