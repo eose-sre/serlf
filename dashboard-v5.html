@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SERLF Admiral Fleet Control Dashboard v5 - Tetraban Edition</title>
+    <title>🎮 TETRABAN v6 - Enhanced Shapes & Detail</title>
     <style>
         * {
             margin: 0;
@@ -16,6 +16,7 @@
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #e2e8f0;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         
         .header {
@@ -30,192 +31,220 @@
         
         .header h1 {
             color: #60a5fa;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
         }
         
         .header .subtitle {
             color: #94a3b8;
-            font-size: 0.9rem;
-            margin-top: 0.25rem;
+            font-size: 1rem;
+            margin-top: 0.5rem;
         }
         
-        .nav-tabs {
-            display: flex;
-            background: rgba(30, 41, 59, 0.8);
-            border-bottom: 1px solid #475569;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        
-        .nav-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .nav-tab {
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
-            font-weight: 500;
-            position: relative;
-        }
-        
-        .nav-tab:hover {
-            background: rgba(59, 130, 246, 0.1);
-            color: #93c5fd;
-        }
-        
-        .nav-tab.active {
-            background: rgba(59, 130, 246, 0.2);
-            border-bottom-color: #3b82f6;
-            color: #60a5fa;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 2rem;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Tetraban Styles */
-        .tetraban-container {
+        .main-container {
             display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2rem;
-            height: 80vh;
+            grid-template-columns: 1fr 1fr 300px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            min-height: 90vh;
         }
         
-        .tetraban-board {
-            background: rgba(15, 23, 42, 0.8);
+        .panel {
+            background: rgba(30, 41, 59, 0.8);
             border: 2px solid #3b82f6;
-            border-radius: 12px;
-            padding: 1rem;
+            border-radius: 16px;
+            padding: 1.5rem;
             position: relative;
             overflow: hidden;
         }
         
+        .panel h2 {
+            color: #60a5fa;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+        }
+        
+        /* Enhanced Tetraban Styles */
+        .tetraban-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tetraban-board {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid #475569;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
         .tetraban-grid {
             width: 100%;
-            height: 100%;
+            height: 500px;
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             grid-template-rows: repeat(20, 1fr);
-            gap: 1px;
+            gap: 2px;
             background: #0f172a;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
         .tetraban-cell {
-            background: rgba(30, 41, 59, 0.3);
-            border: 1px solid rgba(75, 85, 99, 0.2);
+            background: rgba(75, 85, 99, 0.15);
+            border: 1px solid rgba(100, 116, 139, 0.05);
             transition: all 0.3s ease;
+            position: relative;
         }
         
-        .tetraban-cell.filled {
-            background: #3b82f6;
-            border-color: #60a5fa;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        /* Shape-specific styling */
+        .tetraban-cell.hotfix {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: 1px solid #f87171;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+        }
+        
+        .tetraban-cell.hotfix::before {
+            content: "🔥";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+        }
+        
+        .tetraban-cell.feature {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border: 1px solid #60a5fa;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+        }
+        
+        .tetraban-cell.feature::before {
+            content: "⭐";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+        }
+        
+        .tetraban-cell.integration {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border: 1px solid #a78bfa;
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
+        }
+        
+        .tetraban-cell.integration::before {
+            content: "🔗";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+        }
+        
+        .tetraban-cell.cleanup {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: 1px solid #34d399;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+        }
+        
+        .tetraban-cell.cleanup::before {
+            content: "🧹";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+        }
+        
+        .tetraban-cell.connect {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: 1px solid #fbbf24;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+        }
+        
+        .tetraban-cell.connect::before {
+            content: "⚡";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
         }
         
         .tetraban-cell.clearing {
-            animation: clearLine 0.5s ease-in-out;
+            animation: clearLine 1s ease-in-out;
         }
         
         @keyframes clearLine {
-            0% { background: #3b82f6; }
-            50% { background: #fbbf24; transform: scale(1.1); }
-            100% { background: transparent; transform: scale(1); }
+            0% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            25% { 
+                background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+                transform: scale(1.3);
+                opacity: 1;
+            }
+            50% { 
+                background: linear-gradient(135deg, #10b981, #059669) !important;
+                transform: scale(1.5);
+                opacity: 0.9;
+            }
+            75% { 
+                background: linear-gradient(135deg, #a78bfa, #8b5cf6) !important;
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% { 
+                background: transparent !important;
+                transform: scale(0.8);
+                opacity: 0;
+            }
         }
         
-        .tetraban-sidebar {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 12px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        .tetraban-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
         
-        .score-display {
-            text-align: center;
-        }
-        
-        .score-display .score {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        
-        .score-display .lines {
-            color: #94a3b8;
-            margin-top: 0.5rem;
-        }
-        
-        .next-piece {
-            background: rgba(15, 23, 42, 0.8);
+        .stat-box {
+            background: rgba(15, 23, 42, 0.6);
             border: 1px solid #475569;
             border-radius: 8px;
             padding: 1rem;
             text-align: center;
         }
         
-        .next-piece h3 {
-            color: #93c5fd;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 0.25rem;
         }
         
-        .piece-preview {
-            display: grid;
-            grid-template-columns: repeat(4, 20px);
-            grid-template-rows: repeat(4, 20px);
-            gap: 1px;
-            justify-content: center;
-            margin: 0.5rem 0;
-        }
-        
-        .piece-cell {
-            background: rgba(75, 85, 99, 0.3);
-            border-radius: 2px;
-        }
-        
-        .piece-cell.active {
-            background: #3b82f6;
-            box-shadow: 0 0 4px rgba(59, 130, 246, 0.6);
-        }
-        
-        .kanban-item {
-            background: rgba(59, 130, 246, 0.8);
-            border: 1px solid #60a5fa;
-            border-radius: 4px;
-            padding: 0.5rem;
-            margin: 0.25rem 0;
+        .stat-label {
             font-size: 0.8rem;
-            text-align: center;
-            color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            color: #94a3b8;
+            text-transform: uppercase;
         }
         
-        /* Changes Tab Styles */
+        /* Enhanced Changes (Bubble) Styles */
         .changes-container {
-            height: 80vh;
+            height: 100%;
             position: relative;
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 30%, #0f172a 100%);
             border-radius: 12px;
             overflow: hidden;
-            border: 2px solid #3b82f6;
         }
         
         .changes-ocean {
@@ -224,66 +253,140 @@
             left: 0;
             right: 0;
             height: 100%;
-            background: radial-gradient(ellipse at center bottom, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            background: radial-gradient(ellipse at center bottom, 
+                rgba(59, 130, 246, 0.15) 0%, 
+                rgba(16, 185, 129, 0.1) 40%,
+                transparent 80%);
         }
         
         .bubble {
             position: absolute;
             border-radius: 50%;
-            animation: riseUp 8s ease-in-out infinite;
             cursor: pointer;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
             font-weight: bold;
             text-align: center;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
             color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             transition: transform 0.3s ease;
+            animation: bubbleRise linear infinite;
+            overflow: hidden;
         }
         
         .bubble:hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
+            z-index: 100;
+        }
+        
+        .bubble .bubble-emoji {
+            font-size: 1.2em;
+            margin-bottom: 0.1rem;
+        }
+        
+        .bubble .bubble-text {
+            font-size: 0.7rem;
+            line-height: 1;
         }
         
         .bubble.small {
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, #10b981, #059669);
-            font-size: 0.7rem;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #34d399, #10b981, #059669);
+            box-shadow: 0 0 25px rgba(52, 211, 153, 0.6);
         }
         
         .bubble.medium {
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #3b82f6, #1d4ed8);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #60a5fa, #3b82f6, #1d4ed8);
+            box-shadow: 0 0 30px rgba(96, 165, 250, 0.7);
         }
         
         .bubble.large {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ef4444, #dc2626);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #f87171, #ef4444, #dc2626);
+            box-shadow: 0 0 35px rgba(248, 113, 113, 0.8);
         }
         
         .bubble.massive {
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, #8b5cf6, #7c3aed);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #a78bfa, #8b5cf6, #7c3aed);
+            box-shadow: 0 0 40px rgba(167, 139, 250, 0.9);
         }
         
-        @keyframes riseUp {
+        @keyframes bubbleRise {
             0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0.8;
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0.7;
             }
-            50% {
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(-100vh) rotate(360deg);
+                transform: translateY(-100vh) rotate(360deg) scale(1.3);
                 opacity: 0;
             }
+        }
+        
+        /* Task Detail Panel */
+        .detail-panel {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid #475569;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .task-queue {
+            margin-bottom: 2rem;
+        }
+        
+        .task-item {
+            background: rgba(30, 41, 59, 0.6);
+            border-left: 4px solid;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover {
+            background: rgba(30, 41, 59, 0.8);
+            transform: translateX(4px);
+        }
+        
+        .task-item.hotfix { border-left-color: #ef4444; }
+        .task-item.feature { border-left-color: #3b82f6; }
+        .task-item.integration { border-left-color: #8b5cf6; }
+        .task-item.cleanup { border-left-color: #10b981; }
+        .task-item.connect { border-left-color: #f59e0b; }
+        
+        .task-title {
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .task-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: between;
+            gap: 1rem;
         }
         
         .controls {
@@ -292,37 +395,41 @@
             right: 1rem;
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
         
         .btn {
-            padding: 0.5rem 1rem;
-            background: rgba(59, 130, 246, 0.8);
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(29, 78, 216, 0.8));
             border: 1px solid #60a5fa;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
         .btn:hover {
-            background: rgba(59, 130, 246, 1);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
         
-        /* Status indicators */
         .status-bar {
             position: absolute;
             bottom: 1rem;
             left: 1rem;
             right: 1rem;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid #475569;
             border-radius: 8px;
             padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(10px);
         }
         
         .status-item {
@@ -332,231 +439,249 @@
         }
         
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #10b981;
+            animation: pulse 2s ease-in-out infinite;
         }
         
         .status-dot.yellow { background: #fbbf24; }
         .status-dot.red { background: #ef4444; }
         .status-dot.purple { background: #8b5cf6; }
         
-        /* Other existing styles for compatibility */
-        .section {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid #475569;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
-        .section h3 {
-            color: #93c5fd;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+        /* Responsive design */
+        @media (max-width: 1400px) {
+            .main-container {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr auto;
+            }
+            
+            .detail-panel {
+                grid-column: 1 / -1;
+            }
         }
         
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tetraban-grid {
+                height: 400px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>⚓ SERLF Admiral Fleet Control v5 - Tetraban Edition</h1>
-        <p class="subtitle">🎮 Work flows like tetris • Changes bubble up • Novel Patterns solve riddles</p>
+        <h1>🎮 TETRABAN v6 - Enhanced Visual Detail</h1>
+        <p class="subtitle">🧭 Each shape tells a story • Every bubble has purpose • Full work visibility</p>
     </div>
     
-    <div class="nav-tabs">
-        <div class="nav-tab active" data-tab="tetraban">🎮 Tetraban</div>
-        <div class="nav-tab" data-tab="changes">💫 Changes</div>
-        <div class="nav-tab" data-tab="arsenal">🎯 NP Arsenal</div>
-        <div class="nav-tab" data-tab="fleet">🚢 Fleet Status</div>
-        <div class="nav-tab" data-tab="domains">🌐 Domains</div>
-        <div class="nav-tab" data-tab="intelligence">🧠 Intel</div>
-        <div class="nav-tab" data-tab="products">📦 Products</div>
-    </div>
-    
-    <!-- Tetraban Tab -->
-    <div class="tab-content active" id="tetraban">
-        <div class="tetraban-container">
-            <div class="tetraban-board">
-                <div class="tetraban-grid" id="tetraban-grid"></div>
+    <div class="main-container">
+        <!-- Tetraban Panel -->
+        <div class="panel">
+            <h2>🧱 Tetraban Board</h2>
+            <div class="tetraban-container">
+                <div class="tetraban-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="tetraban-score">0</div>
+                        <div class="stat-label">Score</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="lines-cleared">0</div>
+                        <div class="stat-label">Lines</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="current-level">1</div>
+                        <div class="stat-label">Level</div>
+                    </div>
+                </div>
+                <div class="tetraban-board">
+                    <div class="tetraban-grid" id="tetraban-grid"></div>
+                </div>
                 <div class="controls">
-                    <button class="btn" onclick="startTetraban()">Start</button>
-                    <button class="btn" onclick="pauseTetraban()">Pause</button>
-                    <button class="btn" onclick="resetTetraban()">Reset</button>
-                </div>
-            </div>
-            <div class="tetraban-sidebar">
-                <div class="score-display">
-                    <div class="score" id="tetraban-score">0</div>
-                    <div class="lines">Lines Cleared: <span id="lines-cleared">0</span></div>
-                    <div class="lines">Level: <span id="current-level">1</span></div>
-                </div>
-                <div class="next-piece">
-                    <h3>Next Task</h3>
-                    <div class="piece-preview" id="next-piece-preview"></div>
-                    <div id="next-task-info">Feature Deploy</div>
-                </div>
-                <div class="section">
-                    <h3>Active Tasks</h3>
-                    <div class="kanban-item">🔧 Fix login bug</div>
-                    <div class="kanban-item">📝 Update docs</div>
-                    <div class="kanban-item">🚀 Deploy v2.1</div>
-                    <div class="kanban-item">🔍 Security audit</div>
+                    <button class="btn" onclick="startTetraban()">▶️ Start</button>
+                    <button class="btn" onclick="pauseTetraban()">⏸️ Pause</button>
+                    <button class="btn" onclick="resetTetraban()">🔄 Reset</button>
+                    <button class="btn" onclick="dropShape()">⬇️ Drop</button>
                 </div>
             </div>
         </div>
-        <div class="status-bar">
-            <div class="status-item">
-                <div class="status-dot"></div>
-                <span>Flow State: Green</span>
-            </div>
-            <div class="status-item">
-                <span>Velocity: 12 tasks/day</span>
-            </div>
-            <div class="status-item">
-                <span>Team Score: 2,847 pts</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Changes Tab -->
-    <div class="tab-content" id="changes">
-        <div class="changes-container" id="changes-ocean">
-            <div class="changes-ocean"></div>
-            <div class="controls">
-                <button class="btn" onclick="addChange('small')">+ Config</button>
-                <button class="btn" onclick="addChange('medium')">+ Feature</button>
-                <button class="btn" onclick="addChange('large')">+ Infra</button>
-                <button class="btn" onclick="addChange('massive')">+ Release</button>
-            </div>
-            <div class="status-bar">
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span>Deployment Flow: Healthy</span>
+        
+        <!-- Changes Panel -->
+        <div class="panel">
+            <h2>💫 Changes Ocean</h2>
+            <div class="changes-container" id="changes-ocean">
+                <div class="changes-ocean"></div>
+                <div class="controls">
+                    <button class="btn" onclick="addChange('small')">🟢 Config</button>
+                    <button class="btn" onclick="addChange('medium')">🔵 Feature</button>
+                    <button class="btn" onclick="addChange('large')">🔴 Infra</button>
+                    <button class="btn" onclick="addChange('massive')">🟣 Release</button>
                 </div>
-                <div class="status-item">
-                    <span>Active Changes: <span id="active-changes">3</span></span>
-                </div>
-                <div class="status-item">
-                    <span>Success Rate: 94%</span>
-                </div>
-                <div class="status-item">
-                    <span>🔄 Git Sync: Live</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- NP Arsenal Tab -->
-    <div class="tab-content" id="arsenal">
-        <div class="section">
-            <h3>🎯 Novel Pattern Arsenal (475+ Patterns)</h3>
-            <div class="grid">
-                <div class="section">
-                    <h4>🔥 Active Patterns</h4>
-                    <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(16, 185, 129, 0.2); border-left: 3px solid #10b981; border-radius: 4px;">
-                        <strong>NP-L1-018:</strong> Stale Session Illusion<br>
-                        <small>Status: 🎯 Solving tetraban blockages</small>
+                <div class="status-bar">
+                    <div class="status-item">
+                        <div class="status-dot"></div>
+                        <span>Flow State: <span id="flow-state">Green</span></span>
                     </div>
-                    <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(59, 130, 246, 0.2); border-left: 3px solid #3b82f6; border-radius: 4px;">
-                        <strong>NP-L2-147:</strong> Bubble Pressure System<br>
-                        <small>Status: ⚡ Changes flow optimization</small>
+                    <div class="status-item">
+                        <span>Active: <span id="active-changes">0</span></span>
                     </div>
-                    <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(139, 92, 246, 0.2); border-left: 3px solid #8b5cf6; border-radius: 4px;">
-                        <strong>NP-L2-289:</strong> Tetris Flow Physics<br>
-                        <small>Status: 🚀 Work velocity acceleration</small>
+                    <div class="status-item">
+                        <span>Deployed: <span id="deployed-changes">0</span></span>
                     </div>
                 </div>
-                <div class="section">
-                    <h4>🧠 Pattern Categories</h4>
-                    <p><strong>L1 Patterns:</strong> 133 foundational patterns</p>
-                    <p><strong>L2 Patterns:</strong> 342 enterprise automation patterns</p>
-                    <p><strong>Flow Patterns:</strong> Visual workflow management</p>
-                    <p><strong>Meek Patterns:</strong> Weakness-to-strength transformations</p>
-                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Fleet Status Tab -->
-    <div class="tab-content" id="fleet">
-        <div class="section">
-            <h3>🚢 Admiral Fleet Status</h3>
-            <div class="grid">
-                <div class="section">
-                    <h4>⚓ Admiral M1 (You)</h4>
-                    <p>Status: <span style="color: #10b981;">Active - Tetraban Command</span></p>
-                    <p>Location: AKS master1-system</p>
-                    <p>Mission: SERLF Marketplace Operations</p>
+        
+        <!-- Detail Panel -->
+        <div class="detail-panel">
+            <h3 style="color: #60a5fa; margin-bottom: 1rem;">📋 Task Details</h3>
+            <div class="task-queue" id="task-queue">
+                <div class="task-item hotfix">
+                    <div class="task-title">🔥 Critical Login Bug</div>
+                    <div class="task-meta">
+                        <span>P0 • Est: 2h</span>
+                        <span>Kay J</span>
+                    </div>
                 </div>
-                <div class="section">
-                    <h4>🎯 Crew Status</h4>
-                    <p><strong>Rick:</strong> Foundation Engine Development</p>
-                    <p><strong>LL1:</strong> SRE + Container Labeling</p>
-                    <p><strong>LL2:</strong> Security + Testing Automation</p>
-                    <p><strong>Lucien (L):</strong> Captain Fleet Management</p>
+                <div class="task-item feature">
+                    <div class="task-title">⭐ Dashboard v6</div>
+                    <div class="task-meta">
+                        <span>P1 • Est: 8h</span>
+                        <span>Admiral M1</span>
+                    </div>
+                </div>
+                <div class="task-item integration">
+                    <div class="task-title">🔗 Git Webhook</div>
+                    <div class="task-meta">
+                        <span>P2 • Est: 4h</span>
+                        <span>Rick</span>
+                    </div>
+                </div>
+                <div class="task-item cleanup">
+                    <div class="task-title">🧹 Code Cleanup</div>
+                    <div class="task-meta">
+                        <span>P3 • Est: 3h</span>
+                        <span>LL1</span>
+                    </div>
+                </div>
+                <div class="task-item connect">
+                    <div class="task-title">⚡ PEMOS Sync</div>
+                    <div class="task-meta">
+                        <span>P2 • Est: 6h</span>
+                        <span>LL2</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- Keep other existing tabs for compatibility -->
-    <div class="tab-content" id="domains">
-        <div class="section">
-            <h3>🌐 SERLF Domain Portfolio (8 Active)</h3>
-            <p>All domains operational with marketplace integration</p>
-        </div>
-    </div>
-    
-    <div class="tab-content" id="intelligence">
-        <div class="section">
-            <h3>🧠 Intelligence Summary</h3>
-            <p><strong>CT-FAC Enterprise Intelligence:</strong> 475+ Novel Patterns captured</p>
-            <p><strong>SERLF Marketplace:</strong> Live revenue streams operational</p>
-        </div>
-    </div>
-    
-    <div class="tab-content" id="products">
-        <div class="section">
-            <h3>📦 Live Products</h3>
-            <p><strong>SERLF Forever Specials:</strong> $1 entry point</p>
-            <p><strong>Privacy Palace Gaming:</strong> Bronze/Silver/Gold tiers</p>
-            <p><strong>Captain-in-a-Box:</strong> Personal AI agents</p>
+            
+            <h3 style="color: #60a5fa; margin-bottom: 1rem;">🎯 Shape Legend</h3>
+            <div style="font-size: 0.9rem; color: #94a3b8;">
+                <p>🔥 <strong style="color: #ef4444;">Red</strong> - Hotfixes (P0)</p>
+                <p>⭐ <strong style="color: #3b82f6;">Blue</strong> - Features (P1)</p>
+                <p>🔗 <strong style="color: #8b5cf6;">Purple</strong> - Integration (P2)</p>
+                <p>🧹 <strong style="color: #10b981;">Green</strong> - Cleanup (P3)</p>
+                <p>⚡ <strong style="color: #f59e0b;">Orange</strong> - Connect (P2)</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Tab switching functionality
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab).classList.add('active');
-            });
-        });
-        
-        // Tetraban Game Logic
+        // Enhanced Game Logic with Visual Details
         let tetrabanGrid = [];
         let tetrabanRunning = false;
         let tetrabanScore = 0;
         let linesCleared = 0;
         let currentLevel = 1;
         let tetrabanInterval;
+        let dropSpeed = 2000; // Slower for better visibility
+        let changeCounter = 0;
+        let activeChanges = 0;
+        let deployedChanges = 0;
+        
+        // Enhanced shape definitions with metadata
+        const shapeTypes = [
+            { 
+                type: 'hotfix', 
+                name: '🔥 Critical Fix', 
+                pattern: [[1], [1], [1], [1]], 
+                color: 'hotfix',
+                priority: 'P0',
+                examples: ['Login bug', 'Payment fail', 'Security patch', 'Data loss']
+            },
+            { 
+                type: 'feature', 
+                name: '⭐ New Feature', 
+                pattern: [[1,1], [1,1]], 
+                color: 'feature',
+                priority: 'P1',
+                examples: ['Dashboard', 'API endpoint', 'UI component', 'User story']
+            },
+            { 
+                type: 'integration', 
+                name: '🔗 Integration', 
+                pattern: [[0,1,0], [1,1,1]], 
+                color: 'integration',
+                priority: 'P2',
+                examples: ['Git webhook', 'Auth sync', 'Data flow', 'API bridge']
+            },
+            { 
+                type: 'cleanup', 
+                name: '🧹 Code Cleanup', 
+                pattern: [[1,0], [1,0], [1,1]], 
+                color: 'cleanup',
+                priority: 'P3',
+                examples: ['Refactor', 'Remove debt', 'Optimize', 'Document']
+            },
+            { 
+                type: 'connect', 
+                name: '⚡ System Connect', 
+                pattern: [[1,1,0], [0,1,1]], 
+                color: 'connect',
+                priority: 'P2',
+                examples: ['PEMOS sync', 'Database link', 'Service mesh', 'Event bus']
+            }
+        ];
+        
+        const changeTypes = {
+            small: { 
+                name: 'Config Change', 
+                emoji: '⚙️', 
+                examples: ['ENV var', 'Feature flag', 'CSS tweak', 'Text update'],
+                risk: 'Low'
+            },
+            medium: { 
+                name: 'Feature Deploy', 
+                emoji: '🚀', 
+                examples: ['New API', 'UI update', 'Feature launch', 'Bug fix'],
+                risk: 'Medium'
+            },
+            large: { 
+                name: 'Infrastructure', 
+                emoji: '🏗️', 
+                examples: ['DB migration', 'Server update', 'Security patch', 'Scale change'],
+                risk: 'High'
+            },
+            massive: { 
+                name: 'Major Release', 
+                emoji: '🎉', 
+                examples: ['Version 2.0', 'Platform migration', 'Architecture change', 'Full rollout'],
+                risk: 'Critical'
+            }
+        };
         
         // Initialize tetraban grid
         function initTetraban() {
             const gridElement = document.getElementById('tetraban-grid');
             gridElement.innerHTML = '';
-            tetrabanGrid = Array(20).fill().map(() => Array(10).fill(0));
+            tetrabanGrid = Array(20).fill().map(() => Array(10).fill(null));
             
             for (let row = 0; row < 20; row++) {
                 for (let col = 0; col < 10; col++) {
@@ -567,22 +692,27 @@
                     gridElement.appendChild(cell);
                 }
             }
+            console.log('🎮 Enhanced Tetraban grid initialized');
         }
         
         function startTetraban() {
+            if (tetrabanRunning) return;
             tetrabanRunning = true;
+            console.log('🚀 Starting Enhanced Tetraban...');
+            
             tetrabanInterval = setInterval(() => {
-                if (Math.random() < 0.3) {
+                if (Math.random() < 0.35) {
                     dropRandomShape();
                 }
                 checkForCompleteLines();
                 updateTetrabanDisplay();
-            }, 1000);
+            }, dropSpeed);
         }
         
         function pauseTetraban() {
             tetrabanRunning = false;
             clearInterval(tetrabanInterval);
+            console.log('⏸️ Tetraban paused');
         }
         
         function resetTetraban() {
@@ -590,172 +720,250 @@
             tetrabanScore = 0;
             linesCleared = 0;
             currentLevel = 1;
+            dropSpeed = 2000;
             initTetraban();
+            updateTetrabanDisplay();
+            console.log('🔄 Enhanced Tetraban reset');
+        }
+        
+        function dropShape() {
+            if (!tetrabanRunning) return;
+            dropRandomShape();
             updateTetrabanDisplay();
         }
         
         function dropRandomShape() {
-            const shapes = ['line', 'square', 'tshape', 'lshape'];
-            const shape = shapes[Math.floor(Math.random() * shapes.length)];
-            const col = Math.floor(Math.random() * 8);
+            const shape = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+            const startCol = Math.floor(Math.random() * (8 - shape.pattern[0].length));
+            const example = shape.examples[Math.floor(Math.random() * shape.examples.length)];
             
-            // Find the lowest available position
-            let row = 0;
-            while (row < 19 && tetrabanGrid[row + 1][col] === 0) {
-                row++;
+            console.log(`⬇️ Dropping ${shape.name}: ${example} (${shape.priority})`);
+            
+            let dropRow = findDropPosition(shape.pattern, startCol);
+            if (dropRow < 2) {
+                console.log('❌ Grid full - need to clear some lines!');
+                return;
             }
             
-            if (row < 2) return; // Grid is too full
-            
-            // Place shape based on type
-            switch (shape) {
-                case 'line':
-                    for (let i = 0; i < 4 && row - i >= 0; i++) {
-                        tetrabanGrid[row - i][col] = 1;
+            placeShape(shape.pattern, dropRow, startCol, shape.type, example);
+        }
+        
+        function findDropPosition(pattern, startCol) {
+            for (let testRow = 19; testRow >= 0; testRow--) {
+                if (canPlaceShape(pattern, testRow, startCol)) {
+                    return testRow;
+                }
+            }
+            return -1;
+        }
+        
+        function canPlaceShape(pattern, row, col) {
+            for (let r = 0; r < pattern.length; r++) {
+                for (let c = 0; c < pattern[r].length; c++) {
+                    if (pattern[r][c]) {
+                        const gridRow = row - pattern.length + 1 + r;
+                        const gridCol = col + c;
+                        if (gridRow < 0 || gridRow >= 20 || gridCol < 0 || gridCol >= 10) {
+                            return false;
+                        }
+                        if (tetrabanGrid[gridRow][gridCol]) {
+                            return false;
+                        }
                     }
-                    break;
-                case 'square':
-                    if (col < 9 && row > 0) {
-                        tetrabanGrid[row][col] = 1;
-                        tetrabanGrid[row][col + 1] = 1;
-                        tetrabanGrid[row - 1][col] = 1;
-                        tetrabanGrid[row - 1][col + 1] = 1;
+                }
+            }
+            return true;
+        }
+        
+        function placeShape(pattern, row, col, shapeType, taskName) {
+            for (let r = 0; r < pattern.length; r++) {
+                for (let c = 0; c < pattern[r].length; c++) {
+                    if (pattern[r][c]) {
+                        const gridRow = row - pattern.length + 1 + r;
+                        const gridCol = col + c;
+                        if (gridRow >= 0 && gridRow < 20) {
+                            tetrabanGrid[gridRow][gridCol] = {
+                                type: shapeType,
+                                task: taskName,
+                                timestamp: Date.now()
+                            };
+                        }
                     }
-                    break;
-                case 'tshape':
-                    if (col > 0 && col < 9) {
-                        tetrabanGrid[row][col] = 1;
-                        tetrabanGrid[row][col - 1] = 1;
-                        tetrabanGrid[row][col + 1] = 1;
-                        if (row > 0) tetrabanGrid[row - 1][col] = 1;
-                    }
-                    break;
-                case 'lshape':
-                    for (let i = 0; i < 3 && row - i >= 0; i++) {
-                        tetrabanGrid[row - i][col] = 1;
-                    }
-                    if (col < 9 && row >= 0) {
-                        tetrabanGrid[row][col + 1] = 1;
-                    }
-                    break;
+                }
             }
         }
         
         function checkForCompleteLines() {
-            let completedLines = 0;
+            let completedLines = [];
             
             for (let row = 19; row >= 0; row--) {
-                if (tetrabanGrid[row].every(cell => cell === 1)) {
-                    // Mark line for clearing animation
+                if (tetrabanGrid[row].every(cell => cell !== null)) {
+                    completedLines.push(row);
+                }
+            }
+            
+            if (completedLines.length > 0) {
+                console.log(`🎯 Line clear! ${completedLines.length} lines completed!`);
+                
+                // Show completion details
+                completedLines.forEach(row => {
+                    const tasks = tetrabanGrid[row].filter(cell => cell).map(cell => cell.task);
+                    console.log(`   Row ${row}: ${tasks.join(', ')}`);
+                });
+                
+                // Animate clearing
+                completedLines.forEach(row => {
                     const cells = document.querySelectorAll(`[data-row="${row}"]`);
                     cells.forEach(cell => cell.classList.add('clearing'));
-                    
-                    // Remove the line after animation
-                    setTimeout(() => {
-                        tetrabanGrid.splice(row, 1);
-                        tetrabanGrid.unshift(Array(10).fill(0));
-                        completedLines++;
-                        linesCleared++;
-                        
-                        // Update score and level
-                        tetrabanScore += 100 * (completedLines * currentLevel);
-                        if (linesCleared % 10 === 0) {
-                            currentLevel++;
+                });
+                
+                setTimeout(() => {
+                    completedLines.forEach(() => {
+                        for (let row = completedLines[0]; row > 0; row--) {
+                            tetrabanGrid[row] = [...tetrabanGrid[row - 1]];
                         }
-                    }, 500);
+                        tetrabanGrid[0] = Array(10).fill(null);
+                    });
                     
-                    row++; // Check the same row again since we removed it
-                }
+                    linesCleared += completedLines.length;
+                    tetrabanScore += completedLines.length * 150 * currentLevel;
+                    currentLevel = Math.floor(linesCleared / 10) + 1;
+                    
+                    updateTetrabanDisplay();
+                }, 1000);
             }
         }
         
         function updateTetrabanDisplay() {
-            document.getElementById('tetraban-score').textContent = tetrabanScore;
+            document.getElementById('tetraban-score').textContent = tetrabanScore.toLocaleString();
             document.getElementById('lines-cleared').textContent = linesCleared;
             document.getElementById('current-level').textContent = currentLevel;
             
-            // Update grid display
+            // Update grid with enhanced visuals
             for (let row = 0; row < 20; row++) {
                 for (let col = 0; col < 10; col++) {
                     const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-                    if (tetrabanGrid[row][col] === 1) {
-                        cell.classList.add('filled');
-                    } else {
-                        cell.classList.remove('filled');
+                    if (cell) {
+                        // Clear all classes
+                        cell.className = 'tetraban-cell';
+                        cell.title = '';
+                        
+                        const cellData = tetrabanGrid[row][col];
+                        if (cellData) {
+                            cell.classList.add(cellData.type);
+                            cell.title = `${cellData.task} (${cellData.type})`;
+                        }
                     }
                 }
             }
         }
         
-        // Changes Tab Logic
-        let changeCounter = 0;
-        let activeChanges = 0;
-        
+        // Enhanced Changes Logic
         function addChange(size) {
             const container = document.getElementById('changes-ocean');
             const bubble = document.createElement('div');
             bubble.className = `bubble ${size}`;
-            bubble.style.left = Math.random() * (container.clientWidth - 100) + 'px';
-            bubble.style.animationDelay = Math.random() * 2 + 's';
-            bubble.style.animationDuration = (6 + Math.random() * 4) + 's';
             
-            const changeTypes = {
-                small: ['Config', 'Hotfix', 'Docs'],
-                medium: ['Feature', 'API', 'UI'],
-                large: ['Infra', 'DB', 'Security'],
-                massive: ['Release', 'Migration', 'Arch']
-            };
+            const containerWidth = container.clientWidth;
+            const bubbleWidth = size === 'small' ? 60 : size === 'medium' ? 80 : size === 'large' ? 100 : 120;
+            bubble.style.left = Math.random() * (containerWidth - bubbleWidth) + 'px';
             
-            const type = changeTypes[size][Math.floor(Math.random() * changeTypes[size].length)];
-            bubble.textContent = type;
-            bubble.title = `Change #${++changeCounter}: ${type} deployment`;
+            const duration = 10 + Math.random() * 6;
+            bubble.style.animationDuration = duration + 's';
+            bubble.style.animationDelay = Math.random() * 3 + 's';
+            
+            const changeType = changeTypes[size];
+            const example = changeType.examples[Math.floor(Math.random() * changeType.examples.length)];
+            
+            bubble.innerHTML = `
+                <div class="bubble-emoji">${changeType.emoji}</div>
+                <div class="bubble-text">${example}</div>
+            `;
+            
+            bubble.title = `${changeType.name}: ${example} (${changeType.risk} Risk)`;
             
             activeChanges++;
             document.getElementById('active-changes').textContent = activeChanges;
             
+            console.log(`🫧 Deploying ${changeType.name}: ${example}`);
+            
             container.appendChild(bubble);
             
-            // Remove bubble after animation completes
             setTimeout(() => {
                 if (bubble.parentNode) {
                     bubble.parentNode.removeChild(bubble);
-                    activeChanges--;
+                    activeChanges = Math.max(0, activeChanges - 1);
+                    deployedChanges++;
                     document.getElementById('active-changes').textContent = activeChanges;
+                    document.getElementById('deployed-changes').textContent = deployedChanges;
+                    console.log(`💥 Deployed: ${example}`);
                 }
-            }, 10000);
-            
-            // Add burst effect at the top
-            bubble.addEventListener('animationend', () => {
-                if (bubble.parentNode) {
-                    bubble.style.animation = 'none';
-                    bubble.style.transform = 'scale(1.5)';
-                    bubble.style.opacity = '0';
-                    setTimeout(() => {
-                        if (bubble.parentNode) {
-                            bubble.parentNode.removeChild(bubble);
-                        }
-                    }, 300);
-                }
-            });
+            }, (duration + 2) * 1000);
         }
         
-        // Auto-spawn changes for demo
-        setInterval(() => {
-            if (Math.random() < 0.3 && activeChanges < 8) {
-                const sizes = ['small', 'medium', 'large'];
-                const size = sizes[Math.floor(Math.random() * sizes.length)];
-                addChange(size);
-            }
-        }, 3000);
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            initTetraban();
+        // Auto-demo with realistic patterns
+        function startAutoDemo() {
+            setTimeout(() => startTetraban(), 2000);
             
-            // Auto-start some demo changes
-            setTimeout(() => addChange('small'), 1000);
-            setTimeout(() => addChange('medium'), 2000);
-            setTimeout(() => addChange('large'), 3000);
+            // Realistic change patterns
+            setInterval(() => {
+                if (Math.random() < 0.4 && activeChanges < 6) {
+                    const weights = [0.4, 0.3, 0.2, 0.1]; // More small changes
+                    const sizes = ['small', 'medium', 'large', 'massive'];
+                    const randomValue = Math.random();
+                    let cumulativeWeight = 0;
+                    
+                    for (let i = 0; i < weights.length; i++) {
+                        cumulativeWeight += weights[i];
+                        if (randomValue <= cumulativeWeight) {
+                            addChange(sizes[i]);
+                            break;
+                        }
+                    }
+                }
+            }, 5000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Enhanced Tetraban v6 starting...');
+            initTetraban();
+            startAutoDemo();
+            
+            // Initial demo changes
+            setTimeout(() => addChange('small'), 3000);
+            setTimeout(() => addChange('medium'), 5000);
+            setTimeout(() => addChange('large'), 8000);
+        });
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    dropShape();
+                    break;
+                case 'p':
+                case 'P':
+                    tetrabanRunning ? pauseTetraban() : startTetraban();
+                    break;
+                case 'r':
+                case 'R':
+                    resetTetraban();
+                    break;
+                case '1':
+                    addChange('small');
+                    break;
+                case '2':
+                    addChange('medium');
+                    break;
+                case '3':
+                    addChange('large');
+                    break;
+                case '4':
+                    addChange('massive');
+                    break;
+            }
         });
     </script>
 </body>
