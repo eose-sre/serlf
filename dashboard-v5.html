@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERLF Admiral Fleet Control Dashboard v5 - Tetraban Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 2px solid #3b82f6;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header h1 {
+            color: #60a5fa;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+        
+        .header .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: rgba(30, 41, 59, 0.8);
+            border-bottom: 1px solid #475569;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: #93c5fd;
+        }
+        
+        .nav-tab.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-bottom-color: #3b82f6;
+            color: #60a5fa;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Tetraban Styles */
+        .tetraban-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            height: 80vh;
+        }
+        
+        .tetraban-board {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tetraban-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            gap: 1px;
+            background: #0f172a;
+        }
+        
+        .tetraban-cell {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tetraban-cell.filled {
+            background: #3b82f6;
+            border-color: #60a5fa;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+        
+        .tetraban-cell.clearing {
+            animation: clearLine 0.5s ease-in-out;
+        }
+        
+        @keyframes clearLine {
+            0% { background: #3b82f6; }
+            50% { background: #fbbf24; transform: scale(1.1); }
+            100% { background: transparent; transform: scale(1); }
+        }
+        
+        .tetraban-sidebar {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .score-display {
+            text-align: center;
+        }
+        
+        .score-display .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        
+        .score-display .lines {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+        
+        .next-piece {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .next-piece h3 {
+            color: #93c5fd;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .piece-preview {
+            display: grid;
+            grid-template-columns: repeat(4, 20px);
+            grid-template-rows: repeat(4, 20px);
+            gap: 1px;
+            justify-content: center;
+            margin: 0.5rem 0;
+        }
+        
+        .piece-cell {
+            background: rgba(75, 85, 99, 0.3);
+            border-radius: 2px;
+        }
+        
+        .piece-cell.active {
+            background: #3b82f6;
+            box-shadow: 0 0 4px rgba(59, 130, 246, 0.6);
+        }
+        
+        .kanban-item {
+            background: rgba(59, 130, 246, 0.8);
+            border: 1px solid #60a5fa;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            font-size: 0.8rem;
+            text-align: center;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Changes Tab Styles */
+        .changes-container {
+            height: 80vh;
+            position: relative;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #3b82f6;
+        }
+        
+        .changes-ocean {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at center bottom, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            animation: riseUp 8s ease-in-out infinite;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .bubble:hover {
+            transform: scale(1.1);
+        }
+        
+        .bubble.small {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #10b981, #059669);
+            font-size: 0.7rem;
+        }
+        
+        .bubble.medium {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #3b82f6, #1d4ed8);
+        }
+        
+        .bubble.large {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ef4444, #dc2626);
+        }
+        
+        .bubble.massive {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #8b5cf6, #7c3aed);
+        }
+        
+        @keyframes riseUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.8);
+            border: 1px solid #60a5fa;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background: rgba(59, 130, 246, 1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Status indicators */
+        .status-bar {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+        
+        .status-dot.yellow { background: #fbbf24; }
+        .status-dot.red { background: #ef4444; }
+        .status-dot.purple { background: #8b5cf6; }
+        
+        /* Other existing styles for compatibility */
+        .section {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #475569;
+        }
+        
+        .section h3 {
+            color: #93c5fd;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚓ SERLF Admiral Fleet Control v5 - Tetraban Edition</h1>
+        <p class="subtitle">🎮 Work flows like tetris • Changes bubble up • Novel Patterns solve riddles</p>
+    </div>
+    
+    <div class="nav-tabs">
+        <div class="nav-tab active" data-tab="tetraban">🎮 Tetraban</div>
+        <div class="nav-tab" data-tab="changes">💫 Changes</div>
+        <div class="nav-tab" data-tab="arsenal">🎯 NP Arsenal</div>
+        <div class="nav-tab" data-tab="fleet">🚢 Fleet Status</div>
+        <div class="nav-tab" data-tab="domains">🌐 Domains</div>
+        <div class="nav-tab" data-tab="intelligence">🧠 Intel</div>
+        <div class="nav-tab" data-tab="products">📦 Products</div>
+    </div>
+    
+    <!-- Tetraban Tab -->
+    <div class="tab-content active" id="tetraban">
+        <div class="tetraban-container">
+            <div class="tetraban-board">
+                <div class="tetraban-grid" id="tetraban-grid"></div>
+                <div class="controls">
+                    <button class="btn" onclick="startTetraban()">Start</button>
+                    <button class="btn" onclick="pauseTetraban()">Pause</button>
+                    <button class="btn" onclick="resetTetraban()">Reset</button>
+                </div>
+            </div>
+            <div class="tetraban-sidebar">
+                <div class="score-display">
+                    <div class="score" id="tetraban-score">0</div>
+                    <div class="lines">Lines Cleared: <span id="lines-cleared">0</span></div>
+                    <div class="lines">Level: <span id="current-level">1</span></div>
+                </div>
+                <div class="next-piece">
+                    <h3>Next Task</h3>
+                    <div class="piece-preview" id="next-piece-preview"></div>
+                    <div id="next-task-info">Feature Deploy</div>
+                </div>
+                <div class="section">
+                    <h3>Active Tasks</h3>
+                    <div class="kanban-item">🔧 Fix login bug</div>
+                    <div class="kanban-item">📝 Update docs</div>
+                    <div class="kanban-item">🚀 Deploy v2.1</div>
+                    <div class="kanban-item">🔍 Security audit</div>
+                </div>
+            </div>
+        </div>
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>Flow State: Green</span>
+            </div>
+            <div class="status-item">
+                <span>Velocity: 12 tasks/day</span>
+            </div>
+            <div class="status-item">
+                <span>Team Score: 2,847 pts</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Changes Tab -->
+    <div class="tab-content" id="changes">
+        <div class="changes-container" id="changes-ocean">
+            <div class="changes-ocean"></div>
+            <div class="controls">
+                <button class="btn" onclick="addChange('small')">+ Config</button>
+                <button class="btn" onclick="addChange('medium')">+ Feature</button>
+                <button class="btn" onclick="addChange('large')">+ Infra</button>
+                <button class="btn" onclick="addChange('massive')">+ Release</button>
+            </div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>Deployment Flow: Healthy</span>
+                </div>
+                <div class="status-item">
+                    <span>Active Changes: <span id="active-changes">3</span></span>
+                </div>
+                <div class="status-item">
+                    <span>Success Rate: 94%</span>
+                </div>
+                <div class="status-item">
+                    <span>🔄 Git Sync: Live</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NP Arsenal Tab -->
+    <div class="tab-content" id="arsenal">
+        <div class="section">
+            <h3>🎯 Novel Pattern Arsenal (475+ Patterns)</h3>
+            <div class="grid">
+                <div class="section">
+                    <h4>🔥 Active Patterns</h4>
+                    <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(16, 185, 129, 0.2); border-left: 3px solid #10b981; border-radius: 4px;">
+                        <strong>NP-L1-018:</strong> Stale Session Illusion<br>
+                        <small>Status: 🎯 Solving tetraban blockages</small>
+                    </div>
+                    <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(59, 130, 246, 0.2); border-left: 3px solid #3b82f6; border-radius: 4px;">
+                        <strong>NP-L2-147:</strong> Bubble Pressure System<br>
+                        <small>Status: ⚡ Changes flow optimization</small>
+                    </div>
+                    <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(139, 92, 246, 0.2); border-left: 3px solid #8b5cf6; border-radius: 4px;">
+                        <strong>NP-L2-289:</strong> Tetris Flow Physics<br>
+                        <small>Status: 🚀 Work velocity acceleration</small>
+                    </div>
+                </div>
+                <div class="section">
+                    <h4>🧠 Pattern Categories</h4>
+                    <p><strong>L1 Patterns:</strong> 133 foundational patterns</p>
+                    <p><strong>L2 Patterns:</strong> 342 enterprise automation patterns</p>
+                    <p><strong>Flow Patterns:</strong> Visual workflow management</p>
+                    <p><strong>Meek Patterns:</strong> Weakness-to-strength transformations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fleet Status Tab -->
+    <div class="tab-content" id="fleet">
+        <div class="section">
+            <h3>🚢 Admiral Fleet Status</h3>
+            <div class="grid">
+                <div class="section">
+                    <h4>⚓ Admiral M1 (You)</h4>
+                    <p>Status: <span style="color: #10b981;">Active - Tetraban Command</span></p>
+                    <p>Location: AKS master1-system</p>
+                    <p>Mission: SERLF Marketplace Operations</p>
+                </div>
+                <div class="section">
+                    <h4>🎯 Crew Status</h4>
+                    <p><strong>Rick:</strong> Foundation Engine Development</p>
+                    <p><strong>LL1:</strong> SRE + Container Labeling</p>
+                    <p><strong>LL2:</strong> Security + Testing Automation</p>
+                    <p><strong>Lucien (L):</strong> Captain Fleet Management</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Keep other existing tabs for compatibility -->
+    <div class="tab-content" id="domains">
+        <div class="section">
+            <h3>🌐 SERLF Domain Portfolio (8 Active)</h3>
+            <p>All domains operational with marketplace integration</p>
+        </div>
+    </div>
+    
+    <div class="tab-content" id="intelligence">
+        <div class="section">
+            <h3>🧠 Intelligence Summary</h3>
+            <p><strong>CT-FAC Enterprise Intelligence:</strong> 475+ Novel Patterns captured</p>
+            <p><strong>SERLF Marketplace:</strong> Live revenue streams operational</p>
+        </div>
+    </div>
+    
+    <div class="tab-content" id="products">
+        <div class="section">
+            <h3>📦 Live Products</h3>
+            <p><strong>SERLF Forever Specials:</strong> $1 entry point</p>
+            <p><strong>Privacy Palace Gaming:</strong> Bronze/Silver/Gold tiers</p>
+            <p><strong>Captain-in-a-Box:</strong> Personal AI agents</p>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // Tetraban Game Logic
+        let tetrabanGrid = [];
+        let tetrabanRunning = false;
+        let tetrabanScore = 0;
+        let linesCleared = 0;
+        let currentLevel = 1;
+        let tetrabanInterval;
+        
+        // Initialize tetraban grid
+        function initTetraban() {
+            const gridElement = document.getElementById('tetraban-grid');
+            gridElement.innerHTML = '';
+            tetrabanGrid = Array(20).fill().map(() => Array(10).fill(0));
+            
+            for (let row = 0; row < 20; row++) {
+                for (let col = 0; col < 10; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'tetraban-cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+        
+        function startTetraban() {
+            tetrabanRunning = true;
+            tetrabanInterval = setInterval(() => {
+                if (Math.random() < 0.3) {
+                    dropRandomShape();
+                }
+                checkForCompleteLines();
+                updateTetrabanDisplay();
+            }, 1000);
+        }
+        
+        function pauseTetraban() {
+            tetrabanRunning = false;
+            clearInterval(tetrabanInterval);
+        }
+        
+        function resetTetraban() {
+            pauseTetraban();
+            tetrabanScore = 0;
+            linesCleared = 0;
+            currentLevel = 1;
+            initTetraban();
+            updateTetrabanDisplay();
+        }
+        
+        function dropRandomShape() {
+            const shapes = ['line', 'square', 'tshape', 'lshape'];
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const col = Math.floor(Math.random() * 8);
+            
+            // Find the lowest available position
+            let row = 0;
+            while (row < 19 && tetrabanGrid[row + 1][col] === 0) {
+                row++;
+            }
+            
+            if (row < 2) return; // Grid is too full
+            
+            // Place shape based on type
+            switch (shape) {
+                case 'line':
+                    for (let i = 0; i < 4 && row - i >= 0; i++) {
+                        tetrabanGrid[row - i][col] = 1;
+                    }
+                    break;
+                case 'square':
+                    if (col < 9 && row > 0) {
+                        tetrabanGrid[row][col] = 1;
+                        tetrabanGrid[row][col + 1] = 1;
+                        tetrabanGrid[row - 1][col] = 1;
+                        tetrabanGrid[row - 1][col + 1] = 1;
+                    }
+                    break;
+                case 'tshape':
+                    if (col > 0 && col < 9) {
+                        tetrabanGrid[row][col] = 1;
+                        tetrabanGrid[row][col - 1] = 1;
+                        tetrabanGrid[row][col + 1] = 1;
+                        if (row > 0) tetrabanGrid[row - 1][col] = 1;
+                    }
+                    break;
+                case 'lshape':
+                    for (let i = 0; i < 3 && row - i >= 0; i++) {
+                        tetrabanGrid[row - i][col] = 1;
+                    }
+                    if (col < 9 && row >= 0) {
+                        tetrabanGrid[row][col + 1] = 1;
+                    }
+                    break;
+            }
+        }
+        
+        function checkForCompleteLines() {
+            let completedLines = 0;
+            
+            for (let row = 19; row >= 0; row--) {
+                if (tetrabanGrid[row].every(cell => cell === 1)) {
+                    // Mark line for clearing animation
+                    const cells = document.querySelectorAll(`[data-row="${row}"]`);
+                    cells.forEach(cell => cell.classList.add('clearing'));
+                    
+                    // Remove the line after animation
+                    setTimeout(() => {
+                        tetrabanGrid.splice(row, 1);
+                        tetrabanGrid.unshift(Array(10).fill(0));
+                        completedLines++;
+                        linesCleared++;
+                        
+                        // Update score and level
+                        tetrabanScore += 100 * (completedLines * currentLevel);
+                        if (linesCleared % 10 === 0) {
+                            currentLevel++;
+                        }
+                    }, 500);
+                    
+                    row++; // Check the same row again since we removed it
+                }
+            }
+        }
+        
+        function updateTetrabanDisplay() {
+            document.getElementById('tetraban-score').textContent = tetrabanScore;
+            document.getElementById('lines-cleared').textContent = linesCleared;
+            document.getElementById('current-level').textContent = currentLevel;
+            
+            // Update grid display
+            for (let row = 0; row < 20; row++) {
+                for (let col = 0; col < 10; col++) {
+                    const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+                    if (tetrabanGrid[row][col] === 1) {
+                        cell.classList.add('filled');
+                    } else {
+                        cell.classList.remove('filled');
+                    }
+                }
+            }
+        }
+        
+        // Changes Tab Logic
+        let changeCounter = 0;
+        let activeChanges = 0;
+        
+        function addChange(size) {
+            const container = document.getElementById('changes-ocean');
+            const bubble = document.createElement('div');
+            bubble.className = `bubble ${size}`;
+            bubble.style.left = Math.random() * (container.clientWidth - 100) + 'px';
+            bubble.style.animationDelay = Math.random() * 2 + 's';
+            bubble.style.animationDuration = (6 + Math.random() * 4) + 's';
+            
+            const changeTypes = {
+                small: ['Config', 'Hotfix', 'Docs'],
+                medium: ['Feature', 'API', 'UI'],
+                large: ['Infra', 'DB', 'Security'],
+                massive: ['Release', 'Migration', 'Arch']
+            };
+            
+            const type = changeTypes[size][Math.floor(Math.random() * changeTypes[size].length)];
+            bubble.textContent = type;
+            bubble.title = `Change #${++changeCounter}: ${type} deployment`;
+            
+            activeChanges++;
+            document.getElementById('active-changes').textContent = activeChanges;
+            
+            container.appendChild(bubble);
+            
+            // Remove bubble after animation completes
+            setTimeout(() => {
+                if (bubble.parentNode) {
+                    bubble.parentNode.removeChild(bubble);
+                    activeChanges--;
+                    document.getElementById('active-changes').textContent = activeChanges;
+                }
+            }, 10000);
+            
+            // Add burst effect at the top
+            bubble.addEventListener('animationend', () => {
+                if (bubble.parentNode) {
+                    bubble.style.animation = 'none';
+                    bubble.style.transform = 'scale(1.5)';
+                    bubble.style.opacity = '0';
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.parentNode.removeChild(bubble);
+                        }
+                    }, 300);
+                }
+            });
+        }
+        
+        // Auto-spawn changes for demo
+        setInterval(() => {
+            if (Math.random() < 0.3 && activeChanges < 8) {
+                const sizes = ['small', 'medium', 'large'];
+                const size = sizes[Math.floor(Math.random() * sizes.length)];
+                addChange(size);
+            }
+        }, 3000);
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initTetraban();
+            
+            // Auto-start some demo changes
+            setTimeout(() => addChange('small'), 1000);
+            setTimeout(() => addChange('medium'), 2000);
+            setTimeout(() => addChange('large'), 3000);
+        });
+    </script>
+</body>
+</html>
